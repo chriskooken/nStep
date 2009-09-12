@@ -14,11 +14,12 @@ namespace Cucumber
         
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Gray;
             GetStepClassesFromAssembly();
 
 
             Feature feature = new Feature();
-            feature.LoadAndParseFeatureFile("Sample.feature");
+            feature.LoadAndParseFeatureFile("TestApp/Sample.feature");
             WriteLevel1("Feature: ");
 
             foreach (var s in feature.SummaryLines)
@@ -57,10 +58,10 @@ namespace Cucumber
             //begin running steps, looking for matches in the dictionary.
 
             //if no match exists, generate a stub for the user to paste in the code
-            System.Console.ForegroundColor = ConsoleColor.Red;
+            System.Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Title = "Cucumber";
             
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(" ");
             Console.WriteLine("Press any key to continue . . .");
             Console.ReadLine();
@@ -86,7 +87,7 @@ namespace Cucumber
             
             if (results.Count() > 1)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 return false;
                 //throw new AmbiguousStepException(LineText);
             }
@@ -97,16 +98,19 @@ namespace Cucumber
                 {
                     MatchRegex(LineText, results);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    WriteLineLevel3(consoleOutput);
+                    WriteLineLevel4(ex.StackTrace);
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     return false;
                 }
             }
 
             WriteLineLevel3("    " + consoleOutput);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Gray;
             return true;
         }
 
@@ -132,14 +136,24 @@ namespace Cucumber
         {
             foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (t.IsSubclassOf(typeof(StepMother)))
+                if (t.IsSubclassOf(typeof(BasePattern)))
                 {
-                    var sm = (StepMother) Activator.CreateInstance(t);
+                    var sm = (BasePattern) Activator.CreateInstance(t);
                    loadedsteps = (sm.Steps);
                 }
             }
 
         }
+
+        public static Dictionary<TKey, TValue> Merge<TKey, TValue>(IEnumerable<Dictionary<TKey, TValue>> dictionaries)
+        {
+            var result = new Dictionary<TKey, TValue>();
+            foreach (var dict in dictionaries)
+                foreach (var x in dict)
+                    result[x.Key] = x.Value;
+            return result;
+        }
+
 
         static void WriteLineLevel1(string line)
         {
@@ -159,6 +173,11 @@ namespace Cucumber
         static void WriteLineLevel3(string line)
         {
             Console.WriteLine("    " + line);
+        }    
+        
+        static void WriteLineLevel4(string line)
+        {
+            Console.WriteLine("      " + line);
         }
 
 

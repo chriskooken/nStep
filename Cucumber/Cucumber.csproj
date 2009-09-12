@@ -43,19 +43,23 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Users\Chris\Downloads\selenium-remote-control-1.0.1-dist\selenium-remote-control-1.0.1\selenium-dotnet-client-driver-1.0.1\ThoughtWorks.Selenium.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Environment.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="NameValue.cs" />
     <Compile Include="Scenario.cs" />
-    <Compile Include="StepTests.cs" />
+    <Compile Include="TestApp\StepTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepMother.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sample.feature">
+    <None Include="TestApp\Sample.feature">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
