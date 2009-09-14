@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Cucumber
 {
-    public class StepMother
+    public class KeywordBase
     {
         Dictionary<string, object> steps;
-        public StepMother()
+        public KeywordBase()
         {
             steps = new Dictionary<string, object>();
         }
@@ -37,6 +37,11 @@ namespace Cucumber
         {
             steps.Add(s, action);
         }
+
+        protected void Given(string s, Action<string, string, string, string> action)
+        {
+            steps.Add(s, action);
+        }
         #endregion
 
         #region When Steps
@@ -57,9 +62,14 @@ namespace Cucumber
         {
             steps.Add(s, action);
         }
+
+        protected void When(string s, Action<string, string, string,string> action)
+        {
+            steps.Add(s, action);
+        }
         #endregion
 
-        #region Then
+        #region Then Steps
         protected void Then(string s, Action<string> action)
         {
             //Add to steps table
@@ -74,6 +84,11 @@ namespace Cucumber
 
 
         protected void Then(string s, Action<string, string, string> action)
+        {
+            steps.Add(s, action);
+        }    
+        
+        protected void Then(string s, Action<string, string, string, string> action)
         {
             steps.Add(s, action);
         }

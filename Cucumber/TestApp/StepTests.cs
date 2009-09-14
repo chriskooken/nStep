@@ -5,7 +5,7 @@ using Selenium;
 
 namespace Cucumber
 {
-    public class StepTests : BasePattern
+    public class StepTests : KeywordBase
     {
         DefaultSelenium selenium;
 

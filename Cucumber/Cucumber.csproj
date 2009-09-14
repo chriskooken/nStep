@@ -49,14 +49,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmbiguousStepException.cs" />
+    <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="Feature.cs" />
+    <Compile Include="KeywordBase.cs" />
+    <Compile Include="MissingStepException.cs" />
     <Compile Include="NameValue.cs" />
     <Compile Include="Scenario.cs" />
+    <Compile Include="StepMother.cs" />
     <Compile Include="TestApp\StepTests.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StepMother.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TestApp\Sample.feature">
