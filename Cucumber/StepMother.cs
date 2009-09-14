@@ -30,8 +30,9 @@ namespace Cucumber
 
         }
 
-        public bool ProcessStep(string LineText)
+        public bool ProcessStep(Step StepToProcess)
         {
+            var LineText = StepToProcess.StepText;
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             var consoleOutput = LineText;
             LineText = Regex.Match(LineText, "(Given|When|Then)(.*)", RegexOptions.Singleline).Groups[2].Value.Trim();

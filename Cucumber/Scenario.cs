@@ -4,16 +4,16 @@ namespace Cucumber
 {
     public class Scenario
     {
-        private IList<string> steps;
+        private IList<Step> steps;
         public Scenario()
         {
-            steps = new List<string>();
+            steps = new List<Step>();
         }
 
         public string Title { get; set; }
 
 
-        public IList<string> Steps
+        public IList<Step> Steps
         {
             get { return steps; }
             set { steps = value; }

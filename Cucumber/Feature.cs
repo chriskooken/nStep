@@ -5,10 +5,11 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Cucumber
 {
-    public class Feature
+    public class Feature : IGherkinParser
     {
         IList<Scenario> scenarios;
         Scenario background;
@@ -21,7 +22,102 @@ namespace Cucumber
             background = new Scenario();
         }
 
-        public void LoadAndParseFeatureFile(string fileName)
+        public void Parse(string fileName)
+        {
+            var parseTree = new SimpleSubtree<LineValue>();
+            SimpleTreeNode<LineValue> root = parseTree;
+            var level1Pattern = "(^Feature:|^Background:|^Scenario Outline:|^Scenario:)(.*)";
+            var level2Pattern = "(^Given|^When|^Then|^And|^But)(.*)";
+            var level3Pattern = "(^Examples:|^More Examples:)";
+            var ignorePattern = "^#";
+            
+
+            var counter = 1;
+            string line;
+
+            // Read the file and display it line by line.
+            var file = new StreamReader(fileName);
+            SimpleTreeNode<LineValue> CurrentLevel1Node = root;
+            SimpleTreeNode<LineValue> CurrentLevel2Node = null;
+            SimpleTreeNode<LineValue> CurrentLevel3Node = null;
+            while ((line = file.ReadLine()) != null)
+            {
+                line = line.Trim();
+                if (string.IsNullOrEmpty(line))
+                    continue;
+
+                if (Regex.Match(line, ignorePattern, RegexOptions.Singleline).Success)
+                    continue;
+
+                var match = Regex.Match(line, level1Pattern, RegexOptions.Singleline);
+                var match2 = Regex.Match(line, level2Pattern, RegexOptions.Singleline);
+                if (match.Success)
+                {
+                    SimpleTreeNode<LineValue> node = new SimpleTreeNode<LineValue>();
+                    node.Value = new LineValue
+                                     {
+                                         Line = counter,
+                                         NodeType = match.Groups[1].Value,
+                                         Text = match.Groups[2].Value
+                                     };
+                    if (match.Groups[1].Value == "Feature:")
+                        root = node;
+                    else
+                    {
+                        root.Children.Add(node);
+                        CurrentLevel1Node = node;
+                    }
+                }
+                else if (match2.Success)
+                {
+                    SimpleTreeNode<LineValue> node = new SimpleTreeNode<LineValue>();
+                    node.Value = new LineValue
+                    {
+                        Line = counter,
+                        NodeType = match2.Groups[1].Value,
+                        Text = match2.Groups[2].Value
+                    };
+                    CurrentLevel1Node.Children.Add(node);
+                    CurrentLevel2Node = node;
+                }
+                else
+                {
+                    SimpleTreeNode<LineValue> node = new SimpleTreeNode<LineValue>();
+                    node.Value = new LineValue
+                                     {
+                                         Line = counter,
+                                         NodeType = "",
+                                         Text = line
+                                     };
+                    CurrentLevel1Node.Children.Add(node);
+                }
+
+
+
+
+                counter++;
+                
+            }
+
+            file.Close();
+
+            DisplayTree(root, 0);
+           
+        }
+
+        private void DisplayTree(SimpleTreeNode<LineValue> Subtree, int Level)
+        {
+            string indent = string.Empty.PadLeft(Level * 3);
+            Console.WriteLine(indent + Subtree.Value.NodeType + " "+ Subtree.Value.Text);
+
+            Level++;
+            foreach (SimpleTreeNode<LineValue> node in Subtree.Children)
+            {
+                DisplayTree(node, Level);
+            }
+        }
+
+        public void ParseOld(string fileName)
         {
             string line;
             StreamReader SR = File.OpenText(fileName);
@@ -71,7 +167,7 @@ namespace Cucumber
                     var lines = nameValue.Value.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var s in lines)
                     {
-                        background.Steps.Add(s.Trim());
+                        background.Steps.Add(new Step() {StepText = s.Trim()});
                     }
                 }
 
@@ -83,7 +179,7 @@ namespace Cucumber
                     foreach (var s in lines)
                     {
                         if (s != lines.First())
-                            scenario.Steps.Add(s.Trim());
+                            scenario.Steps.Add(new Step() { StepText = s.Trim() });
                     }
                     scenarios.Add(scenario);
                 }
@@ -96,7 +192,7 @@ namespace Cucumber
                     foreach (var s in lines)
                     {
                         if (s != lines.First())
-                            scenario.Steps.Add(s.Trim());
+                            scenario.Steps.Add(new Step() { StepText = s.Trim() });
                     }
                     scenarios.Add(scenario);
                 }
@@ -111,5 +207,14 @@ namespace Cucumber
 
         public IList<Scenario> Scenarios
         { get { return scenarios; } }
+
+
+    }
+
+    public class LineValue
+    {
+        public int Line { get; set; }
+        public string Text { get; set; }
+        public string NodeType { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Cucumber
             
 
             Feature feature = new Feature();
-            feature.LoadAndParseFeatureFile("TestApp/Sample.feature");
+            feature.Parse("TestApp/Sample.feature");
             CConsole.WriteLevel1("Feature: ");
 
             foreach (var s in feature.SummaryLines)

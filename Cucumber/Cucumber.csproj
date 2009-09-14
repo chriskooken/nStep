@@ -53,10 +53,17 @@
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="Feature.cs" />
+    <Compile Include="IGherkinParser.cs" />
     <Compile Include="KeywordBase.cs" />
     <Compile Include="MissingStepException.cs" />
     <Compile Include="NameValue.cs" />
+    <Compile Include="Parser\Enums.cs" />
+    <Compile Include="Parser\SimpleSubtree.cs" />
+    <Compile Include="Parser\SimpleTree.cs" />
+    <Compile Include="Parser\SimpleTreeNode.cs" />
+    <Compile Include="Parser\SimpleTreeNodeList.cs" />
     <Compile Include="Scenario.cs" />
+    <Compile Include="Step.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="TestApp\StepTests.cs" />
     <Compile Include="Program.cs" />
