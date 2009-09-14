@@ -9,7 +9,7 @@ namespace Cucumber
 {
     public class StepMother
     {
-        private Dictionary<string, object> loadedsteps;
+        private IDictionary<string, object> loadedsteps;
 
         public StepMother()
         {
@@ -21,9 +21,9 @@ namespace Cucumber
         {
             foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (t.IsSubclassOf(typeof(KeywordBase)))
+                if (t.IsSubclassOf(typeof(StepSetBase<>)))
                 {
-                    var sm = (KeywordBase)Activator.CreateInstance(t);
+                    var sm = (IProvideSteps) Activator.CreateInstance(t);
                     loadedsteps = (sm.Steps);
                 }
             }
@@ -107,7 +107,7 @@ namespace Cucumber
 
         }
 
-        public Dictionary<string, object> Loadedsteps
+        public IDictionary<string, object> Loadedsteps
         {
             get
             {

@@ -53,7 +53,8 @@
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="Feature.cs" />
-    <Compile Include="IGherkinParser.cs" />
+    <Compile Include="Parser\GherkinParser.cs" />
+    <Compile Include="Parser\IGherkinParser.cs" />
     <Compile Include="KeywordBase.cs" />
     <Compile Include="MissingStepException.cs" />
     <Compile Include="NameValue.cs" />

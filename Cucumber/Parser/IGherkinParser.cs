@@ -7,6 +7,6 @@ namespace Cucumber
 {
     public interface IGherkinParser
     {
-        void Parse(string filename);
+        SimpleTreeNode<LineValue> GetParseTree(string filename);
     }
 }

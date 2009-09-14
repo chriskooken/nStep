@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using Cucumber.Parser;
 
 namespace Cucumber
 {
@@ -19,8 +20,9 @@ namespace Cucumber
             stepMother = new StepMother();
             
 
-            Feature feature = new Feature();
+            Feature feature = new Feature(new GherkinParser());
             feature.Parse("TestApp/Sample.feature");
+
             CConsole.WriteLevel1("Feature: ");
 
             foreach (var s in feature.SummaryLines)

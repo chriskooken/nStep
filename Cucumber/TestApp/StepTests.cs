@@ -5,7 +5,7 @@ using Selenium;
 
 namespace Cucumber
 {
-    public class StepTests : KeywordBase
+    public class StepTests : StepSetBase<TestWorldView>
     {
         DefaultSelenium selenium;
 
@@ -34,9 +34,25 @@ namespace Cucumber
                 //Console.WriteLine("State is: " + state);
             });
         }
+    }
+        public class TestWorldView
+        {
+            public TestWorldView()
+            {
+                Console = System.Console.Out;
+            }
 
+            public readonly System.IO.TextWriter Console;
+        }
 
+        public class WorldViewInitializerTests : WorldViewInitializer<TestWorldView>
+        {
+            public WorldViewInitializerTests()
+            {
+                WorldView = new TestWorldView();
+            }
+        }
 
 
     }
-}
+
