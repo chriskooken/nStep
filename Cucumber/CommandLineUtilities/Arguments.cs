@@ -10,6 +10,7 @@ public class Arguments
     /// Splits the command line. When main(string[] args) is used escaped quotes (ie a path “c:\folder\”)
     /// Will consume all the following command line arguments as the one argument.
     /// This function ignores escaped quotes making handling paths much easier.
+    /// http://jake.ginnivan.net/2009/07/c-argument-parser/
     /// </summary>
     /// <param name=”commandLine”>The command line.</param>
     /// <returns></returns>
