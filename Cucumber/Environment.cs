@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Cucumber
 {
-    public abstract class Environment<TContextType>
+    public abstract class Environment
     {
         public virtual void Session_Start()
         {

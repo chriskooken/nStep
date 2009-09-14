@@ -5,16 +5,25 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using Cucumber.CommandLineUtilities;
 using Cucumber.Parser;
 
 namespace Cucumber
 {
     class Program
     {
-
         static StepMother stepMother;
         static void Main(string[] args)
         {
+            var commandLine = new Arguments(args);
+
+            if (commandLine["param1"] != null)
+                Console.WriteLine("Param1 value: " +
+                    commandLine["param1"]);
+            else
+                Console.WriteLine("Param1 not defined !");
+
+
             Console.ForegroundColor = ConsoleColor.Gray;
             //GetStepClassesFromAssembly();
             stepMother = new StepMother();
@@ -50,17 +59,6 @@ namespace Cucumber
             }
             Console.WriteLine();
 
-            //Use reflection to scan input assembly for all step definitions & add them to a dictionary
-          
-            //parse the file from 1 keyword to the next, keywords (feature, scenario, scenario outline, background)
-
-            //file must start with feature
-
-            //output feature name and description to console. 
-
-            //begin running steps, looking for matches in the dictionary.
-
-            //if no match exists, generate a stub for the user to paste in the code
             System.Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Title = "Cucumber";
             

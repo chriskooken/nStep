@@ -7,17 +7,13 @@ namespace Cucumber
 {
     public class StepTests : StepSetBase<TestWorldView>
     {
-        DefaultSelenium selenium;
-
         public StepTests()
         {
             Given("^My Name is \"([^\"]*)\"$", (name) =>
             {
-                selenium = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
-                selenium.Start();
-                selenium.Open("http://www.google.com");
-                selenium.WaitForPageToLoad("10");
-                selenium.Type("q","dogs are cool things");
+                World.selenium.Open("http://www.google.com");
+                World.selenium.WaitForPageToLoad("10");
+                World.selenium.Type("q", "dogs are cool things");
                 
                 //Console.WriteLine("Name is: "+ name);
                 //throw new Exception("you suck");
@@ -37,12 +33,12 @@ namespace Cucumber
     }
         public class TestWorldView
         {
+            public readonly DefaultSelenium selenium;
             public TestWorldView()
             {
-                Console = System.Console.Out;
+                selenium = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
+                selenium.Start();
             }
-
-            public readonly System.IO.TextWriter Console;
         }
 
         public class WorldViewInitializerTests : WorldViewInitializer<TestWorldView>

@@ -4,16 +4,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using Cucumber.CommandLineUtilities;
 
 namespace Cucumber
 {
     public class StepMother
     {
-        private IDictionary<string, object> loadedsteps;
+        private IDictionary<Step, object> loadedsteps;
 
         public StepMother()
         {
-            loadedsteps = new Dictionary<string, object>();
+            loadedsteps = new Dictionary<Step, object>();
             GetStepClassesFromAssembly();
         }
 
@@ -21,7 +22,7 @@ namespace Cucumber
         {
             foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (t.IsSubclassOf(typeof(StepSetBase<>)))
+                if (t.IsSubclassOf(typeof(StepBase)) && (t != typeof(StepSetBase<>)))
                 {
                     var sm = (IProvideSteps) Activator.CreateInstance(t);
                     loadedsteps = (sm.Steps);
@@ -38,7 +39,7 @@ namespace Cucumber
             LineText = Regex.Match(LineText, "(Given|When|Then)(.*)", RegexOptions.Singleline).Groups[2].Value.Trim();
 
             var results = from result in loadedsteps
-                          where Regex.Match(LineText, result.Key, RegexOptions.Singleline).Success
+                          where Regex.Match(LineText, result.Key.StepText, RegexOptions.Singleline).Success
                           select result;
 
             if (results.Count() == 0)
@@ -76,10 +77,10 @@ namespace Cucumber
             return true;
         }
 
-        static void MatchAndInvokeStep(string LineText, IEnumerable<KeyValuePair<string, object>> results)
+        static void MatchAndInvokeStep(string LineText, IEnumerable<KeyValuePair<Step, object>> results)
         {
             var pattern = results.First().Key;
-            var groups = Regex.Match(LineText, pattern, RegexOptions.Singleline).Groups;
+            var groups = Regex.Match(LineText, pattern.StepText, RegexOptions.Singleline).Groups;
 
             if (groups.Count == 2)
             {
@@ -107,7 +108,7 @@ namespace Cucumber
 
         }
 
-        public IDictionary<string, object> Loadedsteps
+        public IDictionary<Step, object> Loadedsteps
         {
             get
             {
