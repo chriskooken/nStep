@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nucomber", "Nucomber\Nucomber.csproj", "{A3967229-2EF9-4BAA-9013-930B1FF8BE66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nucumber", "Nucumber\Nucumber.csproj", "{A3967229-2EF9-4BAA-9013-930B1FF8BE66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,7 +15,7 @@ Global
 		{A3967229-2EF9-4BAA-9013-930B1FF8BE66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Nucomber\Nucomber.csproj
+		StartupItem = Nucumber\Nucumber.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
