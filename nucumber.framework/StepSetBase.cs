@@ -31,26 +31,31 @@ namespace Nucumber.Framework
         }
 
         #region Given Steps
-        protected void Given(string s, Action<string> action)
+        protected void Given(string regex, Action action)
         {
-            AddNewStep(s,action);
+            AddNewStep(regex, action);
+        }
+
+        protected void Given(string regex, Action<string> action)
+        {
+            AddNewStep(regex, action);
         }
 
 
-        protected void Given(string s, Action<string, string> action)
+        protected void Given(string regex, Action<string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStep(regex, action);
         }
 
 
-        protected void Given(string s, Action<string, string, string> action)
+        protected void Given(string regex, Action<string, string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStep(regex, action);
         }
 
-        protected void Given(string s, Action<string, string, string, string> action)
+        protected void Given(string regex, Action<string, string, string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStep(regex, action);
         }
         #endregion
 
