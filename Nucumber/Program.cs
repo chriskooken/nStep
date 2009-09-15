@@ -6,36 +6,38 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cucumber.CommandLineUtilities;
-using nucumber.core.Parser;
-using nucumber.core;
-using nucumber.app.CommandLineUtilities;
+using Nucumber.App.CommandLineUtilities;
+using Nucumber.Core.Parser;
+using Nucumber.Core;
 
-namespace nucumber.app
+namespace Nucumber.App
 {
     class Program
     {
         static StepMother stepMother;
         static void Main(string[] args)
         {
-			var console = new CConsole();
+			IConsoleWriter console = new CConsole();
             var commandLine = new Arguments(args);
 
-            if (commandLine["param1"] != null)
-                Console.WriteLine("Param1 value: " +
-                    commandLine["param1"]);
-            else
-                Console.WriteLine("Param1 not defined !");
+
+            //http://ndesk.org/Options  <-- might be a better command-line parser... at any rate, I'd rather use something strongly typed rather than all this string stuff...
+            //if (commandLine["param1"] != null)
+            //    Console.WriteLine("Param1 value: " +
+            //        commandLine["param1"]);
+            //else
+            //    Console.WriteLine("Param1 not defined !");
 
 
             Console.ForegroundColor = ConsoleColor.Gray;
-            //GetStepClassesFromAssembly();
             stepMother = new StepMother(new CConsole());
+            stepMother.LoadStepAssembly(new FileInfo(args.FirstOrDefault()));
             
 
-            Feature feature = new Feature(new GherkinParser());
-            feature.Parse("TestApp/Sample.feature");
+            Feature feature = new Feature(new GherkinParser(), console);
+            feature.Parse(args[1]);
 
-            console.WriteLevel1("Feature: ");
+            console.WriteLineLevel1("Feature: ");
 
             foreach (var s in feature.SummaryLines)
                 console.WriteLineLevel1(s);

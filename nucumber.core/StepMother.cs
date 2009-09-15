@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using nucumber.Framework;
+using Nucumber.Framework;
 
-namespace nucumber.core
+namespace Nucumber.Core
 {
     public class StepMother
     {
@@ -17,12 +17,11 @@ namespace nucumber.core
 		{
 			this.console = console;
 			loadedsteps = new Dictionary<Step, object>();
-			GetStepClassesFromAssembly();
 		}
 
-        private void GetStepClassesFromAssembly()
+        public void LoadStepAssembly(FileInfo assemblyFile)
         {
-            foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
+            foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
             {
                 if (t.IsSubclassOf(typeof(StepBase)) && (t != typeof(StepSetBase<>)))
                 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace nucumber.core
+namespace Nucumber.Core
 {
     public class Scenario
     {

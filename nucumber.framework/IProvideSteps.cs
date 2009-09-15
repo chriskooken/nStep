@@ -1,9 +1,7 @@
-
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace nucumber.Framework
+namespace Nucumber.Framework
 {
     public interface IProvideSteps
     {
