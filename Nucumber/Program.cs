@@ -20,20 +20,22 @@ namespace nucumber.app
 			var console = new CConsole();
             var commandLine = new Arguments(args);
 
-            if (commandLine["param1"] != null)
-                Console.WriteLine("Param1 value: " +
-                    commandLine["param1"]);
-            else
-                Console.WriteLine("Param1 not defined !");
+
+            //http://ndesk.org/Options  <-- might be a better command-line parser... at any rate, I'd rather use something strongly typed rather than all this string stuff...
+            //if (commandLine["param1"] != null)
+            //    Console.WriteLine("Param1 value: " +
+            //        commandLine["param1"]);
+            //else
+            //    Console.WriteLine("Param1 not defined !");
 
 
             Console.ForegroundColor = ConsoleColor.Gray;
-            //GetStepClassesFromAssembly();
             stepMother = new StepMother(new CConsole());
+            stepMother.LoadStepAssembly(new FileInfo(args.FirstOrDefault()));
             
 
             Feature feature = new Feature(new GherkinParser());
-            feature.Parse("TestApp/Sample.feature");
+            feature.Parse(args[1]);
 
             console.WriteLevel1("Feature: ");
 

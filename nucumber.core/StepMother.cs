@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -17,12 +18,11 @@ namespace nucumber.core
 		{
 			this.console = console;
 			loadedsteps = new Dictionary<Step, object>();
-			GetStepClassesFromAssembly();
 		}
 
-        private void GetStepClassesFromAssembly()
+        public void LoadStepAssembly(FileInfo assemblyFile)
         {
-            foreach (Type t in Assembly.GetExecutingAssembly().GetTypes())
+            foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
             {
                 if (t.IsSubclassOf(typeof(StepBase)) && (t != typeof(StepSetBase<>)))
                 {
