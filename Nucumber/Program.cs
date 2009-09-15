@@ -6,11 +6,11 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cucumber.CommandLineUtilities;
-using nucumber.core.Parser;
-using nucumber.core;
-using nucumber.app.CommandLineUtilities;
+using Nucumber.App.CommandLineUtilities;
+using Nucumber.Core.Parser;
+using Nucumber.Core;
 
-namespace nucumber.app
+namespace Nucumber.App
 {
     class Program
     {

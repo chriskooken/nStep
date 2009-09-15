@@ -1,7 +1,6 @@
-
 using System;
 
-namespace nucumber.core
+namespace Nucumber.Core
 {
 	public interface IConsoleWriter
 	{

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Nucumber.Core.Parser;
 
-namespace nucumber.core
+namespace Nucumber.Core
 {
     public class Feature
     {

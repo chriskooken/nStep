@@ -1,10 +1,9 @@
-
 using System;
 
-namespace nucumber.Framework
+namespace Nucumber.Framework
 {
     public class WorldViewInitializer<TWorldView>
     {
-        public Object WorldView{get;protected set;}
+        public Object WorldView{get; protected set;}
     }
 }

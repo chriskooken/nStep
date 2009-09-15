@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace nucumber.Framework
+namespace Nucumber.Framework
 {
     public abstract class Environment
     {

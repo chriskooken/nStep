@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-namespace nucumber.Framework
+namespace Nucumber.Framework
 {
     public class StepSetBase<TWorldView>: StepBase, IProvideSteps where TWorldView : class
     {

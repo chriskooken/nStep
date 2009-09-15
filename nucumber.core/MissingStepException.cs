@@ -1,6 +1,6 @@
 using System;
 
-namespace nucumber.core
+namespace Nucumber.Core
 {
     public class MissingStepException : Exception
     {

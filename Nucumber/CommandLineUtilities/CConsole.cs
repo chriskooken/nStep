@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using nucumber.core;
+using Nucumber.Core;
 
-namespace nucumber.app.CommandLineUtilities
+namespace Nucumber.App.CommandLineUtilities
 {
     public class CConsole : IConsoleWriter 
     {
