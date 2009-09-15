@@ -17,22 +17,22 @@ namespace Nucumber.App.CommandLineUtilities
         }
         public void WriteLineLevel1(string line)
         {
-            Console.Write(LevelPad(1, line));
+            Console.WriteLine(LevelPad(1, line));
         }
 
         public void WriteLineLevel2(string line)
         {
-            Console.Write(LevelPad(2, line));
+            Console.WriteLine(LevelPad(2, line));
         }
 
         public void WriteLineLevel3(string line)
         {
-            Console.Write(LevelPad(3, line));
+            Console.WriteLine(LevelPad(3, line));
         }
 
         public void WriteLineLevel4(string line)
         {
-            Console.Write(LevelPad(4, line));
+            Console.WriteLine(LevelPad(4, line));
         }
 		
 		public void WriteException(Exception ex)
@@ -45,7 +45,7 @@ namespace Nucumber.App.CommandLineUtilities
 
         public void WriteLineAtLevel(int level, string line)
         {
-            Console.Write(LevelPad(level, line));
+            Console.WriteLine(LevelPad(level, line));
         }
     }
 }
