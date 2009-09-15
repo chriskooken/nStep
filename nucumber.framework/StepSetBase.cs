@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Nucumber.Framework
 {
-    public class StepSetBase<TWorldView>: StepBase, IProvideSteps where TWorldView : class
+    public class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
     {
         IDictionary<Regex, object> steps = new Dictionary<Regex, object>();
 
@@ -128,9 +128,5 @@ namespace Nucumber.Framework
             AddNewStep(s,action);
         }
         #endregion
-    }
-
-    public class StepBase   
-    {
     }
 }
