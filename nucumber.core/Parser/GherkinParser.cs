@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Cucumber.Parser
+namespace nucumber.core.Parser
 {
     public class GherkinParser:IGherkinParser
     {

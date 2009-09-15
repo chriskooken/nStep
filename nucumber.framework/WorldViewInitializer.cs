@@ -1,7 +1,7 @@
 
 using System;
 
-namespace Cucumber
+namespace nucumber.Framework
 {
     public class WorldViewInitializer<TWorldView>
     {

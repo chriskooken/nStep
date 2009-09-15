@@ -4,18 +4,21 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using nucumber.Framework;
 
-namespace Cucumber
+namespace nucumber.core
 {
     public class StepMother
     {
-        private IDictionary<Step, object> loadedsteps;
-
-        public StepMother()
-        {
-            loadedsteps = new Dictionary<Step, object>();
-            GetStepClassesFromAssembly();
-        }
+		private IDictionary<Step, object> loadedsteps;
+		private IConsoleWriter console;
+		
+		public StepMother(IConsoleWriter console)
+		{
+			this.console = console;
+			loadedsteps = new Dictionary<Step, object>();
+			GetStepClassesFromAssembly();
+		}
 
         private void GetStepClassesFromAssembly()
         {
@@ -24,12 +27,17 @@ namespace Cucumber
                 if (t.IsSubclassOf(typeof(StepBase)) && (t != typeof(StepSetBase<>)))
                 {
                     var sm = (IProvideSteps) Activator.CreateInstance(t);
-                    loadedsteps = (sm.Steps);
+                    loadedsteps = DoSomethingToConnectStepsToFeatureLines(sm.Steps);
                 }
             }
 
         }
 
+		private IDictionary<Step,object> DoSomethingToConnectStepsToFeatureLines(IDictionary<Regex,object> steps)
+		{
+			return null;
+		}
+		
         public bool ProcessStep(Step StepToProcess)
         {
             var LineText = StepToProcess.StepText;
@@ -62,17 +70,12 @@ namespace Cucumber
                 }
                 catch (Exception ex)
                 {
-
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    CConsole.WriteLineLevel3(consoleOutput);
-                    CConsole.WriteLineLevel4(ex.StackTrace);
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    return false;
+					console.WriteException(ex);
+					return false;
                 }
             }
 
-            CConsole.WriteLineLevel3("    " + consoleOutput);
-            Console.ForegroundColor = ConsoleColor.Gray;
+            console.WriteLineLevel3("    " + consoleOutput);
             return true;
         }
 

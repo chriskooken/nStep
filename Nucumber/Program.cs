@@ -6,15 +6,18 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Cucumber.CommandLineUtilities;
-using Cucumber.Parser;
+using nucumber.core.Parser;
+using nucumber.core;
+using nucumber.app.CommandLineUtilities;
 
-namespace Cucumber
+namespace nucumber.app
 {
     class Program
     {
         static StepMother stepMother;
         static void Main(string[] args)
         {
+			var console = new CConsole();
             var commandLine = new Arguments(args);
 
             if (commandLine["param1"] != null)
@@ -26,21 +29,21 @@ namespace Cucumber
 
             Console.ForegroundColor = ConsoleColor.Gray;
             //GetStepClassesFromAssembly();
-            stepMother = new StepMother();
+            stepMother = new StepMother(new CConsole());
             
 
             Feature feature = new Feature(new GherkinParser());
             feature.Parse("TestApp/Sample.feature");
 
-            CConsole.WriteLevel1("Feature: ");
+            console.WriteLevel1("Feature: ");
 
             foreach (var s in feature.SummaryLines)
-                CConsole.WriteLineLevel1(s);
+                console.WriteLineLevel1(s);
 
             Console.WriteLine();
             
             if (feature.Background.Steps.Count > 0)
-                CConsole.WriteLineLevel2("Background:");
+                console.WriteLineLevel2("Background:");
             foreach (var s in feature.Background.Steps)
             {
                 if (!stepMother.ProcessStep(s))
@@ -50,7 +53,7 @@ namespace Cucumber
 
             foreach (var scenario in feature.Scenarios)
             {
-                CConsole.WriteLineLevel2("Scenario: " + scenario.Title);
+                console.WriteLineLevel2("Scenario: " + scenario.Title);
                 foreach (var step in scenario.Steps)
                 {
                     if (!stepMother.ProcessStep(step))

@@ -1,6 +1,6 @@
 using System;
 
-namespace Cucumber
+namespace nucumber.core
 {
     public class AmbiguousStepException : Exception
     {

@@ -2,34 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using nucumber.core;
 
-namespace Cucumber.CommandLineUtilities
+namespace nucumber.app.CommandLineUtilities
 {
-    public static class CConsole
+    public class CConsole : IConsoleWriter 
     {
-        public static void WriteLineLevel1(string line)
+        public void WriteLineLevel1(string line)
         {
             Console.WriteLine(line);
         }
 
-        public static void WriteLevel1(string text)
+        public void WriteLevel1(string text)
         {
             Console.Write(text);
         }
 
-        public static void WriteLineLevel2(string line)
+        public void WriteLineLevel2(string line)
         {
             Console.WriteLine("  " + line);
         }
 
-        public static void WriteLineLevel3(string line)
+        public void WriteLineLevel3(string line)
         {
             Console.WriteLine("    " + line);
         }
 
-        public static void WriteLineLevel4(string line)
+        public void WriteLineLevel4(string line)
         {
             Console.WriteLine("      " + line);
         }
+		
+		public void WriteException(Exception ex)
+		{
+			Console.ForegroundColor = ConsoleColor.DarkRed;
+			WriteLineLevel3(ex.Message);
+			WriteLineLevel4(ex.StackTrace);
+			Console.ForegroundColor = ConsoleColor.Gray;	
+		}
     }
 }
