@@ -17,6 +17,14 @@ namespace Nucumber.App
         static StepMother stepMother;
         static void Main(string[] args)
         {
+            # if DEBUG
+            args = new string[]
+                       {
+                           Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll"),
+                           Path.GetFullPath(@"..\..\..\example\example.feature")
+                       };
+            # endif
+
 			IConsoleWriter console = new CConsole();
             var commandLine = new Arguments(args);
 
