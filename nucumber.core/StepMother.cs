@@ -23,7 +23,7 @@ namespace Nucumber.Core
         {
             foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
             {
-                if (t.IsSubclassOf(typeof(IProvideSteps)) && (t != typeof(StepSetBase<>)))
+                if ((typeof(IProvideSteps).IsAssignableFrom(t) && (t != typeof(StepSetBase<>))))
                 {
                     var sm = (IProvideSteps) Activator.CreateInstance(t);
                     loadedsteps = DoSomethingToConnectStepsToFeatureLines(sm.Steps);
