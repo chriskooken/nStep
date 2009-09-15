@@ -24,7 +24,7 @@ namespace Nucumber.Framework
             World = worldView as TWorldView;
         }
 
-        private void AddNewStep(string stepText, object action)
+        private void AddNewStepDefinition(string stepText, object action)
         {
             var regex = new Regex(stepText);
             stepDefinitions.Add(regex, action);
@@ -33,29 +33,29 @@ namespace Nucumber.Framework
         #region Given StepDefinitions
         protected void Given(string regex, Action action)
         {
-            AddNewStep(regex, action);
+            AddNewStepDefinition(regex, action);
         }
 
         protected void Given(string regex, Action<string> action)
         {
-            AddNewStep(regex, action);
+            AddNewStepDefinition(regex, action);
         }
 
 
         protected void Given(string regex, Action<string, string> action)
         {
-            AddNewStep(regex, action);
+            AddNewStepDefinition(regex, action);
         }
 
 
         protected void Given(string regex, Action<string, string, string> action)
         {
-            AddNewStep(regex, action);
+            AddNewStepDefinition(regex, action);
         }
 
         protected void Given(string regex, Action<string, string, string, string> action)
         {
-            AddNewStep(regex, action);
+            AddNewStepDefinition(regex, action);
         }
         #endregion
 
@@ -63,24 +63,24 @@ namespace Nucumber.Framework
         protected void When(string s, Action<string> action)
         {
             //Add to stepDefinitions table
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
 
         protected void When(string s, Action<string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
 
         protected void When(string s, Action<string, string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
         protected void When(string s, Action<string, string, string,string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
         #endregion
 
@@ -88,24 +88,24 @@ namespace Nucumber.Framework
         protected void Then(string s, Action<string> action)
         {
             //Add to stepDefinitions table
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
 
         protected void Then(string s, Action<string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
 
         protected void Then(string s, Action<string, string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }    
         
         protected void Then(string s, Action<string, string, string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
         #endregion
 
@@ -113,24 +113,24 @@ namespace Nucumber.Framework
         protected void But(string s, Action<string> action)
         {
             //Add to stepDefinitions table
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
 
         protected void But(string s, Action<string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
 
         protected void But(string s, Action<string, string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
 
         protected void But(string s, Action<string, string, string, string> action)
         {
-            AddNewStep(s,action);
+            AddNewStepDefinition(s,action);
         }
         #endregion
     }
