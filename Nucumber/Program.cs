@@ -17,7 +17,7 @@ namespace nucumber.app
         static StepMother stepMother;
         static void Main(string[] args)
         {
-			var console = new CConsole();
+			IConsoleWriter console = new CConsole();
             var commandLine = new Arguments(args);
 
 
@@ -34,10 +34,10 @@ namespace nucumber.app
             stepMother.LoadStepAssembly(new FileInfo(args.FirstOrDefault()));
             
 
-            Feature feature = new Feature(new GherkinParser());
+            Feature feature = new Feature(new GherkinParser(), console);
             feature.Parse(args[1]);
 
-            console.WriteLevel1("Feature: ");
+            console.WriteLineLevel1("Feature: ");
 
             foreach (var s in feature.SummaryLines)
                 console.WriteLineLevel1(s);

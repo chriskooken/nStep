@@ -10,5 +10,6 @@ namespace nucumber.core
 		void WriteLineLevel3(string line);
 		void WriteLineLevel4(string line);
 		void WriteException(Exception ex);
+	    void WriteLineAtLevel(int level, string line);
 	}
 }

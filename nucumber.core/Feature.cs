@@ -5,14 +5,16 @@ namespace nucumber.core
 {
     public class Feature
     {
-        readonly IGherkinParser parser;
+        private readonly IGherkinParser parser;
+        private readonly IConsoleWriter consoleWriter;
         IList<Scenario> scenarios;
         Scenario background;
         IList<string> summaryLines;
 
-        public Feature(IGherkinParser parser)
+        public Feature(IGherkinParser parser, IConsoleWriter consoleWriter)
         {
             this.parser = parser;
+            this.consoleWriter = consoleWriter;
             scenarios = new List<Scenario>();
             summaryLines = new List<string>();
             background = new Scenario();
@@ -27,8 +29,7 @@ namespace nucumber.core
 
         private void DisplayTree(SimpleTreeNode<LineValue> Subtree, int Level)
         {
-            string indent = string.Empty.PadLeft(Level * 3);
-            Console.WriteLine(indent + Subtree.Value.NodeType + " " + Subtree.Value.Text + ":" + Subtree.Value.Line);
+            consoleWriter.WriteLineAtLevel(Level, Subtree.Value.NodeType + " " + Subtree.Value.Text + ":" + Subtree.Value.Line);
 
             Level++;
             foreach (SimpleTreeNode<LineValue> node in Subtree.Children)
