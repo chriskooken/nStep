@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Cucumber
 {
     public class StepSetBase<TWorldView>: StepBase, IProvideSteps where TWorldView : class
     {
-        IDictionary<Step, object> steps;
-        public StepSetBase()
-        {
-            steps = new Dictionary<Step, object>();
-        }
+        IDictionary<Regex, object> steps = new Dictionary<Regex, object>();
 
-        public IDictionary<Step,object> Steps
+        public IDictionary<Regex,object> Steps
         {
             get
             {
@@ -28,15 +26,13 @@ namespace Cucumber
 
         private void AddNewStep(string stepText, object action)
         {
-            Step step = new Step();
-            step.StepText = stepText;
-            steps.Add(step, action);
+            var regex = new Regex(stepText);
+            steps.Add(regex, action);
         }
 
         #region Given Steps
         protected void Given(string s, Action<string> action)
         {
-            //Add to steps table
             AddNewStep(s,action);
         }
 

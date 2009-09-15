@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>nucumber.lib</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Step.cs" />
+    <Compile Include="StepMother.cs" />
+    <Compile Include="Scenario.cs" />
+    <Compile Include="MissingStepException.cs" />
+    <Compile Include="Feature.cs" />
+    <Compile Include="AmbiguousStepException.cs" />
+    <Compile Include="Parser\Enums.cs" />
+    <Compile Include="Parser\GherkinParser.cs" />
+    <Compile Include="Parser\IGherkinParser.cs" />
+    <Compile Include="Parser\SimpleSubtree.cs" />
+    <Compile Include="Parser\SimpleTree.cs" />
+    <Compile Include="Parser\SimpleTreeNode.cs" />
+    <Compile Include="Parser\SimpleTreeNodeList.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">
+      <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
+      <Name>nucumber.framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
