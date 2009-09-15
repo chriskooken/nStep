@@ -7,13 +7,13 @@ namespace Nucumber.Framework
 {
     public class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
     {
-        IDictionary<Regex, object> steps = new Dictionary<Regex, object>();
+        IDictionary<Regex, object> stepDefinitions = new Dictionary<Regex, object>();
 
-        public IDictionary<Regex,object> Steps
+        public IDictionary<Regex,object> StepDefinitions
         {
             get
             {
-                return steps;
+                return stepDefinitions;
             }
         }
 
@@ -27,10 +27,10 @@ namespace Nucumber.Framework
         private void AddNewStep(string stepText, object action)
         {
             var regex = new Regex(stepText);
-            steps.Add(regex, action);
+            stepDefinitions.Add(regex, action);
         }
 
-        #region Given Steps
+        #region Given StepDefinitions
         protected void Given(string regex, Action action)
         {
             AddNewStep(regex, action);
@@ -59,10 +59,10 @@ namespace Nucumber.Framework
         }
         #endregion
 
-        #region When Steps
+        #region When StepDefinitions
         protected void When(string s, Action<string> action)
         {
-            //Add to steps table
+            //Add to stepDefinitions table
             AddNewStep(s,action);
         }
 
@@ -84,10 +84,10 @@ namespace Nucumber.Framework
         }
         #endregion
 
-        #region Then Steps
+        #region Then StepDefinitions
         protected void Then(string s, Action<string> action)
         {
-            //Add to steps table
+            //Add to stepDefinitions table
             AddNewStep(s,action);
         }
 
@@ -109,10 +109,10 @@ namespace Nucumber.Framework
         }
         #endregion
 
-        #region But Steps
+        #region But StepDefinitions
         protected void But(string s, Action<string> action)
         {
-            //Add to steps table
+            //Add to stepDefinitions table
             AddNewStep(s,action);
         }
 

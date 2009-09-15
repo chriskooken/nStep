@@ -26,7 +26,7 @@ namespace Nucumber.Core
                 if ((typeof(IProvideSteps).IsAssignableFrom(t) && (t != typeof(StepSetBase<>))))
                 {
                     var sm = (IProvideSteps) Activator.CreateInstance(t);
-                    loadedsteps = DoSomethingToConnectStepsToFeatureLines(sm.Steps);
+                    loadedsteps = DoSomethingToConnectStepsToFeatureLines(sm.StepDefinitions);
                 }
             }
 

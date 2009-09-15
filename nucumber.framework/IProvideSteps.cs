@@ -5,7 +5,7 @@ namespace Nucumber.Framework
 {
     public interface IProvideSteps
     {
-        IDictionary<Regex,object> Steps {get;}
+        IDictionary<Regex,object> StepDefinitions {get;}
         void SetWorldView(object worldView);
     }
 }
