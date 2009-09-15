@@ -40,11 +40,11 @@ namespace Cucumber
             }
         }
 
-        public class WorldViewInitializerTests : WorldViewInitializer<TestWorldView>
+        public class WorldViewProvider : WorldViewProviderBase<TestWorldView>
         {
-            public WorldViewInitializerTests()
+            protected override TestWorldView InitializeWorldView()
             {
-                WorldView = new TestWorldView();
+                return new TestWorldView();
             }
         }
 
