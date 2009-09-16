@@ -37,8 +37,10 @@ namespace Nucumber.App
 
 
             Console.ForegroundColor = ConsoleColor.Gray;
-            stepMother = new StepMother(new CConsole());
-            stepMother.LoadStepAssembly(new FileInfo(args.FirstOrDefault()));
+
+
+            stepMother = new StepMother(new CConsole(), new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
+            
             
 
             Feature feature = new Feature(new GherkinParser(), console);
