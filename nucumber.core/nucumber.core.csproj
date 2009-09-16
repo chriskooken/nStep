@@ -41,6 +41,7 @@
     <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Step.cs" />
+    <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="MissingStepException.cs" />

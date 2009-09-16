@@ -9,6 +9,7 @@
     <OutputType>Library</OutputType>
     <AssemblyName>Specs</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>Specs</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,6 +61,7 @@
     <Compile Include="ActionCaller.cs" />
     <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="EnvironmentSubclassing.cs" />
+    <Compile Include="StepCaller.cs" />
     <Compile Include="StepSetBase\StepRegistration.cs" />
     <Compile Include="StepSetBase\Then.cs" />
     <Compile Include="StepSetBase\When.cs" />

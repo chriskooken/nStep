@@ -29,7 +29,7 @@ namespace Nucumber.Framework
         public virtual void AfterStep()
         {}
 
-        private void AddNewStepDefinition(StepKinds kind, string stepText, object action)
+        private void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
         {
             stepDefinitions.Add(new StepDefinition
                                     {

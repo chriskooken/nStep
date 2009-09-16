@@ -10,7 +10,7 @@ namespace Nucumber.Framework
 
         public Regex Regex { get; set; }
 
-        public object Action { get; set; }
+        public Delegate Action { get; set; }
 
         public IEnumerable<Type> ParamsTypes { get; set; }
     }
