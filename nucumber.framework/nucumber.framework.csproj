@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IProvideWorldView.cs" />
+    <Compile Include="StepKinds.cs" />
     <Compile Include="StepSetBase.cs" />
     <Compile Include="WorldViewProviderBase.cs" />
     <Compile Include="IProvideSteps.cs" />
