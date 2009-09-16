@@ -8,12 +8,13 @@ namespace Nucumber.App.CommandLineUtilities
     public class ConsoleOptions : ConsoleOptionsBase
     {
         [Required]
-        public string FeatureFile { get; set; }
+        public string FeatureFiles { get; set; }
+        
+        [Optional("r","require")]
+        public string Assemblies { get; set; }
 
-        [Required]
-        public string Assembly { get; set; }
+        [Optional("v","verbose")]
+        public bool Verbose { get; set; }
 
-        [Optional]
-        public int LineNumber { get; set; }
     }
 }

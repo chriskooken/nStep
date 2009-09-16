@@ -49,7 +49,7 @@ namespace Cucumber
                 Console.WriteLine("Location is: " + location);
             });
 
-            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (city, state) =>
+            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (int city, string state) =>
             {
                 Console.WriteLine("City is: " + city);
                 Console.WriteLine("State is: " + state);

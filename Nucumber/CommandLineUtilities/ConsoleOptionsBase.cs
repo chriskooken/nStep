@@ -7,10 +7,11 @@ namespace Nucumber.App.CommandLineUtilities
 {
     public class ConsoleOptionsBase
     {
-
-        public static ConsoleOptionsBase Parse(string[] args)
+        public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : class
         {
-            throw new NotImplementedException();
+            
+
+            return this as TConsoleOptions;
         }
 
     }
@@ -22,7 +23,7 @@ namespace Nucumber.App.CommandLineUtilities
             
         }
 
-        public Required(string shortHand)
+        public Required(params string[] switches)
         {
             
         }
@@ -35,9 +36,10 @@ namespace Nucumber.App.CommandLineUtilities
             
         }
 
-        public Optional(string shortHand)
+        public Optional(params string[] switches)
         {
             
         }
     }
+
 }
