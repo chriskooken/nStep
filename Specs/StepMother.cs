@@ -32,7 +32,6 @@ namespace Specs
                 Given("^My Name is \"([^\"]*)\"$", name =>
                     {
                         providedName = name;
-
                     });
             }
         }

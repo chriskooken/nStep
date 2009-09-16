@@ -41,6 +41,7 @@
     <Compile Include="StepDefinition.cs" />
     <Compile Include="StepKinds.cs" />
     <Compile Include="StepSetBase.cs" />
+    <Compile Include="TransformDefinition.cs" />
     <Compile Include="WorldViewProviderBase.cs" />
     <Compile Include="IProvideSteps.cs" />
     <Compile Include="EnvironmentBase.cs" />

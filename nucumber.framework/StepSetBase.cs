@@ -6,14 +6,36 @@ namespace Nucumber.Framework
 {
     public abstract class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
     {
-        IList<StepDefinition> stepDefinitions = new List<StepDefinition>();
-
-        public IEnumerable<StepDefinition> StepDefinitions
+        protected StepSetBase()
         {
-            get
-            {
-                return stepDefinitions;
-            }
+            givenStepDefinitions = new List<StepDefinition>();
+            whenStepDefinitions = new List<StepDefinition>();
+            thenStepDefinitions = new List<StepDefinition>();
+            transformDefinitions = new List<TransformDefinition>();
+        }
+
+        private IList<StepDefinition> givenStepDefinitions;
+        public IEnumerable<StepDefinition> GivenStepDefinitions
+        {
+            get { return givenStepDefinitions; }
+        }
+
+        private IList<StepDefinition> whenStepDefinitions;
+        public IEnumerable<StepDefinition> WhenStepDefinitions
+        {
+            get { return whenStepDefinitions; }
+        }
+
+        private IList<StepDefinition> thenStepDefinitions;
+        public IEnumerable<StepDefinition> ThenStepDefinitions
+        {
+            get { return thenStepDefinitions; }
+        }
+
+        private IList<TransformDefinition> transformDefinitions;
+        public IEnumerable<TransformDefinition> TransformDefinitions
+        {
+            get { return transformDefinitions; }
         }
 
         public TWorldView World { get; internal set; }
@@ -31,13 +53,29 @@ namespace Nucumber.Framework
 
         private void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
         {
-            stepDefinitions.Add(new StepDefinition
+            var def = new StepDefinition
                                     {
                                         Regex = new Regex(stepText),
                                         Kind = kind,
                                         Action = action,
                                         ParamsTypes = action.GetType().GetGenericArguments()
-                                    });
+                                    };
+            switch (kind)
+            {
+                case StepKinds.Given:
+                    givenStepDefinitions.Add(def);
+                    break;
+                case StepKinds.When:
+                    whenStepDefinitions.Add(def);
+                    break;
+                case StepKinds.Then:
+                    thenStepDefinitions.Add(def);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("kind");
+            }
+
+            
         }
 
         #region Given StepDefinitions
@@ -185,7 +223,7 @@ namespace Nucumber.Framework
 
         protected void Transform<TReturn>(string match, Func<string,TReturn> action)
         {
-            
+            //TODO: Stick the Transform def in here....
         }
     }
 }

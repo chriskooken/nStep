@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Nucumber.Framework;
 
@@ -12,9 +11,9 @@ namespace Nucumber.Core
         public StepCaller(StepDefinition step, TypeCaster typeCaster)
         {
             TypeCaster = typeCaster;
-            this.CompiledRegex = step.Regex;
-            this.Action = step.Action;
-            this.Types = step.ParamsTypes.ToArray();
+            CompiledRegex = step.Regex;
+            Action = step.Action;
+            Types = step.ParamsTypes.ToArray();
         }
 
         private Type[] Types { get; set; }
@@ -36,12 +35,10 @@ namespace Nucumber.Core
             var groups = CompiledRegex.Match(featureLine).Groups;
             for (int i = 1; i < groups.Count; i++)
             {
-                objects.Add(this.TypeCaster.MakeIntoType(groups[i].Value, Types[i-1]));
+                objects.Add(TypeCaster.MakeIntoType(groups[i].Value, Types[i-1]));
             }
 
             return objects.ToArray();
         }
-
-        
     }
 }
