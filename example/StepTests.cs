@@ -25,39 +25,40 @@ namespace Cucumber
 
         public StepTests()
         {
-            Transform("(user .*)", userName =>
-                {
-                    return new User {Name = userName};
-                });
+            Transform("([Uu]ser .*)", userName =>
+            {
+                return new User {Name = userName};
+            });
 
-            Given<string, int>("blah (user .*) blah (.*) blah", (a, b) =>
+            Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
         	{
+        	    user.Name = newName;
         	});
 
         	Given("^My Name is \"([^\"]*)\"$", name =>
-                {
-                    World.Browser.Open("http://www.google.com");
-                    World.Browser.WaitForPageToLoad("10");
-                    World.Browser.Type("q", "dogs are cool things");
+            {
+                World.Browser.Open("http://www.google.com");
+                World.Browser.WaitForPageToLoad("10");
+                World.Browser.Type("q", "dogs are cool things");
 
-                    Console.WriteLine("Name is: " + name);
-                });
+                Console.WriteLine("Name is: " + name);
+            });
 
             Given("^I live at \"([^\"]*)\"$", location =>
-                {
-                    Console.WriteLine("Location is: " + location);
-                });
+            {
+                Console.WriteLine("Location is: " + location);
+            });
 
             Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (city, state) =>
-                {
-                    Console.WriteLine("City is: " + city);
-                    Console.WriteLine("State is: " + state);
-                });
+            {
+                Console.WriteLine("City is: " + city);
+                Console.WriteLine("State is: " + state);
+            });
 
             Then("I should be on the \"([^\"]*)\" page", page =>
-                {
-                    World.Browser.GetTitle().Should().Be.EqualTo(page);
-                });
+            {
+                World.Browser.GetTitle().Should().Be.EqualTo(page);
+            });
 
         }
     }
