@@ -131,5 +131,10 @@ namespace Nucumber.Framework
             AddNewStepDefinition(StepKinds.Then, regex, action, new { p = string.Empty, p2 = string.Empty, p3 = string.Empty, p4 = string.Empty });
         }
         #endregion
+
+        protected void Transform<TReturn>(string match, Func<string,TReturn> action)
+        {
+            
+        }
     }
 }

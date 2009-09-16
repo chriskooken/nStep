@@ -4,10 +4,28 @@ using Nucumber.Framework;
 
 namespace Cucumber
 {
+
+    public class bar
+    {
+        public string value;
+    }
+
     public class StepTests : StepSetBase<TestWorldView>
     {
         public StepTests()
         {
+
+            Transform("(user .*)", userName =>
+                {
+                    return new bar {value = userName};
+                });
+
+            Given("blah (user .*) blah (.*) blah", new { userName = null as bar, foo = "" }, parms =>
+            {
+                Console.Write(parms.foo);
+                Console.Write(parms.userName.value);
+            });
+
             Given("^My Name is \"([^\"]*)\"$", (name) =>
             {
                 World.selenium.Open("http://www.google.com");
