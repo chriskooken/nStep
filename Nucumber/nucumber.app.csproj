@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="CommandLineUtilities\Arguments.cs" />
     <Compile Include="CommandLineUtilities\CConsole.cs" />
+    <Compile Include="CommandLineUtilities\ConsoleOptions.cs" />
+    <Compile Include="CommandLineUtilities\ConsoleOptionsBase.cs" />
     <Compile Include="NameValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

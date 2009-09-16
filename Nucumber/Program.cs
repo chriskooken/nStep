@@ -26,15 +26,9 @@ namespace Nucumber.App
             # endif
 
 			IConsoleWriter console = new CConsole();
-            var commandLine = new Arguments(args);
-
 
             //http://ndesk.org/Options  <-- might be a better command-line parser... at any rate, I'd rather use something strongly typed rather than all this string stuff...
-            //if (commandLine["param1"] != null)
-            //    Console.WriteLine("Param1 value: " +
-            //        commandLine["param1"]);
-            //else
-            //    Console.WriteLine("Param1 not defined !");
+
 
 
             Console.ForegroundColor = ConsoleColor.Gray;
