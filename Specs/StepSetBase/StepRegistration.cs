@@ -38,13 +38,6 @@ namespace StepSetBase
         {
             cut.ParamsType.Should().Be.EqualTo(typeof (string));
         }
-
-        [Test]
-        public void it_should_register_the_default_values_for_params()
-        {
-            var defaultParams = cut.DefaultParams as string;
-            defaultParams.Should().Be.EqualTo("");
-        }
 	}
 
     [TestFixture]
@@ -86,12 +79,6 @@ namespace StepSetBase
         public void it_should_register_the_param_type()
         {
             cut.ParamsType.Should().Be.EqualTo(defaultValue.GetType());
-        }
-
-        [Test]
-        public void it_should_register_the_default_values_for_params()
-        {
-            cut.DefaultParams.Should().Be.EqualTo(defaultValue);
         }
     }
 }

@@ -36,9 +36,13 @@ namespace Nucumber.Framework
                                         Regex = new Regex(stepText),
                                         Kind = kind,
                                         Action = action,
-                                        ParamsType = typeof(TParams),
-                                        DefaultParams = defaultParams
+                                        ParamsType = typeof(TParams)
                                     });
+        }
+
+        protected TType A<TType>()
+        {
+            return default(TType);
         }
 
         #region Given StepDefinitions

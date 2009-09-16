@@ -12,7 +12,5 @@ namespace Nucumber.Framework
         public object Action { get; set; }
 
         public Type ParamsType { get; set; }
-
-        public Object DefaultParams { get; set; }
     }
 }

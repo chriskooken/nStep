@@ -30,7 +30,7 @@ namespace Cucumber
                     return new User {Name = userName};
                 });
 
-            Given("blah (user .*) blah (.*) blah", new {userName = null as User, foo = ""}, parms =>
+            Given("blah (user .*) blah (.*) blah", new {userName = A<User>(), foo = A<string>()}, parms =>
                 {
                     Console.Write(parms.foo);
                     Console.Write(parms.userName.Name);
