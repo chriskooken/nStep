@@ -58,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandLine\FeatureFiles.cs" />
+    <Compile Include="StepSetBase\StepRegistration.cs" />
+    <Compile Include="StepSetBase\Then.cs" />
+    <Compile Include="StepSetBase\When.cs" />
     <Compile Include="StepSetBase\Given.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

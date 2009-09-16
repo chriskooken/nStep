@@ -6,9 +6,9 @@ namespace Nucumber.Framework
 {
     public abstract class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
     {
-        IDictionary<Regex, object> stepDefinitions = new Dictionary<Regex, object>();
+        IList<StepDefinition> stepDefinitions = new List<StepDefinition>();
 
-        public IDictionary<Regex,object> StepDefinitions
+        public IEnumerable<StepDefinition> StepDefinitions
         {
             get
             {
@@ -29,15 +29,21 @@ namespace Nucumber.Framework
         public virtual void AfterStep()
         {}
 
-        private void AddNewStepDefinition<TParams>(StepKinds kind, string stepText, object action, TParams defaultParams )
+        private void AddNewStepDefinition<TParams>(StepKinds kind, string stepText, object action, TParams defaultParams ) where TParams : class
         {
-            var regex = new Regex(stepText);
-            stepDefinitions.Add(regex, action);
+            stepDefinitions.Add(new StepDefinition
+                                    {
+                                        Regex = new Regex(stepText),
+                                        Kind = kind,
+                                        Action = action,
+                                        ParamsType = typeof(TParams),
+                                        DefaultParams = defaultParams
+                                    });
         }
 
         #region Given StepDefinitions
 
-        protected void Given<TParams>(string regex, TParams defaultParams, Action<TParams> action)
+        protected void Given<TParams>(string regex, TParams defaultParams, Action<TParams> action) where TParams : class
         {
             AddNewStepDefinition(StepKinds.Given, regex, action, defaultParams);
         }
@@ -69,7 +75,7 @@ namespace Nucumber.Framework
         #endregion
 
         #region When StepDefinitions
-        protected void When<TParams>(string regex, TParams defaultParams, Action<TParams> action)
+        protected void When<TParams>(string regex, TParams defaultParams, Action<TParams> action) where TParams : class
         {
             AddNewStepDefinition(StepKinds.When, regex, action, defaultParams);
         }
@@ -101,7 +107,7 @@ namespace Nucumber.Framework
         #endregion
 
         #region Then StepDefinitions
-        protected void Then<TParams>(string regex, TParams defaultParams, Action<TParams> action)
+        protected void Then<TParams>(string regex, TParams defaultParams, Action<TParams> action) where TParams : class
         {
             AddNewStepDefinition(StepKinds.Then, regex, action, defaultParams);
         }

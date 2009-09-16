@@ -1,21 +1,19 @@
-﻿using System;
+﻿using Nucumber.Framework;
 using NUnit.Framework;
-using NUnit.Framework.ExtensionsImpl;
+using System.Linq;
 
 namespace StepSetBase
 {
-
-
     [TestFixture]
-    public class Given : Nucumber.Framework.StepSetBase<string>
+    public class GivenHandling : StepSetBase<string>
     {
         [Test]
-        public void it_should_allow_no_captures()
+        public void it_should_register_a_Given_Step_as_a_Given()
         {
-            Given("No captures here", () => { return; });
+            Given("something", () => { return; });
+            StepDefinitions.First().Kind.Should().Be.EqualTo(StepKinds.Given);
         }
 
-        
     }
 
 }

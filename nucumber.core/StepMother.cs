@@ -32,7 +32,7 @@ namespace Nucumber.Core
 
         }
 
-		private IDictionary<Step,object> DoSomethingToConnectStepsToFeatureLines(IDictionary<Regex,object> steps)
+		private IDictionary<Step,object> DoSomethingToConnectStepsToFeatureLines(IEnumerable<StepDefinition> steps)
 		{
 			return null;
 		}
