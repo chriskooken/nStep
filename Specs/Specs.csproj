@@ -66,6 +66,7 @@
     <Compile Include="StepSetBase\Then.cs" />
     <Compile Include="StepSetBase\When.cs" />
     <Compile Include="StepSetBase\Given.cs" />
+    <Compile Include="TypeCaster.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

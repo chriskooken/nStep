@@ -9,8 +9,9 @@ namespace Nucumber.Core
 {
     public class StepCaller
     {
-        public StepCaller(StepDefinition step)
+        public StepCaller(StepDefinition step, TypeCaster typeCaster)
         {
+            TypeCaster = typeCaster;
             this.CompiledRegex = step.Regex;
             this.Action = step.Action;
             this.Types = step.ParamsTypes.ToArray();
@@ -21,6 +22,8 @@ namespace Nucumber.Core
         private Regex CompiledRegex { get; set; }
 
         private Delegate Action { get; set; }
+
+        private TypeCaster TypeCaster { get; set; }
 
         public void Call(string featureLine)
         {
@@ -33,20 +36,12 @@ namespace Nucumber.Core
             var groups = CompiledRegex.Match(featureLine).Groups;
             for (int i = 1; i < groups.Count; i++)
             {
-                objects.Add(MakeIntoType(groups[i].Value, Types[i-1]));
+                objects.Add(this.TypeCaster.MakeIntoType(groups[i].Value, Types[i-1]));
             }
 
             return objects.ToArray();
         }
 
-        public static object MakeIntoType(string value, Type type)
-        {
-            if (type == typeof (string))
-                return value;
-            if (type == typeof(Int32))
-                return Int32.Parse(value);
-
-            throw new InvalidCastException("Don't know how to convert: " + value + " into a " + type.Name);
-        }
+        
     }
 }
