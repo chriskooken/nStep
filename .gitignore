@@ -14,23 +14,8 @@ obj/
 *.suo
 *.MDF
 *.ldf
-ProviderPortal/ProviderPortal_Web/Config/clearwave.config
-ProviderPortal/ProviderPortal_Web/Config/connectionStrings.config
-ProviderPortalMVC/Clearwave.ProviderPortal.Web/Config/clearwave.config
 *.eprj
 *.onetoc2
-Lib
-Integration/IntegrationWebServices.csproj_deploy/Debug/*
-Integration/IntegrationWebServices.csproj_deploy/Release/*
-
-ProviderPortal/ProviderPortal_Web.csproj_deploy/Release/*
-ProviderPortal/ProviderPortal_Web.csproj_deploy/Source/*
-ProviderPortal/ProviderPortal_Web.csproj_deploy/Debug/*
-
-ProviderPortalMVC/Clearwave.ProviderPortal.Web.csproj_deploy/Release/*
-ProviderPortalMVC/Clearwave.ProviderPortal.Web.csproj_deploy/Source/*
-ProviderPortalMVC/Clearwave.ProviderPortal.Web.csproj_deploy/Debug/*
-ProviderPortalMVC/Clearwave.ProviderPortal.Web.csproj_deploy/QA/*
 
 # Ignore NUnit State and Test Results
 *.VisualState.xml
