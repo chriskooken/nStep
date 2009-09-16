@@ -29,6 +29,8 @@ namespace Nucumber.App
 
             //http://ndesk.org/Options  <-- might be a better command-line parser... at any rate, I'd rather use something strongly typed rather than all this string stuff...
 
+            var options = new ConsoleOptions();
+            
 
 
             Console.ForegroundColor = ConsoleColor.Gray;
