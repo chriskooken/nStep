@@ -42,7 +42,7 @@ namespace Nucumber.App
             stepMother.LoadStepAssembly(new FileInfo(args.FirstOrDefault()));
             
 
-            Feature feature = new Feature(new GherkinParser(), console);
+            Feature feature = new Feature(new AltGherkinParser(), console);
             feature.Parse(args[1]);
 
             console.WriteLineLevel1("Feature: ");

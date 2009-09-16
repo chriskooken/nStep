@@ -30,13 +30,20 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Spart, Version=1.0.3545.36160, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Spart.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Parser\GherkinParser.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
@@ -44,7 +51,7 @@
     <Compile Include="Feature.cs" />
     <Compile Include="AmbiguousStepException.cs" />
     <Compile Include="Parser\Enums.cs" />
-    <Compile Include="Parser\GherkinParser.cs" />
+    <Compile Include="Parser\AltGherkinParser.cs" />
     <Compile Include="Parser\IGherkinParser.cs" />
     <Compile Include="Parser\SimpleSubtree.cs" />
     <Compile Include="Parser\SimpleTree.cs" />
