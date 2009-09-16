@@ -30,13 +30,11 @@ namespace Cucumber
                     return new User {Name = userName};
                 });
 
-            Given("blah (user .*) blah (.*) blah", new {userName = A<User>(), foo = A<string>()}, parms =>
-                {
-                    Console.Write(parms.foo);
-                    Console.Write(parms.userName.Name);
-                });
+            Given<string, int>("blah (user .*) blah (.*) blah", (a, b) =>
+        	{
+        	});
 
-            Given("^My Name is \"([^\"]*)\"$", name =>
+        	Given("^My Name is \"([^\"]*)\"$", name =>
                 {
                     World.Browser.Open("http://www.google.com");
                     World.Browser.WaitForPageToLoad("10");
@@ -60,6 +58,7 @@ namespace Cucumber
                 {
                     World.Browser.GetTitle().Should().Be.EqualTo(page);
                 });
+
         }
     }
         public class TestWorldView

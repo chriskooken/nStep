@@ -47,7 +47,7 @@ namespace StepSetBase
         public void Setup()
         {
             var act = CreateAction(new {a = "default value", b = Guid.Empty}, foo => { return; });
-            Given("test", new { a = "default value", b = Guid.Empty }, act);
+			//Given("test", new { a = "default value", b = Guid.Empty }, act);
             action = act;
             cut = StepDefinitions.First();
         }
