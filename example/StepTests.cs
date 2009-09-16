@@ -1,13 +1,14 @@
 ﻿using System;
 using Selenium;
 using Nucumber.Framework;
+using NUnit.Framework;
 
 namespace Cucumber
 {
 
-    public class bar
+    public class User
     {
-        public string value;
+        public string Name;
     }
 
     public class StepTests : StepSetBase<TestWorldView>
@@ -26,44 +27,48 @@ namespace Cucumber
         {
             Transform("(user .*)", userName =>
                 {
-                    return new bar {value = userName};
+                    return new User {Name = userName};
                 });
 
-            Given("blah (user .*) blah (.*) blah", new { userName = null as bar, foo = "" }, parms =>
-            {
-                Console.Write(parms.foo);
-                Console.Write(parms.userName.value);
-            });
+            Given("blah (user .*) blah (.*) blah", new {userName = null as User, foo = ""}, parms =>
+                {
+                    Console.Write(parms.foo);
+                    Console.Write(parms.userName.Name);
+                });
 
-            Given("^My Name is \"([^\"]*)\"$", (name) =>
-            {
-                World.selenium.Open("http://www.google.com");
-                World.selenium.WaitForPageToLoad("10");
-                World.selenium.Type("q", "dogs are cool things");
-                
-                //Console.WriteLine("Name is: "+ name);
-                //throw new Exception("you suck");
-            });
+            Given("^My Name is \"([^\"]*)\"$", name =>
+                {
+                    World.Browser.Open("http://www.google.com");
+                    World.Browser.WaitForPageToLoad("10");
+                    World.Browser.Type("q", "dogs are cool things");
 
-            Given("^I live at \"([^\"]*)\"$", (location) =>
-            {
-                Console.WriteLine("Location is: " + location);
-            });
+                    Console.WriteLine("Name is: " + name);
+                });
+
+            Given("^I live at \"([^\"]*)\"$", location =>
+                {
+                    Console.WriteLine("Location is: " + location);
+                });
 
             Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (city, state) =>
-            {
-                //Console.WriteLine("City is: " + city);
-                //Console.WriteLine("State is: " + state);
-            });
+                {
+                    Console.WriteLine("City is: " + city);
+                    Console.WriteLine("State is: " + state);
+                });
+
+            Then("I should be on the \"([^\"]*)\" page", page =>
+                {
+                    World.Browser.GetTitle().Should().Be.EqualTo(page);
+                });
         }
     }
         public class TestWorldView
         {
-            public readonly DefaultSelenium selenium;
+            public readonly DefaultSelenium Browser;
             public TestWorldView()
             {
-                selenium = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
-                selenium.Start();
+                Browser = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
+                Browser.Start();
             }
         }
 
