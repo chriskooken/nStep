@@ -41,7 +41,7 @@
     <Compile Include="StepSetBase.cs" />
     <Compile Include="WorldViewProviderBase.cs" />
     <Compile Include="IProvideSteps.cs" />
-    <Compile Include="Environment.cs" />
+    <Compile Include="EnvironmentBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

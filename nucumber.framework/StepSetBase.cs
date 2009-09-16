@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace Nucumber.Framework
 {
-    public class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
+    public abstract class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
     {
         IDictionary<Regex, object> stepDefinitions = new Dictionary<Regex, object>();
 
@@ -23,6 +22,12 @@ namespace Nucumber.Framework
         {
             World = worldView as TWorldView;
         }
+
+        public virtual void BeforeStep()
+        {}
+
+        public virtual void AfterStep()
+        {}
 
         private void AddNewStepDefinition(string stepText, object action)
         {
