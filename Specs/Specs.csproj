@@ -57,6 +57,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionCaller.cs" />
     <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="StepSetBase\StepRegistration.cs" />
     <Compile Include="StepSetBase\Then.cs" />
