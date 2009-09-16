@@ -113,30 +113,5 @@ namespace Nucumber.Framework
             AddNewStepDefinition(s,action);
         }
         #endregion
-
-        #region But StepDefinitions
-        protected void But(string s, Action<string> action)
-        {
-            //Add to stepDefinitions table
-            AddNewStepDefinition(s,action);
-        }
-
-
-        protected void But(string s, Action<string, string> action)
-        {
-            AddNewStepDefinition(s,action);
-        }
-
-
-        protected void But(string s, Action<string, string, string> action)
-        {
-            AddNewStepDefinition(s,action);
-        }
-
-        protected void But(string s, Action<string, string, string, string> action)
-        {
-            AddNewStepDefinition(s,action);
-        }
-        #endregion
     }
 }
