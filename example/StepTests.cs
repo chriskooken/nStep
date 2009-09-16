@@ -30,8 +30,9 @@ namespace Cucumber
                     return new User {Name = userName};
                 });
 
-            Given<string, int>("blah (user .*) blah (.*) blah", (a, b) =>
+            Given("blah (user .*) blah (.*) blah", (string a, int b) =>
         	{
+				
         	});
 
         	Given("^My Name is \"([^\"]*)\"$", name =>
