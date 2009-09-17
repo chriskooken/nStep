@@ -60,8 +60,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyLoader.cs" />
     <Compile Include="CommandLineUtilities\Arguments.cs" />
     <Compile Include="CommandLineUtilities\CConsole.cs" />
+    <Compile Include="CommandLineUtilities\ConsoleOptions.cs" />
+    <Compile Include="CommandLineUtilities\ConsoleOptionsBase.cs" />
     <Compile Include="NameValue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,6 +113,10 @@
     <ProjectReference Include="..\nucumber.core\nucumber.core.csproj">
       <Project>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</Project>
       <Name>nucumber.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">
+      <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
+      <Name>nucumber.framework</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

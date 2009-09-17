@@ -1,42 +1,74 @@
 ﻿using System;
 using Selenium;
 using Nucumber.Framework;
+using NUnit.Framework;
 
 namespace Cucumber
 {
+
+    public class User
+    {
+        public string Name;
+    }
+
     public class StepTests : StepSetBase<TestWorldView>
     {
+        public override void BeforeStep()
+        {
+            //Do something cool, like open a Transaction
+        }
+
+        public override void AfterStep()
+        {
+            //Maybe close the transaction here?
+        }
+
         public StepTests()
         {
-            Given("^My Name is \"([^\"]*)\"$", (name) =>
+            Transform("([Uu]ser .*)", userName =>
             {
-                World.selenium.Open("http://www.google.com");
-                World.selenium.WaitForPageToLoad("10");
-                World.selenium.Type("q", "dogs are cool things");
-                
-                //Console.WriteLine("Name is: "+ name);
-                //throw new Exception("you suck");
+                return new User {Name = userName};
             });
 
-            Given("^I live at \"([^\"]*)\"$", (location) =>
+            Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
+        	{
+        	    user.Name = newName;
+        	});
+
+        	Given("^My Name is \"([^\"]*)\"$", name =>
+            {
+                World.Browser.Open("http://www.google.com");
+                World.Browser.WaitForPageToLoad("10");
+                World.Browser.Type("q", "dogs are cool things");
+
+                Console.WriteLine("Name is: " + name);
+            });
+
+            Given("^I live at \"([^\"]*)\"$", location =>
             {
                 Console.WriteLine("Location is: " + location);
             });
 
-            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (city, state) =>
+            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (int city, string state) =>
             {
-                //Console.WriteLine("City is: " + city);
-                //Console.WriteLine("State is: " + state);
+                Console.WriteLine("City is: " + city);
+                Console.WriteLine("State is: " + state);
             });
+
+            Then("I should be on the \"([^\"]*)\" page", page =>
+            {
+                World.Browser.GetTitle().Should().Be.EqualTo(page);
+            });
+
         }
     }
         public class TestWorldView
         {
-            public readonly DefaultSelenium selenium;
+            public readonly DefaultSelenium Browser;
             public TestWorldView()
             {
-                selenium = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
-                selenium.Start();
+                Browser = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
+                Browser.Start();
             }
         }
 
@@ -48,6 +80,23 @@ namespace Cucumber
             }
         }
 
+    public class Environment : EnvironmentBase
+    {
+        public override void SessionStart()
+        {
+            //Maybe create the database? Init StructureMap? Start Selenium? Something else?
+        }
+
+        public override void SessionEnd()
+        {
+            //Destroy the database? Clean up? Stop Selenium?
+        }
+
+        public override void AfterScenario()
+        {
+            //Maybe clean out the database?
+        }
+    }
 
     }
 

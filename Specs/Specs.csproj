@@ -9,6 +9,7 @@
     <OutputType>Library</OutputType>
     <AssemblyName>Specs</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <RootNamespace>Specs</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,9 +28,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nmock, Version=1.0.1721.15437, Culture=neutral">
+    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\nmock.dll</HintPath>
+      <HintPath>..\Lib\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.2.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
       <SpecificVersion>False</SpecificVersion>
@@ -57,8 +58,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionCaller.cs" />
+    <Compile Include="StepMother.cs" />
     <Compile Include="CommandLine\FeatureFiles.cs" />
+    <Compile Include="EnvironmentSubclassing.cs" />
+    <Compile Include="StepCaller.cs" />
+    <Compile Include="StepSetBase\StepRegistration.cs" />
+    <Compile Include="StepSetBase\Then.cs" />
+    <Compile Include="StepSetBase\When.cs" />
     <Compile Include="StepSetBase\Given.cs" />
+    <Compile Include="TypeCaster.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
