@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Nucumber.Core.Parsing
+namespace Nucumber.Core.Parsers
 {
     public interface IGherkinParser
     {
