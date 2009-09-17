@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nucumber.Core;
+using Nucumber.Framework;
 using NUnit.Framework;
 
 namespace Specs
@@ -15,7 +16,7 @@ namespace Specs
         {
             var set = new StepSet();
 
-            var mother = new Nucumber.Core.StepMother(new Moq.Mock<IConsoleWriter>().Object, set.StepDefinitions);
+            var mother = new Nucumber.Core.StepMother(new Moq.Mock<IConsoleWriter>().Object, set.CombinedStepDefinitions);
 
             var step = new FeatureStep {FeatureLine = "My Name is \"Chris\""};
             mother.ProcessStep(step);
@@ -27,6 +28,9 @@ namespace Specs
         public class StepSet : Nucumber.Framework.StepSetBase<string>
         {
             public string providedName { get; private set; }
+
+
+
             public StepSet()
             {
                 Given("^My Name is \"([^\"]*)\"$", name =>

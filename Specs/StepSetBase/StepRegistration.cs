@@ -15,7 +15,7 @@ namespace StepSetBase
         {
             action = foo => { return; };
             Given("test", action);
-            cut = StepDefinitions.First();
+            cut = GivenStepDefinitions.First();
         }
 
         private StepDefinition cut;

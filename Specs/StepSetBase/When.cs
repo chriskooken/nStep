@@ -12,7 +12,7 @@ namespace StepSetBase
         public void it_should_register_as_a_When()
         {
             When("something", () => { return; });
-            StepDefinitions.First().Kind.Should().Be.EqualTo(StepKinds.When);
+            WhenStepDefinitions.First().Kind.Should().Be.EqualTo(StepKinds.When);
         }
 
     }
