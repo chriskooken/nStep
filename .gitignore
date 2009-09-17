@@ -16,6 +16,7 @@ obj/
 *.ldf
 *.eprj
 *.onetoc2
+Spart/Spart.xml
 
 # Ignore NUnit State and Test Results
 *.VisualState.xml
