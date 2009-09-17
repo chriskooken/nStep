@@ -13,13 +13,13 @@ namespace Nucumber.App
 
         static void Main(string[] args)
         {
-# if DEBUG
+            # if DEBUG
             args = new[]
                        {
                            Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll"),
                            Path.GetFullPath(@"..\..\..\example\example.feature")
                        };
-# endif
+            # endif
             new Program().Run(args);
         }
 

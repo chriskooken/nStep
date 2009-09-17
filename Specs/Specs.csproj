@@ -56,6 +56,10 @@
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
       <Name>nucumber.framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Nucumber\nucumber.app.csproj">
+      <Project>{A3967229-2EF9-4BAA-9013-930B1FF8BE66}</Project>
+      <Name>nucumber.app</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Spart\Spart.csproj">
       <Project>{52C43CC3-4D59-4328-9713-7225D3EEE893}</Project>
       <Name>Spart %28Spart\Spart%29</Name>

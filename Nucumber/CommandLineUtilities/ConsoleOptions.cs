@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Nucumber.App.CommandLineUtilities
 {
     public class ConsoleOptions : ConsoleOptionsBase
-    {
+    {   
         [Required]
         public string FeatureFiles { get; set; }
         
-        [Optional("r","require")]
+        [Switch("r","require")]
         public string Assemblies { get; set; }
 
-        [Optional("v","verbose")]
+        [Switch("v","verbose")]
         public bool Verbose { get; set; }
-
     }
 }
