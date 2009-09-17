@@ -23,15 +23,38 @@ namespace Nucumber.Core
 
         public Exception LastProcessStepException { get; private set; }
 
+        public StepRunResults LastProcessStepResult { get; private set; }
+
+        public StepDefinition LastProcessStepDefinition { get; private set; }
+
         public StepRunResults ProcessStep(FeatureStep featureStepToProcess)
         {
+            LastProcessStepResult =  DoProcessStep(featureStepToProcess);
+            return LastProcessStepResult;
+        }
+
+        private StepRunResults DoProcessStep(FeatureStep featureStepToProcess)
+        {
             LastProcessStepException = null;
+            LastProcessStepDefinition = null;
 
             var lineText = featureStepToProcess.FeatureLine;
             try
             {
-               new StepCaller(GetPossibleStepDefinitions(featureStepToProcess, lineText),
-                    new TypeCaster()).Call(lineText);
+                LastProcessStepDefinition = GetStepDefinition(featureStepToProcess, lineText);
+                new StepCaller(LastProcessStepDefinition,
+                               new TypeCaster()).Call(lineText);
+
+            }
+            catch(StepMissingException ex)
+            {
+                LastProcessStepException = ex;
+                return StepRunResults.Pending;
+            }
+            catch(StepPendingException ex)
+            {
+                LastProcessStepException = ex;
+                return StepRunResults.Pending;
             }
             catch (Exception ex)
             {
@@ -42,7 +65,7 @@ namespace Nucumber.Core
             return StepRunResults.Passed;
         }
 
-        private StepDefinition GetPossibleStepDefinitions(FeatureStep featureStepToProcess, string lineText)
+        private StepDefinition GetStepDefinition(FeatureStep featureStepToProcess, string lineText)
         {
             IEnumerable<StepDefinition> results;
             switch (featureStepToProcess.Kind)
@@ -60,9 +83,9 @@ namespace Nucumber.Core
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (results.Count() == 0) throw new MissingStepException(lineText);
+            if (results.Count() == 0) throw new StepMissingException();
 
-            if (results.Count() > 1) throw new AmbiguousStepException(lineText);
+            if (results.Count() > 1) throw new StepAmbiguousException(lineText);
 
             return results.First();
         }

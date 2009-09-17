@@ -235,6 +235,11 @@ namespace Nucumber.Framework
         }
 		#endregion
 
+        protected void Pending()
+        {
+            throw new StepPendingException();
+        }
+
         protected void Transform<TReturn>(string match, Func<string,TReturn> action)
         {
             //TODO: Stick the Transform def in here....

@@ -40,5 +40,13 @@ namespace Specs
             caller.Call();
             enclosed.Should().Be.EqualTo("bobo");
         }
+
+        [Test]
+        public void it_should_throw_the_internal_exception()
+        {
+            Action action = () => { throw new InvalidTimeZoneException(); };
+            var caller = new Nucumber.Core.ActionCaller(action);
+            new Action(() => caller.Call()).Should().Throw<InvalidTimeZoneException>();
+        }
 	}
 }

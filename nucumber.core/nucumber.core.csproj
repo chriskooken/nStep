@@ -49,9 +49,9 @@
     <Compile Include="Parser\GherkinParser.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
-    <Compile Include="MissingStepException.cs" />
+    <Compile Include="StepMissingException.cs" />
     <Compile Include="Feature.cs" />
-    <Compile Include="AmbiguousStepException.cs" />
+    <Compile Include="StepAmbiguousException.cs" />
     <Compile Include="Parser\Enums.cs" />
     <Compile Include="Parser\AltGherkinParser.cs" />
     <Compile Include="Parser\IGherkinParser.cs" />

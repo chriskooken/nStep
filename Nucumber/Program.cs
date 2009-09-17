@@ -60,13 +60,16 @@ namespace Nucumber.App
             switch (StepMother.ProcessStep(s))
             {
                 case StepRunResults.Passed:
+                    Console.WritePassedFeatureLine(s,StepMother.LastProcessStepDefinition);
                     break;
                 case StepRunResults.Failed:
                     Console.WriteException(s, StepMother.LastProcessStepException);
                     break;
                 case StepRunResults.Pending:
+                    Console.WritePendingFeatureLine(s);
                     break;
                 case StepRunResults.Missing:
+                    Console.WritePendingFeatureLine(s);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
