@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Spart.Parsers;
 
 
-namespace Nucumber.Core.Parsing {
+namespace Nucumber.Core.Parsers {
 	public class GherkinParser : IGherkinParser {
 		#region Public Parsers
 

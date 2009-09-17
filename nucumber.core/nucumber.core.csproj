@@ -40,21 +40,22 @@
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="FeatureExecutor.cs" />
     <Compile Include="FeatureStep.cs" />
+    <Compile Include="Parsers\AltGherkinParser.cs" />
+    <Compile Include="Parsers\Enums.cs" />
+    <Compile Include="Parsers\GherkinParser.cs" />
+    <Compile Include="Parsers\IGherkinParser.cs" />
+    <Compile Include="Parsers\SimpleSubtree.cs" />
+    <Compile Include="Parsers\SimpleTree.cs" />
+    <Compile Include="Parsers\SimpleTreeNode.cs" />
+    <Compile Include="Parsers\SimpleTreeNodeList.cs" />
     <Compile Include="StepCaller.cs" />
-    <Compile Include="Parsing\GherkinParser.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="StepMissingException.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="StepAmbiguousException.cs" />
-    <Compile Include="Parsing\Enums.cs" />
-    <Compile Include="Parsing\AltGherkinParser.cs" />
-    <Compile Include="Parsing\IGherkinParser.cs" />
-    <Compile Include="Parsing\SimpleSubtree.cs" />
-    <Compile Include="Parsing\SimpleTree.cs" />
-    <Compile Include="Parsing\SimpleTreeNode.cs" />
-    <Compile Include="Parsing\SimpleTreeNodeList.cs" />
     <Compile Include="IConsoleWriter.cs" />
     <Compile Include="TypeCaster.cs" />
   </ItemGroup>
