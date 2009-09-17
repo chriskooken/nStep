@@ -12,7 +12,6 @@ namespace Nucumber.Core
 
         public string Title { get; set; }
 
-
         public IList<FeatureStep> Steps
         {
             get { return steps; }

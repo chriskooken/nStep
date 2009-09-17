@@ -68,11 +68,12 @@ namespace Nucumber.Framework
         private void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
         {
             var def = new StepDefinition
-                                    {
-                                        Regex = new Regex(stepText),
-                                        Kind = kind,
-                                        Action = action,
-                                        ParamsTypes = action.GetType().GetGenericArguments()
+                          {
+                              Regex = new Regex(stepText),
+                              Kind = kind,
+                              Action = action,
+                              ParamsTypes = action.GetType().GetGenericArguments(),
+                              StepSet = this
                                     };
             switch (kind)
             {
@@ -234,6 +235,11 @@ namespace Nucumber.Framework
             AddNewStepDefinition(StepKinds.Then, regex, action);
         }
 		#endregion
+
+        protected void Pending()
+        {
+            throw new StepPendingException();
+        }
 
         protected void Transform<TReturn>(string match, Func<string,TReturn> action)
         {

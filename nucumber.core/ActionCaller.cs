@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace Nucumber.Core
 {
@@ -19,12 +20,20 @@ namespace Nucumber.Core
 
         public void Call()
         {
-            if (parms != null)
+            try
             {
-                action.DynamicInvoke(parms);
-                return;
+                if (parms != null)
+                {
+                    action.DynamicInvoke(parms);
+                    return;
+                }
+                action.DynamicInvoke();
             }
-            action.DynamicInvoke();
+            catch (TargetInvocationException exception)
+            {
+                throw exception.InnerException;
+            }
+           
         }
     }
 }
