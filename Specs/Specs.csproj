@@ -59,10 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
-    <Compile Include="StepMother.cs" />
+    <Compile Include="StepMother\BasicMatching.cs" />
     <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="EnvironmentSubclassing.cs" />
     <Compile Include="StepCaller.cs" />
+    <Compile Include="StepMother\AmbiguousStepException.cs" />
     <Compile Include="StepSetBase\StepRegistration.cs" />
     <Compile Include="StepSetBase\Then.cs" />
     <Compile Include="StepSetBase\When.cs" />

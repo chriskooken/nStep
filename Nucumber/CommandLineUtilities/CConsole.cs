@@ -1,10 +1,16 @@
 ﻿using System;
 using Nucumber.Core;
+using Nucumber.Framework;
 
 namespace Nucumber.App.CommandLineUtilities
 {
     public class CConsole : IConsoleWriter 
     {
+        public CConsole(string consoleTitle)
+        {
+            Console.Title = consoleTitle;
+        }
+
         private string LevelPad(int indent, string text)
         {
             switch (indent)
@@ -34,10 +40,11 @@ namespace Nucumber.App.CommandLineUtilities
         {
             Console.WriteLine(LevelPad(4, line));
         }
-		
-		public void WriteException(Exception ex)
+
+        public void WriteException(FeatureStep step, Exception ex)
 		{
 			Console.ForegroundColor = ConsoleColor.DarkRed;
+            WriteLineLevel3(step.FeatureLine);
 			WriteLineLevel3(ex.Message);
 			WriteLineLevel4(ex.StackTrace);
 			Console.ForegroundColor = ConsoleColor.Gray;	
@@ -46,6 +53,43 @@ namespace Nucumber.App.CommandLineUtilities
         public void WriteLineAtLevel(int level, string line)
         {
             Console.WriteLine(LevelPad(level, line));
+        }
+
+        public void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            WriteLineLevel3(featureStep.FeatureLine);
+        }
+        public void WritePendingFeatureLine(FeatureStep step)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            WriteLineLevel3(step.FeatureLine + " : " + step.LineNumber);
+        }
+        public void WriteFeatureHeading(Feature feature)
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            WriteLineLevel1("Feature: " + feature.Description);
+            foreach (var s in feature.SummaryLines)
+                WriteLineLevel1(s);
+            WriteLineLevel1(string.Empty);
+        }
+
+        public void Complete()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            WriteLineLevel1(string.Empty);
+            WriteLineLevel1("Press any key to continue . . .");
+            Console.ReadLine();
+        }
+
+        public void WriteScenarioTitle(Scenario scenario)
+        {
+            WriteLineLevel1("Scenario: " + scenario.Title);
+        }
+
+        public void WriteBackgroundHeading(Scenario background)
+        {
+            WriteLineLevel2("Background:" + background.Title);
         }
     }
 }

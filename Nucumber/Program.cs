@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using Cucumber.CommandLineUtilities;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parser;
 using Nucumber.Core;
@@ -14,88 +9,68 @@ namespace Nucumber.App
 {
     class Program
     {
-        static StepMother stepMother;
+        private StepMother StepMother;
+        private IConsoleWriter Console;
+
         static void Main(string[] args)
         {
-            # if DEBUG
-            args = new string[]
+# if DEBUG
+            args = new[]
                        {
                            Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll"),
                            Path.GetFullPath(@"..\..\..\example\example.feature")
                        };
-            # endif
+# endif
+            new Program().Run(args);
+        }
 
-			IConsoleWriter console = new CConsole();
+        private void Run(string[] args)
+        {
+            Console = new CConsole("Nucumber");
 
-            //http://ndesk.org/Options  <-- might be a better command-line parser... at any rate, I'd rather use something strongly typed rather than all this string stuff...
+            StepMother = new StepMother(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
 
-            var options = new ConsoleOptions().Parse<ConsoleOptions>(args);
-            
-            
-            
-            
-
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-
-
-            stepMother = new StepMother(new CConsole(), new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
-            
-            
-
-            Feature feature = new Feature(new AltGherkinParser(), console);
+            var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);
 
-            console.WriteLineLevel1("Feature: ");
+            Console.WriteFeatureHeading(feature);
 
-            foreach (var s in feature.SummaryLines)
-                console.WriteLineLevel1(s);
-
-            Console.WriteLine();
-            
             if (feature.Background.Steps.Count > 0)
-                console.WriteLineLevel2("Background:");
-            foreach (var s in feature.Background.Steps)
+                Console.WriteBackgroundHeading(feature.Background);
+
+            foreach (var step in feature.Background.Steps)
             {
-                if (!stepMother.ProcessStep(s))
-                    break;
+                ExecuteStep(step);
             }
-            Console.WriteLine();
 
             foreach (var scenario in feature.Scenarios)
             {
-                console.WriteLineLevel2("Scenario: " + scenario.Title);
+                Console.WriteScenarioTitle(scenario);
                 foreach (var step in scenario.Steps)
                 {
-                    if (!stepMother.ProcessStep(step))
-                        break;
+                    ExecuteStep(step);
                 }
             }
-            Console.WriteLine();
 
-            System.Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Title = "Cucumber";
-            
-            Console.ForegroundColor = ConsoleColor.Gray;
-            Console.WriteLine(" ");
-            Console.WriteLine("Press any key to continue . . .");
-            Console.ReadLine();
-
+            Console.Complete();
         }
 
-
-        public static Dictionary<TKey, TValue> Merge<TKey, TValue>(IEnumerable<Dictionary<TKey, TValue>> dictionaries)
+        private void ExecuteStep(FeatureStep s)
         {
-            var result = new Dictionary<TKey, TValue>();
-            foreach (var dict in dictionaries)
-                foreach (var x in dict)
-                    result[x.Key] = x.Value;
-            return result;
+            switch (StepMother.ProcessStep(s))
+            {
+                case StepRunResults.Passed:
+                    break;
+                case StepRunResults.Failed:
+                    Console.WriteException(s, StepMother.LastProcessStepException);
+                    break;
+                case StepRunResults.Pending:
+                    break;
+                case StepRunResults.Missing:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
-
-
-
-
-
     }
 }

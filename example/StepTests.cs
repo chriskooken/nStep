@@ -35,6 +35,11 @@ namespace Cucumber
         	    user.Name = newName;
         	});
 
+            Given("Given ProviderLocation \"([^\"]*)\" exists", locationName =>
+            {
+                    Console.WriteLine("Got location name " + locationName);
+            });
+
         	Given("^My Name is \"([^\"]*)\"$", name =>
             {
                 World.Browser.Open("http://www.google.com");
