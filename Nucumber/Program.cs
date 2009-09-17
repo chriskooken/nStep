@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using Nucumber.App.CommandLineUtilities;
-using Nucumber.Core.Parser;
+using Nucumber.Core.Parsing;
 using Nucumber.Core;
 
 namespace Nucumber.App
