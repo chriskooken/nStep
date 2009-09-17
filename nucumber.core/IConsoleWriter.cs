@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Nucumber.Framework;
 
 namespace Nucumber.Core
@@ -13,5 +14,6 @@ namespace Nucumber.Core
 	    void WriteScenarioTitle(Scenario scenario);
 	    void WriteBackgroundHeading(Scenario background);
 	    void WriteSkippedFeatureLine(FeatureStep featureStep);
+	    void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps);
 	}
 }

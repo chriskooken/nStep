@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Nucumber.Core;
 using Nucumber.Framework;
 
@@ -61,6 +62,24 @@ namespace Nucumber.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Yellow;
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
         }
+
+        public void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
+        {
+            //Todo: use an actual feature line to genrate snippet
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("You can implement step definitions for undefined steps with these snippets:");
+
+            foreach (var step in pendingFeatureSteps)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Given(\"^My Name is \"([^\"]*)\"$\", name =>");
+                Console.WriteLine("{");
+                Console.WriteLine("pending();".PadLeft(4));
+                Console.WriteLine("});");
+            }
+
+        }
+
         public void WriteFeatureHeading(Feature feature)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
