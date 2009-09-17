@@ -10,20 +10,21 @@ namespace Nucumber.App
 {
     public class AssemblyLoader
     {
-        public IEnumerable<StepDefinition> LoadStepAssembly(FileInfo assemblyFile)
+        public CombinedStepDefinitions LoadStepAssembly(FileInfo assemblyFile)
         {
-            IEnumerable<StepDefinition> stepDefinitions = null;
+            CombinedStepDefinitions combinedStepDefinitions = null;
             foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
             {
                 if ((typeof(IProvideSteps).IsAssignableFrom(t) && (t != typeof(StepSetBase<>))))
                 {
                     var sm = (IProvideSteps)Activator.CreateInstance(t);
                     //Todo: join from all assemblies
-                    stepDefinitions = sm.StepDefinitions;
+
+                    combinedStepDefinitions = sm.CombinedStepDefinitions;
                 }
             }
 
-            return stepDefinitions;
+            return combinedStepDefinitions;
         }
     }
 }

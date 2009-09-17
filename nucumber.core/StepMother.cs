@@ -11,12 +11,12 @@ namespace Nucumber.Core
 {
     public class StepMother
     {
-		private IEnumerable<StepDefinition> stepDefinitions;
+		private CombinedStepDefinitions combinedStepDefinitions;
 		private IConsoleWriter console;
-		
-		public StepMother(IConsoleWriter console, IEnumerable<StepDefinition> stepDefinitions)
+
+        public StepMother(IConsoleWriter console, CombinedStepDefinitions stepDefinitions)
 		{
-		    this.stepDefinitions = stepDefinitions;
+		    this.combinedStepDefinitions = stepDefinitions;
 			this.console = console;
 			
 		}
@@ -27,8 +27,23 @@ namespace Nucumber.Core
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             var consoleOutput = LineText;
 
-            var results =
-                stepDefinitions.Where(definition => definition.Regex.IsMatch(LineText));
+            IEnumerable<StepDefinition> results;
+
+            switch (featureStepToProcess.Kind)
+            {
+                case StepKinds.Given:
+                    results = combinedStepDefinitions.GivenStepDefinitions.Where(definition => definition.Regex.IsMatch(LineText));
+                    break;
+                case StepKinds.When:
+                    results = combinedStepDefinitions.WhenStepDefinitions.Where(definition => definition.Regex.IsMatch(LineText));
+                    break;
+                case StepKinds.Then:
+                    results = combinedStepDefinitions.ThenStepDefinitions.Where(definition => definition.Regex.IsMatch(LineText));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
 
             if (results.Count() == 0)
             {

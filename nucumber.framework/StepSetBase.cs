@@ -38,6 +38,20 @@ namespace Nucumber.Framework
             get { return transformDefinitions; }
         }
 
+        public CombinedStepDefinitions CombinedStepDefinitions
+        {
+            get
+            {
+                CombinedStepDefinitions combinedStepDefinitions = new CombinedStepDefinitions();
+                combinedStepDefinitions.GivenStepDefinitions = GivenStepDefinitions;
+                combinedStepDefinitions.WhenStepDefinitions = WhenStepDefinitions;
+                combinedStepDefinitions.ThenStepDefinitions = ThenStepDefinitions;
+                combinedStepDefinitions.TransformDefinitions = TransformDefinitions;
+                return combinedStepDefinitions;
+            }
+           
+        }
+
         public TWorldView World { get; internal set; }
 
         public void SetWorldView(object worldView)

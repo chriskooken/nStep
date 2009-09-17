@@ -10,7 +10,7 @@ namespace Nucumber.Framework
         IEnumerable<StepDefinition> ThenStepDefinitions { get; }
 
         IEnumerable<TransformDefinition> TransformDefinitions { get; }
-
+        CombinedStepDefinitions CombinedStepDefinitions { get; }
         void SetWorldView(object worldView);
     }
 }

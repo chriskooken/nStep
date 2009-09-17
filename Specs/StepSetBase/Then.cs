@@ -13,7 +13,7 @@ namespace StepSetBase
         public void it_should_register_as_a_Then()
         {
             Then("something", () => { return; });
-            StepDefinitions.First().Kind.Should().Be.EqualTo(StepKinds.Then);
+            ThenStepDefinitions.First().Kind.Should().Be.EqualTo(StepKinds.Then);
         }
 
     }
