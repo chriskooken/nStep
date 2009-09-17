@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsing;
@@ -33,47 +32,11 @@ namespace Nucumber.App
             var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);
 
-            Console.WriteFeatureHeading(feature);
-
-            if (feature.Background.Steps.Count > 0)
-                Console.WriteBackgroundHeading(feature.Background);
-
-            foreach (var step in feature.Background.Steps)
-            {
-                ExecuteStep(step);
-            }
-
-            foreach (var scenario in feature.Scenarios)
-            {
-                Console.WriteScenarioTitle(scenario);
-                foreach (var step in scenario.Steps)
-                {
-                    ExecuteStep(step);
-                }
-            }
+            new FeatureExecutor(Console, StepMother).ExecuteFeature(feature);
 
             Console.Complete();
         }
 
-        private void ExecuteStep(FeatureStep s)
-        {
-            switch (StepMother.ProcessStep(s))
-            {
-                case StepRunResults.Passed:
-                    Console.WritePassedFeatureLine(s,StepMother.LastProcessStepDefinition);
-                    break;
-                case StepRunResults.Failed:
-                    Console.WriteException(s, StepMother.LastProcessStepException);
-                    break;
-                case StepRunResults.Pending:
-                    Console.WritePendingFeatureLine(s);
-                    break;
-                case StepRunResults.Missing:
-                    Console.WritePendingFeatureLine(s);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+       
     }
 }
