@@ -1,4 +1,5 @@
 using System;
+using Nucumber.Framework;
 
 namespace Nucumber.Core
 {
@@ -32,6 +33,9 @@ namespace Nucumber.Core
 
             if (type == typeof(Guid))
                 return new Guid(value);
+
+            if (type == typeof(Table))
+                return Table.Parse(value);
 
             throw new InvalidCastException("Don't know how to convert: " + value + " into a " + type.Name);
         }
