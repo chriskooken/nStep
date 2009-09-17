@@ -26,9 +26,9 @@ namespace Cucumber
         public StepTests()
         {
             Transform("([Uu]ser .*)", userName =>
-            {
-                return new User {Name = userName};
-            });
+                {
+                    return new User {Name = userName};
+                });
 
             Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
         	{
@@ -62,6 +62,7 @@ namespace Cucumber
 
             Then("I should be on the \"([^\"]*)\" page", page =>
             {
+                Pending();
                 World.Browser.GetTitle().Should().Be.EqualTo(page);
             });
 
