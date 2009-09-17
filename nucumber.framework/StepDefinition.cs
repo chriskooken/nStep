@@ -13,5 +13,8 @@ namespace Nucumber.Framework
         public Delegate Action { get; set; }
 
         public IEnumerable<Type> ParamsTypes { get; set; }
+
+        public IProvideSteps StepSet { get; set; }
+        
     }
 }

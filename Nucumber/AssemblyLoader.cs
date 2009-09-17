@@ -21,6 +21,7 @@ namespace Nucumber.App
                     //Todo: join from all assemblies
 
                     combinedStepDefinitions = sm.CombinedStepDefinitions;
+                    
                 }
             }
 

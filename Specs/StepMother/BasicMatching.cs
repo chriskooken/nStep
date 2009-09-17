@@ -10,6 +10,8 @@ namespace Specs.StepMother
         private class StepSet : StepSetBase<string>
         {
             public string providedName { get; private set; }
+            public string Before { get; set; }
+            public string After { get; set; }
 
             public StepSet()
             {
@@ -17,6 +19,16 @@ namespace Specs.StepMother
                     {
                         providedName = name;
                     });
+            }
+
+            public override void BeforeStep()
+            {
+                Before = "This was executed before";
+            }
+
+            public override void AfterStep()
+            {
+                After = "This was executed after";
             }
         }
 
@@ -31,6 +43,30 @@ namespace Specs.StepMother
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Chris");
 
+        }
+
+        [Test]
+        public void Before_Step_Gets_executed()
+        {
+            var set = new StepSet();
+
+            var mother = new Nucumber.Core.StepMother(set.CombinedStepDefinitions);
+
+            var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
+            mother.ProcessStep(step);
+            set.Before.Should().Be.EqualTo("This was executed before");
+        }
+
+        [Test]
+        public void After_Step_Gets_executed()
+        {
+            var set = new StepSet();
+
+            var mother = new Nucumber.Core.StepMother(set.CombinedStepDefinitions);
+
+            var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
+            mother.ProcessStep(step);
+            set.After.Should().Be.EqualTo("This was executed after");
         }
        
     }

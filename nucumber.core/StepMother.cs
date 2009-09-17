@@ -16,7 +16,7 @@ namespace Nucumber.Core
     {
 		private CombinedStepDefinitions combinedStepDefinitions;
 
-        public StepMother( CombinedStepDefinitions stepDefinitions)
+        public StepMother(CombinedStepDefinitions stepDefinitions)
 		{
 		    this.combinedStepDefinitions = stepDefinitions;
 		}
@@ -42,8 +42,11 @@ namespace Nucumber.Core
             try
             {
                 LastProcessStepDefinition = GetStepDefinition(featureStepToProcess, lineText);
+
+                LastProcessStepDefinition.StepSet.BeforeStep();
                 new StepCaller(LastProcessStepDefinition,
                                new TypeCaster()).Call(lineText);
+                LastProcessStepDefinition.StepSet.AfterStep();
 
             }
             catch(StepMissingException ex)

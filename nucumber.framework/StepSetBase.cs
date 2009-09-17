@@ -68,11 +68,12 @@ namespace Nucumber.Framework
         private void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
         {
             var def = new StepDefinition
-                                    {
-                                        Regex = new Regex(stepText),
-                                        Kind = kind,
-                                        Action = action,
-                                        ParamsTypes = action.GetType().GetGenericArguments()
+                          {
+                              Regex = new Regex(stepText),
+                              Kind = kind,
+                              Action = action,
+                              ParamsTypes = action.GetType().GetGenericArguments(),
+                              StepSet = this
                                     };
             switch (kind)
             {
