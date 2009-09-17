@@ -6,6 +6,7 @@ namespace Nucumber.Core
     {
         private readonly IConsoleWriter Console;
         private readonly StepMother StepMother;
+        bool backgroundDisplayedOnce;
 
         public FeatureExecutor(IConsoleWriter console, StepMother stepMother)
         {

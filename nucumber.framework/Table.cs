@@ -28,7 +28,14 @@ namespace Nucumber.Framework
             foreach (var line in lines)
             {
                 rows.Add(new Row(line.Trim()));
-            } 
+            }
+            foreach (var row in rows)
+            {
+                if(row.Columns.Count != rows.First().Columns.Count)
+                {
+                    throw new FormatException("All rows must have equal columns");
+                }
+            }
         }
     }
 
@@ -36,6 +43,14 @@ namespace Nucumber.Framework
     {
         public Row(string line)
         {
+            //Leading Pipe
+            if(line.First() != '|')
+                throw new FormatException("Table needs to begin with a '|'");
+            
+            //Trailing Pipe
+            if (line.Last() != '|')
+                throw new FormatException("Table needs to end with a '|'");
+
             var cols = line.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var s in cols)

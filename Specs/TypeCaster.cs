@@ -79,10 +79,22 @@ namespace Specs
         }
 
         [Test]
-        public void it_should_throw_an_exception_for_an_invalid_table()
+        public void it_should_throw_an_exception_if_the_table_is_missing_any_leading_pipes()
         {
-            var tableText = "bob";
+            var tableText = "bob|";
             Assert.Throws<FormatException>(()=> Table.Parse(tableText));
+        }
+        [Test]
+        public void it_should_throw_an_exception_if_the_table_is_missing_any_trailing_pipes()
+        {
+            var tableText = "|bob";
+            Assert.Throws<FormatException>(() => Table.Parse(tableText));
+        }
+        [Test]
+        public void it_should_throw_an_exception_if_the_table_has_any_mismatched_columns()
+        {
+            string tableText = "|ID | Name | Age| \r\n | 1 | Chris | 25 | \r\n | 2 | Sam | 29 | \r\n | 3 | Brendan | \r\n";
+            Assert.Throws<FormatException>(() => Table.Parse(tableText));
         }
 
     }
