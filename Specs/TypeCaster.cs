@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Nucumber.Framework;
 using NUnit.Framework;
 
 namespace Specs
@@ -66,6 +67,16 @@ namespace Specs
             AssertItWorks<Guid>("83f32761-4794-470e-9d88-161a130488d4");
         }
 
+        [Test]
+        public void it_should_convert_a_table_to_a_table_object()
+        {
+            string tableText = "|ID | Name | Age| \r\n | 1 | Chris | 25 | \r\n | 2 | Sam | 29 | \r\n | 3 | Brendan | 31 | \r\n";
+
+            var table = Table.Parse(tableText);
+
+            table.Rows.Count.Should().Be.EqualTo(4);
+            table.Rows.First().Columns.Count.Should().Be.EqualTo(3);
+        }
 
 
     }
