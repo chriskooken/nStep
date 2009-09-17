@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-﻿using System.Collections.Generic;
-using Nucumber.Core.Parsing;
-=======
 ﻿using System;
 using System.Collections.Generic;
-using Nucumber.Core.Parser;
->>>>>>> 1d2af5c84cf330be7b21d7a6c921b0f5760ce186
+using Nucumber.Core.Parsing;
 
 namespace Nucumber.Core
 {
