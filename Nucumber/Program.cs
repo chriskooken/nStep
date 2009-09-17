@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Cucumber.CommandLineUtilities;
 using Nucumber.App.CommandLineUtilities;
-using Nucumber.Core.Parser;
+using Nucumber.Core.Parsing;
 using Nucumber.Core;
 
 namespace Nucumber.App

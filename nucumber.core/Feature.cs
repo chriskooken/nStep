@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Nucumber.Core.Parser;
+using Nucumber.Core.Parsing;
 
 namespace Nucumber.Core
 {
