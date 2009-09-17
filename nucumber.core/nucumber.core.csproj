@@ -30,10 +30,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Spart, Version=1.0.3545.36160, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Spart.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -46,19 +42,19 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FeatureStep.cs" />
     <Compile Include="StepCaller.cs" />
-    <Compile Include="Parser\GherkinParser.cs" />
+    <Compile Include="Parsing\GherkinParser.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="StepMissingException.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="StepAmbiguousException.cs" />
-    <Compile Include="Parser\Enums.cs" />
-    <Compile Include="Parser\AltGherkinParser.cs" />
-    <Compile Include="Parser\IGherkinParser.cs" />
-    <Compile Include="Parser\SimpleSubtree.cs" />
-    <Compile Include="Parser\SimpleTree.cs" />
-    <Compile Include="Parser\SimpleTreeNode.cs" />
-    <Compile Include="Parser\SimpleTreeNodeList.cs" />
+    <Compile Include="Parsing\Enums.cs" />
+    <Compile Include="Parsing\AltGherkinParser.cs" />
+    <Compile Include="Parsing\IGherkinParser.cs" />
+    <Compile Include="Parsing\SimpleSubtree.cs" />
+    <Compile Include="Parsing\SimpleTree.cs" />
+    <Compile Include="Parsing\SimpleTreeNode.cs" />
+    <Compile Include="Parsing\SimpleTreeNodeList.cs" />
     <Compile Include="IConsoleWriter.cs" />
     <Compile Include="TypeCaster.cs" />
   </ItemGroup>
@@ -67,6 +63,10 @@
     <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
       <Name>nucumber.framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Spart\Spart.csproj">
+      <Project>{52C43CC3-4D59-4328-9713-7225D3EEE893}</Project>
+      <Name>Spart %28Spart\Spart%29</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

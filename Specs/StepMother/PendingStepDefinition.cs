@@ -9,6 +9,20 @@ namespace Specs.StepMother
     {
         private class StepSet : Nucumber.Framework.StepSetBase<string>
         {
+            public override void BeforeStep()
+            {
+                Before = "This was executed before";
+            }
+
+            public string Before { get; private set; }
+
+            public override void AfterStep()
+            {
+                After = "This was executed after";
+            }
+
+            public string After { get; private set; }
+
             public StepSet()
             {
                 Given("^My Name is \"([^\"]*)\"$", name =>
@@ -47,6 +61,18 @@ namespace Specs.StepMother
         public void it_should_set_LastProcess_StepDefinition_to_the_pending_Step()
         {
             mother.LastProcessStepDefinition.Should().Be.EqualTo(Set.GivenStepDefinitions.First());
+        }
+
+        [Test]
+        public void it_should_execute_BeforeStep()
+        {
+            Set.Before.Should().Not.Be.Null();
+        }
+
+        [Test]
+        public void it_should_not_execute_AfterStep()
+        {
+            Set.After.Should().Be.Null();
         }
     }
 }

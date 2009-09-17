@@ -1,4 +1,5 @@
-﻿using Nucumber.Core;
+﻿using System;
+using Nucumber.Core;
 using NUnit.Framework;
 
 namespace Specs.StepMother
@@ -8,6 +9,21 @@ namespace Specs.StepMother
     {
         private class StepSet : Nucumber.Framework.StepSetBase<string>
         {
+
+            public override void BeforeStep()
+            {
+                Before = "This was executed before";
+            }
+
+            public string Before { get; private set; }
+
+            public override void AfterStep()
+            {
+                After = "This was executed after";
+            }
+
+            public string After { get; private set; }
+
             public StepSet()
             {
                 
@@ -45,5 +61,16 @@ namespace Specs.StepMother
             mother.LastProcessStepDefinition.Should().Be.Null();
         }
        
+        [Test]
+        public void it_should_not_execute_BeforeStep()
+        {
+            Set.Before.Should().Be.Null();
+        }
+
+        [Test]
+        public void it_should_not_execute_AfterStep()
+        {
+            Set.After.Should().Be.Null();
+        }
     }
 }

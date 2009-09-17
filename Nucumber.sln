@@ -16,6 +16,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "example", "example\example.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nucumber.framework", "nucumber.framework\nucumber.framework.csproj", "{66CBD8CF-52C1-4221-B320-8A405520F810}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spart", "Spart", "{5C86A123-C862-4FAB-8455-E5D2E2C5A032}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spart", "Spart\Spart.csproj", "{52C43CC3-4D59-4328-9713-7225D3EEE893}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,12 +46,17 @@ Global
 		{66CBD8CF-52C1-4221-B320-8A405520F810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66CBD8CF-52C1-4221-B320-8A405520F810}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66CBD8CF-52C1-4221-B320-8A405520F810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52C43CC3-4D59-4328-9713-7225D3EEE893}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C43CC3-4D59-4328-9713-7225D3EEE893}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C43CC3-4D59-4328-9713-7225D3EEE893}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C43CC3-4D59-4328-9713-7225D3EEE893}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{02209C8F-6FF5-4275-841B-E686A8053C32} = {D58EB219-F279-46FA-B54D-BD958484FB2D}
+		{52C43CC3-4D59-4328-9713-7225D3EEE893} = {5C86A123-C862-4FAB-8455-E5D2E2C5A032}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Nucumber\nucumber.app.csproj
