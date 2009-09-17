@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Core.Parsing;
+using Nucumber.Core.Parsers;
 using NUnit.Framework;
 using Spart.Parsers;
 using Spart.Scanners;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nucumber.Core.Parsing;
+using Nucumber.Core.Parsers;
 
 namespace Nucumber.Core
 {
