@@ -78,6 +78,12 @@ namespace Specs
             table.Rows.First().Columns.Count.Should().Be.EqualTo(3);
         }
 
+        [Test]
+        public void it_should_throw_an_exception_for_an_invalid_table()
+        {
+            var tableText = "bob";
+            Assert.Throws<FormatException>(()=> Table.Parse(tableText));
+        }
 
     }
 }
