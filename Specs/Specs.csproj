@@ -67,8 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
+    <Compile Include="Parsers\ScenarioParserTest.cs" />
     <Compile Include="StepMother\BasicMatching.cs" />
-    <Compile Include="Parsing\GherkinParser.cs" />
+    <Compile Include="Parsers\StepParserTest.cs" />
     <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="EnvironmentSubclassing.cs" />
     <Compile Include="StepCaller.cs" />
