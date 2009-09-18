@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Nucumber.Framework
+{
+    public class Table
+    {
+        IList<Row> rows = new List<Row>();
+        public IList<Row> Rows { get
+        { return rows;} }
+
+        public static Table Parse(string tableText)
+        {
+            return new Table(tableText);
+        }
+
+        public Table()
+        {
+            
+        }
+
+        private Table(string tableText)
+        {
+            var lines = tableText.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
+
+            foreach (var line in lines)
+            {
+                rows.Add(new Row(line.Trim()));
+            }
+            foreach (var row in rows)
+            {
+                if(row.Columns.Count != rows.First().Columns.Count)
+                {
+                    throw new FormatException("All rows must have equal columns");
+                }
+            }
+        }
+    }
+
+    public class Row
+    {
+        public Row(string line)
+        {
+            //Leading Pipe
+            if(line.First() != '|')
+                throw new FormatException("Table needs to begin with a '|'");
+            
+            //Trailing Pipe
+            if (line.Last() != '|')
+                throw new FormatException("Table needs to end with a '|'");
+
+            var cols = line.Split(new[] {"|"}, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var s in cols)
+            {
+                columns.Add(new Column(s.Trim()));
+            }
+        }
+
+        IList<Column> columns = new List<Column>();
+        public IList<Column> Columns
+        {
+            get
+            { return columns; }
+        }
+    }
+
+    public class Column
+    {
+        public string Value { get; set; }
+        public Column(string cell)
+        {
+            Value = cell;
+        }
+    }
+}

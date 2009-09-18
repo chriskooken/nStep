@@ -1,14 +1,19 @@
 using System;
+using System.Collections.Generic;
+using Nucumber.Framework;
 
 namespace Nucumber.Core
 {
 	public interface IConsoleWriter
 	{
-		void WriteLineLevel1(string line);
-		void WriteLineLevel2(string line);
-		void WriteLineLevel3(string line);
-		void WriteLineLevel4(string line);
-		void WriteException(Exception ex);
-	    void WriteLineAtLevel(int level, string line);
+        void WriteException(FeatureStep featureStep, Exception ex);
+        void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition);
+        void WritePendingFeatureLine(FeatureStep featureStep);
+	    void WriteFeatureHeading(Feature feature);
+	    void Complete();
+	    void WriteScenarioTitle(Scenario scenario);
+	    void WriteBackgroundHeading(Scenario background);
+	    void WriteSkippedFeatureLine(FeatureStep featureStep);
+	    void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps);
 	}
 }

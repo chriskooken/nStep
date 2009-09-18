@@ -25,40 +25,46 @@ namespace Cucumber
 
         public StepTests()
         {
-            Transform("(user .*)", userName =>
+            Transform("([Uu]ser .*)", userName =>
                 {
                     return new User {Name = userName};
                 });
 
-            Given("blah (user .*) blah (.*) blah", (string a, int b) =>
+            Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
         	{
-				
+        	    user.Name = newName;
         	});
 
-        	Given("^My Name is \"([^\"]*)\"$", name =>
-                {
-                    World.Browser.Open("http://www.google.com");
-                    World.Browser.WaitForPageToLoad("10");
-                    World.Browser.Type("q", "dogs are cool things");
+            Given("Given ProviderLocation \"([^\"]*)\" exists", locationName =>
+            {
+                    Console.WriteLine("Got location name " + locationName);
+            });
 
-                    Console.WriteLine("Name is: " + name);
-                });
+        	Given("^My Name is \"([^\"]*)\"$", name =>
+            {
+                World.Browser.Open("http://www.google.com");
+                World.Browser.WaitForPageToLoad("10");
+                World.Browser.Type("q", "dogs are cool things");
+
+                Console.WriteLine("Name is: " + name);
+            });
 
             Given("^I live at \"([^\"]*)\"$", location =>
-                {
-                    Console.WriteLine("Location is: " + location);
-                });
+            {
+                Console.WriteLine("Location is: " + location);
+            });
 
-            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (city, state) =>
-                {
-                    Console.WriteLine("City is: " + city);
-                    Console.WriteLine("State is: " + state);
-                });
+            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (int city, string state) =>
+            {
+                Console.WriteLine("City is: " + city);
+                Console.WriteLine("State is: " + state);
+            });
 
             Then("I should be on the \"([^\"]*)\" page", page =>
-                {
-                    World.Browser.GetTitle().Should().Be.EqualTo(page);
-                });
+            {
+                Pending();
+                World.Browser.GetTitle().Should().Be.EqualTo(page);
+            });
 
         }
     }

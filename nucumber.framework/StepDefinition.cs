@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Nucumber.Framework
@@ -9,8 +10,11 @@ namespace Nucumber.Framework
 
         public Regex Regex { get; set; }
 
-        public object Action { get; set; }
+        public Delegate Action { get; set; }
 
-        public Type ParamsType { get; set; }
+        public IEnumerable<Type> ParamsTypes { get; set; }
+
+        public IProvideSteps StepSet { get; set; }
+        
     }
 }

@@ -1,120 +1,122 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using Nucumber.Framework;
 
 namespace Nucumber.Core
 {
-    public class StepMother
+    public class StepMother : IRunStepsFromStrings
     {
-		private IDictionary<Step, object> loadedsteps;
-		private IConsoleWriter console;
-		
-		public StepMother(IConsoleWriter console)
+        private IList<StepDefinition> givens;
+        private IList<StepDefinition> whens;
+        private IList<StepDefinition> thens;
+        private IList<TransformDefinition> transforms;
+        
+        public StepMother()
 		{
-			this.console = console;
-			loadedsteps = new Dictionary<Step, object>();
+		    givens = new List<StepDefinition>();
+            whens = new List<StepDefinition>();
+            thens = new List<StepDefinition>();
+            transforms = new List<TransformDefinition>();
 		}
 
-        public void LoadStepAssembly(FileInfo assemblyFile)
+        public void ImportSteps(IProvideSteps stepSet)
         {
-            foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
-            {
-                if ((typeof(IProvideSteps).IsAssignableFrom(t) && (t != typeof(StepSetBase<>))))
-                {
-                    var sm = (IProvideSteps) Activator.CreateInstance(t);
-                    loadedsteps = DoSomethingToConnectStepsToFeatureLines(sm.StepDefinitions);
-                }
-            }
+            givens = givens.Union(stepSet.StepDefinitions.Givens).ToList();
+            whens = whens.Union(stepSet.StepDefinitions.Whens).ToList();
+            thens = thens.Union(stepSet.StepDefinitions.Thens).ToList();
 
+            transforms = transforms.Union(stepSet.TransformDefinitions).ToList();
         }
 
-		private IDictionary<Step,object> DoSomethingToConnectStepsToFeatureLines(IEnumerable<StepDefinition> steps)
-		{
-			return null;
-		}
-		
-        public bool ProcessStep(Step StepToProcess)
+        public void ImportSteps(IEnumerable<IProvideSteps> stepSets)
         {
-            var LineText = StepToProcess.StepText;
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            var consoleOutput = LineText;
-            LineText = Regex.Match(LineText, "(Given|When|Then)(.*)", RegexOptions.Singleline).Groups[2].Value.Trim();
-
-            var results = from result in loadedsteps
-                          where Regex.Match(LineText, result.Key.StepText, RegexOptions.Singleline).Success
-                          select result;
-
-            if (results.Count() == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                //throw new MissingStepException(LineText);
-            }
-
-            if (results.Count() > 1)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                return false;
-                //throw new AmbiguousStepException(LineText);
-            }
-
-            if (results.Count() == 1)
-            {
-                try
-                {
-                    MatchAndInvokeStep(LineText, results);
-                }
-                catch (Exception ex)
-                {
-					console.WriteException(ex);
-					return false;
-                }
-            }
-
-            console.WriteLineLevel3("    " + consoleOutput);
-            return true;
+            foreach (var set in stepSets)
+                ImportSteps(set);
         }
 
-        static void MatchAndInvokeStep(string LineText, IEnumerable<KeyValuePair<Step, object>> results)
+        public Exception LastProcessStepException { get; private set; }
+
+        public StepRunResults LastProcessStepResult { get; private set; }
+
+        public StepDefinition LastProcessStepDefinition { get; private set; }
+
+        public void ProcessStep(StepKinds kind, string featureStepToProcess)
         {
-            var pattern = results.First().Key;
-            var groups = Regex.Match(LineText, pattern.StepText, RegexOptions.Singleline).Groups;
-
-            if (groups.Count == 2)
-            {
-                var methodToInvoke = results.First().Value as Action<string>;
-                methodToInvoke.Invoke(groups[1].Value);
-            }
-
-            if (groups.Count == 3)
-            {
-                var methodToInvoke = results.First().Value as Action<string, string>;
-                methodToInvoke.Invoke(groups[1].Value, groups[2].Value);
-            }
-
-            if (groups.Count == 4)
-            {
-                var methodToInvoke = results.First().Value as Action<string, string, string>;
-                methodToInvoke.Invoke(groups[1].Value, groups[2].Value, groups[3].Value);
-            }
-
-            if (groups.Count == 5)
-            {
-                var methodToInvoke = results.First().Value as Action<string, string, string,string>;
-                methodToInvoke.Invoke(groups[1].Value, groups[2].Value, groups[3].Value, groups[4].Value);
-            }
-
+            var stepDefinition = GetStepDefinition(kind, featureStepToProcess);
+            ExecuteStepDefinitionWithLine(stepDefinition, featureStepToProcess);
         }
 
-        public IDictionary<Step, object> Loadedsteps
+        public StepRunResults ProcessStep(FeatureStep featureStepToProcess)
         {
-            get
+            LastProcessStepResult =  DoProcessStep(featureStepToProcess);
+            return LastProcessStepResult;
+        }
+
+        private StepRunResults DoProcessStep(FeatureStep featureStepToProcess)
+        {
+            LastProcessStepException = null;
+            LastProcessStepDefinition = null;
+
+            var lineText = featureStepToProcess.FeatureLine;
+            try
             {
-                return loadedsteps;
+                LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
+                ExecuteStepDefinitionWithLine(LastProcessStepDefinition, lineText);
+
             }
+            catch(StepMissingException ex)
+            {
+                LastProcessStepException = ex;
+                return StepRunResults.Pending;
+            }
+            catch(StepPendingException ex)
+            {
+                LastProcessStepException = ex;
+                return StepRunResults.Pending;
+            }
+            catch (Exception ex)
+            {
+                LastProcessStepException = ex;
+                return StepRunResults.Failed;
+            }
+           
+            return StepRunResults.Passed;
+        }
+
+        private void ExecuteStepDefinitionWithLine(StepDefinition stepDefinition, string lineText)
+        {
+            stepDefinition.StepSet.StepFromStringRunner = this;
+
+            stepDefinition.StepSet.BeforeStep();
+            new StepCaller(stepDefinition,
+                           new TypeCaster()).Call(lineText);
+            stepDefinition.StepSet.AfterStep();
+        }
+
+        private StepDefinition GetStepDefinition(StepKinds stepKind, string lineText)
+        {
+            IEnumerable<StepDefinition> results;
+            switch (stepKind)
+            {
+                case StepKinds.Given:
+                    results = givens.Where(definition => definition.Regex.IsMatch(lineText));
+                    break;
+                case StepKinds.When:
+                    results = whens.Where(definition => definition.Regex.IsMatch(lineText));
+                    break;
+                case StepKinds.Then:
+                    results = thens.Where(definition => definition.Regex.IsMatch(lineText));
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            if (results.Count() == 0) throw new StepMissingException();
+
+            if (results.Count() > 1) throw new StepAmbiguousException(lineText);
+
+            return results.First();
         }
 
     }

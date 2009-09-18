@@ -15,7 +15,7 @@ namespace StepSetBase
         {
             action = foo => { return; };
             Given("test", action);
-            cut = StepDefinitions.First();
+            cut = StepDefinitions.Givens.First();
         }
 
         private StepDefinition cut;
@@ -36,49 +36,7 @@ namespace StepSetBase
         [Test]
         public void it_should_register_the_param_type()
         {
-            cut.ParamsType.Should().Be.EqualTo(typeof (string));
+            cut.ParamsTypes.Should().Contain(typeof (string));
         }
 	}
-
-    [TestFixture]
-    public class StepRegistrationForComplexTypes : StepSetBase<string>
-    {
-        [TestFixtureSetUp]
-        public void Setup()
-        {
-            var act = CreateAction(new {a = "default value", b = Guid.Empty}, foo => { return; });
-			//Given("test", new { a = "default value", b = Guid.Empty }, act);
-            action = act;
-            cut = StepDefinitions.First();
-        }
-
-
-        private Action<TParams> CreateAction<TParams>(TParams example, Action<TParams> action)
-        {
-            defaultValue = example;
-            return action;
-        }
-
-        private object defaultValue;
-        private StepDefinition cut;
-        private object action;
-
-        [Test]
-        public void it_should_register_a_compiled_regex()
-        {
-            cut.Regex.IsMatch("test").Should().Be.True();
-        }
-
-        [Test]
-        public void it_should_register_the_action()
-        {
-            cut.Action.Should().Be.EqualTo(action);
-        }
-
-        [Test]
-        public void it_should_register_the_param_type()
-        {
-            cut.ParamsType.Should().Be.EqualTo(defaultValue.GetType());
-        }
-    }
 }

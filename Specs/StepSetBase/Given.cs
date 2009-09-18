@@ -11,7 +11,7 @@ namespace StepSetBase
         public void it_should_register_a_Given_Step_as_a_Given()
         {
             Given("something", () => { return; });
-            StepDefinitions.First().Kind.Should().Be.EqualTo(StepKinds.Given);
+            StepDefinitions.Givens.First().Kind.Should().Be.EqualTo(StepKinds.Given);
         }
 
     }

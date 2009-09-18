@@ -4,16 +4,15 @@ namespace Nucumber.Core
 {
     public class Scenario
     {
-        private IList<Step> steps;
+        private IList<FeatureStep> steps;
         public Scenario()
         {
-            steps = new List<Step>();
+            steps = new List<FeatureStep>();
         }
 
         public string Title { get; set; }
 
-
-        public IList<Step> Steps
+        public IList<FeatureStep> Steps
         {
             get { return steps; }
             set { steps = value; }

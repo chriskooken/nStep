@@ -1,20 +1,20 @@
-﻿using System.Collections.Generic;
-using Nucumber.Core.Parser;
+﻿using System;
+using System.Collections.Generic;
+using Nucumber.Core.Parsers;
 
 namespace Nucumber.Core
 {
     public class Feature
     {
         private readonly IGherkinParser parser;
-        private readonly IConsoleWriter consoleWriter;
+
         IList<Scenario> scenarios;
         Scenario background;
         IList<string> summaryLines;
 
-        public Feature(IGherkinParser parser, IConsoleWriter consoleWriter)
+        public Feature(IGherkinParser parser)
         {
             this.parser = parser;
-            this.consoleWriter = consoleWriter;
             scenarios = new List<Scenario>();
             summaryLines = new List<string>();
             background = new Scenario();
@@ -23,19 +23,6 @@ namespace Nucumber.Core
         public void Parse(string fileName)
         {
             var parseTree = parser.GetParseTree(fileName);
-            DisplayTree(parseTree, 0);
-
-        }
-
-        private void DisplayTree(SimpleTreeNode<LineValue> Subtree, int Level)
-        {
-            consoleWriter.WriteLineAtLevel(Level, Subtree.Value.NodeType + " " + Subtree.Value.Text + ":" + Subtree.Value.Line);
-
-            Level++;
-            foreach (SimpleTreeNode<LineValue> node in Subtree.Children)
-            {
-                DisplayTree(node, Level);
-            }
         }
 
         public IList<string> SummaryLines
@@ -47,7 +34,7 @@ namespace Nucumber.Core
         public IList<Scenario> Scenarios
         { get { return scenarios; } }
 
-
+        public string Description { get; set; }
     }
 
     public class LineValue

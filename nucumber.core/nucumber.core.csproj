@@ -34,29 +34,41 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Step.cs" />
+    <Compile Include="FeatureExecutor.cs" />
+    <Compile Include="FeatureStep.cs" />
+    <Compile Include="StepCaller.cs" />
+    <Compile Include="Parsers\GherkinParser.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
-    <Compile Include="MissingStepException.cs" />
+    <Compile Include="StepMissingException.cs" />
     <Compile Include="Feature.cs" />
-    <Compile Include="AmbiguousStepException.cs" />
-    <Compile Include="Parser\Enums.cs" />
-    <Compile Include="Parser\GherkinParser.cs" />
-    <Compile Include="Parser\IGherkinParser.cs" />
-    <Compile Include="Parser\SimpleSubtree.cs" />
-    <Compile Include="Parser\SimpleTree.cs" />
-    <Compile Include="Parser\SimpleTreeNode.cs" />
-    <Compile Include="Parser\SimpleTreeNodeList.cs" />
+    <Compile Include="StepAmbiguousException.cs" />
+    <Compile Include="Parsers\Enums.cs" />
+    <Compile Include="Parsers\AltGherkinParser.cs" />
+    <Compile Include="Parsers\IGherkinParser.cs" />
+    <Compile Include="Parsers\SimpleSubtree.cs" />
+    <Compile Include="Parsers\SimpleTree.cs" />
+    <Compile Include="Parsers\SimpleTreeNode.cs" />
+    <Compile Include="Parsers\SimpleTreeNodeList.cs" />
     <Compile Include="IConsoleWriter.cs" />
+    <Compile Include="StepRunResults.cs" />
+    <Compile Include="TypeCaster.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
       <Name>nucumber.framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Spart\Spart.csproj">
+      <Project>{52C43CC3-4D59-4328-9713-7225D3EEE893}</Project>
+      <Name>Spart %28Spart\Spart%29</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
