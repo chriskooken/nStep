@@ -7,7 +7,7 @@ using Nucumber.Core;
 
 namespace Nucumber.App.CommandLineUtilities
 {
-    public class SyntaxSuggester : ISuggestSyntax
+    public class CSharpSyntaxSuggester : ISuggestSyntax
     {
         public string TurnFeatureIntoSnippet(FeatureStep step)
         {

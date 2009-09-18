@@ -81,7 +81,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_3_params()
         {
-            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
             var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\"" };
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
@@ -91,7 +91,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_2_params()
         {
-            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
             var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field" };
 
 
@@ -102,7 +102,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_1_param()
         {
-            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
             var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in google" };
 
 
@@ -113,7 +113,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_no_params()
         {
-            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
             var featureStep = new FeatureStep { FeatureLine = "When I type in google" };
 
 

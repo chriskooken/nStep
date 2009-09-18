@@ -64,7 +64,7 @@
     <Compile Include="CommandLineUtilities\Arguments.cs" />
     <Compile Include="CommandLineUtilities\CConsole.cs" />
     <Compile Include="CommandLineUtilities\ISuggestSyntax.cs" />
-    <Compile Include="CommandLineUtilities\SyntaxSuggester.cs" />
+    <Compile Include="CommandLineUtilities\CSharpSyntaxSuggester.cs" />
     <Compile Include="CommandLineUtilities\ConsoleOptions.cs" />
     <Compile Include="CommandLineUtilities\ConsoleOptionsBase.cs" />
     <Compile Include="Program.cs" />
