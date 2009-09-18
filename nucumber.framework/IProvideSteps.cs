@@ -7,11 +7,10 @@ namespace Nucumber.Framework
     {
         IEnumerable<TransformDefinition> TransformDefinitions { get; }
         CombinedStepDefinitions StepDefinitions { get; }
-        void SetWorldView(object worldView);
-        void SetStepFromStringRunner(IRunStepsFromStrings runner);
+        object WorldView { set; }
+        IRunStepsFromStrings StepFromStringRunner { set; }
 
         void BeforeStep();
-
         void AfterStep();
     }
 }

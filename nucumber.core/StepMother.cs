@@ -86,7 +86,7 @@ namespace Nucumber.Core
 
         private void ExecuteStepDefinitionWithLine(StepDefinition stepDefinition, string lineText)
         {
-            stepDefinition.StepSet.SetStepFromStringRunner(this);
+            stepDefinition.StepSet.StepFromStringRunner = this;
 
             stepDefinition.StepSet.BeforeStep();
             new StepCaller(stepDefinition,
