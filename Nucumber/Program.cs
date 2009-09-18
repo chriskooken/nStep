@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
@@ -34,7 +36,10 @@ namespace Nucumber.App
             feature.Parse(args[1]);
 
             new FeatureExecutor(Console, StepMother).ExecuteFeature(feature);
-
+            Thread.Sleep(5000);
+            
+            
+            
             Console.Complete();
         }
 
