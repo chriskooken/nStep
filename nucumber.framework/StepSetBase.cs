@@ -263,9 +263,51 @@ namespace Nucumber.Framework
             throw new StepPendingException();
         }
 
-        protected void Transform<TReturn>(string match, Func<string,TReturn> action)
+        #region Transform
+        protected void Transform<TReturn>(string regex, Func<TReturn> func)
         {
-            //TODO: Stick the Transform def in here....
+            AddTransform<TReturn>(func, regex);
         }
+
+        protected void Transform<TReturn>(string regex, Func<string, TReturn> func)
+        {
+            AddTransform<TReturn>(func, regex);
+        }
+
+        protected void Transform<TReturn>(string regex, Func<string, string, TReturn> func)
+        {
+            AddTransform<TReturn>(func, regex);
+        }
+
+        protected void Transform<TReturn>(string regex, Func<string, string, string, string, TReturn> func)
+        {
+            AddTransform<TReturn>(func, regex);
+        }
+
+        protected void Transform<TReturn, T1>(string regex, Func<T1, TReturn> func)
+        {
+            AddTransform<TReturn>(func, regex);
+        }
+
+        protected void Transform<TReturn, T1, T2>(string regex, Func<T1, T2, TReturn> func)
+        {
+            AddTransform<TReturn>(func, regex);
+        }
+
+        protected void Transform<TReturn, T1, T2, T3>(string regex, Func<T1, T2, T3, TReturn> func)
+        {
+            AddTransform<TReturn>(func, regex);
+        }
+
+        protected void Transform<TReturn, T1, T2, T3, T4>(string regex, Func<T1, T2, T3, T4, TReturn> func)
+        {
+            AddTransform<TReturn>(func, regex);
+        }
+
+        private void AddTransform<TReturn>(Delegate func, string regex)
+        {
+            transformDefinitions.Add(new TransformDefinition{Func = func, Regex = new Regex(regex), ReturnType = typeof(TReturn)});
+        }
+        #endregion
     }
 }
