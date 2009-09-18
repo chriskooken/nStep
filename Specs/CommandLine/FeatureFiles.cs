@@ -15,7 +15,8 @@ namespace CommandLine
         public virtual void SetUp()
         {
             InitializeArguments();
-            options = new ConsoleOptions().Parse<ConsoleOptions>(args);
+            Assert.DoesNotThrow(() =>
+                                options = new ConsoleOptions().Parse<ConsoleOptions>(args));
         }
 
         protected abstract void InitializeArguments(); 
@@ -52,17 +53,6 @@ namespace CommandLine
             options.Should().Be.InstanceOf<ConsoleOptions>();
         }
 
-        [Test]
-        public void Then_It_Should_contain_the_correct_required_properties()
-        {
-            var requiredProperties = options.RequiredProperties;
-            var propertyNames = new List<string>() { "FeatureFiles" };
-            requiredProperties.Count.Should().Be.EqualTo(propertyNames.Count);
-            foreach (var property in requiredProperties)
-            {
-                propertyNames.Should().Contain(property.Name);
-            }
-        }
         [Test]
         public void Then_the_required_attribute_should_be_set()
         {

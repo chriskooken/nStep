@@ -4,6 +4,7 @@ namespace Nucumber.App.CommandLineUtilities
 {
     public class ConsoleOptions : ConsoleOptionsBase
     {   
+        [Default]
         [Required]
         public string FeatureFiles { get; set; }
         
@@ -12,5 +13,7 @@ namespace Nucumber.App.CommandLineUtilities
 
         [Switch("v","verbose")]
         public bool Verbose { get; set; }
+
+        public string Format { get; set; }
     }
 }
