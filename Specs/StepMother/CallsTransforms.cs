@@ -51,7 +51,7 @@ namespace Specs.StepMother
             mother.ImportSteps(set);
 
             var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
-            mother.ProcessStep(step);
+            mother.ProcessStep(step).Should().Be.EqualTo(StepRunResults.Passed);
             set.providedName.Should().Be.EqualTo("Chris");
 
         }
