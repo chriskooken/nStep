@@ -4,11 +4,11 @@ namespace Nucumber.Core
 {
     public class FeatureExecutor
     {
-        private readonly IConsoleWriter Console;
+        private readonly IFormatOutput Console;
         private readonly StepMother StepMother;
         bool backgroundDisplayedOnce;
 
-        public FeatureExecutor(IConsoleWriter console, StepMother stepMother)
+        public FeatureExecutor(IFormatOutput console, StepMother stepMother)
         {
             this.Console = console;
             this.StepMother = stepMother;

@@ -8,72 +8,103 @@ namespace Nucumber.App.CommandLineUtilities
 {
     public abstract class ConsoleOptionsBase
     {
-        private PropertyInfo _defaultProperty;
+        public const string DefaultFlag = "#";
 
-        private IList<PropertyInfo> requiredProperties;
+        public const char FlagKey = '-';
 
-        private IList<PropertyInfo> switchProperties;
+        private IList<PropertyInfo> classProperties { get; set; }
 
-        public PropertyInfo DefaultProperty
+        private Dictionary<string, PropertyParameter> propertyParameters { get; set; }
+
+        private Type childType { get; set; }
+
+
+        private IList<PropertyInfo> ClassProperties
         {
             get
             {
-                return _defaultProperty ??
-                    (_defaultProperty =
-                        GetType().GetProperties()
-                            .Where(p => p.GetCustomAttributes(typeof(Switch), true).Length == 0).ToList().FirstOrDefault());
+                return classProperties ??
+                       (classProperties =
+                       childType.GetProperties().ToList());
             }
         }
 
-        public IList<PropertyInfo> RequiredProperties
+
+        private Dictionary<string, PropertyParameter> PropertyParameters
         {
             get
             {
-                return requiredProperties ?? 
-                    (requiredProperties =
-                    GetType().GetProperties()
-                        .Where(p => p.GetCustomAttributes(typeof(Required), true).Length > 0).ToList());
-            }   
-        }
+                if (propertyParameters != null) return propertyParameters;
 
-        public IList<PropertyInfo> SwitchProperties
-        {
-            get
-            {
-                return switchProperties ??
-                    (switchProperties =
-                    GetType().GetProperties()
-                        .Where(p => p.GetCustomAttributes(typeof(Switch), true).Length > 0).ToList());
-            }
-        }
-
-        public List<string> GetBooleanSwitches()
-        {
-            var switches = new List<string>();
-            foreach (var list in SwitchProperties)
-            {
-                if(list.PropertyType == typeof(bool))
+                propertyParameters = new Dictionary<string, PropertyParameter>();
+                foreach (var propertyInfo in ClassProperties)
                 {
-                    var optionAttribute = (Switch)list.GetCustomAttributes(typeof(Switch), true).FirstOrDefault();
-                    switches.AddRange(optionAttribute.switches);
+                    var propertyParam = new PropertyParameter() {Property = propertyInfo, Switches = new List<string>()};
+                    var requiredAttribute =
+                        (Required) propertyInfo.GetCustomAttributes(typeof (Required), true).FirstOrDefault();
+                    var defaultAttribute =
+                        (Default) propertyInfo.GetCustomAttributes(typeof (Default), true).FirstOrDefault();
+                    propertyParam.IsRequired = (requiredAttribute != null);
+
+                    if (defaultAttribute != null)
+                    {
+                        if (propertyInfo.PropertyType == typeof(bool))
+                            throw new ArgumentException("Default can't be of type bool");
+                    
+                        propertyParam.IsDefault = true;
+                        propertyParam.IsSwitch = false;
+                        propertyParam.Switches.Add(DefaultFlag);
+                        propertyParameters.Add(DefaultFlag, propertyParam);
+                        continue;
+                    }
+
+                    propertyParam.IsDefault = false;
+                    propertyParam.IsSwitch = (propertyInfo.PropertyType == typeof(Boolean) || propertyInfo.GetType()==typeof(bool));
+                    var switchAttribute =
+                        (Switch) propertyInfo.GetCustomAttributes(typeof (Switch), true).FirstOrDefault();
+
+                    if (switchAttribute != null)
+                    {
+                        foreach (var switche in switchAttribute.switches)
+                        {
+                            propertyParam.Switches.Add(switche);
+                            try
+                            {
+                                propertyParameters.Add(switche, propertyParam);
+                            }
+                            catch (Exception e)
+                            {
+                                throw new ArgumentException("Flag overlap");
+                            }
+                        }
+                        continue;
+                    }
+                    var namedSwitch = propertyParam.Property.Name[0].ToString();
+                    propertyParam.Switches.Add(namedSwitch);
+                    try
+                    {
+                        propertyParameters.Add(namedSwitch, propertyParam);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ArgumentException("Flag overlap");
+                    }
+                    namedSwitch = propertyParam.Property.Name;
+                    propertyParam.Switches.Add(namedSwitch);
+                    try
+                    {
+                        propertyParameters.Add(namedSwitch, propertyParam);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ArgumentException("Flag overlap");
+                    }
                 }
+                return propertyParameters;
             }
-            return switches;
         }
 
-        public List<string> GetFlags()
-        {
-            var flags = new List<string>();
-            foreach (var list in SwitchProperties)
-            {
-                if (list.PropertyType != typeof(bool))
-                {
-                    var optionAttribute = (Switch)list.GetCustomAttributes(typeof(Switch), true).FirstOrDefault();
-                    flags.AddRange(optionAttribute.switches);
-                }
-            }
-            return flags;
-        }
+
 
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
@@ -82,66 +113,146 @@ namespace Nucumber.App.CommandLineUtilities
             
             var consoleOptions = this as TConsoleOptions;
 
-            var parameters = GetParameters(args, GetBooleanSwitches(),GetFlags());
+            childType = typeof (TConsoleOptions);
+
+            var parameters = GetParameters(args);
 
             foreach (var pair in parameters)
             {
-                if (pair.Option != null && pair.Parameter != null)
+                //Is parameter with flag
+                if (pair.Flag != null && pair.Parameter != null)
                 {
-                    var property =
-                        switchProperties.Where(x =>
-                                               ((Switch) (x.GetCustomAttributes(typeof (Switch), true)).FirstOrDefault())
-                                                   .switches.Contains(pair.Option))
-                            .FirstOrDefault();
-                    if (property == null)
-                        throw new ArgumentException("Switch not found");
-
-                    property.SetValue(consoleOptions, pair.Parameter, null);
-
+                    try
+                    {
+                        var propertyParam = PropertyParameters[pair.Flag];
+                        if(propertyParam.IsEnumerable)
+                        {
+                            propertyParam.Property.SetValue(consoleOptions,pair.Parameter,null);
+                            continue;
+                        }
+                        propertyParam.Property.SetValue(consoleOptions,pair.Parameter.FirstOrDefault(),null);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        throw new ArgumentException(pair.Flag + " isn't a valid option.");
+                    }
                     continue;
                 }
-                if(pair.Option == null && pair.Parameter != null)
+
+
+                //Is default
+                if(pair.Flag == null && pair.Parameter != null)
                 {
-                    DefaultProperty.SetValue(consoleOptions, pair.Parameter,null);
+                    try
+                    {
+                        var propertyParam = PropertyParameters[DefaultFlag];
+                        if (propertyParam.IsEnumerable)
+                        {
+                            propertyParam.Property.SetValue(consoleOptions, pair.Parameter, null);
+                            continue;
+                        }
+                        propertyParam.Property.SetValue(consoleOptions, pair.Parameter.FirstOrDefault(),null);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        throw new ArgumentException("There is no default option, please use the appropriate flags.");
+                    }
                     continue;
                 }
-                if (pair.Parameter == null && pair.Option != null)
+
+                //Is switch
+                if (pair.Parameter == null && pair.Flag != null)
                 {
-                   switchProperties.Where(x =>
-                       ((Switch)(x.GetCustomAttributes(typeof(Switch),true)).FirstOrDefault())
-                       .switches.Contains(pair.Option))
-                       .FirstOrDefault().SetValue(consoleOptions,true,null);
+                    try
+                    {
+                        var propertyParam = PropertyParameters[pair.Flag];
+                        propertyParam.Property.SetValue(consoleOptions, true, null);
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        throw new ArgumentException(pair.Flag + " isn't a valid option.");
+                    }
                     continue;
                 }   
             }
             return consoleOptions;
         }
 
-        public static IList<ParameterPair> GetParameters(string[] args, List<string> switches, List<string> flags)
+        public IList<ParameterPair> GetParameters(string[] args)
         {
             var parameters = new List<ParameterPair>();
             for (int i = 0; i < args.Length; i++)
             {
-                if(args[i].Length == 0)
+                if (args[i].Length == 0)
                     throw new ArgumentException("Argument of length zero not allowed");
 
-                if (args[i][0] == '-')
+                if (args[i][0] == FlagKey)
                 {
-                    if (switches.Contains(args[i].TrimStart('-')))
+                    if (PropertyParameters.ContainsKey(args[i].TrimStart(FlagKey)))
                     {
-                        parameters.Add(new ParameterPair() { Option = args[i].TrimStart('-'), Parameter = null });
-                        continue;
-                    }
-                    if (flags.Contains(args[i].TrimStart('-')))
-                    {
-                        if (i >= args.Length -1)
+                        var propertyParam = PropertyParameters[args[i].TrimStart(FlagKey)];
+
+                        //Parameter is a switch
+                        if (propertyParam.IsSwitch)
+                        {
+                            parameters.Add(new ParameterPair() {Flag = args[i].TrimStart(FlagKey), Parameter = null});
+                            continue;
+                        }
+
+                        //Parameter is an option
+                        if (i >= args.Length - 1)
                             throw new ArgumentException("A flag that requires input had no input");
-                        parameters.Add(new ParameterPair() { Option = args[i].TrimStart('-'), Parameter = args[++i].TrimStart('-') });
+                        if (propertyParam.IsEnumerable)
+                        {
+                            int j = i+1;
+                            var pair = new ParameterPair() { Flag = args[i].TrimStart(FlagKey), Parameter = new List<string>() };
+                            for (; j < args.Length; j++)
+                            {
+                                if (args[j][0] != FlagKey)
+                                {
+                                    pair.Parameter.Add(args[j].TrimStart(FlagKey));
+                                }else
+                                {
+                                    break;
+                                }
+                            }
+                            i = j;
+                            parameters.Add(pair);
+                            continue;
+                        }
+                        parameters.Add(new ParameterPair() { Flag = args[i].TrimStart(FlagKey), Parameter = new List<string> { args[++i].TrimStart(FlagKey) } });
                         continue;
                     }
+                    var x = PropertyParameters;
                     throw new ArgumentException("Flag not recognized");
                 }
-                parameters.Add(new ParameterPair() { Option = null, Parameter = args[i].TrimStart('-') });
+
+                //Parameter is an option with no flag
+                if (PropertyParameters.ContainsKey(DefaultFlag))
+                {
+                    var propertyParam = PropertyParameters[DefaultFlag];
+                    if (propertyParam.IsEnumerable)
+                    {
+                        int j = i;
+                        var pair = new ParameterPair() {Flag = null, Parameter = new List<string>()};
+                        for (; j < args.Length; j++)
+                        {
+                            if (args[j][0] != FlagKey)
+                            {
+                                pair.Parameter.Add(args[j].TrimStart(FlagKey));
+                            }
+                        }
+                        i = j;
+                        parameters.Add(pair);
+                        continue;
+                    }
+                    else
+                    {
+                        parameters.Add(new ParameterPair()
+                                           {Flag = null, Parameter = new List<string> {args[i].TrimStart(FlagKey)}});
+                    }
+                }
+
             }
             return parameters;
         }
@@ -149,15 +260,29 @@ namespace Nucumber.App.CommandLineUtilities
 
     public class ParameterPair
     {
-        public string Option { get; set; }
-        public string Parameter { get; set; }
+        public string Flag { get; set; }
+        public IList<string> Parameter { get; set; }
     }
 
+    public class PropertyParameter
+    {
+        public PropertyInfo Property { get; set; }
+        public List<string> Switches { get; set; }
+        public bool IsDefault { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsSwitch { get; set; }
+        public bool IsEnumerable { get; set; }
+    }
 
 
     public class Required : Attribute
     {
 
+    }
+
+    public class Default : Attribute
+    {
+        
     }
 
     public class Switch : Attribute
@@ -172,10 +297,6 @@ namespace Nucumber.App.CommandLineUtilities
         {
             this.switches = new List<string>(switches);
         }
-    }
-
-    public class Files : Attribute
-    {
     }
 
 }

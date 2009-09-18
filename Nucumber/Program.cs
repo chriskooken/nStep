@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
@@ -9,7 +11,7 @@ namespace Nucumber.App
     class Program
     {
         private StepMother StepMother;
-        private IConsoleWriter Console;
+        private IFormatOutput formatter;
 
         static void Main(string[] args)
         {
@@ -25,7 +27,7 @@ namespace Nucumber.App
 
         private void Run(string[] args)
         {
-            Console = new CConsole("Nucumber");
+            formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
             StepMother = new StepMother();
             StepMother.ImportSteps(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
@@ -33,9 +35,12 @@ namespace Nucumber.App
             var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);
 
-            new FeatureExecutor(Console, StepMother).ExecuteFeature(feature);
-
-            Console.Complete();
+            new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+            Thread.Sleep(5000);
+            
+            
+            
+            formatter.Complete();
         }
 
        
