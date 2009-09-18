@@ -27,7 +27,8 @@ namespace Nucumber.App
         {
             Console = new CConsole("Nucumber");
 
-            StepMother = new StepMother(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
+            StepMother = new StepMother();
+            StepMother.ImportSteps(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
 
             var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);

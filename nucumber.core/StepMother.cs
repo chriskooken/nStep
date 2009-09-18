@@ -7,12 +7,33 @@ namespace Nucumber.Core
 {
     public class StepMother : IRunStepsFromStrings
     {
-		private CombinedStepDefinitions combinedStepDefinitions;
-
-        public StepMother(CombinedStepDefinitions stepDefinitions)
+        private IList<StepDefinition> givens;
+        private IList<StepDefinition> whens;
+        private IList<StepDefinition> thens;
+        private IList<TransformDefinition> transforms;
+        
+        public StepMother()
 		{
-		    this.combinedStepDefinitions = stepDefinitions;
+		    givens = new List<StepDefinition>();
+            whens = new List<StepDefinition>();
+            thens = new List<StepDefinition>();
+            transforms = new List<TransformDefinition>();
 		}
+
+        public void ImportSteps(IProvideSteps stepSet)
+        {
+            givens = givens.Union(stepSet.StepDefinitions.Givens).ToList();
+            whens = whens.Union(stepSet.StepDefinitions.Whens).ToList();
+            thens = thens.Union(stepSet.StepDefinitions.Thens).ToList();
+
+            transforms = transforms.Union(stepSet.TransformDefinitions).ToList();
+        }
+
+        public void ImportSteps(IEnumerable<IProvideSteps> stepSets)
+        {
+            foreach (var set in stepSets)
+                ImportSteps(set);
+        }
 
         public Exception LastProcessStepException { get; private set; }
 
@@ -79,13 +100,13 @@ namespace Nucumber.Core
             switch (stepKind)
             {
                 case StepKinds.Given:
-                    results = combinedStepDefinitions.Givens.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = givens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 case StepKinds.When:
-                    results = combinedStepDefinitions.Whens.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = whens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 case StepKinds.Then:
-                    results = combinedStepDefinitions.Thens.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = thens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

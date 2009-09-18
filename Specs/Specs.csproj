@@ -72,6 +72,7 @@
     <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="EnvironmentSubclassing.cs" />
     <Compile Include="StepCaller.cs" />
+    <Compile Include="StepMother\CallsTransforms.cs" />
     <Compile Include="StepMother\MoreThanOneMatchingStepDefinition.cs" />
     <Compile Include="StepMother\NoStepDefinitionFound.cs" />
     <Compile Include="StepMother\PassedResults.cs" />

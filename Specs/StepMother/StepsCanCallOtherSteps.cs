@@ -71,7 +71,8 @@ namespace Specs.StepMother
         private void AssertItWorks(StepKinds kind)
         {
             var set = new StepSet();
-            var mother = new Nucumber.Core.StepMother(set.StepDefinitions);
+            var mother = new Nucumber.Core.StepMother();
+            mother.ImportSteps(set);
             var step = new FeatureStep { FeatureLine = "Call Me", Kind = kind };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Brendan");
