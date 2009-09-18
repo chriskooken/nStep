@@ -7,9 +7,10 @@ using NUnit.Framework;
 using Spart.Parsers;
 using Spart.Scanners;
 
-namespace Specs.Parsing {
+namespace Specs.Parsers
+{
 	[TestFixture]
-	public class GherkinParserTest {
+	public class StepParserTest {
 		[Test]
 		public void dummy()
 		{
@@ -60,24 +61,6 @@ namespace Specs.Parsing {
 
 			var givenMatch = GherkinParser.StepParser.Parse(new StringScanner(given));
 			givenMatch.Success.Should().Be.False();
-		}
-
-		[Test]
-		public void It_Matches_Scenarios() {
-			var scenario = @"
-				Scenario: Some determinable business situation
-					Given some precondition
-						And some other precondition
-					When some action by the actor
-						And some other action
-						And yet another action
-					Then some testable outcome is achieved
-						And something else we can check happens too
-";
-
-
-			var scenarioMatch = GherkinParser.ScenarioParser.Parse(new StringScanner(scenario));
-			scenarioMatch.Success.Should().Be.True();
 		}
 	}
 }
