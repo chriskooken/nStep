@@ -11,7 +11,7 @@ namespace Nucumber.App
     class Program
     {
         private StepMother StepMother;
-        private IConsoleWriter Console;
+        private IFormatOutput Console;
 
         static void Main(string[] args)
         {

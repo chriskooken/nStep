@@ -56,7 +56,7 @@
     <Compile Include="Parsers\SimpleTree.cs" />
     <Compile Include="Parsers\SimpleTreeNode.cs" />
     <Compile Include="Parsers\SimpleTreeNodeList.cs" />
-    <Compile Include="IConsoleWriter.cs" />
+    <Compile Include="IFormatOutput.cs" />
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
   </ItemGroup>
