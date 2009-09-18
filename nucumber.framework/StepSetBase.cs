@@ -18,7 +18,7 @@ namespace Nucumber.Framework
         }
 
         private IList<StepDefinition> givenStepDefinitions;
-        public IEnumerable<StepDefinition> GivenStepDefinitions
+        private IEnumerable<StepDefinition> GivenStepDefinitions
         {
             get { return givenStepDefinitions; }
         }
@@ -30,7 +30,7 @@ namespace Nucumber.Framework
         }
 
         private IList<StepDefinition> thenStepDefinitions;
-        public IEnumerable<StepDefinition> ThenStepDefinitions
+        private IEnumerable<StepDefinition> ThenStepDefinitions
         {
             get { return thenStepDefinitions; }
         }
@@ -41,15 +41,14 @@ namespace Nucumber.Framework
             get { return transformDefinitions; }
         }
 
-        public CombinedStepDefinitions CombinedStepDefinitions
+        public CombinedStepDefinitions StepDefinitions
         {
             get
             {
                 CombinedStepDefinitions combinedStepDefinitions = new CombinedStepDefinitions();
-                combinedStepDefinitions.GivenStepDefinitions = GivenStepDefinitions;
-                combinedStepDefinitions.WhenStepDefinitions = WhenStepDefinitions;
-                combinedStepDefinitions.ThenStepDefinitions = ThenStepDefinitions;
-                combinedStepDefinitions.TransformDefinitions = TransformDefinitions;
+                combinedStepDefinitions.Givens = GivenStepDefinitions;
+                combinedStepDefinitions.Whens = WhenStepDefinitions;
+                combinedStepDefinitions.Thens = ThenStepDefinitions;
                 return combinedStepDefinitions;
             }
            

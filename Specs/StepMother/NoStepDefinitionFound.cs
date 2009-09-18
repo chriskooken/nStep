@@ -37,7 +37,7 @@ namespace Specs.StepMother
         public void Setup()
         {
             Set = new StepSet();
-            mother = new Nucumber.Core.StepMother(Set.CombinedStepDefinitions);
+            mother = new Nucumber.Core.StepMother(Set.StepDefinitions);
             var featureStep = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
         }

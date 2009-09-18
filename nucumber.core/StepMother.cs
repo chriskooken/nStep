@@ -79,13 +79,13 @@ namespace Nucumber.Core
             switch (stepKind)
             {
                 case StepKinds.Given:
-                    results = combinedStepDefinitions.GivenStepDefinitions.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = combinedStepDefinitions.Givens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 case StepKinds.When:
-                    results = combinedStepDefinitions.WhenStepDefinitions.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = combinedStepDefinitions.Whens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 case StepKinds.Then:
-                    results = combinedStepDefinitions.ThenStepDefinitions.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = combinedStepDefinitions.Thens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

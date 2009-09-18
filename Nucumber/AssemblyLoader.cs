@@ -20,7 +20,7 @@ namespace Nucumber.App
                     var sm = (IProvideSteps)Activator.CreateInstance(t);
                     //Todo: join from all assemblies
 
-                    combinedStepDefinitions = sm.CombinedStepDefinitions;
+                    combinedStepDefinitions = sm.StepDefinitions;
                     
                 }
             }

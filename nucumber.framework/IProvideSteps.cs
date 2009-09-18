@@ -5,12 +5,8 @@ namespace Nucumber.Framework
 {
     public interface IProvideSteps
     {
-        IEnumerable<StepDefinition> GivenStepDefinitions { get; }
-        IEnumerable<StepDefinition> WhenStepDefinitions { get; }
-        IEnumerable<StepDefinition> ThenStepDefinitions { get; }
-
         IEnumerable<TransformDefinition> TransformDefinitions { get; }
-        CombinedStepDefinitions CombinedStepDefinitions { get; }
+        CombinedStepDefinitions StepDefinitions { get; }
         void SetWorldView(object worldView);
         void SetStepFromStringRunner(IRunStepsFromStrings runner);
 
