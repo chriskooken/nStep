@@ -76,6 +76,7 @@
     <Compile Include="StepMother\NoStepDefinitionFound.cs" />
     <Compile Include="StepMother\PassedResults.cs" />
     <Compile Include="StepMother\PendingStepDefinition.cs" />
+    <Compile Include="StepMother\StepsCanCallOtherSteps.cs" />
     <Compile Include="StepSetBase\StepRegistration.cs" />
     <Compile Include="StepSetBase\Then.cs" />
     <Compile Include="StepSetBase\When.cs" />

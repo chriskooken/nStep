@@ -12,6 +12,7 @@ namespace Nucumber.Framework
         IEnumerable<TransformDefinition> TransformDefinitions { get; }
         CombinedStepDefinitions CombinedStepDefinitions { get; }
         void SetWorldView(object worldView);
+        void SetStepFromStringRunner(IRunStepsFromStrings runner);
 
         void BeforeStep();
 

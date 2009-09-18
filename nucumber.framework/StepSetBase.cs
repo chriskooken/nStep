@@ -7,6 +7,8 @@ namespace Nucumber.Framework
 {
     public abstract class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
     {
+        private IRunStepsFromStrings stepRunner;
+
         protected StepSetBase()
         {
             givenStepDefinitions = new List<StepDefinition>();
@@ -60,6 +62,11 @@ namespace Nucumber.Framework
             World = worldView as TWorldView;
         }
 
+        public void SetStepFromStringRunner(IRunStepsFromStrings runner)
+        {
+            stepRunner = runner;
+        }
+
         public virtual void BeforeStep()
         {}
 
@@ -95,6 +102,11 @@ namespace Nucumber.Framework
         }
 
         #region Given StepDefinitions
+
+        protected void Given(string featureLine)
+        {
+            stepRunner.ProcessStep(StepKinds.Given,featureLine);
+        }
 
 		protected void Given<T1>(string regex, Action<T1> action)
 		{
@@ -144,6 +156,11 @@ namespace Nucumber.Framework
         #endregion
 
         #region When StepDefinitions
+        protected void When(string featureLine)
+        {
+            stepRunner.ProcessStep(StepKinds.When, featureLine);
+        }
+
         protected void When<T1>(string regex, Action<T1> action)
         {
             AddNewStepDefinition(StepKinds.When, regex, action);
@@ -191,6 +208,11 @@ namespace Nucumber.Framework
 		#endregion
 
         #region Then StepDefinitions
+        protected void Then(string featureLine)
+        {
+            stepRunner.ProcessStep(StepKinds.Then, featureLine);
+        }
+
         protected void Then<T1>(string regex, Action<T1> action)
         {
             AddNewStepDefinition(StepKinds.Then, regex, action);

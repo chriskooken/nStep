@@ -5,14 +5,7 @@ using Nucumber.Framework;
 
 namespace Nucumber.Core
 {
-    public enum StepRunResults
-    {
-        Passed,
-        Failed,
-        Pending,
-        Missing
-    }
-    public class StepMother
+    public class StepMother : IRunStepsFromStrings
     {
 		private CombinedStepDefinitions combinedStepDefinitions;
 
@@ -26,6 +19,12 @@ namespace Nucumber.Core
         public StepRunResults LastProcessStepResult { get; private set; }
 
         public StepDefinition LastProcessStepDefinition { get; private set; }
+
+        public void ProcessStep(StepKinds kind, string featureStepToProcess)
+        {
+            var stepDefinition = GetStepDefinition(kind, featureStepToProcess);
+            ExecuteStepDefinitionWithLine(stepDefinition, featureStepToProcess);
+        }
 
         public StepRunResults ProcessStep(FeatureStep featureStepToProcess)
         {
@@ -41,12 +40,8 @@ namespace Nucumber.Core
             var lineText = featureStepToProcess.FeatureLine;
             try
             {
-                LastProcessStepDefinition = GetStepDefinition(featureStepToProcess, lineText);
-
-                LastProcessStepDefinition.StepSet.BeforeStep();
-                new StepCaller(LastProcessStepDefinition,
-                               new TypeCaster()).Call(lineText);
-                LastProcessStepDefinition.StepSet.AfterStep();
+                LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
+                ExecuteStepDefinitionWithLine(LastProcessStepDefinition, lineText);
 
             }
             catch(StepMissingException ex)
@@ -68,10 +63,20 @@ namespace Nucumber.Core
             return StepRunResults.Passed;
         }
 
-        private StepDefinition GetStepDefinition(FeatureStep featureStepToProcess, string lineText)
+        private void ExecuteStepDefinitionWithLine(StepDefinition stepDefinition, string lineText)
+        {
+            stepDefinition.StepSet.SetStepFromStringRunner(this);
+
+            stepDefinition.StepSet.BeforeStep();
+            new StepCaller(stepDefinition,
+                           new TypeCaster()).Call(lineText);
+            stepDefinition.StepSet.AfterStep();
+        }
+
+        private StepDefinition GetStepDefinition(StepKinds stepKind, string lineText)
         {
             IEnumerable<StepDefinition> results;
-            switch (featureStepToProcess.Kind)
+            switch (stepKind)
             {
                 case StepKinds.Given:
                     results = combinedStepDefinitions.GivenStepDefinitions.Where(definition => definition.Regex.IsMatch(lineText));
@@ -92,5 +97,6 @@ namespace Nucumber.Core
 
             return results.First();
         }
+
     }
 }
