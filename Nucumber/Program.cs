@@ -25,7 +25,7 @@ namespace Nucumber.App
 
         private void Run(string[] args)
         {
-            Console = new CConsole("Nucumber");
+            Console = new CConsole("Nucumber", new SyntaxSuggester());
 
             StepMother = new StepMother();
             StepMother.ImportSteps(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));

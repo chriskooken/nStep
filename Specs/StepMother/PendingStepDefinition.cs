@@ -81,44 +81,43 @@ namespace Specs.StepMother
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_3_params()
         {
-            CConsole console = new CConsole();
-            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\""};
+            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\"" };
 
-
-             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
                  EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"$\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
-        }  
-        
+        }
+
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_2_params()
         {
-            CConsole console = new CConsole();
-            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field"};
+            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field" };
 
 
-             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
                  EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field$\", (string arg1, string arg2) =>\n{\n\tPending();\n});");
-        }  
-        
+        }
+
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_1_param()
         {
-            CConsole console = new CConsole();
-            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in google"};
+            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in google" };
 
 
-             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
                  EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in google$\", (string arg1) =>\n{\n\tPending();\n});");
-        }      
-        
+        }
+
         [Test]
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_no_params()
         {
-            CConsole console = new CConsole();
-            var featureStep = new FeatureStep { FeatureLine = "When I type in google"};
+            ISuggestSyntax syntaxSuggester = new SyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type in google" };
 
 
-             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
                  EqualTo("When(\"^ I type in google$\", () =>\n{\n\tPending();\n});");
         }
     }
