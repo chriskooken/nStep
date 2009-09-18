@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Specs.StepMother
 {
@@ -74,6 +76,50 @@ namespace Specs.StepMother
         public void it_should_not_execute_AfterStep()
         {
             Set.After.Should().Be.Null();
+        }
+
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_3_params()
+        {
+            CConsole console = new CConsole();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\""};
+
+
+             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"$\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
+        }  
+        
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_2_params()
+        {
+            CConsole console = new CConsole();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field"};
+
+
+             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field$\", (string arg1, string arg2) =>\n{\n\tPending();\n});");
+        }  
+        
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_1_param()
+        {
+            CConsole console = new CConsole();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in google"};
+
+
+             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in google$\", (string arg1) =>\n{\n\tPending();\n});");
+        }      
+        
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_no_params()
+        {
+            CConsole console = new CConsole();
+            var featureStep = new FeatureStep { FeatureLine = "When I type in google"};
+
+
+             CConsole.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type in google$\", () =>\n{\n\tPending();\n});");
         }
     }
 }
