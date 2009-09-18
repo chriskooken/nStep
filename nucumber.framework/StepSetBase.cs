@@ -5,33 +5,21 @@ using System.Text.RegularExpressions;
 
 namespace Nucumber.Framework
 {
-    public abstract class StepSetBase<TWorldView>: IProvideSteps where TWorldView : class
+    public abstract class StepSetBase<TWorldView>: StepDefinitionDsl<TWorldView>, IProvideSteps where TWorldView : class
     {
         protected StepSetBase()
         {
-            givenStepDefinitions = new List<StepDefinition>();
-            whenStepDefinitions = new List<StepDefinition>();
-            thenStepDefinitions = new List<StepDefinition>();
+            GivenStepDefinitions = new List<StepDefinition>();
+            WhenStepDefinitions = new List<StepDefinition>();
+            ThenStepDefinitions = new List<StepDefinition>();
             transformDefinitions = new List<TransformDefinition>();
         }
 
-        private IList<StepDefinition> givenStepDefinitions;
-        public IEnumerable<StepDefinition> GivenStepDefinitions
-        {
-            get { return givenStepDefinitions; }
-        }
+        private IList<StepDefinition> GivenStepDefinitions { get; set; }
 
-        private IList<StepDefinition> whenStepDefinitions;
-        public IEnumerable<StepDefinition> WhenStepDefinitions
-        {
-            get { return whenStepDefinitions; }
-        }
+        private IList<StepDefinition> WhenStepDefinitions { get; set; }
 
-        private IList<StepDefinition> thenStepDefinitions;
-        public IEnumerable<StepDefinition> ThenStepDefinitions
-        {
-            get { return thenStepDefinitions; }
-        }
+        private IList<StepDefinition> ThenStepDefinitions { get; set; }
 
         private IList<TransformDefinition> transformDefinitions;
         public IEnumerable<TransformDefinition> TransformDefinitions
@@ -39,212 +27,61 @@ namespace Nucumber.Framework
             get { return transformDefinitions; }
         }
 
-        public CombinedStepDefinitions CombinedStepDefinitions
+        public CombinedStepDefinitions StepDefinitions
         {
             get
             {
-                CombinedStepDefinitions combinedStepDefinitions = new CombinedStepDefinitions();
-                combinedStepDefinitions.GivenStepDefinitions = GivenStepDefinitions;
-                combinedStepDefinitions.WhenStepDefinitions = WhenStepDefinitions;
-                combinedStepDefinitions.ThenStepDefinitions = ThenStepDefinitions;
-                combinedStepDefinitions.TransformDefinitions = TransformDefinitions;
-                return combinedStepDefinitions;
+                return new CombinedStepDefinitions
+                           {
+                               Givens = GivenStepDefinitions,
+                               Whens = WhenStepDefinitions,
+                               Thens = ThenStepDefinitions
+                           };
             }
            
         }
-        
-        public TWorldView World { get; internal set; }
 
-        public void SetWorldView(object worldView)
+        public object WorldView
         {
-            World = worldView as TWorldView;
+            set { World = value as TWorldView; }
         }
 
-        public virtual void BeforeStep()
-        {}
+        public IRunStepsFromStrings StepFromStringRunner
+        {
+            set { StepRunner = value; }
+        }
 
-        public virtual void AfterStep()
-        {}
-
-        private void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
+        protected override void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
         {
             var def = new StepDefinition
-                          {
-                              Regex = new Regex(stepText),
-                              Kind = kind,
-                              Action = action,
-                              ParamsTypes = action.GetType().GetGenericArguments(),
-                              StepSet = this
-                                    };
+            {
+                Regex = new Regex(stepText),
+                Kind = kind,
+                Action = action,
+                ParamsTypes = action.GetType().GetGenericArguments(),
+                StepSet = this
+            };
             switch (kind)
             {
                 case StepKinds.Given:
-                    givenStepDefinitions.Add(def);
+                    GivenStepDefinitions.Add(def);
                     break;
                 case StepKinds.When:
-                    whenStepDefinitions.Add(def);
+                    WhenStepDefinitions.Add(def);
                     break;
                 case StepKinds.Then:
-                    thenStepDefinitions.Add(def);
+                    ThenStepDefinitions.Add(def);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("kind");
             }
 
-            
+
         }
 
-        #region Given StepDefinitions
-
-		protected void Given<T1>(string regex, Action<T1> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given<T1, T2>(string regex, Action<T1, T2> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given<T1, T2, T3>(string regex, Action<T1, T2, T3> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given<T1, T2, T3, T4>(string regex, Action<T1, T2, T3, T4> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given(string regex, Action action)
-		{
-			AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given(string regex, Action<string> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given(string regex, Action<string, string> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given(string regex, Action<string, string, string> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-		protected void Given(string regex, Action<string, string, string, string> action)
-		{
-            AddNewStepDefinition(StepKinds.Given, regex, action);
-		}
-
-        #endregion
-
-        #region When StepDefinitions
-        protected void When<T1>(string regex, Action<T1> action)
+        protected override void AddTransform<TReturn>(Delegate func, string regex)
         {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When<T1, T2>(string regex, Action<T1, T2> action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When<T1, T2, T3>(string regex, Action<T1, T2, T3> action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When<T1, T2, T3, T4>(string regex, Action<T1, T2, T3, T4> action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When(string regex, Action action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When(string regex, Action<string> action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When(string regex, Action<string, string> action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When(string regex, Action<string, string, string> action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-
-        protected void When(string regex, Action<string, string, string, string> action)
-        {
-            AddNewStepDefinition(StepKinds.When, regex, action);
-        }
-		#endregion
-
-        #region Then StepDefinitions
-        protected void Then<T1>(string regex, Action<T1> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then<T1, T2>(string regex, Action<T1, T2> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then<T1, T2, T3>(string regex, Action<T1, T2, T3> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then<T1, T2, T3, T4>(string regex, Action<T1, T2, T3, T4> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then(string regex, Action action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then(string regex, Action<string> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then(string regex, Action<string, string> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then(string regex, Action<string, string, string> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-
-        protected void Then(string regex, Action<string, string, string, string> action)
-        {
-            AddNewStepDefinition(StepKinds.Then, regex, action);
-        }
-		#endregion
-
-        protected void Pending()
-        {
-            throw new StepPendingException();
-        }
-
-        protected void Transform<TReturn>(string match, Func<string,TReturn> action)
-        {
-            //TODO: Stick the Transform def in here....
+            transformDefinitions.Add(new TransformDefinition { Func = func, Regex = new Regex(regex), ReturnType = typeof(TReturn) });
         }
     }
 }

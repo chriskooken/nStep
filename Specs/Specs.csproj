@@ -67,15 +67,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
+    <Compile Include="Parsers\ScenarioParserTest.cs" />
     <Compile Include="StepMother\BasicMatching.cs" />
-    <Compile Include="Parsing\GherkinParser.cs" />
+    <Compile Include="Parsers\StepParserTest.cs" />
     <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="EnvironmentSubclassing.cs" />
     <Compile Include="StepCaller.cs" />
+    <Compile Include="StepMother\CallsTransforms.cs" />
     <Compile Include="StepMother\MoreThanOneMatchingStepDefinition.cs" />
     <Compile Include="StepMother\NoStepDefinitionFound.cs" />
     <Compile Include="StepMother\PassedResults.cs" />
     <Compile Include="StepMother\PendingStepDefinition.cs" />
+    <Compile Include="StepMother\StepsCanCallOtherSteps.cs" />
     <Compile Include="StepSetBase\StepRegistration.cs" />
     <Compile Include="StepSetBase\Then.cs" />
     <Compile Include="StepSetBase\When.cs" />

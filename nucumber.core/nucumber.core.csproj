@@ -57,6 +57,7 @@
     <Compile Include="Parsers\SimpleTreeNode.cs" />
     <Compile Include="Parsers\SimpleTreeNodeList.cs" />
     <Compile Include="IConsoleWriter.cs" />
+    <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

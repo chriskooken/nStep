@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Specs.StepMother
 {
@@ -39,7 +41,8 @@ namespace Specs.StepMother
         public void Setup()
         {
             Set = new StepSet();
-            mother = new Nucumber.Core.StepMother(Set.CombinedStepDefinitions);
+            mother = new Nucumber.Core.StepMother();
+            mother.ImportSteps(Set);
             var featureStep = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
         }
@@ -60,7 +63,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_set_LastProcess_StepDefinition_to_the_pending_Step()
         {
-            mother.LastProcessStepDefinition.Should().Be.EqualTo(Set.GivenStepDefinitions.First());
+            mother.LastProcessStepDefinition.Should().Be.EqualTo(Set.StepDefinitions.Givens.First());
         }
 
         [Test]
@@ -73,6 +76,49 @@ namespace Specs.StepMother
         public void it_should_not_execute_AfterStep()
         {
             Set.After.Should().Be.Null();
+        }
+
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_3_params()
+        {
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\"" };
+
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"$\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
+        }
+
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_2_params()
+        {
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field" };
+
+
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field$\", (string arg1, string arg2) =>\n{\n\tPending();\n});");
+        }
+
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_1_param()
+        {
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in google" };
+
+
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type \\\"([^\\\"]*)\\\" in google$\", (string arg1) =>\n{\n\tPending();\n});");
+        }
+
+        [Test]
+        public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_no_params()
+        {
+            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
+            var featureStep = new FeatureStep { FeatureLine = "When I type in google" };
+
+
+            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
+                 EqualTo("When(\"^ I type in google$\", () =>\n{\n\tPending();\n});");
         }
     }
 }

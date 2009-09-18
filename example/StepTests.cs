@@ -34,7 +34,7 @@ namespace Cucumber
         	{
         	    user.Name = newName;
         	});
-
+            
             Given("Given ProviderLocation \"([^\"]*)\" exists", locationName =>
             {
                     Console.WriteLine("Got location name " + locationName);
@@ -52,6 +52,11 @@ namespace Cucumber
             Given("^I live at \"([^\"]*)\"$", location =>
             {
                 Console.WriteLine("Location is: " + location);
+            });
+
+            Given("^I live at home$", () =>
+            {
+                Console.WriteLine("Location is: home");
             });
 
             Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (int city, string state) =>

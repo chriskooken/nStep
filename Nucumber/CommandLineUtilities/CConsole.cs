@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Nucumber.Core;
 using Nucumber.Framework;
 
@@ -7,8 +8,13 @@ namespace Nucumber.App.CommandLineUtilities
 {
     public class CConsole : IConsoleWriter 
     {
-        public CConsole(string consoleTitle)
+        readonly ISuggestSyntax syntaxSuggester;
+        DateTime startTime;
+
+        public CConsole(string consoleTitle, ISuggestSyntax syntaxSuggester)
         {
+            startTime = DateTime.Now;
+            this.syntaxSuggester = syntaxSuggester;
             Console.Title = consoleTitle;
         }
 
@@ -71,11 +77,7 @@ namespace Nucumber.App.CommandLineUtilities
 
             foreach (var step in pendingFeatureSteps)
             {
-                Console.WriteLine();
-                Console.WriteLine("Given(\"^My Name is \"([^\"]*)\"$\", name =>");
-                Console.WriteLine("{");
-                Console.WriteLine("pending();".PadLeft(4));
-                Console.WriteLine("});");
+                Console.WriteLine(syntaxSuggester.TurnFeatureIntoSnippet(step));
             }
 
         }
@@ -90,11 +92,29 @@ namespace Nucumber.App.CommandLineUtilities
         }
 
         public void Complete()
-        {
+        { 
+            var timespan = DateTime.Now.Subtract(startTime);
             Console.ForegroundColor = ConsoleColor.Gray;
+            WriteDuration(timespan.Hours, timespan.Minutes, timespan.Seconds, timespan.Milliseconds);
+            
             WriteLineLevel1(string.Empty);
             WriteLineLevel1("Press any key to continue . . .");
             Console.ReadLine();
+        }
+
+        void WriteDuration(int hours, int minutes, int seconds, int milliseconds)
+        {
+            var formatString = "Finished in: ";
+            if (hours > 0)
+                formatString += hours + "h ";
+            if (minutes > 0)
+                formatString += minutes + "m ";
+            if (seconds > 0)
+                formatString += seconds + "s ";
+            if (milliseconds > 0)
+                formatString += milliseconds + "ms ";
+            
+            WriteLineLevel1(formatString);
         }
 
         public void WriteScenarioTitle(Scenario scenario)

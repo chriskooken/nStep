@@ -32,7 +32,8 @@ namespace Specs.StepMother
         public void Setup()
         {
             Set = new StepSet();
-            this.mother = new Nucumber.Core.StepMother(Set.CombinedStepDefinitions);
+            mother = new Nucumber.Core.StepMother();
+            mother.ImportSteps(Set);
             var featureStep = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
         }
@@ -48,7 +49,7 @@ namespace Specs.StepMother
         public void it_should_set_last_used_StepDefinition_to_the_used_StepDefinition()
         {
             mother.LastProcessStepDefinition.Should().Be.EqualTo(
-                Set.CombinedStepDefinitions.GivenStepDefinitions.First());
+                Set.StepDefinitions.Givens.First());
         }
 
         [Test]

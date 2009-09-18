@@ -34,7 +34,7 @@ namespace Specs
         public void it_should_call_the_action_with_the_correct_params_as_string()
         {
             var set = new StepSet();
-            var step = set.GivenStepDefinitions.First();
+            var step = set.StepDefinitions.Givens.First();
 
             var featureLine = "This is a test: Boo";
 
@@ -48,7 +48,7 @@ namespace Specs
         public void it_should_call_the_action_with_the_correct_params_as_int()
         {
             var set = new StepSet();
-            var step = set.GivenStepDefinitions.Last();
+            var step = set.StepDefinitions.Givens.Last();
 
             var featureLine = "This is a test: 42";
 

@@ -4,12 +4,10 @@ namespace Nucumber.Framework
 {
     public class CombinedStepDefinitions
     {
-        public IEnumerable<StepDefinition> GivenStepDefinitions {get; set;}
+        public IEnumerable<StepDefinition> Givens {get; set;}
 
-        public IEnumerable<StepDefinition> WhenStepDefinitions { get; set; }
+        public IEnumerable<StepDefinition> Whens { get; set; }
 
-        public IEnumerable<StepDefinition> ThenStepDefinitions { get; set; }
-
-        public IEnumerable<TransformDefinition> TransformDefinitions { get; set; }
+        public IEnumerable<StepDefinition> Thens { get; set; }
     }
 }

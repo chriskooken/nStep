@@ -5,27 +5,47 @@ using Nucumber.Framework;
 
 namespace Nucumber.Core
 {
-    public enum StepRunResults
+    public class StepMother : IRunStepsFromStrings
     {
-        Passed,
-        Failed,
-        Pending,
-        Missing
-    }
-    public class StepMother
-    {
-		private CombinedStepDefinitions combinedStepDefinitions;
-
-        public StepMother(CombinedStepDefinitions stepDefinitions)
+        private IList<StepDefinition> givens;
+        private IList<StepDefinition> whens;
+        private IList<StepDefinition> thens;
+        private IList<TransformDefinition> transforms;
+        
+        public StepMother()
 		{
-		    this.combinedStepDefinitions = stepDefinitions;
+		    givens = new List<StepDefinition>();
+            whens = new List<StepDefinition>();
+            thens = new List<StepDefinition>();
+            transforms = new List<TransformDefinition>();
 		}
+
+        public void ImportSteps(IProvideSteps stepSet)
+        {
+            givens = givens.Union(stepSet.StepDefinitions.Givens).ToList();
+            whens = whens.Union(stepSet.StepDefinitions.Whens).ToList();
+            thens = thens.Union(stepSet.StepDefinitions.Thens).ToList();
+
+            transforms = transforms.Union(stepSet.TransformDefinitions).ToList();
+        }
+
+        public void ImportSteps(IEnumerable<IProvideSteps> stepSets)
+        {
+            foreach (var set in stepSets)
+                ImportSteps(set);
+        }
 
         public Exception LastProcessStepException { get; private set; }
 
         public StepRunResults LastProcessStepResult { get; private set; }
 
         public StepDefinition LastProcessStepDefinition { get; private set; }
+
+        public void ProcessStep(StepKinds kind, string featureStepToProcess)
+        {
+            var stepDefinition = GetStepDefinition(kind, featureStepToProcess);
+            ExecuteStepDefinitionWithLine(stepDefinition, featureStepToProcess);
+        }
 
         public StepRunResults ProcessStep(FeatureStep featureStepToProcess)
         {
@@ -41,12 +61,8 @@ namespace Nucumber.Core
             var lineText = featureStepToProcess.FeatureLine;
             try
             {
-                LastProcessStepDefinition = GetStepDefinition(featureStepToProcess, lineText);
-
-                LastProcessStepDefinition.StepSet.BeforeStep();
-                new StepCaller(LastProcessStepDefinition,
-                               new TypeCaster()).Call(lineText);
-                LastProcessStepDefinition.StepSet.AfterStep();
+                LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
+                ExecuteStepDefinitionWithLine(LastProcessStepDefinition, lineText);
 
             }
             catch(StepMissingException ex)
@@ -68,19 +84,29 @@ namespace Nucumber.Core
             return StepRunResults.Passed;
         }
 
-        private StepDefinition GetStepDefinition(FeatureStep featureStepToProcess, string lineText)
+        private void ExecuteStepDefinitionWithLine(StepDefinition stepDefinition, string lineText)
+        {
+            stepDefinition.StepSet.StepFromStringRunner = this;
+
+            stepDefinition.StepSet.BeforeStep();
+            new StepCaller(stepDefinition,
+                           new TypeCaster()).Call(lineText);
+            stepDefinition.StepSet.AfterStep();
+        }
+
+        private StepDefinition GetStepDefinition(StepKinds stepKind, string lineText)
         {
             IEnumerable<StepDefinition> results;
-            switch (featureStepToProcess.Kind)
+            switch (stepKind)
             {
                 case StepKinds.Given:
-                    results = combinedStepDefinitions.GivenStepDefinitions.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = givens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 case StepKinds.When:
-                    results = combinedStepDefinitions.WhenStepDefinitions.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = whens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 case StepKinds.Then:
-                    results = combinedStepDefinitions.ThenStepDefinitions.Where(definition => definition.Regex.IsMatch(lineText));
+                    results = thens.Where(definition => definition.Regex.IsMatch(lineText));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -92,5 +118,6 @@ namespace Nucumber.Core
 
             return results.First();
         }
+
     }
 }
