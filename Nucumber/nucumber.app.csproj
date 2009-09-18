@@ -62,7 +62,7 @@
   <ItemGroup>
     <Compile Include="AssemblyLoader.cs" />
     <Compile Include="CommandLineUtilities\Arguments.cs" />
-    <Compile Include="CommandLineUtilities\CConsole.cs" />
+    <Compile Include="CommandLineUtilities\ConsoleOutputFormatter.cs" />
     <Compile Include="CommandLineUtilities\ISuggestSyntax.cs" />
     <Compile Include="CommandLineUtilities\CSharpSyntaxSuggester.cs" />
     <Compile Include="CommandLineUtilities\ConsoleOptions.cs" />
