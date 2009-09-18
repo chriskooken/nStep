@@ -23,8 +23,8 @@
 /// 
 /// Author: Jonathan de Halleux
 /// 
+/// 9/18/2009: Altered by Adam Moss
 
-using System;
 
 namespace Spart.Tests.Parsers.Composite
 {
@@ -32,7 +32,6 @@ namespace Spart.Tests.Parsers.Composite
 	using Spart.Parsers;
 	using Spart.Parsers.Composite;
 	using Spart.Parsers.Primitives;
-	using Spart.Scanners;
 
 	[TestFixture]
 	public class SequenceTest
@@ -62,48 +61,47 @@ namespace Spart.Tests.Parsers.Composite
 		[Test]
 		public void Constructor()
 		{
-			IScanner scanner = Provider.Scanner;
 			Parser f  = First;
 			Parser s = Second;
-			SequenceParser parser = new SequenceParser(f,s);
-			Assertion.Equals(parser.FirstParser,f);
-			Assertion.Equals(parser.SecondParser,s);
+			var parser = new SequenceParser(f,s);
+			parser.FirstParser.Should().Be.EqualTo(f);
+			parser.SecondParser.Should().Be.EqualTo(s);
 		}
 
 		[Test]
 		public void Success()
 		{
-			IScanner scanner = Provider.Scanner;
-			SequenceParser parser = new SequenceParser(First,Second);
+			var scanner = Provider.Scanner;
+			var parser = new SequenceParser(First,Second);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(m.Success);
-			Assertion.Equals(m.Offset,0);
-			Assertion.Equals(scanner.Offset,m.Offset+m.Length);
-			Assertion.Equals(m.Value,First.MatchedString+Second.MatchedString);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.True();
+			m.Offset.Should().Be.EqualTo(0);
+			scanner.Offset.Should().Be.EqualTo(m.Offset+m.Length);
+			m.Value.Should().Be.EqualTo(First.MatchedString+Second.MatchedString);
 		}
 
 
 		[Test]
 		public void FailureFirst()
 		{
-			IScanner scanner = Provider.Scanner;
-			SequenceParser parser = new SequenceParser(Second,Second2);
+			var scanner = Provider.Scanner;
+			var parser = new SequenceParser(Second,Second2);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(!m.Success);
-			Assertion.AssertEquals(scanner.Offset,0);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.False();
+			scanner.Offset.Should().Be.EqualTo(0);
 		}
 
 		[Test]
 		public void FailureSecond()
 		{
-			IScanner scanner = Provider.Scanner;
-			SequenceParser parser = new SequenceParser(First,Second2);
+			var scanner = Provider.Scanner;
+			var parser = new SequenceParser(First,Second2);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(!m.Success);
-			Assertion.AssertEquals(scanner.Offset,0);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.False();
+			scanner.Offset.Should().Be.EqualTo(0);
 		}
 	}
 }

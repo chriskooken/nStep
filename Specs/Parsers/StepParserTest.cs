@@ -58,9 +58,18 @@ namespace Specs.Parsers
 		public void It_Does_Not_Match_Unterminated_Steps()
 		{
 			var given = "\tGiven that the world is flat";
+			var when = "when: you look at the sun";
+			var then = "Then you go blind";
+			var but = "but: The face is the best part\t";
 
 			var givenMatch = GherkinParser.StepParser.Parse(new StringScanner(given));
 			givenMatch.Success.Should().Be.False();
+			var whenMatch = GherkinParser.StepParser.Parse(new StringScanner(when));
+			whenMatch.Success.Should().Be.False();
+			var thenMatch = GherkinParser.StepParser.Parse(new StringScanner(then));
+			thenMatch.Success.Should().Be.False();
+			var butMatch = GherkinParser.StepParser.Parse(new StringScanner(but));
+			butMatch.Success.Should().Be.False();
 		}
 	}
 }

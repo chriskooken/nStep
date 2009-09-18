@@ -23,6 +23,7 @@
 /// 
 /// Author: Jonathan de Halleux
 /// 
+/// 9/18/2009: Altered by Adam Moss
 
 using System;
 
@@ -34,18 +35,12 @@ namespace Spart.Tests
 	{
 		public static String Text
 		{
-			get
-			{
-				return "hello world";
-			}
+			get { return "hello world"; }
 		}
 
 		public static IScanner Scanner
 		{
-			get
-			{
-				return new StringScanner(Text);
-			}
+			get { return new StringScanner(Text); }
 		}
 	}
 }

@@ -14,9 +14,7 @@ namespace Specs.Parsers
 		[Test]
 		public void It_Matches_Single_Line_Scenarios()
 		{
-			var scenario = @"
-				Scenario: Some determinable business situation
-";
+			var scenario = "Scenario: Some determinable business situation\n";
 
 			var scenarioMatch = GherkinParser.ScenarioParser.Parse(new StringScanner(scenario));
 			scenarioMatch.Success.Should().Be.True();
@@ -25,8 +23,7 @@ namespace Specs.Parsers
 		[Test]
 		public void It_Does_Not_Match_Single_Line_Unterminated_Scenarios()
 		{
-			var scenario = @"
-				Scenario: Some determinable business situation";
+			var scenario = "Scenario: Some determinable business situation";
 
 			var scenarioMatch = GherkinParser.ScenarioParser.Parse(new StringScanner(scenario));
 			scenarioMatch.Success.Should().Be.False();
@@ -35,8 +32,8 @@ namespace Specs.Parsers
 		[Test]
 		public void It_Does_Not_Match_Unterminated_Scenarios()
 		{
-			var scenario = @"
-				Scenario: Some determinable business situation
+			var scenario =
+@"				Scenario: Some determinable business situation
 					Given some precondition
 						And some other precondition
 					When some action by the actor
@@ -52,7 +49,8 @@ namespace Specs.Parsers
 		[Test]
 		public void It_Matches_Well_Formed_Scenarios()
 		{
-			var scenario = @"
+			var scenario =
+@"
 				Scenario: Some determinable business situation
 					Given some precondition
 						And some other precondition

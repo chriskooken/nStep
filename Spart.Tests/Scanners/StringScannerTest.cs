@@ -23,6 +23,7 @@
 /// 
 /// Author: Jonathan de Halleux
 /// 
+/// 9/18/2009: Altered by Adam Moss
 
 using System;
 
@@ -30,7 +31,6 @@ namespace Spart.Tests.Scanners
 {
 	using Spart.Scanners;
 	using Spart.Parsers;
-	using NUnit.Core;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -38,123 +38,116 @@ namespace Spart.Tests.Scanners
 	{
 		public String Text
 		{
-			get
-			{
-				return Provider.Text;
-			}
+			get { return Provider.Text; }
 		}
 
 		public long Offset
 		{
-			get
-			{
-				return 5;
-			}
+			get { return 5; }
 		}
 
 		[Test]
 		public void Constructor()
 		{
-			StringScanner scanner = new StringScanner(Text);
-			Assertion.Equals(Text, scanner.InputString);
+			var scanner = new StringScanner(Text);
+			scanner.InputString.Should().Be.EqualTo(Text);
 		}
 
 
 		[Test]
 		public void Constructor2()
 		{
-			StringScanner scanner = new StringScanner(Text,Offset);
-			Assertion.Equals(Text, scanner.InputString);
-			Assertion.Equals(Offset, scanner.Offset);
+			var scanner = new StringScanner(Text, Offset);
+			scanner.InputString.Should().Be.EqualTo(Text);
+			scanner.Offset.Should().Be.EqualTo(Offset);
 		}
 
 		[Test]
 		public void Substring()
 		{
-			StringScanner scanner = new StringScanner(Text,Offset);
-			Assertion.Equals(Text.Substring(3, 6), scanner.Substring(3,6));
+			var scanner = new StringScanner(Text, Offset);
+			scanner.Substring(3, 6).Should().Be.EqualTo(Text.Substring(3, 6));
 		}
 
 		[Test]
 		public void ReadAndPeek()
 		{
-			StringScanner scanner = new StringScanner(Text);
-			int i=0;
+			var scanner = new StringScanner(Text);
+			var i = 0;
 
 			while (!scanner.AtEnd)
 			{
-				Assertion.Assert(i < Text.Length);
-				Assertion.Equals(scanner.Peek(), Text[i]);
+				i.Should().Be.LessThan(Text.Length);
+				scanner.Peek().Should().Be.EqualTo(Text[i]);
 				scanner.Read();
 				++i;
 			}
 
-			Assertion.Assert(i == Text.Length);
+			i.Should().Be.EqualTo(Text.Length);
 		}
 
 		[Test]
 		public void ReadAndPeekOffset()
 		{
-			StringScanner scanner = new StringScanner(Text,Offset);
-			int i=(int)Offset;
+			var scanner = new StringScanner(Text, Offset);
+			var i = (int) Offset;
 
 			while (!scanner.AtEnd)
 			{
-				Assertion.Assert(i < Text.Length);
-				Assertion.Equals(scanner.Peek(), Text[i]);
+				i.Should().Be.LessThan(Text.Length);
+				scanner.Peek().Should().Be.EqualTo(Text[i]);
 				scanner.Read();
 				++i;
 			}
 
-			Assertion.Assert(i == Text.Length);
+			i.Should().Be.EqualTo(Text.Length);
 		}
 
 		[Test]
 		public void Seek()
 		{
-			StringScanner scanner = new StringScanner(Text);
-			int i=(int)Offset;
+			var scanner = new StringScanner(Text);
+			var i = (int) Offset;
 			scanner.Seek(Offset);
 
 			while (!scanner.AtEnd)
 			{
-				Assertion.Assert(i < Text.Length);
-				Assertion.Equals(scanner.Peek(), Text[i]);
+				i.Should().Be.LessThan(Text.Length);
+				scanner.Peek().Should().Be.EqualTo(Text[i]);
 				scanner.Read();
 				++i;
 			}
 
-			Assertion.Assert(i == Text.Length);
+			i.Should().Be.EqualTo(Text.Length);
 		}
 
 		[Test]
 		public void NoMatch()
 		{
-			StringScanner scanner = new StringScanner(Text);
-			ParserMatch m = scanner.NoMatch;
-			Assertion.Assert(!m.Success);
+			var scanner = new StringScanner(Text);
+			var m = scanner.NoMatch;
+			m.Success.Should().Be.False();
 		}
 
 		[Test]
 		public void EmptyMatch()
 		{
-			StringScanner scanner = new StringScanner(Text);
-			ParserMatch m = scanner.EmptyMatch;
-			Assertion.Assert(m.Success);
-			Assertion.Assert(m.Empty);
+			var scanner = new StringScanner(Text);
+			var m = scanner.EmptyMatch;
+			m.Success.Should().Be.True();
+			m.Empty.Should().Be.True();
 		}
 
 
 		[Test]
 		public void Match()
 		{
-			StringScanner scanner = new StringScanner(Text);
-			ParserMatch m = scanner.CreateMatch(Offset, 2);
-			Assertion.Assert(m.Success);
-			Assertion.Assert(!m.Empty);
-			Assertion.Equals(m.Length,2);
-
-			Assertion.Equals(m.Value,Text.Substring((int)Offset,2));
+			var scanner = new StringScanner(Text);
+			var m = scanner.CreateMatch(Offset, 2);
+			m.Success.Should().Be.True();
+			m.Empty.Should().Be.False();
+			m.Length.Should().Be.EqualTo(2);
+			m.Value.Should().Be.EqualTo(Text.Substring((int) Offset, 2));
 		}
 
 	}
