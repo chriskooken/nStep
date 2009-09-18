@@ -11,7 +11,7 @@ namespace Nucumber.App
     class Program
     {
         private StepMother StepMother;
-        private IFormatOutput Console;
+        private IFormatOutput formatter;
 
         static void Main(string[] args)
         {
@@ -27,7 +27,7 @@ namespace Nucumber.App
 
         private void Run(string[] args)
         {
-            Console = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
+            formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
             StepMother = new StepMother();
             StepMother.ImportSteps(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
@@ -35,12 +35,12 @@ namespace Nucumber.App
             var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);
 
-            new FeatureExecutor(Console, StepMother).ExecuteFeature(feature);
+            new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
             Thread.Sleep(5000);
             
             
             
-            Console.Complete();
+            formatter.Complete();
         }
 
        
