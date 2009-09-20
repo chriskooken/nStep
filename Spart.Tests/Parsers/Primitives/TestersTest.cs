@@ -23,6 +23,7 @@
 /// 
 /// Author: Jonathan de Halleux
 /// 
+/// 9/18/2009: Altered by Adam Moss
 
 using System;
 
@@ -30,14 +31,13 @@ namespace Spart.Tests.Parsers.Primitives
 {
 	using NUnit.Framework;
 	using Spart.Parsers.Primitives.Testers;
-	using Spart.Parsers.Primitives;
 
 	public class Helper
 	{
 		public static void Test(ICharTester test, Char success, Char failed)
 		{
-			Assertion.Assert(test.Test(success));
-			Assertion.Assert(!test.Test(failed));			
+			test.Test(success).Should().Be.True();
+			test.Test(failed).Should().Be.False();
 		}
 	}
 
@@ -47,8 +47,8 @@ namespace Spart.Tests.Parsers.Primitives
 		[Test]
 		public void AnyCharTest()
 		{
-			AnyCharTester test = new AnyCharTester();
-			Assertion.Assert(test.Test('a'));
+			var test = new AnyCharTester();
+			test.Test('a').Should().Be.True();
 		}
 
 		[Test]
@@ -118,6 +118,5 @@ namespace Spart.Tests.Parsers.Primitives
 		{
 			Helper.Test(new WhiteSpaceCharTester(),' ','a');
 		}
-
 	}
 }

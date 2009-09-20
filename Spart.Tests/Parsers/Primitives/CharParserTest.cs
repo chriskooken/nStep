@@ -23,6 +23,7 @@
 /// 
 /// Author: Jonathan de Halleux
 /// 
+/// 9/18/2009: Altered by Adam Moss
 
 using System;
 
@@ -30,76 +31,67 @@ namespace Spart.Tests.Parsers.Primitives
 {
 	using NUnit.Framework;
 	using Spart.Parsers;
-	using Spart.Parsers.Primitives;
-	using Spart.Scanners;
 
 	[TestFixture]
 	public class CharParserTest
 	{
 		public Char MatchedChar
 		{
-			get
-			{
-				return Provider.Text[0];
-			}
+			get { return Provider.Text[0]; }
 		}
 
 		public Char NonMatchedChar
 		{
-			get
-			{
-				return Provider.Text[1];
-			}
+			get { return Provider.Text[1]; }
 		}
 
 		[Test]
 		public void SuccessParse()
 		{
-			IScanner scanner = Provider.Scanner;
-			CharParser parser = Prims.Ch(MatchedChar);
+			var scanner = Provider.Scanner;
+			var parser = Prims.Ch(MatchedChar);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(m.Success);
-			Assertion.Equals(m.Offset,0);
-			Assertion.Equals(m.Length,1);
-			Assertion.Equals(scanner.Offset,1);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.True();
+			m.Offset.Should().Be.EqualTo(0);
+			m.Length.Should().Be.EqualTo(1);
+			scanner.Offset.Should().Be.EqualTo(1);
 		}
 
 		[Test]
 		public void FailParse()
 		{
-			IScanner scanner = Provider.Scanner;
-			CharParser parser = Prims.Ch(NonMatchedChar);
+			var scanner = Provider.Scanner;
+			var parser = Prims.Ch(NonMatchedChar);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(!m.Success);
-			Assertion.Equals(scanner.Offset,0);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.False();
+			scanner.Offset.Should().Be.EqualTo(0);
 		}
 
 
 		[Test]
 		public void NegateSuccessParse()
 		{
-			IScanner scanner = Provider.Scanner;
-			NegatableParser parser = ~Prims.Ch(NonMatchedChar);
+			var scanner = Provider.Scanner;
+			var parser = ~Prims.Ch(NonMatchedChar);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(m.Success);
-			Assertion.Equals(m.Offset,0);
-			Assertion.Equals(m.Length,1);
-			Assertion.Equals(scanner.Offset,1);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.True();
+			m.Offset.Should().Be.EqualTo(0);
+			m.Length.Should().Be.EqualTo(1);
+			scanner.Offset.Should().Be.EqualTo(1);
 		}
 
 		[Test]
 		public void NegateFailParse()
 		{
-			IScanner scanner = Provider.Scanner;
-			NegatableParser parser = ~Prims.Ch(MatchedChar);
+			var scanner = Provider.Scanner;
+			var parser = ~Prims.Ch(MatchedChar);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(!m.Success);
-			Assertion.Equals(scanner.Offset,0);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.False();
+			scanner.Offset.Should().Be.EqualTo(0);
 		}
-
 	}
 }

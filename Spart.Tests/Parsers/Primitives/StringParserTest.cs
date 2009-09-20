@@ -23,6 +23,7 @@
 /// 
 /// Author: Jonathan de Halleux
 /// 
+/// 9/18/2009: Altered by Adam Moss
 
 using System;
 
@@ -30,58 +31,50 @@ namespace Spart.Tests.Parsers.Primitives
 {
 	using NUnit.Framework;
 	using Spart.Parsers;
-	using Spart.Parsers.Primitives;
-	using Spart.Scanners;
 
 	[TestFixture]
 	public class StringParserTest
 	{
 		public String MatchedString
 		{
-			get
-			{
-				return Provider.Text.Substring(0,3);
-			}
+			get { return Provider.Text.Substring(0, 3); }
 		}
 
 		public String NonMatchedString
 		{
-			get
-			{
-				return Provider.Text.Substring(3,4);
-			}
+			get { return Provider.Text.Substring(3, 4); }
 		}
 
 		[Test]
 		public void Constructor()
 		{
-			IScanner scanner = Provider.Scanner;
-			StringParser parser = Prims.Str(MatchedString);
-			Assertion.Equals( parser.MatchedString, MatchedString);
+			var parser = Prims.Str(MatchedString);
+
+			parser.MatchedString.Should().Be.EqualTo(MatchedString);
 		}
 
 		[Test]
 		public void SuccessParse()
 		{
-			IScanner scanner = Provider.Scanner;
-			StringParser parser = Prims.Str(MatchedString);
+			var scanner = Provider.Scanner;
+			var parser = Prims.Str(MatchedString);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(m.Success);
-			Assertion.Equals(m.Offset,0);
-			Assertion.Equals(m.Length,3);
-			Assertion.Equals(scanner.Offset,4);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.True();
+			m.Offset.Should().Be.EqualTo(0);
+			m.Length.Should().Be.EqualTo(3);
+			m.Scanner.Offset.Should().Be.EqualTo(3);
 		}
 
 		[Test]
 		public void FailParse()
 		{
-			IScanner scanner = Provider.Scanner;
-			StringParser parser = Prims.Str(NonMatchedString);
+			var scanner = Provider.Scanner;
+			var parser = Prims.Str(NonMatchedString);
 
-			ParserMatch m = parser.Parse(scanner);
-			Assertion.Assert(!m.Success);
-			Assertion.Equals(scanner.Offset,0);
+			var m = parser.Parse(scanner);
+			m.Success.Should().Be.False();
+			scanner.Offset.Should().Be.EqualTo(0);
 		}
 	}
 }

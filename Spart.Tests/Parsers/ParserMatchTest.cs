@@ -23,13 +23,13 @@
 /// 
 /// Author: Jonathan de Halleux
 /// 
+/// 9/18/2009: Altered by Adam Moss
 
 using System;
 
 namespace Spart.Tests.Parsers
 {
 	using NUnit.Framework;
-	using Spart.Scanners;
 	using Spart.Parsers;
 
 	[TestFixture]
@@ -54,22 +54,21 @@ namespace Spart.Tests.Parsers
 		[Test]
 		public void NoMatchTest()
 		{
-			Assertion.Equals(NoMatch.Success,false);
+			NoMatch.Success.Should().Be.False();
 		}
 
 		[Test]
 		[ExpectedException(typeof(Exception))]
 		public void NoMatchEmpty()
 		{
-			bool b=NoMatch.Empty;
+			new Action(() => NoMatch.Empty.GetType()).Should().Throw<Exception>();
 		}
 
 		[Test]
 		[ExpectedException(typeof(Exception))]
 		public void NoMatchValue()
 		{
-			String o = NoMatch.Value;
+			new Action(() => NoMatch.Value.GetType()).Should().Throw<Exception>();
 		}
-
 	}
 }
