@@ -11,14 +11,38 @@ namespace Nucumber.Core
         private IList<StepDefinition> whens;
         private IList<StepDefinition> thens;
         private IList<TransformDefinition> transforms;
+        IList<FeatureStep> failedSteps;
+        private IList<FeatureStep> pendingSteps;
+        IList<FeatureStep> passedSteps;
         
         public StepMother()
 		{
+            failedSteps = new List<FeatureStep>();
+            pendingSteps = new List<FeatureStep>();
+            passedSteps = new List<FeatureStep>();
 		    givens = new List<StepDefinition>();
             whens = new List<StepDefinition>();
             thens = new List<StepDefinition>();
             transforms = new List<TransformDefinition>();
 		}
+
+        public IList<FeatureStep> PassedSteps
+        {
+            get { return passedSteps; }
+            set { passedSteps = value; }
+        }
+
+        public IList<FeatureStep> PendingSteps
+        {
+            get { return pendingSteps; }
+            set { pendingSteps = value; }
+        }
+
+        public IList<FeatureStep> FailedSteps
+        {
+            get { return failedSteps; }
+            set { failedSteps = value; }
+        }
 
         public void ImportSteps(IProvideSteps stepSet)
         {
@@ -67,20 +91,24 @@ namespace Nucumber.Core
             }
             catch(StepMissingException ex)
             {
+                pendingSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex;
                 return StepRunResults.Pending;
             }
             catch(StepPendingException ex)
             {
+                pendingSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex;
                 return StepRunResults.Pending;
             }
             catch (Exception ex)
             {
+                failedSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex;
                 return StepRunResults.Failed;
             }
            
+            passedSteps.Add(featureStepToProcess);
             return StepRunResults.Passed;
         }
 

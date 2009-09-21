@@ -71,13 +71,12 @@ namespace Nucumber.App.CommandLineUtilities
 
         public void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
         {
-            //Todo: use an actual feature line to genrate snippet
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("You can implement step definitions for undefined steps with these snippets:");
 
-            foreach (var step in pendingFeatureSteps)
+            foreach (var featureStep in pendingFeatureSteps)
             {
-                Console.WriteLine(syntaxSuggester.TurnFeatureIntoSnippet(step));
+                Console.WriteLine(syntaxSuggester.TurnFeatureIntoSnippet(featureStep));
             }
 
         }
@@ -91,28 +90,41 @@ namespace Nucumber.App.CommandLineUtilities
             WriteLineLevel1(string.Empty);
         }
 
-        public void Complete()
-        { 
-            var timespan = DateTime.Now.Subtract(startTime);
+        public void WriteResults(StepMother stepMother)
+        {
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteDuration(timespan.Hours, timespan.Minutes, timespan.Seconds, timespan.Milliseconds);
+            WriteDuration();
+
+            WriteFailedFeatureLines(stepMother.FailedSteps);
+            WritePendingFeatureSnippets(stepMother.PendingSteps);
             
-            WriteLineLevel1(string.Empty);
-            WriteLineLevel1("Press any key to continue . . .");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            WriteLineLevel1("\nPress any key to continue . . .");
             Console.ReadLine();
         }
 
-        void WriteDuration(int hours, int minutes, int seconds, int milliseconds)
+        static void WriteFailedFeatureLines(IList<FeatureStep> failedSteps)
         {
+            Console.ForegroundColor = ConsoleColor.DarkRed;  
+            Console.WriteLine(failedSteps.Count + "Failed Steps: ");
+            foreach (var failedStep in failedSteps)
+            {
+                Console.WriteLine(failedStep.FeatureLine + ":"+ failedStep.LineNumber);
+            }
+        }
+
+        void WriteDuration()
+        {
+            var timespan = DateTime.Now.Subtract(startTime);
             var formatString = "Finished in: ";
-            if (hours > 0)
-                formatString += hours + "h ";
-            if (minutes > 0)
-                formatString += minutes + "m ";
-            if (seconds > 0)
-                formatString += seconds + "s ";
-            if (milliseconds > 0)
-                formatString += milliseconds + "ms ";
+            if (timespan.Hours > 0)
+                formatString += timespan.Hours + "h ";
+            if (timespan.Minutes > 0)
+                formatString += timespan.Minutes + "m ";
+            if (timespan.Seconds > 0)
+                formatString += timespan.Seconds + "s ";
+            if (timespan.Milliseconds > 0)
+                formatString += timespan.Milliseconds + "ms ";
             
             WriteLineLevel1(formatString);
         }
