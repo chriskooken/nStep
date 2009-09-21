@@ -40,7 +40,7 @@ namespace Nucumber.App
             
             
             
-            formatter.Complete();
+            formatter.WriteResults(StepMother);
         }
 
        

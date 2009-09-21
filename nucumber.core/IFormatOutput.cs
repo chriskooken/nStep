@@ -10,10 +10,9 @@ namespace Nucumber.Core
         void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition);
         void WritePendingFeatureLine(FeatureStep featureStep);
 	    void WriteFeatureHeading(Feature feature);
-	    void Complete();
+	    void WriteResults(StepMother stepMother);
 	    void WriteScenarioTitle(Scenario scenario);
 	    void WriteBackgroundHeading(Scenario background);
 	    void WriteSkippedFeatureLine(FeatureStep featureStep);
-	    void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps);
 	}
 }
