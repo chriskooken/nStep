@@ -78,7 +78,6 @@ namespace Nucumber.App.CommandLineUtilities
             {
                 Console.WriteLine(syntaxSuggester.TurnFeatureIntoSnippet(featureStep));
             }
-
         }
 
         public void WriteFeatureHeading(Feature feature)
