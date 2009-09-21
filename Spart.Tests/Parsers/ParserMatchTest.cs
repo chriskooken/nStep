@@ -58,14 +58,12 @@ namespace Spart.Tests.Parsers
 		}
 
 		[Test]
-		[ExpectedException(typeof(Exception))]
 		public void NoMatchEmpty()
 		{
 			new Action(() => NoMatch.Empty.GetType()).Should().Throw<Exception>();
 		}
 
 		[Test]
-		[ExpectedException(typeof(Exception))]
 		public void NoMatchValue()
 		{
 			new Action(() => NoMatch.Value.GetType()).Should().Throw<Exception>();

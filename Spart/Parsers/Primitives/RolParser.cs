@@ -12,20 +12,20 @@ namespace Spart.Parsers.Primitives {
 			while(!scan.AtEnd && scan.Peek() != '\r' && scan.Peek() != '\n')
 			{
 				scan.Read();
-				++len;
+				len++;
 			}
 
 			if (!scan.AtEnd && scan.Peek() == '\r')    // CR
 			{
 				scan.Read();
-				++len;
+				len++;
 				lineTerminated = true;
 			}
 
 			if (!scan.AtEnd && scan.Peek() == '\n')    // LF
 			{
 				scan.Read();
-				++len;
+				len++;
 				lineTerminated = true;
 			}
 

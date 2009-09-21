@@ -39,13 +39,13 @@ namespace Spart.Parsers.Primitives
 			if (!scan.AtEnd && scan.Peek() == '\r')    // CR
 			{
 				scan.Read();
-				++len;
+				len++;
 			}
 
 			if (!scan.AtEnd && scan.Peek() == '\n')    // LF
 			{
 				scan.Read();
-				++len;
+				len++;
 			}
 
 			if (len>0)

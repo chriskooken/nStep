@@ -139,6 +139,7 @@
     <Compile Include="Parsers\Primitives\CharParserTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Parsers\Primitives\RolParserTest.cs" />
     <Compile Include="Parsers\Primitives\StringParserTest.cs">
       <SubType>Code</SubType>
     </Compile>
