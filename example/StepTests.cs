@@ -52,7 +52,6 @@ namespace Cucumber
             Given("^I live at \"([^\"]*)\"$", location =>
             {
                 Console.WriteLine("Location is: " + location);
-                location = location.Remove("");
             });
 
             Given("^I live at home$", () =>
