@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Nucumber.Core;
+using System.Linq;
 using Nucumber.Framework;
 
 namespace Nucumber.App.CommandLineUtilities
@@ -65,13 +66,15 @@ namespace Nucumber.App.CommandLineUtilities
         }
         public void WritePendingFeatureLine(FeatureStep featureStep)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
         }
 
         public void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            if (pendingFeatureSteps.Count() == 0) return;
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("You can implement step definitions for undefined steps with these snippets:");
 
             foreach (var featureStep in pendingFeatureSteps)
@@ -92,9 +95,9 @@ namespace Nucumber.App.CommandLineUtilities
         public void WriteResults(StepMother stepMother)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteDuration();
-
             WriteFailedFeatureLines(stepMother.FailedSteps);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            WriteDuration();
             WritePendingFeatureSnippets(stepMother.PendingSteps);
             
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -104,8 +107,9 @@ namespace Nucumber.App.CommandLineUtilities
 
         static void WriteFailedFeatureLines(IList<FeatureStep> failedSteps)
         {
+            if (failedSteps.Count == 0) return;
             Console.ForegroundColor = ConsoleColor.DarkRed;  
-            Console.WriteLine(failedSteps.Count + "Failed Steps: ");
+            Console.WriteLine(failedSteps.Count + " Failed Steps: ");
             foreach (var failedStep in failedSteps)
             {
                 Console.WriteLine(failedStep.FeatureLine + ":"+ failedStep.LineNumber);
