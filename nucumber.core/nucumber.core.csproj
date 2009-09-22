@@ -46,6 +46,11 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FeatureExecutor.cs" />
     <Compile Include="FeatureStep.cs" />
+    <Compile Include="Parsers\Generated\GherkinAnalyzer.cs" />
+    <Compile Include="Parsers\Generated\GherkinConstants.cs" />
+    <Compile Include="Parsers\Generated\GherkinParser.cs" />
+    <Compile Include="Parsers\Generated\GherkinTokenizer.cs" />
+    <Compile Include="Parsers\GherkinParser.cs" />
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
@@ -66,9 +71,6 @@
   <ItemGroup>
     <None Include="Parsers\BuildGrammar.bat" />
     <None Include="Parsers\gherkin.grammar" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Parsers\Generated\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
