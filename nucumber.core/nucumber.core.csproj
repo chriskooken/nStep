@@ -47,7 +47,6 @@
     <Compile Include="FeatureExecutor.cs" />
     <Compile Include="FeatureStep.cs" />
     <Compile Include="StepCaller.cs" />
-    <Compile Include="Parsers\GherkinParser.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
     <Compile Include="StepMissingException.cs" />
@@ -56,10 +55,10 @@
     <Compile Include="Parsers\Enums.cs" />
     <Compile Include="Parsers\AltGherkinParser.cs" />
     <Compile Include="Parsers\IGherkinParser.cs" />
-    <Compile Include="Parsers\SimpleSubtree.cs" />
-    <Compile Include="Parsers\SimpleTree.cs" />
-    <Compile Include="Parsers\SimpleTreeNode.cs" />
-    <Compile Include="Parsers\SimpleTreeNodeList.cs" />
+    <Compile Include="Parsers\DataStructures\SimpleSubtree.cs" />
+    <Compile Include="Parsers\DataStructures\SimpleTree.cs" />
+    <Compile Include="Parsers\DataStructures\SimpleTreeNode.cs" />
+    <Compile Include="Parsers\DataStructures\SimpleTreeNodeList.cs" />
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
@@ -67,6 +66,9 @@
   <ItemGroup>
     <None Include="Parsers\BuildGrammar.bat" />
     <None Include="Parsers\gherkin.grammar" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Parsers\Generated\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
