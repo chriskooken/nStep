@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -42,22 +43,28 @@ namespace Nucumber.App.CommandLineUtilities
                     var propertyParam = new PropertyParameter() {Property = propertyInfo, Switches = new List<string>()};
                     var requiredAttribute =
                         (Required) propertyInfo.GetCustomAttributes(typeof (Required), true).FirstOrDefault();
+                    
                     var defaultAttribute =
                         (Default) propertyInfo.GetCustomAttributes(typeof (Default), true).FirstOrDefault();
+                    
                     propertyParam.IsRequired = (requiredAttribute != null);
+
+                    propertyParam.IsEnumerable = (propertyInfo.PropertyType.IsAssignableFrom(typeof(IList<string>)) || propertyInfo.PropertyType.IsAssignableFrom(typeof(IList<Enum>)) );
+
+                    propertyParam.IsEnum = propertyInfo.PropertyType.IsEnum;
 
                     if (defaultAttribute != null)
                     {
                         if (propertyInfo.PropertyType == typeof(bool))
                             throw new ArgumentException("Default can't be of type bool");
-                    
+                        
                         propertyParam.IsDefault = true;
                         propertyParam.IsSwitch = false;
                         propertyParam.Switches.Add(DefaultFlag);
                         propertyParameters.Add(DefaultFlag, propertyParam);
                         continue;
                     }
-
+                    
                     propertyParam.IsDefault = false;
                     propertyParam.IsSwitch = (propertyInfo.PropertyType == typeof(Boolean) || propertyInfo.GetType()==typeof(bool));
                     var switchAttribute =
@@ -67,10 +74,10 @@ namespace Nucumber.App.CommandLineUtilities
                     {
                         foreach (var switche in switchAttribute.switches)
                         {
-                            propertyParam.Switches.Add(switche);
+                            propertyParam.Switches.Add(switche.ToLower());
                             try
                             {
-                                propertyParameters.Add(switche, propertyParam);
+                                propertyParameters.Add(switche.ToLower(), propertyParam);
                             }
                             catch (Exception e)
                             {
@@ -79,17 +86,18 @@ namespace Nucumber.App.CommandLineUtilities
                         }
                         continue;
                     }
-                    var namedSwitch = propertyParam.Property.Name[0].ToString();
-                    propertyParam.Switches.Add(namedSwitch);
+                    var namedSwitch = propertyParam.Property.Name[0].ToString().ToLower();
+                    
                     try
                     {
+                        propertyParam.Switches.Add(namedSwitch);
                         propertyParameters.Add(namedSwitch, propertyParam);
                     }
                     catch (Exception e)
                     {
                         throw new ArgumentException("Flag overlap");
                     }
-                    namedSwitch = propertyParam.Property.Name;
+                    namedSwitch = propertyParam.Property.Name.ToLower();
                     propertyParam.Switches.Add(namedSwitch);
                     try
                     {
@@ -103,9 +111,6 @@ namespace Nucumber.App.CommandLineUtilities
                 return propertyParameters;
             }
         }
-
-
-
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
             if(args.Length == 0 || args[0].Length == 0)
@@ -127,10 +132,19 @@ namespace Nucumber.App.CommandLineUtilities
                         var propertyParam = PropertyParameters[pair.Flag];
                         if(propertyParam.IsEnumerable)
                         {
-                            propertyParam.Property.SetValue(consoleOptions,pair.Parameter,null);
+
+                            propertyParam.Property.SetValue(consoleOptions, pair.Parameter, null);
+                            
                             continue;
                         }
-                        propertyParam.Property.SetValue(consoleOptions,pair.Parameter.FirstOrDefault(),null);
+                        if(propertyParam.IsEnum)
+                        {
+                            propertyParam.Property.SetValue(consoleOptions, Enum.Parse(propertyParam.Property.PropertyType, pair.Parameter.FirstOrDefault()), null);
+                        }
+                        else
+                        {
+                            propertyParam.Property.SetValue(consoleOptions, pair.Parameter.FirstOrDefault(), null);
+                        }
                     }
                     catch (KeyNotFoundException)
                     {
@@ -272,6 +286,7 @@ namespace Nucumber.App.CommandLineUtilities
         public bool IsRequired { get; set; }
         public bool IsSwitch { get; set; }
         public bool IsEnumerable { get; set; }
+        public bool IsEnum { get; set; }
     }
 
 

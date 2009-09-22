@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
 using Nucumber.App.CommandLineUtilities;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -152,7 +154,8 @@ namespace CommandLine
         [Test]
         public void Then_the_assembly_option_should_be_set()
         {
-            options.Assemblies.Should().Be.EqualTo(someAssembly);
+            options.Assemblies.Count.Should().Be.EqualTo(1);
+            options.Assemblies.First().Should().Be.EqualTo(someAssembly);
         }
 
         protected override void InitializeArguments()
@@ -168,7 +171,8 @@ namespace CommandLine
         [Test]
         public void Then_the_assembly_option_should_be_set()
         {
-            options.Assemblies.Should().Be.EqualTo(someAssembly);
+            options.Assemblies.Count.Should().Be.EqualTo(1);
+            options.Assemblies.First().Should().Be.EqualTo(someAssembly);
         }
 
         protected override void InitializeArguments()
@@ -177,46 +181,137 @@ namespace CommandLine
         }
     }
 
+    [TestFixture]
+    public class If_Parse_Is_called_with_the_require_flag_and_more_than_one_parameter : ConsoleOptionsTestBase
+    {
+        private IList<string> someAssembly = new List<string>(){"SomeAssembly","someotherassembly"};
 
+        [Test]
+        public void Then_the_assembly_option_should_be_set()
+        {
+            options.Assemblies.SequenceEqual(someAssembly).Should().Be.True();
+        }
 
+        protected override void InitializeArguments()
+        {
+            args = new string[] { "C:/Projects/Nucumber/example", "-r", someAssembly[0], someAssembly[1] };
+        }
+    }
+    [TestFixture]
+    public class If_Parse_Is_called_with_the_require_option_and_more_than_one_parameter : ConsoleOptionsTestBase
+    {
+        private IList<string> someAssembly = new List<string>(){"SomeAssembly","someotherassembly"};
 
+        [Test]
+        public void Then_the_assembly_option_should_be_set()
+        {
+            options.Assemblies.SequenceEqual(someAssembly).Should().Be.True();
+        }
 
+        protected override void InitializeArguments()
+        {
+            args = new string[] {"C:/Projects/Nucumber/example", "-require", someAssembly[0],someAssembly[1]};
 
+        }
+    }
+    [TestFixture]
+    public class If_Parse_Is_called_with_the_format_flag_and_no_parameters : ConsoleOptionsTestBase
+    {
 
-        //[TestFixture]
-    //public class If_Parse_Is_called_with_type_ConsoleOptions_and_a_directory : ConsoleOptionsTestBase
-    //{
-    //    [Test]
-    //    public void Then_it_should_load_all_features_in_the_given_directory()
-    //    {
-    //        var filePaths = Directory.GetFiles(args[0]);
-    //        options.FeatureFiles.Count.Should().Be.EqualTo(filePaths.Length);
-    //        options.FeatureFiles.First().Should().Be.EqualTo(filePaths.First());  
-    //    }
+        [TestFixtureSetUp]
+        public override void SetUp()
+        {
+            InitializeArguments();
+        }
 
-    //    protected override void InitializeArguments()
-    //    {
-    //        args = new string[] { "C:/Projects/Nucumber/example" };
-    //    }
-    //}
+        [Test]
+        public void Then_it_should_error()
+        {
+            Assert.Throws(
+                        typeof(ArgumentException),
+                        () => options = new ConsoleOptions().Parse<ConsoleOptions>(args)
+                        );
+        }
+
+        protected override void InitializeArguments()
+        {
+            args = new string[] { "C:/Projects/Nucumber/example", "-f" };
+        }
+    }
+    [TestFixture]
+    public class If_Parse_Is_called_with_the_format_option_and_no_parameters : ConsoleOptionsTestBase
+    {
+
+        [TestFixtureSetUp]
+        public override void SetUp()
+        {
+            InitializeArguments();
+        }
+
+        [Test]
+        public void Then_it_should_error()
+        {
+            Assert.Throws(
+                        typeof(ArgumentException),
+                        () => options = new ConsoleOptions().Parse<ConsoleOptions>(args)
+                        );
+        }
+
+        protected override void InitializeArguments()
+        {
+            args = new string[] { "C:/Projects/Nucumber/example", "-format" };
+        }
+    }
+
+    [TestFixture]
+    public class If_Parse_Is_called_with_the_format_flag_and_one_parameter : ConsoleOptionsTestBase
+    {
+        private Format format = Format.Html;
+
+        [Test]
+        public void Then_the_format_option_should_be_set()
+        {
+            options.Format.Should().Be.EqualTo(format);
+        }
+
+        protected override void InitializeArguments()
+        {
+            args = new string[] { "C:/Projects/Nucumber/example", "-f", format.ToString() };
+        }
+    }
+
+    [TestFixture]
+    public class If_Parse_Is_called_with_the_format_option_and_one_parameter : ConsoleOptionsTestBase
+    {
+        private Format format = Format.Html;
+
+        [Test]
+        public void Then_the_format_option_should_be_set()
+        {
+            options.Format.Should().Be.EqualTo(format);
+        }
+
+        protected override void InitializeArguments()
+        {
+            args = new string[] { "C:/Projects/Nucumber/example", "-format", format.ToString() };
+        }
+    }
 
     //[TestFixture]
-    //public class A_feature_file_is_specified : ConsoleOptionsTestBase
+    //public class If_Parse_Is_called_with_the_lformat_option_and_one_parameter : ConsoleOptionsTestBase
     //{
+    //    private List<Format> lformat = new List<Format>(){Format.Html,Format.Xml};
+
     //    [Test]
-    //    public void Then_it_should_load_a_single_feature()
+    //    public void Then_the_lformat_option_should_be_set()
     //    {
-    //        var filePaths = Directory.GetFiles("C:/Projects/Nucumber/example");
-    //        var example = filePaths.Where(x => x.Contains("example.feature")).FirstOrDefault();
-    //        options.FeatureFiles.Count.Should().Be.EqualTo(1);
-    //        options.FeatureFiles.First().Should().Be.EqualTo(example);    
+    //        options.LFormats.SequenceEqual(lformat).Should().Be.True();
     //    }
 
     //    protected override void InitializeArguments()
     //    {
-    //        args = new string[] { "C:/Projects/Nucumber/example/example.feature" };
+    //        args = new string[] { "C:/Projects/Nucumber/example", "-lformat", lformat[0].ToString(), lformat[1].ToString() };
     //    }
     //}
-
 
 }
