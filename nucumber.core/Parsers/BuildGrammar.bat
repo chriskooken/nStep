@@ -1,0 +1,1 @@
+java -jar ..\..\Lib\grammatica-1.5.jar gherkin.grammar --csoutput . --csnamespace Nucumber.Core.Parsers
