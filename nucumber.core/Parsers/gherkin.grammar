@@ -1,0 +1,44 @@
+%header%
+
+GRAMMARTYPE = "LL"
+
+%tokens%
+
+HORIZONTAL_WHITESPACE	= <<[\t ]*>>
+EOL						= <<\r?\n>>
+ROL						= <<[^\r^\n]*\r?\n>>
+NOT_PIPE				= <<[^|]*>>
+
+T_GIVEN	= <<Given|given:>>
+T_WHEN	= <<When|when:>>
+T_THEN	= <<Then|then:>>
+T_AND	= <<And|and:>>
+T_BUT	= <<But|but:>>
+
+%productions%
+
+Feature					= FeatureHeader Background? (Scenario | ScenarioOutline)* ;
+FeatureHeader			= 'Feature:' ROL+ ;
+
+Background				= BackgroundHeader Step+ ;
+BackgroundHeader		= HORIZONTAL_WHITESPACE "Background:" EOL ;
+
+Scenario				= ScenarioHeader Step+ ;
+ScenarioHeader			= HORIZONTAL_WHITESPACE "Scenario:" ROL ;
+
+ScenarioOutline			= ScenarioOutlineHeader Step+ Examples ;
+ScenarioOutlineHeader	= HORIZONTAL_WHITESPACE "Scenario Outline:" ROL ;
+
+Examples				= ExamplesHeader Table ;
+ExamplesHeader			= HORIZONTAL_WHITESPACE "Examples:" EOL ;
+
+Step					= Given | When | Then | And | But ;
+
+Given					= HORIZONTAL_WHITESPACE T_GIVEN ROL ;
+When					= HORIZONTAL_WHITESPACE T_WHEN ROL ;
+Then					= HORIZONTAL_WHITESPACE T_THEN ROL ;
+And						= HORIZONTAL_WHITESPACE T_AND ROL ;
+But						= HORIZONTAL_WHITESPACE T_BUT ROL ;
+
+Table					= TableRow+ ;
+TableRow				= HORIZONTAL_WHITESPACE "|" (NOT_PIPE "|")+ ;
