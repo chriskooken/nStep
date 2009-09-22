@@ -6,13 +6,13 @@
 using System;
 using System.Text;
 
-namespace System.Collections.Generic
+namespace Nucumber.Core.Parsers.DataStructures
 {
-    /// <summary>
-    /// Represents a hierarchy of objects or data.  SimpleTree is a root-level alias for SimpleTree and SimpleSubtreeNode.
-    /// </summary>
-    public class SimpleTree<T> : SimpleTreeNode<T>
-    {
-        public SimpleTree() { }
-    }
+	/// <summary>
+	/// Represents a hierarchy of objects or data.  SimpleTree is a root-level alias for SimpleTree and SimpleSubtreeNode.
+	/// </summary>
+	public class SimpleTree<T> : SimpleTreeNode<T>
+	{
+		public SimpleTree() { }
+	}
 }

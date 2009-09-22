@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Nucumber.Core.Parsers.DataStructures;
 
 
 namespace Nucumber.Core.Parsers {

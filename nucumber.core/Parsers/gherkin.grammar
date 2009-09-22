@@ -7,7 +7,14 @@ GRAMMARTYPE = "LL"
 HORIZONTAL_WHITESPACE	= <<[\t ]*>>
 EOL						= <<\r?\n>>
 ROL						= <<[^\r^\n]*\r?\n>>
+PIPE					= "|"
 NOT_PIPE				= <<[^|]*>>
+
+T_FEATURE			= "Feature:"
+T_BACKGROUD			= "Background:"
+T_SCENARIO			= "Scenario:"
+T_SCENARIO_OUTLINE	= "Scenario Outline:"
+T_EXAMPLES			= "Examples:"
 
 T_GIVEN	= <<Given|given:>>
 T_WHEN	= <<When|when:>>
@@ -18,7 +25,7 @@ T_BUT	= <<But|but:>>
 %productions%
 
 Feature					= FeatureHeader Background? (Scenario | ScenarioOutline)* ;
-FeatureHeader			= 'Feature:' ROL+ ;
+FeatureHeader			= "Feature:" ROL+ ;
 
 Background				= BackgroundHeader Step+ ;
 BackgroundHeader		= HORIZONTAL_WHITESPACE "Background:" EOL ;
