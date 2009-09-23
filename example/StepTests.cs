@@ -66,9 +66,8 @@ namespace Cucumber
 
             Then("I should be on the \"([^\"]*)\" page", page =>
             {
-                var s = new string[] {""};
-                s[3] = "hello";
-                //World.Browser.GetTitle().Should().Be.EqualTo(page);
+                var x = page;
+                World.Browser.GetTitle().Should().Be.EqualTo(page);
             });
 
         }

@@ -109,7 +109,7 @@ namespace Nucumber.Core
             catch (Exception ex)
             {
                 failedSteps.Add(featureStepToProcess);
-                LastProcessStepException = ex;
+                LastProcessStepException = ex.InnerException;
                 return StepRunResults.Failed;
             }
            
