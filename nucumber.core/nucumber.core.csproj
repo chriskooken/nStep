@@ -67,6 +67,8 @@
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
+    <Compile Include="IWorldViewDictionary.cs" />
+    <Compile Include="WorldViewDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Parsers\BuildGrammar.bat" />
