@@ -32,16 +32,15 @@ namespace Cucumber
 
             Given("I am on the google homepage", () =>
             {
-                World.Browser.Start();
                 World.Browser.Open("http://www.google.com");
                 World.Browser.WaitForPageToLoad("10");
                 World.Browser.Type("q", "dogs are cool things");
             });
 
-            Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
-        	{
-        	    user.Name = newName;
-        	});
+            When("I type \"([^\"]*)\" in the \"([^\"]*)\" field", (string arg1, string arg2) =>
+            {
+                
+            });
             
             Given("Given ProviderLocation \"([^\"]*)\" exists", locationName =>
             {
@@ -67,8 +66,9 @@ namespace Cucumber
 
             Then("I should be on the \"([^\"]*)\" page", page =>
             {
-                Pending();
-                World.Browser.GetTitle().Should().Be.EqualTo(page);
+                var s = new string[] {""};
+                s[3] = "hello";
+                //World.Browser.GetTitle().Should().Be.EqualTo(page);
             });
 
         }

@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IRunStepsFromStrings.cs" />
+    <Compile Include="IWorldViewDictionary.cs" />
     <Compile Include="ScenarioHooksBase.cs" />
     <Compile Include="ScenarioResult.cs" />
     <Compile Include="StepDefinitionDsl.cs" />

@@ -6,6 +6,7 @@ using System.Threading;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
+using Nucumber.Framework;
 
 namespace Nucumber.App
 {
@@ -34,17 +35,22 @@ namespace Nucumber.App
 
             var assemblyFile = new FileInfo(args.FirstOrDefault());
 
-            IWorldViewDictionary worldViews =
-                new AssemblyLoader().GetWorldViewProviders(assemblyFile);
+            var worldViews = new WorldViewDictionary();
+            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFile));
+
+            EnvironmentBase env = AssemblyLoader.LoadEnvironment(new []{assemblyFile});
+
+            env.GlobalBegin(worldViews);
 
             StepMother = new StepMother(worldViews);
-            StepMother.AdoptSteps(new AssemblyLoader().GetStepSets(assemblyFile));
+            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFile));
 
             var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);
 
             new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
            
+            env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
         }
 

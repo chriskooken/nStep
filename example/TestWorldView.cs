@@ -8,6 +8,7 @@ namespace Cucumber
         public TestWorldView()
         {
             Browser = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
+            Browser.Start();
         }
     }
 }

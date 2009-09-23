@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,19 +10,29 @@ using Nucumber.Framework;
 
 namespace Nucumber.App
 {
-    public class AssemblyLoader
+    public static class AssemblyLoader
     {
-        public IEnumerable<IProvideSteps> GetStepSets(FileInfo assemblyFile)
+        public static IEnumerable<IProvideSteps> GetStepSets(FileInfo assemblyFile)
         {
             return GetTypesAssignableFrom<IProvideSteps>(assemblyFile);
         }
 
-        private List<TType> GetTypesAssignableFrom<TType>(FileInfo assemblyFile)
+        private static List<TType> GetTypesAssignableFrom<TType>(FileInfo assemblyFile)
+        {
+            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t));
+        }
+        
+        private static List<TType> GetTypesInheritingFrom<TType>(FileInfo assemblyFile) where TType : class 
+        {
+            return GetTypes<TType>(assemblyFile, t => t.IsSubclassOf(typeof(TType)));
+        }
+
+        static List<TType> GetTypes<TType>(FileInfo assemblyFile, Func<Type, bool> predicate)
         {
             var result = new List<TType>();
             foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
             {
-                if ((typeof(TType).IsAssignableFrom(t) && (t != typeof(StepSetBase<>))))
+                if ((predicate(t) && (t != typeof(StepSetBase<>))))
                 {
                     result.Add((TType)Activator.CreateInstance(t));
                     
@@ -30,17 +41,22 @@ namespace Nucumber.App
             return result;
         }
 
-        public IWorldViewDictionary GetWorldViewProviders(FileInfo assemblyFile)
+        public static IEnumerable<IProvideWorldView> GetWorldViewProviders(FileInfo assemblyFile)
         {
-            var providers = GetTypesAssignableFrom<IProvideWorldView>(assemblyFile);
+            return GetTypesAssignableFrom<IProvideWorldView>(assemblyFile);
+        }
 
-            var result = new WorldViewDictionary();
-            foreach (var provider in providers)
+        public static EnvironmentBase LoadEnvironment(IEnumerable<FileInfo> assemblyFiles)
+        {
+            IEnumerable<EnvironmentBase> environmentBases = new List<EnvironmentBase>();
+            foreach (var assemblyFile in assemblyFiles)
             {
-                result.Import(provider);
+                environmentBases = environmentBases.Concat(GetTypesInheritingFrom<EnvironmentBase>(assemblyFile));
             }
 
-            return result;
+            if (environmentBases.Count() > 1) throw new OnlyOneEnvironmentMayBeDefinedException();
+
+            return environmentBases.FirstOrDefault();
         }
     }
 }
