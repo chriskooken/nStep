@@ -62,9 +62,7 @@ namespace Nucumber.App
                 Path.GetFullPath(@"..\..\..\example\bin\debug\" + args.Name.Substring(0, args.Name.IndexOf(",")) +
                                  ".dll");
 
-            var MyAssembly = Assembly.LoadFrom(strTempAssmbPath);
-
-            return MyAssembly;
+            return Assembly.LoadFrom(strTempAssmbPath);
         }
     }
 }
