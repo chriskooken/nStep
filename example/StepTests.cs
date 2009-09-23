@@ -57,16 +57,20 @@ namespace Cucumber
                 var x = page;
                 World.Browser.GetTitle().Should().Be.EqualTo(page);
             });
-            
-            Given("^I live at home$", () =>
+
+            Given("My Name is \"([^\"]*)\"", (string arg1) =>
             {
-                Console.WriteLine("Location is: home");
+                
             });
 
-            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (int city, string state) =>
+            Given("I live at \"([^\"]*)\"", (string arg1) =>
             {
-                Console.WriteLine("City is: " + city);
-                Console.WriteLine("State is: " + state);
+                
+            });
+
+            Given("My city is \"([^\"]*)\" and my state is \"([^\"]*)\"", (string arg1, string arg2) =>
+            {
+                
             });
 
 

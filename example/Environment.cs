@@ -9,16 +9,14 @@ namespace Cucumber
 	{
 	    public override void GlobalBegin(IWorldViewDictionary worldViewDictionary)
 	    {
-	        
-	        Console.WriteLine("Begin");
 	    }
 
 	    public override void GlobalExit(IWorldViewDictionary worldViewDictionary)
 	    {
             var world = worldViewDictionary.GetWorldViewOfType<TestWorldView>();
 
-            world.Browser.Stop();
-            Console.WriteLine("End");
+            //world.Browser.Stop();
+         
 	    }
 	}
 }

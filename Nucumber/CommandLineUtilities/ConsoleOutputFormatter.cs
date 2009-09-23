@@ -153,5 +153,10 @@ namespace Nucumber.App.CommandLineUtilities
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+
+        public void WriteLineBreak()
+        {
+            Console.WriteLine();
+        }
     }
 }

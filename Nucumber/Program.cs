@@ -30,7 +30,7 @@ namespace Nucumber.App
         private void Run(string[] args)
         {
 
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
@@ -59,7 +59,7 @@ namespace Nucumber.App
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             var strTempAssmbPath =
-                Path.GetFullPath(@"..\..\..\example\bin\debug\" + args.Name.Substring(0, args.Name.IndexOf(",")) +
+                Path.GetFullPath("..\\..\\..\\example\\bin\\debug\\" + args.Name.Substring(0, args.Name.IndexOf(",")) +
                                  ".dll");
 
             return Assembly.LoadFrom(strTempAssmbPath);

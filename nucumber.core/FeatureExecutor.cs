@@ -23,6 +23,7 @@ namespace Nucumber.Core
             foreach (var scenario in feature.Scenarios)
             {
                 ExecuteScenario(scenario);
+                Console.WriteLineBreak();
             }
         }
 

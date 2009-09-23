@@ -14,5 +14,6 @@ namespace Nucumber.Core
 	    void WriteScenarioTitle(Scenario scenario);
 	    void WriteBackgroundHeading(Scenario background);
 	    void WriteSkippedFeatureLine(FeatureStep featureStep);
+	    void WriteLineBreak();
 	}
 }
