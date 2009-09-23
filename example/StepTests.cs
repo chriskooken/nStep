@@ -30,6 +30,17 @@ namespace Cucumber
                     return new User {Name = userName};
                 });
 
+            Given("I am on the google homepage", () =>
+            {
+                var Browser = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
+                Browser.Start();
+                Browser.Open("http://www.google.com");
+                Browser.WaitForPageToLoad("10");
+                Browser.Type("q", "dogs are cool things");
+            });
+
+
+
             Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
         	{
         	    user.Name = newName;
@@ -38,15 +49,6 @@ namespace Cucumber
             Given("Given ProviderLocation \"([^\"]*)\" exists", locationName =>
             {
                     Console.WriteLine("Got location name " + locationName);
-            });
-
-        	Given("^My Name is \"([^\"]*)\"$", name =>
-            {
-                World.Browser.Open("http://www.google.com");
-                World.Browser.WaitForPageToLoad("10");
-                World.Browser.Type("q", "dogs are cool things");
-
-                Console.WriteLine("Name is: " + name);
             });
 
             Given("^I live at \"([^\"]*)\"$", location =>

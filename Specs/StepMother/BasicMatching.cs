@@ -38,7 +38,7 @@ namespace Specs.StepMother
             var set = new StepSet();
 
             var mother = new Nucumber.Core.StepMother();
-            mother.ImportSteps(set);
+            mother.AdoptSteps(set);
 
             var step = new FeatureStep {FeatureLine = "My Name is \"Chris\""};
             mother.ProcessStep(step);
@@ -52,7 +52,7 @@ namespace Specs.StepMother
             var set = new StepSet();
 
             var mother = new Nucumber.Core.StepMother();
-            mother.ImportSteps(set);
+            mother.AdoptSteps(set);
 
             var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
             mother.ProcessStep(step);
@@ -65,7 +65,7 @@ namespace Specs.StepMother
             var set = new StepSet();
 
             var mother = new Nucumber.Core.StepMother();
-            mother.ImportSteps(set);
+            mother.AdoptSteps(set);
 
             var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
             mother.ProcessStep(step);

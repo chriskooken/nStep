@@ -9,6 +9,7 @@ namespace Nucumber.Core.Parsers
 {
     public class AltGherkinParser:IGherkinParser
     {
+        string previousName = "";
         public SimpleTreeNode<LineValue> GetParseTree(string filename)
         {
             // var parseTree = new SimpleSubtree<LineValue>();
@@ -80,6 +81,17 @@ namespace Nucumber.Core.Parsers
             return rootNode;
         }
 
+        private string ConvertAndToPrevious(string stepType)
+        {
+            if (stepType == "And")
+                return previousName;
+            else
+            {
+                previousName = stepType;
+                return stepType;
+            }
+        }
+
         SimpleTreeNode<LineValue> GetCurrentNode(SimpleTreeNode<LineValue> rootNode, Match match, int counter)
         {
             SimpleTreeNode<LineValue> CurrentLevel1Node;
@@ -87,8 +99,8 @@ namespace Nucumber.Core.Parsers
             node.Value = new LineValue
             {
                 Line = counter,
-                NodeType = match.Groups[1].Value.Trim(),
-                Text = match.Groups[2].Value.Trim()
+                NodeType = ConvertAndToPrevious(match.Groups[1].Value.Trim()),
+                Text = match.Groups[0].Value.Trim()
             };
             rootNode.Children.Add(node);
             CurrentLevel1Node = node;

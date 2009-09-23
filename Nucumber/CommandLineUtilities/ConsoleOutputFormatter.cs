@@ -79,14 +79,16 @@ namespace Nucumber.App.CommandLineUtilities
 
             foreach (var featureStep in pendingFeatureSteps)
             {
+                Console.WriteLine();
                 Console.WriteLine(syntaxSuggester.TurnFeatureIntoSnippet(featureStep));
+                
             }
         }
 
         public void WriteFeatureHeading(Feature feature)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteLineLevel1("Feature: " + feature.Description);
+            WriteLineLevel1(feature.Description);
             foreach (var s in feature.SummaryLines)
                 WriteLineLevel1(s);
             WriteLineLevel1(string.Empty);
@@ -134,17 +136,17 @@ namespace Nucumber.App.CommandLineUtilities
 
         public void WriteScenarioTitle(Scenario scenario)
         {
-            WriteLineLevel1("Scenario: " + scenario.Title);
+            WriteLineLevel2(scenario.Title);
         }
 
         public void WriteBackgroundHeading(Scenario background)
         {
-            WriteLineLevel2("Background:" + background.Title);
+            WriteLineLevel2(background.Title);
         }
 
         public void WriteSkippedFeatureLine(FeatureStep featureStep)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
         }
     }

@@ -44,7 +44,7 @@ namespace Nucumber.Core
             set { failedSteps = value; }
         }
 
-        public void ImportSteps(IProvideSteps stepSet)
+        public void AdoptSteps(IProvideSteps stepSet)
         {
             givens = givens.Union(stepSet.StepDefinitions.Givens).ToList();
             whens = whens.Union(stepSet.StepDefinitions.Whens).ToList();
@@ -53,10 +53,10 @@ namespace Nucumber.Core
             transforms = transforms.Union(stepSet.TransformDefinitions).ToList();
         }
 
-        public void ImportSteps(IEnumerable<IProvideSteps> stepSets)
+        public void AdoptSteps(IEnumerable<IProvideSteps> stepSets)
         {
             foreach (var set in stepSets)
-                ImportSteps(set);
+                AdoptSteps(set);
         }
 
         public Exception LastProcessStepException { get; private set; }
