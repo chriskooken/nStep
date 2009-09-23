@@ -78,6 +78,7 @@
     <Compile Include="StepSetBase\When.cs" />
     <Compile Include="StepSetBase\Given.cs" />
     <Compile Include="TypeCaster.cs" />
+    <Compile Include="WorldViewDictionary\ImportWorldViews.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Parsers\" />

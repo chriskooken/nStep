@@ -46,6 +46,11 @@ namespace Nucumber.Framework
             set { World = value as TWorldView; }
         }
 
+        public Type WorldViewType
+        {
+            get { return typeof (TWorldView); }
+        }
+
         public IRunStepsFromStrings StepFromStringRunner
         {
             set { StepRunner = value; }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -8,6 +9,7 @@ namespace Nucumber.Framework
         IEnumerable<TransformDefinition> TransformDefinitions { get; }
         CombinedStepDefinitions StepDefinitions { get; }
         object WorldView { set; }
+        Type WorldViewType { get; }
         IRunStepsFromStrings StepFromStringRunner { set; }
 
         void BeforeStep();

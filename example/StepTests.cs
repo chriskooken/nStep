@@ -32,14 +32,11 @@ namespace Cucumber
 
             Given("I am on the google homepage", () =>
             {
-                var Browser = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
-                Browser.Start();
-                Browser.Open("http://www.google.com");
-                Browser.WaitForPageToLoad("10");
-                Browser.Type("q", "dogs are cool things");
+                World.Browser.Start();
+                World.Browser.Open("http://www.google.com");
+                World.Browser.WaitForPageToLoad("10");
+                World.Browser.Type("q", "dogs are cool things");
             });
-
-
 
             Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
         	{
@@ -76,41 +73,5 @@ namespace Cucumber
 
         }
     }
-        public class TestWorldView
-        {
-            public readonly DefaultSelenium Browser;
-            public TestWorldView()
-            {
-                Browser = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
-                Browser.Start();
-            }
-        }
-
-        public class WorldViewProvider : WorldViewProviderBase<TestWorldView>
-        {
-            protected override TestWorldView InitializeWorldView()
-            {
-                return new TestWorldView();
-            }
-        }
-
-    public class Environment : EnvironmentBase
-    {
-        public override void SessionStart()
-        {
-            //Maybe create the database? Init StructureMap? Start Selenium? Something else?
-        }
-
-        public override void SessionEnd()
-        {
-            //Destroy the database? Clean up? Stop Selenium?
-        }
-
-        public override void AfterScenario()
-        {
-            //Maybe clean out the database?
-        }
-    }
-
-    }
+}
 

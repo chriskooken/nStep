@@ -32,8 +32,13 @@ namespace Nucumber.App
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
-            StepMother = new StepMother();
-            StepMother.AdoptSteps(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
+            var assemblyFile = new FileInfo(args.FirstOrDefault());
+
+            IWorldViewDictionary worldViews =
+                new AssemblyLoader().GetWorldViewProviders(assemblyFile);
+
+            StepMother = new StepMother(worldViews);
+            StepMother.AdoptSteps(new AssemblyLoader().GetStepSets(assemblyFile));
 
             var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);
