@@ -2,19 +2,8 @@
 {
     public abstract class EnvironmentBase
     {
-        public virtual void SessionStart()
-        {
-            
-        }
+        public abstract void GlobalBegin();
 
-        public virtual void SessionEnd()
-        {
-
-        }
-
-        public virtual void AfterScenario()
-        {
-
-        }
+        public abstract void GlobalExit();
     }
 }
