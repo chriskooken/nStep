@@ -31,6 +31,8 @@ namespace Nucumber.App
         {
             
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+            
+            
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
             var assemblyFile = new FileInfo(args.FirstOrDefault());
@@ -56,7 +58,22 @@ namespace Nucumber.App
 
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            return Assembly.LoadFile(Path.GetFullPath(@"..\..\..\example\bin\debug\ThoughtWorks.Selenium.Core.dll"));
+            //return Assembly.LoadFile(Path.GetFullPath(@"..\..\..\example\bin\debug\ThoughtWorks.Selenium.Core.dll"));
+            //This handler is called only when the common language runtime tries to bind to the assembly and fails.
+
+        
+                    //Build the path of the assembly from where it has to be loaded.				
+                    var strTempAssmbPath = Path.GetFullPath(@"..\..\..\example\bin\debug\" + args.Name.Substring(0, args.Name.IndexOf(",")) + ".dll");
+                  
+                
+
+            
+            //Load the assembly from the specified path. 					
+            var MyAssembly = Assembly.LoadFrom(strTempAssmbPath);
+
+            //Return the loaded assembly.
+            return MyAssembly;
+
         }
 
        

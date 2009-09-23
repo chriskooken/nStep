@@ -34,25 +34,30 @@ namespace Cucumber
             {
                 World.Browser.Open("http://www.google.com");
                 World.Browser.WaitForPageToLoad("10");
-                World.Browser.Type("q", "dogs are cool things");
+                
             });
 
             When("I type \"([^\"]*)\" in the \"([^\"]*)\" field", (string arg1, string arg2) =>
             {
-                
+                World.Browser.Type("q", "dogs are cool things");
+            });
+
+            When("I click the \"([^\"]*)\" button", (string arg1) =>
+            {
+                World.Browser.Click("btnG");
+            });
+
+            When("I wait for the page to load", () =>
+            {
+                World.Browser.WaitForPageToLoad("1000");
+            });
+
+            Then("I should be on the \"([^\"]*)\" page", page =>
+            {
+                var x = page;
+                World.Browser.GetTitle().Should().Be.EqualTo(page);
             });
             
-            Given("Given ProviderLocation \"([^\"]*)\" exists", locationName =>
-            {
-                    Console.WriteLine("Got location name " + locationName);
-            });
-
-            Given("^I live at \"([^\"]*)\"$", location =>
-            {
-                Console.WriteLine("Location is: " + location);
-                location = location.Remove(5);
-            });
-
             Given("^I live at home$", () =>
             {
                 Console.WriteLine("Location is: home");
@@ -64,11 +69,7 @@ namespace Cucumber
                 Console.WriteLine("State is: " + state);
             });
 
-            Then("I should be on the \"([^\"]*)\" page", page =>
-            {
-                var x = page;
-                World.Browser.GetTitle().Should().Be.EqualTo(page);
-            });
+
 
         }
     }

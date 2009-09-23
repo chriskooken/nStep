@@ -9,6 +9,8 @@ And "Laurens Office" has a kiosk called "Kiosk 1"
 Scenario: I search for dogs
 Given I am on the google homepage
 When I type "dogs" in the "search" field
+And I click the "search" button
+And I wait for the page to load
 Then I should be on the "search results" page
 
 Scenario Outline: I am having fun

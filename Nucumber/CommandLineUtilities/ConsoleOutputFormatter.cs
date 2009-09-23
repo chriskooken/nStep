@@ -53,7 +53,7 @@ namespace Nucumber.App.CommandLineUtilities
         public void WriteException(FeatureStep step, Exception ex)
 		{
 			Console.ForegroundColor = ConsoleColor.DarkRed;
-            WriteLineLevel3(step.FeatureLine);
+            WriteLineLevel3(step.FeatureLine + ":" + step.LineNumber);
 			WriteLineLevel3(ex.Message);
 			WriteLineLevel4(ex.StackTrace);
 			Console.ForegroundColor = ConsoleColor.Gray;	
@@ -63,11 +63,13 @@ namespace Nucumber.App.CommandLineUtilities
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             WriteLineLevel3(featureStep.FeatureLine);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         public void WritePendingFeatureLine(FeatureStep featureStep)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
@@ -83,6 +85,7 @@ namespace Nucumber.App.CommandLineUtilities
                 Console.WriteLine(syntaxSuggester.TurnFeatureIntoSnippet(featureStep));
                 
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WriteFeatureHeading(Feature feature)
@@ -110,11 +113,11 @@ namespace Nucumber.App.CommandLineUtilities
         static void WriteFailedFeatureLines(IList<FeatureStep> failedSteps)
         {
             if (failedSteps.Count == 0) return;
-            Console.ForegroundColor = ConsoleColor.DarkRed;  
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(failedSteps.Count + " Failed Steps: ");
             foreach (var failedStep in failedSteps)
             {
-                Console.WriteLine(failedStep.FeatureLine + ":"+ failedStep.LineNumber);
+                Console.WriteLine(failedStep.FeatureLine + ":" + failedStep.LineNumber);
             }
         }
 
@@ -148,6 +151,7 @@ namespace Nucumber.App.CommandLineUtilities
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }
