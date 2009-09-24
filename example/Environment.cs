@@ -15,7 +15,7 @@ namespace Cucumber
 	    {
             var world = worldViewDictionary.GetWorldViewOfType<SeleniumWorldView>();
 
-            //world.Browser.Stop();
+            world.Browser.Stop();
          
 	    }
 	}

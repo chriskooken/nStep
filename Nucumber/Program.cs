@@ -19,17 +19,17 @@ namespace Nucumber.App
 
         static void Main(string[] args)
         {
-# if DEBUG
-            args = new[]
-                       {
-                           "Nucumber.exe",
-                           Path.GetFullPath(@"..\..\..\example\"),
-                           "-r",
-                           Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll")
-                       };
-# endif
-            var options = new NucumberOptions().Parse<NucumberOptions>(args);
-            new Program().Run(options);
+            try
+            {
+                Console.ReadKey();
+                var options = new NucumberOptions().Parse<NucumberOptions>(args);
+                new Program().Run(options);
+            }
+            catch (ConsoleOptionsException exception)
+            {
+                Console.WriteLine(exception.OutPut());
+            }
+            
         }
 
         private void Run(NucumberOptions options)
