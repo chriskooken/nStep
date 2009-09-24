@@ -59,7 +59,12 @@ namespace Nucumber.Framework
             }
         }
 
-        IList<Column> columns = new List<Column>();
+		public Row(IList<Column> columns)
+		{
+			this.columns = columns;
+		}
+
+    	IList<Column> columns = new List<Column>();
         public IList<Column> Columns
         {
             get
