@@ -10,7 +10,7 @@ namespace CommandLine
 
     public abstract class ConsoleOptionsTestBase
     {
-        protected ConsoleOptions options;
+        protected TestOptions options;
         protected string[] args;
 
         [TestFixtureSetUp]
@@ -18,7 +18,7 @@ namespace CommandLine
         {
             InitializeArguments();
             Assert.DoesNotThrow(() =>
-                                options = new ConsoleOptions().Parse<ConsoleOptions>(args));
+                                options = new TestOptions().Parse<TestOptions>(args));
         }
 
         protected abstract void InitializeArguments(); 
@@ -37,7 +37,7 @@ namespace CommandLine
         public void Then_It_Should_Error()
         {
             Assert.Throws(typeof (ArgumentException),
-                () => options = new ConsoleOptions().Parse<ConsoleOptions>(args) );
+                () => options = new TestOptions().Parse<TestOptions>(args) );
         }
 
         protected override void InitializeArguments()
@@ -52,7 +52,7 @@ namespace CommandLine
         [Test]
         public void Then_it_should_return_a_ConsoleOptionsBase_of_type_ConsoleOptions()
         {
-            options.Should().Be.InstanceOf<ConsoleOptions>();
+            options.Should().Be.InstanceOf<TestOptions>();
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace CommandLine
         {
             Assert.Throws(
                         typeof(ArgumentException),
-                        () => options = new ConsoleOptions().Parse<ConsoleOptions>(args)
+                        () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 
@@ -135,7 +135,7 @@ namespace CommandLine
         {
             Assert.Throws(
                         typeof(ArgumentException),
-                        () => options = new ConsoleOptions().Parse<ConsoleOptions>(args)
+                        () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 
@@ -229,7 +229,7 @@ namespace CommandLine
         {
             Assert.Throws(
                         typeof(ArgumentException),
-                        () => options = new ConsoleOptions().Parse<ConsoleOptions>(args)
+                        () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 
@@ -253,7 +253,7 @@ namespace CommandLine
         {
             Assert.Throws(
                         typeof(ArgumentException),
-                        () => options = new ConsoleOptions().Parse<ConsoleOptions>(args)
+                        () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 

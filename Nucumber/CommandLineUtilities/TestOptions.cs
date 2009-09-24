@@ -2,7 +2,7 @@
 
 namespace Nucumber.App.CommandLineUtilities
 {
-    public class ConsoleOptions : ConsoleOptionsBase
+    public class TestOptions : ConsoleOptionsBase
     {   
         [Default]
         [Required]

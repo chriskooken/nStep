@@ -24,6 +24,7 @@ namespace Nucumber.App
                            Path.GetFullPath(@"..\..\..\example\example.feature")
                        };
 # endif
+            var options = new TestOptions().Parse<TestOptions>(args);
             new Program().Run(args);
         }
 
@@ -35,25 +36,30 @@ namespace Nucumber.App
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
-            var assemblyFile = new FileInfo(args.FirstOrDefault());
+            var assemblyFile = new FileInfo(args[0]);
 
             var worldViews = new WorldViewDictionary();
-            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFile));
+            worldViews.Import(AssemblyLoader.GetWorldViewProviders(new[] {assemblyFile}));
 
-            EnvironmentBase env = AssemblyLoader.LoadEnvironment(new[] { assemblyFile });
+            EnvironmentBase env = AssemblyLoader.GetEnvironment(new[] { assemblyFile });
 
             env.GlobalBegin(worldViews);
 
             StepMother = new StepMother(worldViews);
             StepMother.AdoptSteps(AssemblyLoader.GetStepSets(new[] {assemblyFile}));
 
-            var feature = new Feature(new AltGherkinParser());
-            feature.Parse(args[1]);
-
-            new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+            LoadAndExecuteFeatureFile(args[1]);
 
             env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
+        }
+
+        void LoadAndExecuteFeatureFile(string fileName)
+        {
+            var feature = new Feature(new AltGherkinParser());
+            feature.Parse(fileName);
+
+            new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
         }
 
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
