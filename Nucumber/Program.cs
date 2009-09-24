@@ -25,11 +25,18 @@ namespace Nucumber.App
             try
             {
                 var options = new NucumberOptions().Parse<NucumberOptions>(args);
+                if (options.Debug)
+                {
+                    Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
+                    Console.ReadLine();
+                }
                 new Program().Run(options);
             }
             catch (ConsoleOptionsException exception)
             {
-                Console.WriteLine(exception.OutPut());
+                exception.PrintMessageToConsole();
+                Console.ForegroundColor = ConsoleColor.Gray;
+                Console.ReadKey();
             }
             catch(InvalidScenarioLineNumberException ex)
             {
@@ -41,6 +48,13 @@ namespace Nucumber.App
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+            catch(Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
            

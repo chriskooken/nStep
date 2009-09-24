@@ -79,6 +79,8 @@ namespace Nucumber.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("You can implement step definitions for undefined steps with these snippets:");
 
+            pendingFeatureSteps = pendingFeatureSteps.Distinct();
+
             foreach (var featureStep in pendingFeatureSteps)
             {
                 Console.WriteLine();
@@ -106,8 +108,6 @@ namespace Nucumber.App.CommandLineUtilities
             WritePendingFeatureSnippets(stepMother.PendingSteps);
             
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteLineLevel1("\nPress any key to continue . . .");
-            Console.ReadKey();
         }
 
         static void WriteFailedFeatureLines(IList<FeatureStep> failedSteps)
