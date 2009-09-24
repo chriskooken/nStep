@@ -48,6 +48,29 @@ namespace CommandLine
     }
 
     [TestFixture]
+    public class If_Parse_Is_called_NULL_parameters : ConsoleOptionsTestBase
+    {
+        [TestFixtureSetUp]
+        public override void SetUp()
+        {
+            InitializeArguments();
+        }
+
+        [Test]
+        public void Then_It_Should_Error()
+        {
+            Assert.Throws(typeof(ConsoleOptionsException),
+                () => options = new TestOptions().Parse<TestOptions>(args));
+        }
+
+        protected override void InitializeArguments()
+        {
+            args = null;
+        }
+    }
+
+
+    [TestFixture]
     public class If_Parse_Is_called_with_one_parameter_and_no_flags_ : ConsoleOptionsTestBase
     {
         [Test]

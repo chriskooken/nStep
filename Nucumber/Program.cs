@@ -20,16 +20,16 @@ namespace Nucumber.App
 
         static void Main(string[] args)
         {
-# if DEBUG
-            args = new[]
-                       {
-                           Path.GetFullPath(@"..\..\..\example\example.feature"),
-                           "-r",
-                           Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll")
-                       };
-# endif
-            var options = new NucumberOptions().Parse<NucumberOptions>(args);
-            new Program().Run(options);
+            try
+            {
+                var options = new NucumberOptions().Parse<NucumberOptions>(args);
+                new Program().Run(options);
+            }
+            catch (ConsoleOptionsException exception)
+            {
+                Console.WriteLine(exception.OutPut());
+            }
+            
         }
 
         private void Run(NucumberOptions options)

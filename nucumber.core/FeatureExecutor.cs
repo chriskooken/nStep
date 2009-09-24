@@ -1,7 +1,15 @@
 using System;
+using System.Linq;
 
 namespace Nucumber.Core
 {
+    public enum FeatureParts
+    {
+        Feature,
+        Background,
+        Scenario,
+        ScenarioOutlineExample
+    }
     public class FeatureExecutor
     {
         private readonly IFormatOutput Console;
@@ -16,24 +24,37 @@ namespace Nucumber.Core
 
         public void ExecuteFeature(Feature feature, int lineNmber)
         {
-            throw new NotImplementedException();
+            //switch (feature.WhatIsAtLine(lineNmber))
+            //{
+            //    case FeatureParts.Feature:
+            //        ExecuteFeature(feature);
+            //        break;
+            //    case FeatureParts.Background:
+            //        ExecuteBackground(feature);
+            //        break;
+            //    case FeatureParts.Scenario:
+            //        ExecuteScenario(feature.GetScenarioAt(lineNmber), feature);
+            //        break;
+            //    case FeatureParts.ScenarioOutlineExample:
+            //        throw new NotImplementedException();
+            //}
+
         }
 
         public void ExecuteFeature(Feature feature)
         {
             Console.WriteFeatureHeading(feature);
 
-            ExecuteBackground(feature);
-
             foreach (var scenario in feature.Scenarios)
             {
-                ExecuteScenario(scenario);
+                ExecuteScenario(scenario, feature);
                 Console.WriteLineBreak();
             }
         }
 
-        private void ExecuteScenario(Scenario scenario)
+        private void ExecuteScenario(Scenario scenario, Feature feature)
         {
+            ExecuteBackground(feature);
             SkippingSteps = false;
             Console.WriteScenarioTitle(scenario);
             foreach (var step in scenario.Steps)
