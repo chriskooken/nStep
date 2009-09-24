@@ -110,7 +110,19 @@ namespace Nucumber.Core
 
         public Scenario GetScenarioAt(int lineNmber)
         {
-            throw new NotImplementedException();
+            var foundScenario = Scenarios.Where(x => x.LineNumber == lineNmber);
+            if (foundScenario.Any())
+                return foundScenario.First();
+
+            throw new InvalidScenarioLineNumberException("There are no scenario definitions on line: " + lineNmber);
+        }
+    }
+
+    public class InvalidScenarioLineNumberException : ApplicationException
+    {
+        public InvalidScenarioLineNumberException(string message): base(message)
+        {
+            
         }
     }
 
