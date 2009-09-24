@@ -2,11 +2,11 @@ using Nucumber.Framework;
 
 namespace Cucumber
 {
-    public class WorldViewProvider : WorldViewProviderBase<TestWorldView>
+    public class WorldViewProvider : WorldViewProviderBase<SeleniumWorldView>
     {
-        protected override TestWorldView InitializeWorldView()
+        protected override SeleniumWorldView InitializeWorldView()
         {
-            return new TestWorldView();
+            return new SeleniumWorldView();
         }
     }
 }

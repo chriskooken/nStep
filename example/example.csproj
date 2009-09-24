@@ -53,7 +53,7 @@
     <Compile Include="Environment.cs" />
     <Compile Include="ScenarioHooks.cs" />
     <Compile Include="StepTests.cs" />
-    <Compile Include="TestWorldView.cs" />
+    <Compile Include="SeleniumWorldView.cs" />
     <Compile Include="WorldViewProvider.cs" />
   </ItemGroup>
   <ItemGroup>

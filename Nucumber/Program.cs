@@ -20,15 +20,16 @@ namespace Nucumber.App
 # if DEBUG
             args = new[]
                        {
-                           Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll"),
-                           Path.GetFullPath(@"..\..\..\example\example.feature")
+                           Path.GetFullPath(@"..\..\..\example\example.feature"),
+                           "-r",
+                           Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll")
                        };
 # endif
-            var options = new TestOptions().Parse<TestOptions>(args);
-            new Program().Run(args);
+            var options = new NucumberOptions().Parse<NucumberOptions>(args);
+            new Program().Run(options);
         }
 
-        private void Run(string[] args)
+        private void Run(NucumberOptions options)
         {
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -36,19 +37,19 @@ namespace Nucumber.App
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
-            var assemblyFile = new FileInfo(args[0]);
+            var assemblyFiles = options.Assemblies.Select(x => new FileInfo(x)).ToList();
 
             var worldViews = new WorldViewDictionary();
-            worldViews.Import(AssemblyLoader.GetWorldViewProviders(new[] {assemblyFile}));
+            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
 
-            EnvironmentBase env = AssemblyLoader.GetEnvironment(new[] { assemblyFile });
+            EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
 
             env.GlobalBegin(worldViews);
 
             StepMother = new StepMother(worldViews);
-            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(new[] {assemblyFile}));
+            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
 
-            LoadAndExecuteFeatureFile(args[1]);
+            LoadAndExecuteFeatureFile(options.FeatureFiles);
 
             env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
