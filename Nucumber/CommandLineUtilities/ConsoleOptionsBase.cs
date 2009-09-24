@@ -49,7 +49,7 @@ namespace Nucumber.App.CommandLineUtilities
 
                     propertyParam.IsRequired = (requiredAttribute != null);
 
-                    propertyParam.IsEnumerable = (propertyInfo.PropertyType.IsAssignableFrom(typeof(IList<string>)) || propertyInfo.PropertyType.IsAssignableFrom(typeof(IList<Enum>)) );
+                    propertyParam.IsEnumerable = IsEnumerable(propertyInfo);
 
                     propertyParam.IsEnum = propertyInfo.PropertyType.IsEnum;
 
@@ -115,6 +115,8 @@ namespace Nucumber.App.CommandLineUtilities
         }
 
 
+
+
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
             if(args.Length == 0 || args[0].Length == 0)
@@ -131,29 +133,7 @@ namespace Nucumber.App.CommandLineUtilities
                 //Is parameter with flag
                 if (pair.Flag != null && pair.Parameter != null)
                 {
-                    try
-                    {
-                        var propertyParam = PropertyParameters[pair.Flag];
-                        if(propertyParam.IsEnumerable)
-                        {
-
-                            propertyParam.Property.SetValue(consoleOptions, pair.Parameter, null);
-                            
-                            continue;
-                        }
-                        if(propertyParam.IsEnum)
-                        {
-                            propertyParam.Property.SetValue(consoleOptions, Enum.Parse(propertyParam.Property.PropertyType, pair.Parameter.FirstOrDefault()), null);
-                        }
-                        else
-                        {
-                            propertyParam.Property.SetValue(consoleOptions, pair.Parameter.FirstOrDefault(), null);
-                        }
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        throw new ConsoleOptionsException("Invalid Switch", PropertyParameters.Values.ToList(), pair);
-                    }
+                    ParameterWithFlag(pair, consoleOptions);
                     continue;
                 }
 
@@ -161,40 +141,78 @@ namespace Nucumber.App.CommandLineUtilities
                 //Is default
                 if(pair.Flag == null && pair.Parameter != null)
                 {
-                    try
-                    {
-                        var propertyParam = PropertyParameters[DefaultFlag];
-                        if (propertyParam.IsEnumerable)
-                        {
-                            propertyParam.Property.SetValue(consoleOptions, pair.Parameter, null);
-                            continue;
-                        }
-                        propertyParam.Property.SetValue(consoleOptions, pair.Parameter.FirstOrDefault(),null);
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        throw new ConsoleOptionsException("There is no default option, please use the appropriate flags.",PropertyParameters.Values.ToList(),pair);
-                    }
+                    ParameterDefault(pair, consoleOptions);
                     continue;
                 }
 
                 //Is switch
                 if (pair.Parameter == null && pair.Flag != null)
                 {
-                    try
-                    {
-                        var propertyParam = PropertyParameters[pair.Flag];
-                        propertyParam.Property.SetValue(consoleOptions, true, null);
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        throw new ConsoleOptionsException("Invalid Switch",PropertyParameters.Values.ToList(),pair);
-                    }
+                    ParameterSwitch(pair, consoleOptions);
                     continue;
-                }   
+                }
             }
             return consoleOptions;
         }
+
+        private void ParameterSwitch<TConsoleOptions>(ParameterPair pair, TConsoleOptions consoleOptions)
+        {
+            try
+            {
+                var propertyParam = PropertyParameters[pair.Flag];
+                propertyParam.Property.SetValue(consoleOptions, true, null);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ConsoleOptionsException("Invalid Switch",PropertyParameters.Values.ToList(),pair);
+            }
+        }
+
+        private void ParameterDefault<TConsoleOptions>(ParameterPair pair, TConsoleOptions consoleOptions)
+        {
+            try
+            {
+                var propertyParam = PropertyParameters[DefaultFlag];
+                if (propertyParam.IsEnumerable)
+                {
+                    propertyParam.Property.SetValue(consoleOptions, pair.Parameter, null);
+                    return;
+                }
+                propertyParam.Property.SetValue(consoleOptions, pair.Parameter.FirstOrDefault(),null);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ConsoleOptionsException("There is no default option, please use the appropriate flags.",PropertyParameters.Values.ToList(),pair);
+            }
+        }
+
+        private void ParameterWithFlag<TConsoleOptions>(ParameterPair pair, TConsoleOptions consoleOptions)
+        {
+            try
+            {
+                var propertyParam = PropertyParameters[pair.Flag];
+                if(propertyParam.IsEnumerable)
+                {
+                    propertyParam.Property.SetValue(consoleOptions, pair.Parameter, null);
+
+                    return;
+                }
+                if(propertyParam.IsEnum)
+                {
+                    propertyParam.Property.SetValue(consoleOptions, Enum.Parse(propertyParam.Property.PropertyType, pair.Parameter.FirstOrDefault()), null);
+                }
+                else
+                {
+                    propertyParam.Property.SetValue(consoleOptions, pair.Parameter.FirstOrDefault(), null);
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ConsoleOptionsException("Invalid Switch", PropertyParameters.Values.ToList(), pair);
+            }
+        }
+
+
 
         public IList<ParameterPair> GetParameters(string[] args)
         {
@@ -359,6 +377,16 @@ namespace Nucumber.App.CommandLineUtilities
         public static string GetHelp(this List<PropertyParameter> parameters)
         {
             return "needs to be implemented";
+        }
+
+        public static bool IsEnumerable(this Type PropertyType)
+        {
+            var genArgs = PropertyType.GetGenericArguments();
+
+            var enumerable = (PropertyType is IEnumerable);
+
+
+            return PropertyType.IsAssignableFrom(typeof(IList<string>));
         }
 
     }
