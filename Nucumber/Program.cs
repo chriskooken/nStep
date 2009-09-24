@@ -1,3 +1,5 @@
+#define ALTPARSER
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -81,12 +83,15 @@ namespace Nucumber.App
             {
                 try
                 {
-                    filePath = new FileInfo(featureDescription.Groups[1].Value);
-					//var feature = GherkinParser.GetFeature(filePath);
+					filePath = new FileInfo(featureDescription.Groups[1].Value);
+#if ALTPARSER
 					var parser = new AltGherkinParser();
 					var feature = new Feature(parser);
 					feature.Parse(filePath.FullName);
-                    new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
+#else
+					var feature = GherkinParser.GetFeature(filePath);
+#endif
+					new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
                 }
                 catch (FormatException e)
                 {
@@ -110,12 +115,16 @@ namespace Nucumber.App
             var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
             files.ForEach(x =>
                               {
-								  //var feature = GherkinParser.GetFeature(x);
+#if ALTPARSER
 								  var parser = new AltGherkinParser();
 								  var feature = new Feature(parser);
 								  feature.Parse(x);
+#else
+								  var innerFilePath = new FileInfo(x);
+								  var feature = GherkinParser.GetFeature(innerFilePath);
+#endif
 
-                                  new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+								  new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
                               });
 
         }
