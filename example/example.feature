@@ -2,9 +2,9 @@ Feature: This is a test feature
 I want to test some stuff here
 More text goes here
 
-#Background:
-#Given ProviderLocation "Laurens Office" exists
-#And "Laurens Office" has a kiosk called "Kiosk 1"
+Background:
+Given ProviderLocation "Laurens Office" exists
+And "Laurens Office" has a kiosk called "Kiosk 1"
 
 Scenario: I search for dogs
 Given I am on the google homepage

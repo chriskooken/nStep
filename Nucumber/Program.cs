@@ -69,8 +69,7 @@ namespace Nucumber.App
                 try
                 {
                     filePath = new FileInfo(featureDescription.Groups[1].Value);
-                    var feature = new Feature(new AltGherkinParser());
-                    feature.Parse(filePath.FullName);
+                    var feature = GherkinParser.GetFeature(filePath);
                     new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
                 }
                 catch (Exception e)
