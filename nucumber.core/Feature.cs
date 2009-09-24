@@ -8,28 +8,34 @@ namespace Nucumber.Core
 {
     public class Feature
     {
-		//private readonly IGherkinParser parser;
+		private readonly IGherkinParser parser;
 
         IList<Scenario> scenarios;
         Scenario background;
         IList<string> summaryLines;
 
-		//public Feature(IGherkinParser parser)
-		//{
-		//    this.parser = parser;
-		//    scenarios = new List<Scenario>();
-		//    summaryLines = new List<string>();
-		//    background = new Scenario();
-		//}
+        public Feature(IGherkinParser parser)
+        {
+            this.parser = parser;
+            scenarios = new List<Scenario>();
+            summaryLines = new List<string>();
+            background = new Scenario();
+        }
 
-		//public void Parse(string fileName)
-		//{
-		//    var parseTree = parser.GetParseTree(fileName);
-		//}
+        public Feature()
+        {
+            
+        } 
+
+        public void Parse(string fileName)
+        {
+            var parseTree = parser.GetParseTree(fileName);
+            RecursiveTreeLoad(parseTree, null);
+        }
 
         public void RecursiveTreeLoad(SimpleTreeNode<LineValue> subtree, Scenario currentScenario)
         {
-            
+
             if (subtree.Parent != null)
             {
                 LoadHeading(subtree);
@@ -50,12 +56,12 @@ namespace Nucumber.Core
         {
             var val = subtree.Value;
             if (subtree.Value.NodeType == "Background:")
-                background.Title =subtree.Value.Text;
+                background.Title = subtree.Value.Text;
 
             if (subtree.Parent.Value.NodeType == "Background:")
-                background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(),LineNumber = val.Line});
-        }      
-        
+                background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.Line });
+        }
+
         Scenario LoadScenario(SimpleTreeNode<LineValue> subtree, Scenario currentScenario)
         {
             if (currentScenario == null)
