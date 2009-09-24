@@ -50,6 +50,7 @@
     <Compile Include="Parsers\Generated\GherkinConstants.cs" />
     <Compile Include="Parsers\Generated\GherkinParser.cs" />
     <Compile Include="Parsers\Generated\GherkinTokenizer.cs" />
+    <Compile Include="Parsers\FeatureBuilder.cs" />
     <Compile Include="Parsers\GherkinParser.cs" />
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
@@ -58,8 +59,6 @@
     <Compile Include="Feature.cs" />
     <Compile Include="StepAmbiguousException.cs" />
     <Compile Include="Parsers\Enums.cs" />
-    <Compile Include="Parsers\AltGherkinParser.cs" />
-    <Compile Include="Parsers\IGherkinParser.cs" />
     <Compile Include="Parsers\DataStructures\SimpleSubtree.cs" />
     <Compile Include="Parsers\DataStructures\SimpleTree.cs" />
     <Compile Include="Parsers\DataStructures\SimpleTreeNode.cs" />

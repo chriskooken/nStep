@@ -24,21 +24,6 @@ namespace Nucumber.Core.Parsers.Generated {
          */
         public override void Enter(Node node) {
             switch (node.Id) {
-            case (int) GherkinConstants.HORIZONTAL_WHITESPACE:
-                EnterHorizontalWhitespace((Token) node);
-                break;
-            case (int) GherkinConstants.EOL:
-                EnterEol((Token) node);
-                break;
-            case (int) GherkinConstants.ROL:
-                EnterRol((Token) node);
-                break;
-            case (int) GherkinConstants.PIPE:
-                EnterPipe((Token) node);
-                break;
-            case (int) GherkinConstants.NOT_PIPE:
-                EnterNotPipe((Token) node);
-                break;
             case (int) GherkinConstants.T_FEATURE:
                 EnterTFeature((Token) node);
                 break;
@@ -68,6 +53,18 @@ namespace Nucumber.Core.Parsers.Generated {
                 break;
             case (int) GherkinConstants.T_BUT:
                 EnterTBut((Token) node);
+                break;
+            case (int) GherkinConstants.HORIZONTAL_WHITESPACE:
+                EnterHorizontalWhitespace((Token) node);
+                break;
+            case (int) GherkinConstants.EOL:
+                EnterEol((Token) node);
+                break;
+            case (int) GherkinConstants.TEXT_CHAR:
+                EnterTextChar((Token) node);
+                break;
+            case (int) GherkinConstants.PIPE:
+                EnterPipe((Token) node);
                 break;
             case (int) GherkinConstants.FEATURE:
                 EnterFeature((Production) node);
@@ -123,6 +120,18 @@ namespace Nucumber.Core.Parsers.Generated {
             case (int) GherkinConstants.TABLE_ROW:
                 EnterTableRow((Production) node);
                 break;
+            case (int) GherkinConstants.WHITESPACE:
+                EnterWhitespace((Production) node);
+                break;
+            case (int) GherkinConstants.FREE_LINE:
+                EnterFreeLine((Production) node);
+                break;
+            case (int) GherkinConstants.BLANK_LINE:
+                EnterBlankLine((Production) node);
+                break;
+            case (int) GherkinConstants.TEXT:
+                EnterText((Production) node);
+                break;
             }
         }
 
@@ -139,16 +148,6 @@ namespace Nucumber.Core.Parsers.Generated {
          */
         public override Node Exit(Node node) {
             switch (node.Id) {
-            case (int) GherkinConstants.HORIZONTAL_WHITESPACE:
-                return ExitHorizontalWhitespace((Token) node);
-            case (int) GherkinConstants.EOL:
-                return ExitEol((Token) node);
-            case (int) GherkinConstants.ROL:
-                return ExitRol((Token) node);
-            case (int) GherkinConstants.PIPE:
-                return ExitPipe((Token) node);
-            case (int) GherkinConstants.NOT_PIPE:
-                return ExitNotPipe((Token) node);
             case (int) GherkinConstants.T_FEATURE:
                 return ExitTFeature((Token) node);
             case (int) GherkinConstants.T_BACKGROUD:
@@ -169,6 +168,14 @@ namespace Nucumber.Core.Parsers.Generated {
                 return ExitTAnd((Token) node);
             case (int) GherkinConstants.T_BUT:
                 return ExitTBut((Token) node);
+            case (int) GherkinConstants.HORIZONTAL_WHITESPACE:
+                return ExitHorizontalWhitespace((Token) node);
+            case (int) GherkinConstants.EOL:
+                return ExitEol((Token) node);
+            case (int) GherkinConstants.TEXT_CHAR:
+                return ExitTextChar((Token) node);
+            case (int) GherkinConstants.PIPE:
+                return ExitPipe((Token) node);
             case (int) GherkinConstants.FEATURE:
                 return ExitFeature((Production) node);
             case (int) GherkinConstants.FEATURE_HEADER:
@@ -205,6 +212,14 @@ namespace Nucumber.Core.Parsers.Generated {
                 return ExitTable((Production) node);
             case (int) GherkinConstants.TABLE_ROW:
                 return ExitTableRow((Production) node);
+            case (int) GherkinConstants.WHITESPACE:
+                return ExitWhitespace((Production) node);
+            case (int) GherkinConstants.FREE_LINE:
+                return ExitFreeLine((Production) node);
+            case (int) GherkinConstants.BLANK_LINE:
+                return ExitBlankLine((Production) node);
+            case (int) GherkinConstants.TEXT:
+                return ExitText((Production) node);
             }
             return node;
         }
@@ -275,137 +290,19 @@ namespace Nucumber.Core.Parsers.Generated {
             case (int) GherkinConstants.TABLE_ROW:
                 ChildTableRow(node, child);
                 break;
+            case (int) GherkinConstants.WHITESPACE:
+                ChildWhitespace(node, child);
+                break;
+            case (int) GherkinConstants.FREE_LINE:
+                ChildFreeLine(node, child);
+                break;
+            case (int) GherkinConstants.BLANK_LINE:
+                ChildBlankLine(node, child);
+                break;
+            case (int) GherkinConstants.TEXT:
+                ChildText(node, child);
+                break;
             }
-        }
-
-        /**
-         * <summary>Called when entering a parse tree node.</summary>
-         *
-         * <param name='node'>the node being entered</param>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual void EnterHorizontalWhitespace(Token node) {
-        }
-
-        /**
-         * <summary>Called when exiting a parse tree node.</summary>
-         *
-         * <param name='node'>the node being exited</param>
-         *
-         * <returns>the node to add to the parse tree, or
-         *          null if no parse tree should be created</returns>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual Node ExitHorizontalWhitespace(Token node) {
-            return node;
-        }
-
-        /**
-         * <summary>Called when entering a parse tree node.</summary>
-         *
-         * <param name='node'>the node being entered</param>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual void EnterEol(Token node) {
-        }
-
-        /**
-         * <summary>Called when exiting a parse tree node.</summary>
-         *
-         * <param name='node'>the node being exited</param>
-         *
-         * <returns>the node to add to the parse tree, or
-         *          null if no parse tree should be created</returns>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual Node ExitEol(Token node) {
-            return node;
-        }
-
-        /**
-         * <summary>Called when entering a parse tree node.</summary>
-         *
-         * <param name='node'>the node being entered</param>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual void EnterRol(Token node) {
-        }
-
-        /**
-         * <summary>Called when exiting a parse tree node.</summary>
-         *
-         * <param name='node'>the node being exited</param>
-         *
-         * <returns>the node to add to the parse tree, or
-         *          null if no parse tree should be created</returns>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual Node ExitRol(Token node) {
-            return node;
-        }
-
-        /**
-         * <summary>Called when entering a parse tree node.</summary>
-         *
-         * <param name='node'>the node being entered</param>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual void EnterPipe(Token node) {
-        }
-
-        /**
-         * <summary>Called when exiting a parse tree node.</summary>
-         *
-         * <param name='node'>the node being exited</param>
-         *
-         * <returns>the node to add to the parse tree, or
-         *          null if no parse tree should be created</returns>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual Node ExitPipe(Token node) {
-            return node;
-        }
-
-        /**
-         * <summary>Called when entering a parse tree node.</summary>
-         *
-         * <param name='node'>the node being entered</param>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual void EnterNotPipe(Token node) {
-        }
-
-        /**
-         * <summary>Called when exiting a parse tree node.</summary>
-         *
-         * <param name='node'>the node being exited</param>
-         *
-         * <returns>the node to add to the parse tree, or
-         *          null if no parse tree should be created</returns>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual Node ExitNotPipe(Token node) {
-            return node;
         }
 
         /**
@@ -665,6 +562,110 @@ namespace Nucumber.Core.Parsers.Generated {
          * discovered errors</exception>
          */
         public virtual Node ExitTBut(Token node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterHorizontalWhitespace(Token node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitHorizontalWhitespace(Token node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterEol(Token node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitEol(Token node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterTextChar(Token node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitTextChar(Token node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterPipe(Token node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitPipe(Token node) {
             return node;
         }
 
@@ -1385,6 +1386,166 @@ namespace Nucumber.Core.Parsers.Generated {
          * discovered errors</exception>
          */
         public virtual void ChildTableRow(Production node, Node child) {
+            node.AddChild(child);
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterWhitespace(Production node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitWhitespace(Production node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when adding a child to a parse tree
+         * node.</summary>
+         *
+         * <param name='node'>the parent node</param>
+         * <param name='child'>the child node, or null</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void ChildWhitespace(Production node, Node child) {
+            node.AddChild(child);
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterFreeLine(Production node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitFreeLine(Production node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when adding a child to a parse tree
+         * node.</summary>
+         *
+         * <param name='node'>the parent node</param>
+         * <param name='child'>the child node, or null</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void ChildFreeLine(Production node, Node child) {
+            node.AddChild(child);
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterBlankLine(Production node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitBlankLine(Production node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when adding a child to a parse tree
+         * node.</summary>
+         *
+         * <param name='node'>the parent node</param>
+         * <param name='child'>the child node, or null</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void ChildBlankLine(Production node, Node child) {
+            node.AddChild(child);
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterText(Production node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitText(Production node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when adding a child to a parse tree
+         * node.</summary>
+         *
+         * <param name='node'>the parent node</param>
+         * <param name='child'>the child node, or null</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void ChildText(Production node, Node child) {
             node.AddChild(child);
         }
     }

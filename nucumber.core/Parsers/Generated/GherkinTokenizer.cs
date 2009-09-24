@@ -40,36 +40,6 @@ namespace Nucumber.Core.Parsers.Generated {
         private void CreatePatterns() {
             TokenPattern  pattern;
 
-            pattern = new TokenPattern((int) GherkinConstants.HORIZONTAL_WHITESPACE,
-                                       "HORIZONTAL_WHITESPACE",
-                                       TokenPattern.PatternType.REGEXP,
-                                       "[\\t ]*");
-            AddPattern(pattern);
-
-            pattern = new TokenPattern((int) GherkinConstants.EOL,
-                                       "EOL",
-                                       TokenPattern.PatternType.REGEXP,
-                                       "\\r?\\n");
-            AddPattern(pattern);
-
-            pattern = new TokenPattern((int) GherkinConstants.ROL,
-                                       "ROL",
-                                       TokenPattern.PatternType.REGEXP,
-                                       "[^\\r^\\n]*\\r?\\n");
-            AddPattern(pattern);
-
-            pattern = new TokenPattern((int) GherkinConstants.PIPE,
-                                       "PIPE",
-                                       TokenPattern.PatternType.STRING,
-                                       "|");
-            AddPattern(pattern);
-
-            pattern = new TokenPattern((int) GherkinConstants.NOT_PIPE,
-                                       "NOT_PIPE",
-                                       TokenPattern.PatternType.REGEXP,
-                                       "[^|]*");
-            AddPattern(pattern);
-
             pattern = new TokenPattern((int) GherkinConstants.T_FEATURE,
                                        "T_FEATURE",
                                        TokenPattern.PatternType.STRING,
@@ -128,6 +98,37 @@ namespace Nucumber.Core.Parsers.Generated {
                                        "T_BUT",
                                        TokenPattern.PatternType.REGEXP,
                                        "But|but:");
+            AddPattern(pattern);
+
+            pattern = new TokenPattern((int) GherkinConstants.HORIZONTAL_WHITESPACE,
+                                       "HORIZONTAL_WHITESPACE",
+                                       TokenPattern.PatternType.REGEXP,
+                                       "[\\t ]");
+            AddPattern(pattern);
+
+            pattern = new TokenPattern((int) GherkinConstants.EOL,
+                                       "EOL",
+                                       TokenPattern.PatternType.REGEXP,
+                                       "\\r?\\n");
+            AddPattern(pattern);
+
+            pattern = new TokenPattern((int) GherkinConstants.COMMENT,
+                                       "COMMENT",
+                                       TokenPattern.PatternType.REGEXP,
+                                       "[\\t ]*#[^\\r^\\n]*\\r?\\n");
+            pattern.Ignore = true;
+            AddPattern(pattern);
+
+            pattern = new TokenPattern((int) GherkinConstants.TEXT_CHAR,
+                                       "TEXT_CHAR",
+                                       TokenPattern.PatternType.REGEXP,
+                                       "[^\\r^\\n^\\|^\\t^ ]");
+            AddPattern(pattern);
+
+            pattern = new TokenPattern((int) GherkinConstants.PIPE,
+                                       "PIPE",
+                                       TokenPattern.PatternType.STRING,
+                                       "|");
             AddPattern(pattern);
         }
     }

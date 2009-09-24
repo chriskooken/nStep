@@ -24,5 +24,5 @@ Examples:
 
 Scenario: I am doing good
 Given My Name is "Chris Kooken"
-Given I live at "123 Roswell Rd"
-Given My city is "Roswell" and my state is "Georgia"
+And I live at "123 Roswell Rd"
+But My city is "Roswell" and my state is "Georgia"

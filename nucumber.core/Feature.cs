@@ -6,24 +6,24 @@ namespace Nucumber.Core
 {
     public class Feature
     {
-        private readonly IGherkinParser parser;
+		//private readonly IGherkinParser parser;
 
         IList<Scenario> scenarios;
         Scenario background;
         IList<string> summaryLines;
 
-        public Feature(IGherkinParser parser)
-        {
-            this.parser = parser;
-            scenarios = new List<Scenario>();
-            summaryLines = new List<string>();
-            background = new Scenario();
-        }
+		//public Feature(IGherkinParser parser)
+		//{
+		//    this.parser = parser;
+		//    scenarios = new List<Scenario>();
+		//    summaryLines = new List<string>();
+		//    background = new Scenario();
+		//}
 
-        public void Parse(string fileName)
-        {
-            var parseTree = parser.GetParseTree(fileName);
-        }
+		//public void Parse(string fileName)
+		//{
+		//    var parseTree = parser.GetParseTree(fileName);
+		//}
 
         public IList<string> SummaryLines
         { get { return summaryLines; } }

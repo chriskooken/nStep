@@ -32,8 +32,8 @@ namespace Nucumber.App
             StepMother = new StepMother();
             StepMother.ImportSteps(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
 
-            var feature = new Feature(new AltGherkinParser());
-            feature.Parse(args[1]);
+			var fileInfo = new FileInfo(args[1]);
+			var feature = GherkinParser.GetFeature(fileInfo);
 
             new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
             Thread.Sleep(5000);
