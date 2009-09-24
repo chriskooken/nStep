@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Nucumber.Core.Parsers;
 using Nucumber.Core.Parsers.DataStructures;
 using Nucumber.Framework;
+using System.Linq;
 
 namespace Nucumber.Core
 {
@@ -76,6 +77,7 @@ namespace Nucumber.Core
                 currentScenario = new Scenario();
                 scenarios.Add(currentScenario);
                 currentScenario.Title = subtree.Value.Text;
+                currentScenario.LineNumber = subtree.Value.Line;
             }
 
             if (subtree.Parent.Value.NodeType == "Scenario:")
@@ -100,6 +102,16 @@ namespace Nucumber.Core
         { get { return scenarios; } }
 
         public string Description { get; set; }
+
+        public FeatureParts WhatIsAtLine(int lineNmber)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Scenario GetScenarioAt(int lineNmber)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class LineValue
