@@ -36,19 +36,19 @@ namespace Cucumber
                     World.Browser.WaitForPageToLoad("10");
                 });
 
-            When("I type \"([^\"]*)\" in the \"([^\"]*)\" field", (string arg1, string arg2) =>
+            When("I type \"([^\"]*)\" in the \"([^\"]*)\" field", (string value, string field) =>
                 {
-                    World.Browser.Type("q", "dogs are cool things");
+                    World.Browser.Type("q", value);
                 });
 
-            When("I click the \"([^\"]*)\" button", (int arg1) =>
+            When("I click the \"([^\"]*)\" button", (string arg1) =>
                 {
                     World.Browser.Click("btnG");
                 });
 
             When("I wait for the page to load", () =>
                 {
-                    World.Browser.WaitForPageToLoad("1000");
+                    World.Browser.WaitForPageToLoad("15000");
                 });
 
             Then("I should be on the \"([^\"]*)\" page", page =>
@@ -56,6 +56,11 @@ namespace Cucumber
                     var x = page;
                     World.Browser.GetTitle().Should().Be.EqualTo(page);
                 });
+
+            When("I click the \"([^\"]*)\" link", (string link) =>
+            {
+                World.Browser.Click("link="+link);
+            });
 
             Given("My Name is \"([^\"]*)\"", (string arg1) =>
                 {
@@ -71,9 +76,6 @@ namespace Cucumber
                 {
 
                 });
-
-
-
         }
     }
 }
