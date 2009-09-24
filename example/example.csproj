@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="example.feature" />
+    <None Include="example2.feature" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">

@@ -7,7 +7,7 @@ using Nucumber.Core.Parsers.DataStructures;
 
 namespace Nucumber.Core.Parsers
 {
-    public class AltGherkinParser:IGherkinParser
+    public class AltGherkinParser
     {
         string previousName = "";
         public SimpleTreeNode<LineValue> GetParseTree(string filename)

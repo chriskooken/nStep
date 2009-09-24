@@ -12,13 +12,16 @@ namespace CommandLine
     {
         protected TestOptions options;
         protected string[] args;
+        protected string ExeName = "ExeName.exe";
 
         [TestFixtureSetUp]
         public virtual void SetUp()
         {
             InitializeArguments();
+            var arguments = new List<string> { ExeName };
+            arguments.AddRange(args);
             Assert.DoesNotThrow(() =>
-                                options = new TestOptions().Parse<TestOptions>(args));
+                                options = new TestOptions().Parse<TestOptions>(arguments.ToArray()));
         }
 
         protected abstract void InitializeArguments(); 
@@ -36,7 +39,7 @@ namespace CommandLine
         [Test]
         public void Then_It_Should_Error()
         {
-            Assert.Throws(typeof (ArgumentException),
+            Assert.Throws(typeof (ConsoleOptionsException),
                 () => options = new TestOptions().Parse<TestOptions>(args) );
         }
 
@@ -110,14 +113,14 @@ namespace CommandLine
         public void Then_it_should_error()
         {
             Assert.Throws(
-                        typeof(ArgumentException),
+                        typeof(ConsoleOptionsException),
                         () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-r" };
+            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-r" };
         }
     }
 
@@ -134,14 +137,14 @@ namespace CommandLine
         public void Then_it_should_error()
         {
             Assert.Throws(
-                        typeof(ArgumentException),
+                        typeof(ConsoleOptionsException),
                         () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-require" };
+            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-require" };
         }
     }
 
@@ -228,14 +231,14 @@ namespace CommandLine
         public void Then_it_should_error()
         {
             Assert.Throws(
-                        typeof(ArgumentException),
+                        typeof(ConsoleOptionsException),
                         () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-f" };
+            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-f" };
         }
     }
     [TestFixture]
@@ -252,14 +255,14 @@ namespace CommandLine
         public void Then_it_should_error()
         {
             Assert.Throws(
-                        typeof(ArgumentException),
+                        typeof(ConsoleOptionsException),
                         () => options = new TestOptions().Parse<TestOptions>(args)
                         );
         }
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-format" };
+            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-format" };
         }
     }
 

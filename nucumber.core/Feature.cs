@@ -8,13 +8,13 @@ namespace Nucumber.Core
 {
     public class Feature
     {
-		private readonly IGherkinParser parser;
+		private readonly AltGherkinParser parser;
 
         IList<Scenario> scenarios;
         Scenario background;
         IList<string> summaryLines;
 
-        public Feature(IGherkinParser parser)
+        public Feature(AltGherkinParser parser)
         {
             this.parser = parser;
             scenarios = new List<Scenario>();
