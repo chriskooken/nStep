@@ -64,9 +64,14 @@ namespace Nucumber.Core.Parsers
 
 		public override Node ExitFeature(Production node)
 		{
+			var values = GetChildValues(node);
+
+			var summaryLines = values[0] as IList<LineValue>;
+			var background = values[1] as Scenario;
+
 			var feature = new Feature
 			{
-
+				Background = background
 			};
 
 			node.AddValue(feature);
@@ -105,7 +110,8 @@ namespace Nucumber.Core.Parsers
 			var background = new Scenario
 			{
 				Title = title,
-				Steps = steps
+				Steps = steps,
+				LineNumber = node.StartLine
 			};
 
 			node.AddValue(background);
@@ -137,7 +143,8 @@ namespace Nucumber.Core.Parsers
 			var scenario = new Scenario
 			{
 				Title = title,
-				Steps = steps
+				Steps = steps,
+				LineNumber = node.StartLine
 			};
 
 			node.AddValue(scenario);
@@ -192,6 +199,7 @@ namespace Nucumber.Core.Parsers
 		public override Node ExitTableRow(Production node)
 		{
 			var columns = GetChildValues(node).ToArray();
+			//new Row(
 			node.AddValue(columns);
 			return node;
 		}

@@ -125,6 +125,7 @@ namespace Nucumber.Core
     {
         public int Line { get; set; }
         public string Text { get; set; }
+		[Obsolete("Will go away soon")]
         public string NodeType { get; set; }
     }
 }
