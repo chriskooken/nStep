@@ -12,16 +12,14 @@ namespace CommandLine
     {
         protected TestOptions options;
         protected string[] args;
-        protected string ExeName = "ExeName.exe";
 
         [TestFixtureSetUp]
         public virtual void SetUp()
         {
             InitializeArguments();
-            var arguments = new List<string> { ExeName };
-            arguments.AddRange(args);
+
             Assert.DoesNotThrow(() =>
-                                options = new TestOptions().Parse<TestOptions>(arguments.ToArray()));
+                                options = new TestOptions().Parse<TestOptions>(args));
         }
 
         protected abstract void InitializeArguments(); 
@@ -143,7 +141,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-r" };
+            args = new string[] {"C:/Projects/Nucumber/example", "-r" };
         }
     }
 
@@ -167,7 +165,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-require" };
+            args = new string[] {"C:/Projects/Nucumber/example", "-require" };
         }
     }
 
@@ -261,7 +259,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-f" };
+            args = new string[] {"C:/Projects/Nucumber/example", "-f" };
         }
     }
     [TestFixture]
@@ -285,7 +283,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {ExeName, "C:/Projects/Nucumber/example", "-format" };
+            args = new string[] { "C:/Projects/Nucumber/example", "-format" };
         }
     }
 
