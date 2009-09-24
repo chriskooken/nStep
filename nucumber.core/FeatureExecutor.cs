@@ -14,6 +14,11 @@ namespace Nucumber.Core
             this.StepMother = stepMother;
         }
 
+        public void ExecuteFeature(Feature feature, int lineNmber)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ExecuteFeature(Feature feature)
         {
             Console.WriteFeatureHeading(feature);
