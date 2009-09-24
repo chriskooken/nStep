@@ -45,7 +45,7 @@ namespace Nucumber.App
             env.GlobalBegin(worldViews);
 
             StepMother = new StepMother(worldViews);
-            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFile));
+            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(new[] {assemblyFile}));
 
             var feature = new Feature(new AltGherkinParser());
             feature.Parse(args[1]);
@@ -59,7 +59,7 @@ namespace Nucumber.App
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             var strTempAssmbPath =
-                Path.GetFullPath("..\\..\\..\\example\\bin\\debug\\" + args.Name.Substring(0, args.Name.IndexOf(",")) +
+                Path.GetFullPath(@"..\..\..\example\bin\debug\" + args.Name.Substring(0, args.Name.IndexOf(",")) +
                                  ".dll");
 
             return Assembly.LoadFrom(strTempAssmbPath);

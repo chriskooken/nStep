@@ -31,11 +31,10 @@ namespace Cucumber
                 });
 
             Given("I am on the google homepage", () =>
-            {
-                World.Browser.Open("http://www.google.com");
-                World.Browser.WaitForPageToLoad("10");
-                
-            });
+                {
+                    World.Browser.Open("http://www.google.com");
+                    World.Browser.WaitForPageToLoad("10");
+                });
 
             When("I type \"([^\"]*)\" in the \"([^\"]*)\" field", (string arg1, string arg2) =>
             {

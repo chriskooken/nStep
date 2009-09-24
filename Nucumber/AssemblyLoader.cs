@@ -12,17 +12,47 @@ namespace Nucumber.App
 {
     public static class AssemblyLoader
     {
-        public static IEnumerable<IProvideSteps> GetStepSets(FileInfo assemblyFile)
+        public static IEnumerable<IProvideSteps> GetStepSets(IEnumerable<FileInfo> assemblyFiles)
         {
-            return GetTypesAssignableFrom<IProvideSteps>(assemblyFile);
+            IEnumerable<IProvideSteps> stepSets = new List<IProvideSteps>();
+            foreach (var assemblyFile in assemblyFiles)
+            {
+                stepSets = stepSets.Concat(GetTypesAssignableFrom<IProvideSteps>(assemblyFile));
+            }
+
+            return stepSets;
         }
 
+        public static IEnumerable<IProvideWorldView> GetWorldViewProviders(IEnumerable<FileInfo> assemblyFiles)
+        {
+            IEnumerable<IProvideWorldView> worldViewProviders = new List<IProvideWorldView>();
+            foreach (var assemblyFile in assemblyFiles)
+            {
+                worldViewProviders = worldViewProviders.Concat(GetTypesAssignableFrom<IProvideWorldView>(assemblyFile));
+            }
+
+            return worldViewProviders;
+        }
+
+        public static EnvironmentBase GetEnvironment(IEnumerable<FileInfo> assemblyFiles)
+        {
+            IEnumerable<EnvironmentBase> environmentBases = new List<EnvironmentBase>();
+            foreach (var assemblyFile in assemblyFiles)
+            {
+                environmentBases = environmentBases.Concat(GetTypesInheritingFrom<EnvironmentBase>(assemblyFile));
+            }
+
+            if (environmentBases.Count() > 1) throw new OnlyOneEnvironmentMayBeDefinedException();
+
+            return environmentBases.FirstOrDefault();
+        }
+        
         private static List<TType> GetTypesAssignableFrom<TType>(FileInfo assemblyFile)
         {
             return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t));
         }
-        
-        private static List<TType> GetTypesInheritingFrom<TType>(FileInfo assemblyFile) where TType : class 
+
+        private static List<TType> GetTypesInheritingFrom<TType>(FileInfo assemblyFile) where TType : class
         {
             return GetTypes<TType>(assemblyFile, t => t.IsSubclassOf(typeof(TType)));
         }
@@ -35,28 +65,10 @@ namespace Nucumber.App
                 if ((predicate(t) && (t != typeof(StepSetBase<>))))
                 {
                     result.Add((TType)Activator.CreateInstance(t));
-                    
+
                 }
             }
             return result;
-        }
-
-        public static IEnumerable<IProvideWorldView> GetWorldViewProviders(FileInfo assemblyFile)
-        {
-            return GetTypesAssignableFrom<IProvideWorldView>(assemblyFile);
-        }
-
-        public static EnvironmentBase LoadEnvironment(IEnumerable<FileInfo> assemblyFiles)
-        {
-            IEnumerable<EnvironmentBase> environmentBases = new List<EnvironmentBase>();
-            foreach (var assemblyFile in assemblyFiles)
-            {
-                environmentBases = environmentBases.Concat(GetTypesInheritingFrom<EnvironmentBase>(assemblyFile));
-            }
-
-            if (environmentBases.Count() > 1) throw new OnlyOneEnvironmentMayBeDefinedException();
-
-            return environmentBases.FirstOrDefault();
         }
     }
 }
