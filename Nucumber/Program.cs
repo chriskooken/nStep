@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,13 +15,15 @@ namespace Nucumber.App
     {
         private StepMother StepMother;
         private IFormatOutput formatter;
+        private NucumberOptions Options;
 
         static void Main(string[] args)
         {
 # if DEBUG
             args = new[]
                        {
-                           Path.GetFullPath(@"..\..\..\example\example.feature"),
+                           "Nucumber.exe",
+                           Path.GetFullPath(@"..\..\..\example\"),
                            "-r",
                            Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll")
                        };
@@ -31,13 +34,16 @@ namespace Nucumber.App
 
         private void Run(NucumberOptions options)
         {
+            Options = options;
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
-            var assemblyFiles = options.Assemblies.Select(x => new FileInfo(x)).ToList();
+            
+
+            var assemblyFiles = Options.Assemblies.Select(x => new FileInfo(x)).ToList();
 
             var worldViews = new WorldViewDictionary();
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
@@ -55,18 +61,39 @@ namespace Nucumber.App
             formatter.WriteResults(StepMother);
         }
 
-        void LoadAndExecuteFeatureFile(string fileName)
+        void LoadAndExecuteFeatureFile(string pathToFeature)
         {
-            var feature = new Feature(new AltGherkinParser());
-            feature.Parse(fileName);
+            
 
-            new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+            var filePath = new FileInfo(pathToFeature);
+
+            if (filePath.Exists)
+            {
+                var feature = new Feature(new AltGherkinParser());
+                feature.Parse(filePath.FullName);
+
+            }
+            else
+            {
+
+                var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
+                files.ForEach(x => {
+                    var feature = new Feature(new AltGherkinParser());
+                    feature.Parse(x);
+                    new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+                });
+            }
+
+            
         }
 
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            var path = new FileInfo(Options.Assemblies.FirstOrDefault()).Directory.FullName;
+
+            
             var strTempAssmbPath =
-                Path.GetFullPath(@"..\..\..\example\bin\debug\" + args.Name.Substring(0, args.Name.IndexOf(",")) +
+                Path.GetFullPath(path + @"\" +args.Name.Substring(0, args.Name.IndexOf(",")) +
                                  ".dll");
 
             return Assembly.LoadFrom(strTempAssmbPath);

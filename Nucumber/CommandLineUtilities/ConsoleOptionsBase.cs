@@ -13,6 +13,13 @@ namespace Nucumber.App.CommandLineUtilities
 
         public const char FlagKey = '-';
 
+        public List<string> Arguments { get; set; }
+        
+        public string NameOfExecutable {get
+        {
+            return Arguments.FirstOrDefault();
+        }}
+
 
         private IList<PropertyInfo> classProperties { get; set; }
 
@@ -49,7 +56,7 @@ namespace Nucumber.App.CommandLineUtilities
 
                     propertyParam.IsRequired = (requiredAttribute != null);
 
-                    propertyParam.IsEnumerable = IsEnumerable(propertyInfo);
+                    propertyParam.IsEnumerable = propertyInfo.PropertyType.IsEnumerable();
 
                     propertyParam.IsEnum = propertyInfo.PropertyType.IsEnum;
 
@@ -119,6 +126,10 @@ namespace Nucumber.App.CommandLineUtilities
 
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
+            Arguments = new List<string>(args);
+
+            args = args.Skip(1).ToArray();
+
             if(args.Length == 0 || args[0].Length == 0)
                 throw new ConsoleOptionsException("No arguments");
             
@@ -381,9 +392,9 @@ namespace Nucumber.App.CommandLineUtilities
 
         public static bool IsEnumerable(this Type PropertyType)
         {
-            var genArgs = PropertyType.GetGenericArguments();
+            //var genArgs = PropertyType.GetGenericArguments();
 
-            var enumerable = (PropertyType is IEnumerable);
+            //var enumerable = (PropertyType is IEnumerable);
 
 
             return PropertyType.IsAssignableFrom(typeof(IList<string>));
