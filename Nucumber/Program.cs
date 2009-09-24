@@ -25,11 +25,17 @@ namespace Nucumber.App
             try
             {
                 var options = new NucumberOptions().Parse<NucumberOptions>(args);
+                if (options.Debug)
+                {
+                    Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
+                    Console.ReadLine();
+                }
                 new Program().Run(options);
             }
             catch (ConsoleOptionsException exception)
             {
                 exception.PrintMessageToConsole();
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.ReadKey();
             }
             catch(InvalidScenarioLineNumberException ex)

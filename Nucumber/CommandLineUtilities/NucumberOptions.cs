@@ -20,6 +20,10 @@ namespace Nucumber.App.CommandLineUtilities
         [Help("Html, Text, Xml.\nDescribes the output format.")]
         public OutputFormat Format { get; set; }
 
+        [Switch("d", "debug")]
+        [Help("Allows user to set up debugger before executing.")]
+        public bool Debug { get; set; }
+
     }
 
     public enum OutputFormat

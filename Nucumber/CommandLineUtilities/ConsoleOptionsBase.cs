@@ -10,10 +10,6 @@ namespace Nucumber.App.CommandLineUtilities
 {
     public abstract class ConsoleOptionsBase
     {
-        [Help("Allows user to set up debugger before executing.")]
-        public bool Debug { get; set; }
-
-
         public const string DefaultFlag = "#";
 
         public const char FlagKey = '-';
