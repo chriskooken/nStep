@@ -1,4 +1,4 @@
-﻿Feature: This is a _test_ feature
+Feature: This is a _test_ feature
 I want to test some stuff here
 Seriously, more shit is happening
 

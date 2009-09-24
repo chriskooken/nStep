@@ -12,7 +12,7 @@ namespace Nucumber.Core.Parsers.Generated {
      */
     internal enum GherkinConstants {
         T_FEATURE = 1001,
-        T_BACKGROUD = 1002,
+        T_BACKGROUND = 1002,
         T_SCENARIO = 1003,
         T_SCENARIO_OUTLINE = 1004,
         T_EXAMPLES = 1005,

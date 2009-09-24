@@ -6,7 +6,7 @@ namespace Nucumber.Core
     {
         public string FeatureLine { get; set; }
         public int LineNumber { get; set; }
-        public string FeatureFile { get; set; }
+        public string FeatureFileName { get; set; }
         public StepKinds Kind { get; set; }
     }
 }

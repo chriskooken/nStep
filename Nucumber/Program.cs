@@ -1,3 +1,5 @@
+#define ALTPARSER
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +32,26 @@ namespace Nucumber.App
                 exception.PrintMessageToConsole();
                 Console.ReadKey();
             }
+            catch(InvalidScenarioLineNumberException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+            catch(ArgumentException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+            catch(Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+           
             
         }
 
@@ -69,14 +91,19 @@ namespace Nucumber.App
             {
                 try
                 {
-                    filePath = new FileInfo(featureDescription.Groups[1].Value);
-                    var feature = new Feature(new AltGherkinParser());
-                    feature.Parse(filePath.FullName);
-                    new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
+					filePath = new FileInfo(featureDescription.Groups[1].Value);
+#if ALTPARSER
+					var parser = new AltGherkinParser();
+					var feature = new Feature(parser);
+					feature.Parse(filePath.FullName);
+#else
+					var feature = GherkinParser.GetFeature(filePath);
+#endif
+					new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
                 }
-                catch (Exception e)
+                catch (FormatException e)
                 {
-                    throw new ArgumentException("Invalid feature file description", e);
+                    throw new ArgumentException("Invalid feature file description");
                 }
                 
                 return;
@@ -96,9 +123,16 @@ namespace Nucumber.App
             var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
             files.ForEach(x =>
                               {
-                                  var feature = new Feature(new AltGherkinParser());
-                                  feature.Parse(x);
-                                  new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+#if ALTPARSER
+								  var parser = new AltGherkinParser();
+								  var feature = new Feature(parser);
+								  feature.Parse(x);
+#else
+								  var innerFilePath = new FileInfo(x);
+								  var feature = GherkinParser.GetFeature(innerFilePath);
+#endif
+
+								  new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
                               });
 
         }

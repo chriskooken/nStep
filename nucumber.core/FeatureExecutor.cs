@@ -24,20 +24,20 @@ namespace Nucumber.Core
 
         public void ExecuteFeature(Feature feature, int lineNmber)
         {
-            //switch (feature.WhatIsAtLine(lineNmber))
-            //{
-            //    case FeatureParts.Feature:
-            //        ExecuteFeature(feature);
-            //        break;
-            //    case FeatureParts.Background:
-            //        ExecuteBackground(feature);
-            //        break;
-            //    case FeatureParts.Scenario:
-            //        ExecuteScenario(feature.GetScenarioAt(lineNmber), feature);
-            //        break;
-            //    case FeatureParts.ScenarioOutlineExample:
-            //        throw new NotImplementedException();
-            //}
+            switch (feature.WhatIsAtLine(lineNmber))
+            {
+                case FeatureParts.Feature:
+                    ExecuteFeature(feature);
+                    break;
+                case FeatureParts.Background:
+                    ExecuteBackground(feature);
+                    break;
+                case FeatureParts.Scenario:
+                    ExecuteScenario(feature.GetScenarioAt(lineNmber), feature);
+                    break;
+                case FeatureParts.ScenarioOutlineExample:
+                    throw new NotImplementedException();
+            }
 
         }
 

@@ -27,8 +27,8 @@ namespace Nucumber.Core.Parsers.Generated {
             case (int) GherkinConstants.T_FEATURE:
                 EnterTFeature((Token) node);
                 break;
-            case (int) GherkinConstants.T_BACKGROUD:
-                EnterTBackgroud((Token) node);
+            case (int) GherkinConstants.T_BACKGROUND:
+                EnterTBackground((Token) node);
                 break;
             case (int) GherkinConstants.T_SCENARIO:
                 EnterTScenario((Token) node);
@@ -150,8 +150,8 @@ namespace Nucumber.Core.Parsers.Generated {
             switch (node.Id) {
             case (int) GherkinConstants.T_FEATURE:
                 return ExitTFeature((Token) node);
-            case (int) GherkinConstants.T_BACKGROUD:
-                return ExitTBackgroud((Token) node);
+            case (int) GherkinConstants.T_BACKGROUND:
+                return ExitTBackground((Token) node);
             case (int) GherkinConstants.T_SCENARIO:
                 return ExitTScenario((Token) node);
             case (int) GherkinConstants.T_SCENARIO_OUTLINE:
@@ -339,7 +339,7 @@ namespace Nucumber.Core.Parsers.Generated {
          * <exception cref='ParseException'>if the node analysis
          * discovered errors</exception>
          */
-        public virtual void EnterTBackgroud(Token node) {
+        public virtual void EnterTBackground(Token node) {
         }
 
         /**
@@ -353,7 +353,7 @@ namespace Nucumber.Core.Parsers.Generated {
          * <exception cref='ParseException'>if the node analysis
          * discovered errors</exception>
          */
-        public virtual Node ExitTBackgroud(Token node) {
+        public virtual Node ExitTBackground(Token node) {
             return node;
         }
 

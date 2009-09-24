@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Nucumber.Core.Parsers;
 using Nucumber.Core.Parsers.DataStructures;
 using Nucumber.Framework;
+using System.Linq;
 
 namespace Nucumber.Core
 {
@@ -12,13 +13,13 @@ namespace Nucumber.Core
 
         IList<Scenario> scenarios;
         Scenario background;
-        IList<string> summaryLines;
+        IList<LineValue> summaryLines;
 
         public Feature(AltGherkinParser parser)
         {
             this.parser = parser;
             scenarios = new List<Scenario>();
-            summaryLines = new List<string>();
+            summaryLines = new List<LineValue>();
             background = new Scenario();
         }
 
@@ -56,7 +57,10 @@ namespace Nucumber.Core
         {
             var val = subtree.Value;
             if (subtree.Value.NodeType == "Background:")
+            {
                 background.Title = subtree.Value.Text;
+                background.LineNumber = subtree.Value.Line;
+            }
 
             if (subtree.Parent.Value.NodeType == "Background:")
                 background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.Line });
@@ -76,6 +80,7 @@ namespace Nucumber.Core
                 currentScenario = new Scenario();
                 scenarios.Add(currentScenario);
                 currentScenario.Title = subtree.Value.Text;
+                currentScenario.LineNumber = subtree.Value.Line;
             }
 
             if (subtree.Parent.Value.NodeType == "Scenario:")
@@ -87,10 +92,10 @@ namespace Nucumber.Core
         void LoadHeading(SimpleTreeNode<LineValue> subtree)
         {
             if ((subtree.Parent.Value.NodeType == "Feature:") || (subtree.Value.NodeType == "Feature:"))
-                summaryLines.Add(subtree.Value.Text);
+                summaryLines.Add(subtree.Value);
         }
 
-        public IList<string> SummaryLines
+        public IList<LineValue> SummaryLines
         { get { return summaryLines; } }
 
         public Scenario Background
@@ -100,6 +105,29 @@ namespace Nucumber.Core
         { get { return scenarios; } }
 
         public string Description { get; set; }
+
+        public FeatureParts WhatIsAtLine(int lineNmber)
+        {
+            if (background.LineNumber == lineNmber)
+                return FeatureParts.Background;
+
+            if (Scenarios.Where(x => x.LineNumber == lineNmber).Any())
+                return FeatureParts.Scenario;
+
+            if (summaryLines.Where(x => x.Line == lineNmber).Any())
+                return FeatureParts.Feature;
+
+            throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNmber);
+        }
+
+        public Scenario GetScenarioAt(int lineNmber)
+        {
+            var foundScenario = Scenarios.Where(x => x.LineNumber == lineNmber);
+            if (foundScenario.Any())
+                return foundScenario.First();
+
+            throw new InvalidScenarioLineNumberException("There are no scenario definitions on line: " + lineNmber);
+        }
     }
 
     public class LineValue

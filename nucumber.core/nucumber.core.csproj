@@ -46,6 +46,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FeatureExecutor.cs" />
     <Compile Include="FeatureStep.cs" />
+    <Compile Include="InvalidScenarioLineNumberException.cs" />
     <Compile Include="OnlyOneEnvironmentMayBeDefinedException.cs" />
     <Compile Include="Parsers\AltGherkinParser.cs">
       <SubType>Code</SubType>
