@@ -21,7 +21,6 @@ namespace Nucumber.App
         {
             try
             {
-                Console.ReadKey();
                 var options = new NucumberOptions().Parse<NucumberOptions>(args);
                 new Program().Run(options);
             }
