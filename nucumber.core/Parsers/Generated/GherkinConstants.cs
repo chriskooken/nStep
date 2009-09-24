@@ -11,21 +11,21 @@ namespace Nucumber.Core.Parsers.Generated {
      * constants.</remarks>
      */
     internal enum GherkinConstants {
-        HORIZONTAL_WHITESPACE = 1001,
-        EOL = 1002,
-        ROL = 1003,
-        PIPE = 1004,
-        NOT_PIPE = 1005,
-        T_FEATURE = 1006,
-        T_BACKGROUD = 1007,
-        T_SCENARIO = 1008,
-        T_SCENARIO_OUTLINE = 1009,
-        T_EXAMPLES = 1010,
-        T_GIVEN = 1011,
-        T_WHEN = 1012,
-        T_THEN = 1013,
-        T_AND = 1014,
-        T_BUT = 1015,
+        T_FEATURE = 1001,
+        T_BACKGROUD = 1002,
+        T_SCENARIO = 1003,
+        T_SCENARIO_OUTLINE = 1004,
+        T_EXAMPLES = 1005,
+        T_GIVEN = 1006,
+        T_WHEN = 1007,
+        T_THEN = 1008,
+        T_AND = 1009,
+        T_BUT = 1010,
+        HORIZONTAL_WHITESPACE = 1011,
+        EOL = 1012,
+        COMMENT = 1013,
+        TEXT_CHAR = 1014,
+        PIPE = 1015,
         FEATURE = 2001,
         FEATURE_HEADER = 2002,
         BACKGROUND = 2003,
@@ -43,6 +43,10 @@ namespace Nucumber.Core.Parsers.Generated {
         AND = 2015,
         BUT = 2016,
         TABLE = 2017,
-        TABLE_ROW = 2018
+        TABLE_ROW = 2018,
+        WHITESPACE = 2019,
+        FREE_LINE = 2020,
+        BLANK_LINE = 2021,
+        TEXT = 2022
     }
 }

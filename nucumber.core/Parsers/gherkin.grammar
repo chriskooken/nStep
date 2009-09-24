@@ -4,12 +4,6 @@ GRAMMARTYPE = "LL"
 
 %tokens%
 
-HORIZONTAL_WHITESPACE	= <<[\t ]*>>
-EOL						= <<\r?\n>>
-ROL						= <<[^\r^\n]*\r?\n>>
-PIPE					= "|"
-NOT_PIPE				= <<[^|]*>>
-
 T_FEATURE			= "Feature:"
 T_BACKGROUD			= "Background:"
 T_SCENARIO			= "Scenario:"
@@ -22,30 +16,43 @@ T_THEN	= <<Then|then:>>
 T_AND	= <<And|and:>>
 T_BUT	= <<But|but:>>
 
+HORIZONTAL_WHITESPACE	= <<[\t ]>>
+EOL						= <<\r?\n>>					
+COMMENT					= <<[\t ]*#[^\r^\n]*\r?\n>>	%ignore%
+
+TEXT_CHAR				= <<[^\r^\n^\|^\t^ ]>>
+
+PIPE					= "|"
+
 %productions%
 
-Feature					= FeatureHeader Background? (Scenario | ScenarioOutline)* ;
-FeatureHeader			= "Feature:" ROL+ ;
+Feature					= FeatureHeader BlankLine* Background (Scenario | ScenarioOutline | BlankLine)* ;
+FeatureHeader			= "Feature:" FreeLine+ ;
 
 Background				= BackgroundHeader Step+ ;
-BackgroundHeader		= HORIZONTAL_WHITESPACE "Background:" EOL ;
+BackgroundHeader		= "Background:" EOL ;
 
 Scenario				= ScenarioHeader Step+ ;
-ScenarioHeader			= HORIZONTAL_WHITESPACE "Scenario:" ROL ;
+ScenarioHeader			= "Scenario:" FreeLine ;
 
 ScenarioOutline			= ScenarioOutlineHeader Step+ Examples ;
-ScenarioOutlineHeader	= HORIZONTAL_WHITESPACE "Scenario Outline:" ROL ;
+ScenarioOutlineHeader	= "Scenario Outline:" FreeLine ;
 
 Examples				= ExamplesHeader Table ;
-ExamplesHeader			= HORIZONTAL_WHITESPACE "Examples:" EOL ;
+ExamplesHeader			= "Examples:" EOL ;
 
-Step					= Given | When | Then | And | But ;
+Step					= Whitespace? (Given | When | Then | And | But | EOL) ;
 
-Given					= HORIZONTAL_WHITESPACE T_GIVEN ROL ;
-When					= HORIZONTAL_WHITESPACE T_WHEN ROL ;
-Then					= HORIZONTAL_WHITESPACE T_THEN ROL ;
-And						= HORIZONTAL_WHITESPACE T_AND ROL ;
-But						= HORIZONTAL_WHITESPACE T_BUT ROL ;
+Given					= T_GIVEN FreeLine ;
+When					= T_WHEN FreeLine ;
+Then					= T_THEN FreeLine ;
+And						= T_AND FreeLine ;
+But						= T_BUT FreeLine ;
 
 Table					= TableRow+ ;
-TableRow				= HORIZONTAL_WHITESPACE "|" (NOT_PIPE "|")+ ;
+TableRow				= "|" (Text "|")+ EOL ;
+
+Whitespace				= HORIZONTAL_WHITESPACE+ ;
+FreeLine				= Text EOL ;
+BlankLine				= HORIZONTAL_WHITESPACE* EOL ;
+Text					= (HORIZONTAL_WHITESPACE | TEXT_CHAR)+ ;

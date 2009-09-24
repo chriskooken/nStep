@@ -1,14 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Nucumber.Core.Parsers.DataStructures;
 
 
 namespace Nucumber.Core.Parsers {
-	public class GherkinParser : IGherkinParser {
-		public SimpleTreeNode<LineValue> GetParseTree(string filename)
+	public static class GherkinParser  {
+		public static Feature GetFeature(string text)
 		{
+			return GetFeature(new StringReader(text));
+		}
 
-			throw new NotImplementedException();
+		public static Feature GetFeature(FileInfo fileInfo)
+		{
+			return GetFeature(fileInfo.OpenText());
+		}
+
+		public static Feature GetFeature(TextReader reader)
+		{
+			var parser = new Generated.GherkinParser(reader, new FeatureBuilder());
+			var node = parser.Parse();
+
+			var feature = node.Values.ToArray().Single() as Feature;
+			return feature;
 		}
 	}
 }
