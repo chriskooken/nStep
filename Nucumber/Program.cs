@@ -38,10 +38,7 @@ namespace Nucumber.App
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
-
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
-
-            
 
             var assemblyFiles = Options.Assemblies.Select(x => new FileInfo(x)).ToList();
 
@@ -63,19 +60,16 @@ namespace Nucumber.App
 
         void LoadAndExecuteFeatureFile(string pathToFeature)
         {
-            
-
             var filePath = new FileInfo(pathToFeature);
 
             if (filePath.Exists)
             {
                 var feature = new Feature(new AltGherkinParser());
                 feature.Parse(filePath.FullName);
-
+                new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
             }
             else
             {
-
                 var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
                 files.ForEach(x => {
                     var feature = new Feature(new AltGherkinParser());
@@ -83,8 +77,6 @@ namespace Nucumber.App
                     new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
                 });
             }
-
-            
         }
 
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
