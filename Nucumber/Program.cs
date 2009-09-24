@@ -43,8 +43,8 @@ namespace Nucumber.App
             var assemblyFiles = Options.Assemblies.Select(x => new FileInfo(x)).ToList();
 
             var worldViews = new WorldViewDictionary();
-            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
 
+            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
             EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
 
             env.GlobalBegin(worldViews);
@@ -71,7 +71,8 @@ namespace Nucumber.App
             else
             {
                 var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
-                files.ForEach(x => {
+                files.ForEach(x => 
+                {
                     var feature = new Feature(new AltGherkinParser());
                     feature.Parse(x);
                     new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
@@ -83,7 +84,6 @@ namespace Nucumber.App
         {
             var path = new FileInfo(Options.Assemblies.FirstOrDefault()).Directory.FullName;
 
-            
             var strTempAssmbPath =
                 Path.GetFullPath(path + @"\" +args.Name.Substring(0, args.Name.IndexOf(",")) +
                                  ".dll");
