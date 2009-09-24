@@ -29,6 +29,19 @@ namespace Nucumber.App
             {
                 Console.WriteLine(exception.OutPut());
             }
+            catch(InvalidScenarioLineNumberException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+            catch(ArgumentException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
+           
             
         }
 
@@ -72,9 +85,9 @@ namespace Nucumber.App
                     var feature = GherkinParser.GetFeature(filePath);
                     new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
                 }
-                catch (Exception e)
+                catch (FormatException e)
                 {
-                    throw new ArgumentException("Invalid feature file description", e);
+                    throw new ArgumentException("Invalid feature file description");
                 }
                 
                 return;
