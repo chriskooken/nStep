@@ -111,7 +111,7 @@ namespace Nucumber.Core.Parsers.Generated {
             pattern = new ProductionPattern((int) GherkinConstants.BACKGROUND_HEADER,
                                             "BackgroundHeader");
             alt = new ProductionPatternAlternative();
-            alt.AddToken((int) GherkinConstants.T_BACKGROUD, 1, 1);
+            alt.AddToken((int) GherkinConstants.T_BACKGROUND, 1, 1);
             alt.AddProduction((int) GherkinConstants.FREE_LINE, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);

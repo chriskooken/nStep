@@ -46,8 +46,8 @@ namespace Nucumber.Core.Parsers.Generated {
                                        "Feature:");
             AddPattern(pattern);
 
-            pattern = new TokenPattern((int) GherkinConstants.T_BACKGROUD,
-                                       "T_BACKGROUD",
+            pattern = new TokenPattern((int) GherkinConstants.T_BACKGROUND,
+                                       "T_BACKGROUND",
                                        TokenPattern.PatternType.STRING,
                                        "Background:");
             AddPattern(pattern);
