@@ -13,13 +13,13 @@ namespace Nucumber.Core
 
         IList<Scenario> scenarios;
         Scenario background;
-        IList<string> summaryLines;
+        IList<LineValue> summaryLines;
 
         public Feature(AltGherkinParser parser)
         {
             this.parser = parser;
             scenarios = new List<Scenario>();
-            summaryLines = new List<string>();
+            summaryLines = new List<LineValue>();
             background = new Scenario();
         }
 
@@ -89,10 +89,10 @@ namespace Nucumber.Core
         void LoadHeading(SimpleTreeNode<LineValue> subtree)
         {
             if ((subtree.Parent.Value.NodeType == "Feature:") || (subtree.Value.NodeType == "Feature:"))
-                summaryLines.Add(subtree.Value.Text);
+                summaryLines.Add(subtree.Value);
         }
 
-        public IList<string> SummaryLines
+        public IList<LineValue> SummaryLines
         { get { return summaryLines; } }
 
         public Scenario Background
@@ -105,7 +105,16 @@ namespace Nucumber.Core
 
         public FeatureParts WhatIsAtLine(int lineNmber)
         {
-            throw new NotImplementedException();
+            if (background.LineNumber == lineNmber)
+                return FeatureParts.Background;
+
+            if (Scenarios.Where(x => x.LineNumber == lineNmber).Any())
+                return FeatureParts.Scenario;
+
+            if (summaryLines.Where(x => x.Line == lineNmber).Any())
+                return FeatureParts.Feature;
+
+            throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNmber);
         }
 
         public Scenario GetScenarioAt(int lineNmber)
