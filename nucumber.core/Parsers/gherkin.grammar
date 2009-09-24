@@ -5,7 +5,7 @@ GRAMMARTYPE = "LL"
 %tokens%
 
 T_FEATURE			= "Feature:"
-T_BACKGROUD			= "Background:"
+T_BACKGROUND		= "Background:"
 T_SCENARIO			= "Scenario:"
 T_SCENARIO_OUTLINE	= "Scenario Outline:"
 T_EXAMPLES			= "Examples:"
