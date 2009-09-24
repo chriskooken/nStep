@@ -56,7 +56,6 @@
     <Compile Include="Parsers\Generated\GherkinTokenizer.cs" />
     <Compile Include="Parsers\FeatureBuilder.cs" />
     <Compile Include="Parsers\GherkinParser.cs" />
-    <Compile Include="Parsers\IGherkinParser.cs" />
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Scenario.cs" />
