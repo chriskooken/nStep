@@ -57,7 +57,10 @@ namespace Nucumber.Core
         {
             var val = subtree.Value;
             if (subtree.Value.NodeType == "Background:")
+            {
                 background.Title = subtree.Value.Text;
+                background.LineNumber = subtree.Value.Line;
+            }
 
             if (subtree.Parent.Value.NodeType == "Background:")
                 background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.Line });

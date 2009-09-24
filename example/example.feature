@@ -15,6 +15,16 @@ When I click the "Search settings" link
 And I wait for the page to load
 Then I should be on the "Preferences" page
 
+Scenario: I search for cars
+Given I am on the google homepage
+When I type "cars" in the "search" field
+And I click the "Google Search" button
+And I wait for the page to load
+Then I should be on the "cars - Google Search" page
+When I click the "Search settings" link
+And I wait for the page to load
+Then I should be on the "Preferences" page
+
 Scenario Outline: I am having fun
 #Given My Name is "billy bob"
 Given I live at "<CITY>"
