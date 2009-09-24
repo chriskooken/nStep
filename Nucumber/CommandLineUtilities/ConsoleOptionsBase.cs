@@ -15,10 +15,6 @@ namespace Nucumber.App.CommandLineUtilities
 
         public List<string> Arguments { get; set; }
         
-        public string NameOfExecutable {get
-        {
-            return Arguments.FirstOrDefault();
-        }}
 
 
         private IList<PropertyInfo> classProperties { get; set; }
@@ -127,8 +123,6 @@ namespace Nucumber.App.CommandLineUtilities
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
             Arguments = new List<string>(args);
-
-            args = args.Skip(1).ToArray();
 
             if(args.Length == 0 || args[0].Length == 0)
                 throw new ConsoleOptionsException("No arguments");
