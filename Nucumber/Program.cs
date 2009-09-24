@@ -41,6 +41,13 @@ namespace Nucumber.App
                 Console.WriteLine(ex.Message);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
+            catch(Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                Console.ForegroundColor = ConsoleColor.Gray;
+            }
            
             
         }

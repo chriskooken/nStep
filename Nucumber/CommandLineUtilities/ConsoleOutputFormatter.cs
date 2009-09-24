@@ -106,8 +106,6 @@ namespace Nucumber.App.CommandLineUtilities
             WritePendingFeatureSnippets(stepMother.PendingSteps);
             
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteLineLevel1("\nPress any key to continue . . .");
-            Console.ReadKey();
         }
 
         static void WriteFailedFeatureLines(IList<FeatureStep> failedSteps)
