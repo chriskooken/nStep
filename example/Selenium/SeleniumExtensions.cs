@@ -8,7 +8,7 @@ namespace Cucumber.Selenium
 {
 	static class SeleniumExtensions
 	{
-        public static void ClickByLinkText(this DefaultSelenium browser, string linkText)
+        public static void ClickLinkByText(this DefaultSelenium browser, string linkText)
         {
             browser.Click("link="+linkText);
         }
