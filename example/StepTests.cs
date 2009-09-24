@@ -2,6 +2,7 @@
 using Selenium;
 using Nucumber.Framework;
 using NUnit.Framework;
+using Cucumber.Selenium;
 
 namespace Cucumber
 {
@@ -41,9 +42,9 @@ namespace Cucumber
                     World.Browser.Type("q", value);
                 });
 
-            When("I click the \"([^\"]*)\" button", (string arg1) =>
+            When("I click the \"([^\"]*)\" button", (string buttonName) =>
                 {
-                    World.Browser.Click("btnG");
+                    World.Browser.ClickButtonByText(buttonName);
                 });
 
             When("I wait for the page to load", () =>
@@ -59,7 +60,7 @@ namespace Cucumber
 
             When("I click the \"([^\"]*)\" link", (string link) =>
             {
-                World.Browser.Click("link="+link);
+                World.Browser.ClickLinkByText(link);
             });
 
             Given("My Name is \"([^\"]*)\"", (string arg1) =>
