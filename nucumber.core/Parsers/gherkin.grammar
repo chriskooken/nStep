@@ -5,16 +5,16 @@ GRAMMARTYPE = "LL"
 %tokens%
 
 T_FEATURE			= "Feature:"
-T_BACKGROUD			= "Background:"
+T_BACKGROUND		= "Background:"
 T_SCENARIO			= "Scenario:"
 T_SCENARIO_OUTLINE	= "Scenario Outline:"
 T_EXAMPLES			= "Examples:"
 
-T_GIVEN	= <<Given|given:>>
-T_WHEN	= <<When|when:>>
-T_THEN	= <<Then|then:>>
-T_AND	= <<And|and:>>
-T_BUT	= <<But|but:>>
+T_GIVEN	= <<(Given|given:)>>
+T_WHEN	= <<(When|when:)>>
+T_THEN	= <<(Then|then:)>>
+T_AND	= <<(And|and:)>>
+T_BUT	= <<(But|but:)>>
 
 HORIZONTAL_WHITESPACE	= <<[\t ]>>
 EOL						= <<\r?\n>>					
@@ -30,7 +30,7 @@ Feature					= FeatureHeader BlankLine* Background (Scenario | ScenarioOutline | 
 FeatureHeader			= "Feature:" FreeLine+ ;
 
 Background				= BackgroundHeader Step+ ;
-BackgroundHeader		= "Background:" EOL ;
+BackgroundHeader		= "Background:" FreeLine ;
 
 Scenario				= ScenarioHeader Step+ ;
 ScenarioHeader			= "Scenario:" FreeLine ;
@@ -53,6 +53,6 @@ Table					= TableRow+ ;
 TableRow				= "|" (Text "|")+ EOL ;
 
 Whitespace				= HORIZONTAL_WHITESPACE+ ;
-FreeLine				= Text EOL ;
+FreeLine				= Text? EOL ;
 BlankLine				= HORIZONTAL_WHITESPACE* EOL ;
 Text					= (HORIZONTAL_WHITESPACE | TEXT_CHAR)+ ;

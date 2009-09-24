@@ -64,7 +64,6 @@ namespace Nucumber.Core.Parsers
 
 		public override Node ExitFeature(Production node)
 		{
-			//node.AddValues(GetChildValues(node));
 			var feature = new Feature
 			{
 
@@ -76,17 +75,40 @@ namespace Nucumber.Core.Parsers
 
 		public override Node ExitFeatureHeader(Production node)
 		{
-			var summaryLines = GetChildValues(node).ToArray();
+			var summaryLines = new List<string>();
+
+			foreach (var summaryLine in GetChildValues(node))
+				summaryLines.Add(summaryLine as string);
 
 			node.AddValue(summaryLines);
 			return node;
 		}
 
+		public override Node ExitBackgroundHeader(Production node)
+		{
+			node.AddValue(GetTitle(node));
+			return node;
+		}
+
 		public override Node ExitBackground(Production node)
 		{
-			var steps = GetChildValues(node).ToArray();
+			var values = GetChildValues(node);
 
-			node.AddValue(steps);
+			// First value is title from header
+			var title = values[0] as string;
+
+			// Rest of values are FeatureSteps
+			var steps = new List<FeatureStep>();
+			foreach (var step in values.GetRange(1, values.Count - 1))
+				steps.Add(step as FeatureStep);
+
+			var background = new Scenario
+			{
+				Title = title,
+				Steps = steps
+			};
+
+			node.AddValue(background);
 			return node;
 		}
 
@@ -96,24 +118,25 @@ namespace Nucumber.Core.Parsers
 
 		public override Node ExitScenarioHeader(Production node)
 		{
-			var scenarioLine = GetChildValues(node).ToArray()[0].ToString().Trim();
-
-			node.AddValue(scenarioLine);
+			node.AddValue(GetTitle(node));
 			return node;
 		}
 
 		public override Node ExitScenario(Production node)
 		{
 			var values = GetChildValues(node);
-			var scenarioLine = values[0] as string;
 
+			// First value is title from header
+			var title = values[0] as string;
+
+			// Rest of values are FeatureSteps
 			var steps = new List<FeatureStep>();
 			foreach (var step in values.GetRange(1, values.Count - 1))
 				steps.Add(step as FeatureStep);
 
 			var scenario = new Scenario
 			{
-				Title = scenarioLine,
+				Title = title,
 				Steps = steps
 			};
 
@@ -127,9 +150,7 @@ namespace Nucumber.Core.Parsers
 
 		public override Node ExitScenarioOutlineHeader(Production node)
 		{
-			var scenarioOutlineLine = GetChildValues(node).ToArray()[0].ToString().Trim();
-
-			node.AddValue(scenarioOutlineLine);
+			node.AddValue(GetTitle(node));
 			return node;
 		}
 
@@ -225,6 +246,16 @@ namespace Nucumber.Core.Parsers
 			node.AddValue(featureStep);
 			CurrentStepKind = kind;
 			return node;
+		}
+
+		#endregion
+
+		#region Helpers
+
+		private string GetTitle(Node node)
+		{
+			var freeLines = GetChildValues(node);
+			return freeLines.Count == 1 ? freeLines[0].ToString().Trim() : null;
 		}
 
 		#endregion
