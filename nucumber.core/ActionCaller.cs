@@ -31,9 +31,10 @@ namespace Nucumber.Core
             }
             catch (TargetInvocationException exception)
             {
-                throw exception.InnerException;
+               throw new ApplicationException(exception.InnerException.Message, exception.InnerException);
             }
            
         }
     }
+
 }

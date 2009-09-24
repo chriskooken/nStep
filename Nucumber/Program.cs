@@ -1,10 +1,12 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
+using Nucumber.Framework;
 
 namespace Nucumber.App
 {
@@ -15,34 +17,59 @@ namespace Nucumber.App
 
         static void Main(string[] args)
         {
-            # if DEBUG
+# if DEBUG
             args = new[]
                        {
-                           Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll"),
-                           Path.GetFullPath(@"..\..\..\example\example.feature")
+                           Path.GetFullPath(@"..\..\..\example\example.feature"),
+                           "-r",
+                           Path.GetFullPath(@"..\..\..\example\bin\Debug\example.dll")
                        };
-            # endif
-            new Program().Run(args);
+# endif
+            var options = new NucumberOptions().Parse<NucumberOptions>(args);
+            new Program().Run(options);
         }
 
-        private void Run(string[] args)
+        private void Run(NucumberOptions options)
         {
+
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
+
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
-            StepMother = new StepMother();
-            StepMother.ImportSteps(new AssemblyLoader().LoadStepAssembly(new FileInfo(args.FirstOrDefault())));
+            var assemblyFiles = options.Assemblies.Select(x => new FileInfo(x)).ToList();
 
-			var fileInfo = new FileInfo(args[1]);
-			var feature = GherkinParser.GetFeature(fileInfo);
+            var worldViews = new WorldViewDictionary();
+            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
 
-            new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
-            Thread.Sleep(5000);
-            
-            
-            
+            EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
+
+            env.GlobalBegin(worldViews);
+
+            StepMother = new StepMother(worldViews);
+            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
+
+            LoadAndExecuteFeatureFile(options.FeatureFiles);
+
+            env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
         }
 
-       
+        void LoadAndExecuteFeatureFile(string fileName)
+        {
+            var feature = new Feature(new AltGherkinParser());
+            feature.Parse(fileName);
+
+            new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+        }
+
+        Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            var strTempAssmbPath =
+                Path.GetFullPath(@"..\..\..\example\bin\debug\" + args.Name.Substring(0, args.Name.IndexOf(",")) +
+                                 ".dll");
+
+            return Assembly.LoadFrom(strTempAssmbPath);
+        }
     }
 }

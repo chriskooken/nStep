@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Nucumber.App.CommandLineUtilities
 {
-    public class ConsoleOptions : ConsoleOptionsBase
-    {   
+    public class NucumberOptions : ConsoleOptionsBase
+    {
         [Default]
         [Required]
-        public string FeatureFiles { get; set; }
+        public string FeatureFiles { get;  set; }
 
-        [Switch("r","require")]
+        [Switch("r", "require")]
         public IList<string> Assemblies { get; set; }
 
-        [Switch("v","verbose")]
+        [Switch("v", "verbose")]
         public bool Verbose { get; set; }
 
-        public Format Format { get; set; }
+        public OutputFormat Format { get; set; }
 
     }
 
-    public enum Format
+    public enum OutputFormat
     {
         Html,
         Text,

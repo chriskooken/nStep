@@ -11,7 +11,7 @@ namespace Cucumber
         public string Name;
     }
 
-    public class StepTests : StepSetBase<TestWorldView>
+    public class StepTests : StepSetBase<SeleniumWorldView>
     {
         public override void BeforeStep()
         {
@@ -30,85 +30,53 @@ namespace Cucumber
                     return new User {Name = userName};
                 });
 
-            Given("([Uu]ser .*) has an email address equal to (.*)", (User user, string newName) =>
-        	{
-        	    user.Name = newName;
-        	});
-            
-            Given("Given ProviderLocation \"([^\"]*)\" exists", locationName =>
-            {
-                    Console.WriteLine("Got location name " + locationName);
-            });
+            Given("I am on the google homepage", () =>
+                {
+                    World.Browser.Open("http://www.google.com");
+                    World.Browser.WaitForPageToLoad("10");
+                });
 
-        	Given("^My Name is \"([^\"]*)\"$", name =>
-            {
-                World.Browser.Open("http://www.google.com");
-                World.Browser.WaitForPageToLoad("10");
-                World.Browser.Type("q", "dogs are cool things");
+            When("I type \"([^\"]*)\" in the \"([^\"]*)\" field", (string value, string field) =>
+                {
+                    World.Browser.Type("q", value);
+                });
 
-                Console.WriteLine("Name is: " + name);
-            });
+            When("I click the \"([^\"]*)\" button", (string arg1) =>
+                {
+                    World.Browser.Click("btnG");
+                });
 
-            Given("^I live at \"([^\"]*)\"$", location =>
-            {
-                Console.WriteLine("Location is: " + location);
-                location = location.Remove(5);
-            });
-
-            Given("^I live at home$", () =>
-            {
-                Console.WriteLine("Location is: home");
-            });
-
-            Given("^My city is \"([^\"]*)\" and my state is \"([^\"]*)\"$", (int city, string state) =>
-            {
-                Console.WriteLine("City is: " + city);
-                Console.WriteLine("State is: " + state);
-            });
+            When("I wait for the page to load", () =>
+                {
+                    World.Browser.WaitForPageToLoad("15000");
+                });
 
             Then("I should be on the \"([^\"]*)\" page", page =>
+                {
+                    var x = page;
+                    World.Browser.GetTitle().Should().Be.EqualTo(page);
+                });
+
+            When("I click the \"([^\"]*)\" link", (string link) =>
             {
-                Pending();
-                World.Browser.GetTitle().Should().Be.EqualTo(page);
+                World.Browser.Click("link="+link);
             });
 
+            Given("My Name is \"([^\"]*)\"", (string arg1) =>
+                {
+
+                });
+
+            Given("I live at \"([^\"]*)\"", (string arg1) =>
+                {
+
+                });
+
+            Given("My city is \"([^\"]*)\" and my state is \"([^\"]*)\"", (string arg1, string arg2) =>
+                {
+
+                });
         }
     }
-        public class TestWorldView
-        {
-            public readonly DefaultSelenium Browser;
-            public TestWorldView()
-            {
-                Browser = new DefaultSelenium("localhost", 4444, "*iexplore", "http://www.google.com");
-                Browser.Start();
-            }
-        }
-
-        public class WorldViewProvider : WorldViewProviderBase<TestWorldView>
-        {
-            protected override TestWorldView InitializeWorldView()
-            {
-                return new TestWorldView();
-            }
-        }
-
-    public class Environment : EnvironmentBase
-    {
-        public override void SessionStart()
-        {
-            //Maybe create the database? Init StructureMap? Start Selenium? Something else?
-        }
-
-        public override void SessionEnd()
-        {
-            //Destroy the database? Clean up? Stop Selenium?
-        }
-
-        public override void AfterScenario()
-        {
-            //Maybe clean out the database?
-        }
-    }
-
-    }
+}
 

@@ -1,20 +1,12 @@
-﻿namespace Nucumber.Framework
+﻿
+using Nucumber.Core;
+
+namespace Nucumber.Framework
 {
     public abstract class EnvironmentBase
     {
-        public virtual void SessionStart()
-        {
-            
-        }
+        public abstract void GlobalBegin(IWorldViewDictionary worldViewDictionary);
 
-        public virtual void SessionEnd()
-        {
-
-        }
-
-        public virtual void AfterScenario()
-        {
-
-        }
+        public abstract void GlobalExit(IWorldViewDictionary worldViewDictionary);
     }
 }

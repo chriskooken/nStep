@@ -7,6 +7,7 @@ namespace Nucumber.Core
 {
     public class StepMother : IRunStepsFromStrings
     {
+        private readonly IWorldViewDictionary worldViews;
         private IList<StepDefinition> givens;
         private IList<StepDefinition> whens;
         private IList<StepDefinition> thens;
@@ -15,8 +16,9 @@ namespace Nucumber.Core
         private IList<FeatureStep> pendingSteps;
         IList<FeatureStep> passedSteps;
         
-        public StepMother()
+        public StepMother(IWorldViewDictionary worldViews)
 		{
+            this.worldViews = worldViews;
             failedSteps = new List<FeatureStep>();
             pendingSteps = new List<FeatureStep>();
             passedSteps = new List<FeatureStep>();
@@ -44,8 +46,11 @@ namespace Nucumber.Core
             set { failedSteps = value; }
         }
 
-        public void ImportSteps(IProvideSteps stepSet)
+        public void AdoptSteps(IProvideSteps stepSet)
         {
+            if (worldViews != null)
+                stepSet.WorldView = worldViews[stepSet.WorldViewType];
+
             givens = givens.Union(stepSet.StepDefinitions.Givens).ToList();
             whens = whens.Union(stepSet.StepDefinitions.Whens).ToList();
             thens = thens.Union(stepSet.StepDefinitions.Thens).ToList();
@@ -53,10 +58,10 @@ namespace Nucumber.Core
             transforms = transforms.Union(stepSet.TransformDefinitions).ToList();
         }
 
-        public void ImportSteps(IEnumerable<IProvideSteps> stepSets)
+        public void AdoptSteps(IEnumerable<IProvideSteps> stepSets)
         {
             foreach (var set in stepSets)
-                ImportSteps(set);
+                AdoptSteps(set);
         }
 
         public Exception LastProcessStepException { get; private set; }
@@ -104,7 +109,7 @@ namespace Nucumber.Core
             catch (Exception ex)
             {
                 failedSteps.Add(featureStepToProcess);
-                LastProcessStepException = ex;
+                LastProcessStepException = ex.InnerException;
                 return StepRunResults.Failed;
             }
            

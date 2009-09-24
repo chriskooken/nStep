@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Nucumber.Core;
+using System.Linq;
 using Nucumber.Framework;
 
 namespace Nucumber.App.CommandLineUtilities
@@ -52,7 +53,7 @@ namespace Nucumber.App.CommandLineUtilities
         public void WriteException(FeatureStep step, Exception ex)
 		{
 			Console.ForegroundColor = ConsoleColor.DarkRed;
-            WriteLineLevel3(step.FeatureLine);
+            WriteLineLevel3(step.FeatureLine + ":" + step.LineNumber);
 			WriteLineLevel3(ex.Message);
 			WriteLineLevel4(ex.StackTrace);
 			Console.ForegroundColor = ConsoleColor.Gray;	
@@ -62,28 +63,35 @@ namespace Nucumber.App.CommandLineUtilities
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             WriteLineLevel3(featureStep.FeatureLine);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
         public void WritePendingFeatureLine(FeatureStep featureStep)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
         {
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            if (pendingFeatureSteps.Count() == 0) return;
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("You can implement step definitions for undefined steps with these snippets:");
 
             foreach (var featureStep in pendingFeatureSteps)
             {
+                Console.WriteLine();
                 Console.WriteLine(syntaxSuggester.TurnFeatureIntoSnippet(featureStep));
+                
             }
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WriteFeatureHeading(Feature feature)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteLineLevel1("Feature: " + feature.Description);
+            WriteLineLevel1(feature.Description);
             foreach (var s in feature.SummaryLines)
                 WriteLineLevel1(s);
             WriteLineLevel1(string.Empty);
@@ -92,9 +100,9 @@ namespace Nucumber.App.CommandLineUtilities
         public void WriteResults(StepMother stepMother)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteDuration();
-
             WriteFailedFeatureLines(stepMother.FailedSteps);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            WriteDuration();
             WritePendingFeatureSnippets(stepMother.PendingSteps);
             
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -104,11 +112,12 @@ namespace Nucumber.App.CommandLineUtilities
 
         static void WriteFailedFeatureLines(IList<FeatureStep> failedSteps)
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;  
-            Console.WriteLine(failedSteps.Count + "Failed Steps: ");
+            if (failedSteps.Count == 0) return;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(failedSteps.Count + " Failed Steps: ");
             foreach (var failedStep in failedSteps)
             {
-                Console.WriteLine(failedStep.FeatureLine + ":"+ failedStep.LineNumber);
+                Console.WriteLine(failedStep.FeatureLine + ":" + failedStep.LineNumber);
             }
         }
 
@@ -130,18 +139,24 @@ namespace Nucumber.App.CommandLineUtilities
 
         public void WriteScenarioTitle(Scenario scenario)
         {
-            WriteLineLevel1("Scenario: " + scenario.Title);
+            WriteLineLevel2(scenario.Title);
         }
 
         public void WriteBackgroundHeading(Scenario background)
         {
-            WriteLineLevel2("Background:" + background.Title);
+            WriteLineLevel2(background.Title);
         }
 
         public void WriteSkippedFeatureLine(FeatureStep featureStep)
         {
-            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.ForegroundColor = ConsoleColor.Cyan;
             WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public void WriteLineBreak()
+        {
+            Console.WriteLine();
         }
     }
 }

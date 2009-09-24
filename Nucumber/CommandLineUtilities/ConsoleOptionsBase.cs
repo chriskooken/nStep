@@ -13,12 +13,12 @@ namespace Nucumber.App.CommandLineUtilities
 
         public const char FlagKey = '-';
 
+
         private IList<PropertyInfo> classProperties { get; set; }
 
         private Dictionary<string, PropertyParameter> propertyParameters { get; set; }
 
         private Type childType { get; set; }
-
 
         private IList<PropertyInfo> ClassProperties
         {
@@ -30,7 +30,6 @@ namespace Nucumber.App.CommandLineUtilities
             }
         }
 
-
         private Dictionary<string, PropertyParameter> PropertyParameters
         {
             get
@@ -41,12 +40,13 @@ namespace Nucumber.App.CommandLineUtilities
                 foreach (var propertyInfo in ClassProperties)
                 {
                     var propertyParam = new PropertyParameter() {Property = propertyInfo, Switches = new List<string>()};
+                    
                     var requiredAttribute =
                         (Required) propertyInfo.GetCustomAttributes(typeof (Required), true).FirstOrDefault();
                     
                     var defaultAttribute =
-                        (Default) propertyInfo.GetCustomAttributes(typeof (Default), true).FirstOrDefault();
-                    
+                        (Default) propertyInfo.GetCustomAttributes(typeof (Default), true).FirstOrDefault();    
+
                     propertyParam.IsRequired = (requiredAttribute != null);
 
                     propertyParam.IsEnumerable = (propertyInfo.PropertyType.IsAssignableFrom(typeof(IList<string>)) || propertyInfo.PropertyType.IsAssignableFrom(typeof(IList<Enum>)) );
@@ -56,65 +56,69 @@ namespace Nucumber.App.CommandLineUtilities
                     if (defaultAttribute != null)
                     {
                         if (propertyInfo.PropertyType == typeof(bool))
-                            throw new ArgumentException("Default can't be of type bool");
-                        
+                            throw new ConsoleOptionsException("Default can't be of type bool: " + propertyInfo.Name);
+
                         propertyParam.IsDefault = true;
                         propertyParam.IsSwitch = false;
                         propertyParam.Switches.Add(DefaultFlag);
                         propertyParameters.Add(DefaultFlag, propertyParam);
-                        continue;
                     }
-                    
-                    propertyParam.IsDefault = false;
-                    propertyParam.IsSwitch = (propertyInfo.PropertyType == typeof(Boolean) || propertyInfo.GetType()==typeof(bool));
-                    var switchAttribute =
-                        (Switch) propertyInfo.GetCustomAttributes(typeof (Switch), true).FirstOrDefault();
+                    else
+                    {
+                        propertyParam.IsDefault = false;
+                        propertyParam.IsSwitch = (propertyInfo.PropertyType == typeof (Boolean) ||
+                                                  propertyInfo.GetType() == typeof (bool));
+                        var switchAttribute =
+                            (Switch) propertyInfo.GetCustomAttributes(typeof (Switch), true).FirstOrDefault();
 
-                    if (switchAttribute != null)
-                    {
-                        foreach (var switche in switchAttribute.switches)
+                        if (switchAttribute != null)
                         {
-                            propertyParam.Switches.Add(switche.ToLower());
-                            try
+                            foreach (var switche in switchAttribute.switches)
                             {
-                                propertyParameters.Add(switche.ToLower(), propertyParam);
+                                propertyParam.Switches.Add(switche.ToLower());
+                                try
+                                {
+                                    propertyParameters.Add(switche.ToLower(), propertyParam);
+                                }
+                                catch (Exception e)
+                                {
+                                    throw new ConsoleOptionsException("Flag overlap", propertyParam);
+                                }
                             }
-                            catch (Exception e)
-                            {
-                                throw new ArgumentException("Flag overlap");
-                            }
+                            continue;
                         }
-                        continue;
-                    }
-                    var namedSwitch = propertyParam.Property.Name[0].ToString().ToLower();
-                    
-                    try
-                    {
+                        var namedSwitch = propertyParam.Property.Name[0].ToString().ToLower();
+
+                        try
+                        {
+                            propertyParam.Switches.Add(namedSwitch);
+                            propertyParameters.Add(namedSwitch, propertyParam);
+                        }
+                        catch (Exception e)
+                        {
+                            throw new ConsoleOptionsException("Flag overlap",propertyParam);
+                        }
+                        namedSwitch = propertyParam.Property.Name.ToLower();
                         propertyParam.Switches.Add(namedSwitch);
-                        propertyParameters.Add(namedSwitch, propertyParam);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ArgumentException("Flag overlap");
-                    }
-                    namedSwitch = propertyParam.Property.Name.ToLower();
-                    propertyParam.Switches.Add(namedSwitch);
-                    try
-                    {
-                        propertyParameters.Add(namedSwitch, propertyParam);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ArgumentException("Flag overlap");
+                        try
+                        {
+                            propertyParameters.Add(namedSwitch, propertyParam);
+                        }
+                        catch (Exception e)
+                        {
+                            throw new ConsoleOptionsException("Flag overlap", propertyParam);
+                        }
                     }
                 }
                 return propertyParameters;
             }
         }
+
+
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
             if(args.Length == 0 || args[0].Length == 0)
-                throw new ArgumentException("Wrong input");
+                throw new ConsoleOptionsException("No arguments");
             
             var consoleOptions = this as TConsoleOptions;
 
@@ -148,7 +152,7 @@ namespace Nucumber.App.CommandLineUtilities
                     }
                     catch (KeyNotFoundException)
                     {
-                        throw new ArgumentException(pair.Flag + " isn't a valid option.");
+                        throw new ConsoleOptionsException("Invalid Switch", PropertyParameters.Values.ToList(), pair);
                     }
                     continue;
                 }
@@ -169,7 +173,7 @@ namespace Nucumber.App.CommandLineUtilities
                     }
                     catch (KeyNotFoundException)
                     {
-                        throw new ArgumentException("There is no default option, please use the appropriate flags.");
+                        throw new ConsoleOptionsException("There is no default option, please use the appropriate flags.",PropertyParameters.Values.ToList(),pair);
                     }
                     continue;
                 }
@@ -184,7 +188,7 @@ namespace Nucumber.App.CommandLineUtilities
                     }
                     catch (KeyNotFoundException)
                     {
-                        throw new ArgumentException(pair.Flag + " isn't a valid option.");
+                        throw new ConsoleOptionsException("Invalid Switch",PropertyParameters.Values.ToList(),pair);
                     }
                     continue;
                 }   
@@ -195,10 +199,11 @@ namespace Nucumber.App.CommandLineUtilities
         public IList<ParameterPair> GetParameters(string[] args)
         {
             var parameters = new List<ParameterPair>();
+
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i].Length == 0)
-                    throw new ArgumentException("Argument of length zero not allowed");
+                    throw new ConsoleOptionsException("Argument of length zero not allowed");
 
                 if (args[i][0] == FlagKey)
                 {
@@ -215,7 +220,7 @@ namespace Nucumber.App.CommandLineUtilities
 
                         //Parameter is an option
                         if (i >= args.Length - 1)
-                            throw new ArgumentException("A flag that requires input had no input");
+                            throw new ConsoleOptionsException("A flag that requires input had no input",propertyParam,args[i]);
                         if (propertyParam.IsEnumerable)
                         {
                             int j = i+1;
@@ -238,7 +243,7 @@ namespace Nucumber.App.CommandLineUtilities
                         continue;
                     }
                     var x = PropertyParameters;
-                    throw new ArgumentException("Flag not recognized");
+                    throw new ConsoleOptionsException("Flag not recognized",PropertyParameters.Values.ToList(),args[i]);
                 }
 
                 //Parameter is an option with no flag
@@ -260,13 +265,11 @@ namespace Nucumber.App.CommandLineUtilities
                         parameters.Add(pair);
                         continue;
                     }
-                    else
-                    {
-                        parameters.Add(new ParameterPair()
-                                           {Flag = null, Parameter = new List<string> {args[i].TrimStart(FlagKey)}});
-                    }
+                    parameters.Add(new ParameterPair()
+                                       {Flag = null, Parameter = new List<string> {args[i].TrimStart(FlagKey)}});
+                    continue;
                 }
-
+                throw new ConsoleOptionsException("There is no Default Option");
             }
             return parameters;
         }
@@ -287,8 +290,14 @@ namespace Nucumber.App.CommandLineUtilities
         public bool IsSwitch { get; set; }
         public bool IsEnumerable { get; set; }
         public bool IsEnum { get; set; }
+        public string Help { get; set;}
     }
 
+    
+    
+
+
+    #region attributes
 
     public class Required : Attribute
     {
@@ -313,5 +322,101 @@ namespace Nucumber.App.CommandLineUtilities
             this.switches = new List<string>(switches);
         }
     }
+
+    public class Help : Attribute
+    {
+        public string HelpMessage { get; set; }
+        public Help(string help)
+        {
+            HelpMessage = help;
+        }
+    }
+
+    #endregion
+
+    #region exceptions
+
+    public static class ConsoleOptionsExtensions
+    {
+        public const string Spacer = "\t\t";
+
+        public static string GetSwitchHelp(this PropertyParameter parameter)
+        {
+            string help = "";
+            parameter.Switches.ForEach(x => help += x + ",");
+            return help.TrimEnd(',');
+        }
+
+        public static void GenerateHelpMessage(this PropertyParameter parameter)
+        {
+            var helperAttribute =
+                (Help)parameter.Property.GetCustomAttributes(typeof(Default), true).FirstOrDefault();
+
+            var helpString = (helperAttribute != null) ? helperAttribute.HelpMessage : "";
+            parameter.Help = parameter.GetSwitchHelp() + "\n" + Spacer + helpString;
+        }
+
+        public static string GetHelp(this List<PropertyParameter> parameters)
+        {
+            return "needs to be implemented";
+        }
+
+    }
+
+    public class ConsoleOptionsException : Exception
+    {
+        protected string ErrorMessage { get; set; }
+
+        protected string HelperMessage { get; set; }
+
+        public ConsoleOptionsException()
+        {
+            ErrorMessage = "";
+            HelperMessage = "";
+        }
+
+        public ConsoleOptionsException(string output) : this()
+        {
+            ErrorMessage = output;
+        }
+
+        public ConsoleOptionsException(string output, PropertyParameter propertyInQuestion): this(output)
+        {
+            propertyInQuestion.GenerateHelpMessage();
+
+            HelperMessage = propertyInQuestion.Help;
+        }
+        public ConsoleOptionsException(string output, PropertyParameter property, ParameterPair parameter)
+            : this(output)
+        {
+            property.GenerateHelpMessage();
+
+            HelperMessage = parameter.Flag + " " + parameter.Parameter + " \n\t" + property.Help;
+        }
+        public ConsoleOptionsException(string output, PropertyParameter property, string input)
+            : this(output)
+        {
+            property.GenerateHelpMessage();
+            HelperMessage = input + " \n\t" + property.Help;
+        }
+        public ConsoleOptionsException(string output, List<PropertyParameter> properties, ParameterPair parameter)
+            : this(output)
+        {
+            HelperMessage = parameter.Flag + " " + parameter.Parameter + " \n\t" + properties.GetHelp();
+        }
+        public ConsoleOptionsException(string output, List<PropertyParameter> properties, string input)
+            : this(output)
+        {
+            HelperMessage = input + "\n\t" + properties.GetHelp();
+        }
+
+        public virtual string OutPut()
+        {
+            return ErrorMessage + "\n"
+                   + "   " + HelperMessage;
+        }
+
+    }
+    #endregion
 
 }
