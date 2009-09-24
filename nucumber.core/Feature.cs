@@ -118,14 +118,6 @@ namespace Nucumber.Core
         }
     }
 
-    public class InvalidScenarioLineNumberException : ApplicationException
-    {
-        public InvalidScenarioLineNumberException(string message): base(message)
-        {
-            
-        }
-    }
-
     public class LineValue
     {
         public int Line { get; set; }
