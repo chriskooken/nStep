@@ -27,7 +27,8 @@ namespace Nucumber.App
             }
             catch (ConsoleOptionsException exception)
             {
-                Console.WriteLine(exception.OutPut());
+                exception.PrintMessageToConsole();
+                Console.ReadKey();
             }
             
         }

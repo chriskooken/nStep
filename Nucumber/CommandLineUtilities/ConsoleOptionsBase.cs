@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -9,13 +10,20 @@ namespace Nucumber.App.CommandLineUtilities
 {
     public abstract class ConsoleOptionsBase
     {
+        [Help("Allows user to set up debugger before executing.")]
+        public bool Debug { get; set; }
+
+
         public const string DefaultFlag = "#";
 
         public const char FlagKey = '-';
 
-        public List<string> Arguments { get; set; }
+        protected List<string> arguments { get; set; }
         
-
+        public List<string> Arguments()
+        {
+            return arguments;
+        }
 
         private IList<PropertyInfo> classProperties { get; set; }
 
@@ -119,10 +127,9 @@ namespace Nucumber.App.CommandLineUtilities
 
 
 
-
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
-            Arguments = new List<string>(args);
+            arguments = new List<string>(args);
 
             if(args.Length == 0 || args[0].Length == 0)
                 throw new ConsoleOptionsException("No arguments");
@@ -204,7 +211,16 @@ namespace Nucumber.App.CommandLineUtilities
                 }
                 if(propertyParam.IsEnum)
                 {
-                    propertyParam.Property.SetValue(consoleOptions, Enum.Parse(propertyParam.Property.PropertyType, pair.Parameter.FirstOrDefault()), null);
+                    try
+                    {
+                        propertyParam.Property.SetValue(consoleOptions,
+                                                        Enum.Parse(propertyParam.Property.PropertyType,
+                                                                   pair.Parameter.FirstOrDefault()), null);
+                    }
+                    catch(ArgumentException e)
+                    {
+                        throw new ConsoleOptionsException(e.Message,propertyParam,pair);
+                    }
                 }
                 else
                 {
@@ -227,7 +243,10 @@ namespace Nucumber.App.CommandLineUtilities
             {
                 if (args[i].Length == 0)
                     throw new ConsoleOptionsException("Argument of length zero not allowed");
-
+                if(args[i] == "--help")
+                {
+                    throw new ConsoleOptionsException("Input format: ", PropertyParameters.Values.ToList(), "");
+                }
                 if (args[i][0] == FlagKey)
                 {
                     if (PropertyParameters.ContainsKey(args[i].TrimStart(FlagKey)))
@@ -258,7 +277,7 @@ namespace Nucumber.App.CommandLineUtilities
                                     break;
                                 }
                             }
-                            i = j;
+                            i = j -1;
                             parameters.Add(pair);
                             continue;
                         }
@@ -301,7 +320,7 @@ namespace Nucumber.App.CommandLineUtilities
     public class ParameterPair
     {
         public string Flag { get; set; }
-        public IList<string> Parameter { get; set; }
+        public List<string> Parameter { get; set; }
     }
 
     public class PropertyParameter
@@ -313,12 +332,55 @@ namespace Nucumber.App.CommandLineUtilities
         public bool IsSwitch { get; set; }
         public bool IsEnumerable { get; set; }
         public bool IsEnum { get; set; }
-        public string Help { get; set;}
+        public List<string> Help { get; set;}
     }
 
-    
-    
+    public static class ConsoleOptionsExtensions
+    {
+        public const string Spacer = "\t\t";
 
+        public static string GetSwitchHelp(this PropertyParameter parameter)
+        {
+            string help = "";
+            parameter.Switches.ForEach(x => help += x + ",");
+            return help.TrimEnd(',');
+        }
+
+        public static void GenerateHelpMessage(this PropertyParameter parameter)
+        {
+            var helperAttribute =
+                (Help)parameter.Property.GetCustomAttributes(typeof(Help), true).FirstOrDefault();
+
+            var helpString = (helperAttribute != null) ? helperAttribute.HelpMessage : parameter.Property.Name;
+            parameter.Help = new List<string>()
+                                 {
+                                     parameter.GetSwitchHelp(), helpString
+                                 };
+        }
+
+        public static List<List<string>> GetHelp(this List<PropertyParameter> parameters)
+        {
+            var helpMessages = new List<List<string>>();
+            
+            parameters.Distinct().ToList().ForEach(x =>
+            {
+                x.GenerateHelpMessage();
+                helpMessages.Add(x.Help);
+            });
+            return helpMessages;
+        }
+
+        public static bool IsEnumerable(this Type PropertyType)
+        {
+            //var genArgs = PropertyType.GetGenericArguments();
+
+            //var enumerable = (PropertyType is IEnumerable);
+
+
+            return PropertyType.IsAssignableFrom(typeof(IList<string>));
+        }
+
+    }
 
     #region attributes
 
@@ -359,53 +421,21 @@ namespace Nucumber.App.CommandLineUtilities
 
     #region exceptions
 
-    public static class ConsoleOptionsExtensions
-    {
-        public const string Spacer = "\t\t";
-
-        public static string GetSwitchHelp(this PropertyParameter parameter)
-        {
-            string help = "";
-            parameter.Switches.ForEach(x => help += x + ",");
-            return help.TrimEnd(',');
-        }
-
-        public static void GenerateHelpMessage(this PropertyParameter parameter)
-        {
-            var helperAttribute =
-                (Help)parameter.Property.GetCustomAttributes(typeof(Default), true).FirstOrDefault();
-
-            var helpString = (helperAttribute != null) ? helperAttribute.HelpMessage : "";
-            parameter.Help = parameter.GetSwitchHelp() + "\n" + Spacer + helpString;
-        }
-
-        public static string GetHelp(this List<PropertyParameter> parameters)
-        {
-            return "needs to be implemented";
-        }
-
-        public static bool IsEnumerable(this Type PropertyType)
-        {
-            //var genArgs = PropertyType.GetGenericArguments();
-
-            //var enumerable = (PropertyType is IEnumerable);
-
-
-            return PropertyType.IsAssignableFrom(typeof(IList<string>));
-        }
-
-    }
+    
 
     public class ConsoleOptionsException : Exception
     {
         protected string ErrorMessage { get; set; }
 
-        protected string HelperMessage { get; set; }
+        protected string ErrorCause { get; set; }
+
+        protected List<List<string>> HelperMessage { get; set; }
 
         public ConsoleOptionsException()
         {
-            ErrorMessage = "";
-            HelperMessage = "";
+            ErrorMessage = " ";
+            ErrorCause = " ";
+            HelperMessage = new List<List<string>>();
         }
 
         public ConsoleOptionsException(string output) : this()
@@ -417,36 +447,55 @@ namespace Nucumber.App.CommandLineUtilities
         {
             propertyInQuestion.GenerateHelpMessage();
 
-            HelperMessage = propertyInQuestion.Help;
+            HelperMessage.Add(propertyInQuestion.Help);
         }
         public ConsoleOptionsException(string output, PropertyParameter property, ParameterPair parameter)
             : this(output)
         {
             property.GenerateHelpMessage();
-
-            HelperMessage = parameter.Flag + " " + parameter.Parameter + " \n\t" + property.Help;
+            ErrorCause = parameter.Flag;
+            parameter.Parameter.ForEach(x => ErrorCause += " " + x);
+            HelperMessage.Add(property.Help);
         }
         public ConsoleOptionsException(string output, PropertyParameter property, string input)
             : this(output)
         {
             property.GenerateHelpMessage();
-            HelperMessage = input + " \n\t" + property.Help;
+            ErrorCause = input;
+            HelperMessage.Add(property.Help);
         }
         public ConsoleOptionsException(string output, List<PropertyParameter> properties, ParameterPair parameter)
             : this(output)
         {
-            HelperMessage = parameter.Flag + " " + parameter.Parameter + " \n\t" + properties.GetHelp();
+            ErrorCause = parameter.Flag;
+            parameter.Parameter.ForEach(x => ErrorCause += " " + x);
+            HelperMessage = properties.GetHelp();
         }
         public ConsoleOptionsException(string output, List<PropertyParameter> properties, string input)
             : this(output)
         {
-            HelperMessage = input + "\n\t" + properties.GetHelp();
+            ErrorCause = input;
+            HelperMessage = properties.GetHelp();
         }
 
-        public virtual string OutPut()
+        public virtual void PrintMessageToConsole()
         {
-            return ErrorMessage + "\n"
-                   + "   " + HelperMessage;
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(ErrorMessage.PadLeft(5));
+            Console.WriteLine(ErrorCause.PadLeft(8));
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+
+            foreach (var pair in HelperMessage)
+            {
+                Console.Write(pair.First().PadLeft(12));
+                
+                pair[1].Split(new []{'\n'}).ToList().ForEach(x =>
+                         {
+                             Console.CursorLeft = 22;
+                             Console.WriteLine(x.Trim());
+                         });
+                Console.WriteLine();
+            }
         }
 
     }
