@@ -40,15 +40,11 @@ namespace Nucumber.App
             }
             catch(InvalidScenarioLineNumberException ex)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(ex.Message);
-                Console.ForegroundColor = ConsoleColor.Gray;
+                WriteException(ex.Message);
             }
             catch(ArgumentException ex)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(ex.Message);
-                Console.ForegroundColor = ConsoleColor.Gray;
+                WriteException(ex.Message);
             }
             catch(Exception ex)
             {
@@ -57,8 +53,13 @@ namespace Nucumber.App
                 Console.WriteLine(ex.StackTrace);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
-           
-            
+        }
+
+        private static void WriteException(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         private void Run(NucumberOptions options)
