@@ -111,19 +111,29 @@ namespace Nucumber.Core
                 ExecuteStepDefinitionWithLine(LastProcessStepDefinition, lineText);
 
             }
-            catch(StepMissingException ex)
+            catch (StepMissingException ex)
             {
                 pendingSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex;
                 return StepRunResults.Pending;
             }
-            catch(StepPendingException ex)
+            catch (StepPendingException ex)
             {
                 LastProcessStepException = ex;
                 return StepRunResults.Pending;
             }
+            catch (StepAmbiguousException ex)
+            {
+                LastProcessStepException = ex;
+                return StepRunResults.Failed;
+            }
             catch (Exception ex)
             {
+                if ((ex.InnerException != null) && (typeof(StepPendingException) == ex.InnerException.GetType()))
+                {
+                    LastProcessStepException = ex.InnerException;
+                    return StepRunResults.Pending;
+                }
                 failedSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex.InnerException;
                 return StepRunResults.Failed;

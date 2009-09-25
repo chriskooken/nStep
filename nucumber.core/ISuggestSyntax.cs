@@ -1,6 +1,4 @@
-using Nucumber.Core;
-
-namespace Nucumber.App.CommandLineUtilities
+namespace Nucumber.Core
 {
     public interface ISuggestSyntax
     {

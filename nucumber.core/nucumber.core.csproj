@@ -44,9 +44,11 @@
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CSharpSyntaxSuggester.cs" />
     <Compile Include="FeatureExecutor.cs" />
     <Compile Include="FeatureStep.cs" />
     <Compile Include="InvalidScenarioLineNumberException.cs" />
+    <Compile Include="ISuggestSyntax.cs" />
     <Compile Include="OnlyOneEnvironmentMayBeDefinedException.cs" />
     <Compile Include="Parsers\AltGherkinParser.cs">
       <SubType>Code</SubType>
