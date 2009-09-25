@@ -76,6 +76,23 @@ namespace Nucumber.Core
             ExecuteStepDefinitionWithLine(stepDefinition, featureStepToProcess);
         }
 
+        public void ChekForMissingStep(FeatureStep featureStep)
+        {
+            try
+            {
+                GetStepDefinition(featureStep.Kind, featureStep.FeatureLine);
+            }
+            catch(StepMissingException ex)
+            {
+                pendingSteps.Add(featureStep);
+            }
+            catch(Exception e)
+            {
+                //we dont care about any other exceptions, 
+                //they are already handled in the process step
+            }
+        }
+
         public StepRunResults ProcessStep(FeatureStep featureStepToProcess)
         {
             LastProcessStepResult =  DoProcessStep(featureStepToProcess);
@@ -102,7 +119,6 @@ namespace Nucumber.Core
             }
             catch(StepPendingException ex)
             {
-                pendingSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex;
                 return StepRunResults.Pending;
             }

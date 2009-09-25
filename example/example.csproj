@@ -60,6 +60,7 @@
   <ItemGroup>
     <None Include="example.feature" />
     <None Include="example2.feature" />
+    <None Include="example3.feature" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">
