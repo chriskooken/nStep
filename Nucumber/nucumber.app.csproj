@@ -64,8 +64,6 @@
     <Compile Include="CommandLineUtilities\Arguments.cs" />
     <Compile Include="CommandLineUtilities\NucumberOptions.cs" />
     <Compile Include="CommandLineUtilities\ConsoleOutputFormatter.cs" />
-    <Compile Include="CommandLineUtilities\ISuggestSyntax.cs" />
-    <Compile Include="CommandLineUtilities\CSharpSyntaxSuggester.cs" />
     <Compile Include="CommandLineUtilities\TestOptions.cs" />
     <Compile Include="CommandLineUtilities\ConsoleOptionsBase.cs" />
     <Compile Include="Program.cs" />
