@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
@@ -25,6 +24,7 @@ namespace Nucumber.App
             try
             {
                 var options = new NucumberOptions().Parse<NucumberOptions>(args);
+                if (options.Debug) Console.ReadKey();
                 new Program().Run(options);
             }
             catch (ConsoleOptionsException exception)
@@ -51,8 +51,7 @@ namespace Nucumber.App
                 Console.WriteLine(ex.StackTrace);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
-           
-            
+            Console.ReadKey();
         }
 
         private void Run(NucumberOptions options)
