@@ -44,9 +44,10 @@ namespace Nucumber.Core.Parsers.Generated {
         BUT = 2016,
         TABLE = 2017,
         TABLE_ROW = 2018,
-        WHITESPACE = 2019,
-        FREE_LINE = 2020,
-        BLANK_LINE = 2021,
-        TEXT = 2022
+        TABLE_COLUMN = 2019,
+        WHITESPACE = 2020,
+        FREE_LINE = 2021,
+        BLANK_LINE = 2022,
+        TEXT = 2023
     }
 }

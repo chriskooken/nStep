@@ -120,6 +120,9 @@ namespace Nucumber.Core.Parsers.Generated {
             case (int) GherkinConstants.TABLE_ROW:
                 EnterTableRow((Production) node);
                 break;
+            case (int) GherkinConstants.TABLE_COLUMN:
+                EnterTableColumn((Production) node);
+                break;
             case (int) GherkinConstants.WHITESPACE:
                 EnterWhitespace((Production) node);
                 break;
@@ -212,6 +215,8 @@ namespace Nucumber.Core.Parsers.Generated {
                 return ExitTable((Production) node);
             case (int) GherkinConstants.TABLE_ROW:
                 return ExitTableRow((Production) node);
+            case (int) GherkinConstants.TABLE_COLUMN:
+                return ExitTableColumn((Production) node);
             case (int) GherkinConstants.WHITESPACE:
                 return ExitWhitespace((Production) node);
             case (int) GherkinConstants.FREE_LINE:
@@ -289,6 +294,9 @@ namespace Nucumber.Core.Parsers.Generated {
                 break;
             case (int) GherkinConstants.TABLE_ROW:
                 ChildTableRow(node, child);
+                break;
+            case (int) GherkinConstants.TABLE_COLUMN:
+                ChildTableColumn(node, child);
                 break;
             case (int) GherkinConstants.WHITESPACE:
                 ChildWhitespace(node, child);
@@ -1386,6 +1394,46 @@ namespace Nucumber.Core.Parsers.Generated {
          * discovered errors</exception>
          */
         public virtual void ChildTableRow(Production node, Node child) {
+            node.AddChild(child);
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterTableColumn(Production node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitTableColumn(Production node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when adding a child to a parse tree
+         * node.</summary>
+         *
+         * <param name='node'>the parent node</param>
+         * <param name='child'>the child node, or null</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void ChildTableColumn(Production node, Node child) {
             node.AddChild(child);
         }
 
