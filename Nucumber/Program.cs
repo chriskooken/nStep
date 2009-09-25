@@ -59,7 +59,6 @@ namespace Nucumber.App
                 Console.WriteLine(ex.StackTrace);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
-            Console.ReadKey();
         }
 
         private static void WriteException(string message)
