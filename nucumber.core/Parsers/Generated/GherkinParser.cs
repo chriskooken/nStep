@@ -229,6 +229,13 @@ namespace Nucumber.Core.Parsers.Generated {
             pattern.AddAlternative(alt);
             AddPattern(pattern);
 
+            pattern = new ProductionPattern((int) GherkinConstants.TABLE_COLUMN,
+                                            "TableColumn");
+            alt = new ProductionPatternAlternative();
+            alt.AddProduction((int) GherkinConstants.TEXT, 1, 1);
+            pattern.AddAlternative(alt);
+            AddPattern(pattern);
+
             pattern = new ProductionPattern((int) GherkinConstants.WHITESPACE,
                                             "Whitespace");
             alt = new ProductionPatternAlternative();
@@ -300,7 +307,7 @@ namespace Nucumber.Core.Parsers.Generated {
                                             "Subproduction3");
             pattern.Synthetic = true;
             alt = new ProductionPatternAlternative();
-            alt.AddProduction((int) GherkinConstants.TEXT, 1, 1);
+            alt.AddProduction((int) GherkinConstants.TABLE_COLUMN, 1, 1);
             alt.AddToken((int) GherkinConstants.PIPE, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);

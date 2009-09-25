@@ -84,6 +84,8 @@ namespace Nucumber.Core
 
         private void ExecuteStep(FeatureStep s)
         {
+            StepMother.ChekForMissingStep(s);
+
             if (SkippingSteps)
             {
                 Console.WriteSkippedFeatureLine(s);
