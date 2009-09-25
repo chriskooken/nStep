@@ -49,6 +49,13 @@ namespace Nucumber.App
             catch(Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine(ex.InnerException.Message);
+                    Console.WriteLine(ex.InnerException);
+                    Console.WriteLine();
+                }
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -77,14 +84,16 @@ namespace Nucumber.App
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
             EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
 
-            env.GlobalBegin(worldViews);
+            if (env != null)
+                env.GlobalBegin(worldViews);
 
             StepMother = new StepMother(worldViews);
             StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
 
             LoadAndExecuteFeatureFile(options.FeatureFiles);
 
-            env.GlobalExit(worldViews);
+            if (env != null)
+                env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
         }
 
