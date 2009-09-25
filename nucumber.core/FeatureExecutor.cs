@@ -30,9 +30,11 @@ namespace Nucumber.Core
                     ExecuteFeature(feature);
                     break;
                 case FeatureParts.Background:
+                    Console.WriteFeatureHeading(feature);
                     ExecuteBackground(feature);
                     break;
                 case FeatureParts.Scenario:
+                    Console.WriteFeatureHeading(feature);
                     ExecuteScenario(feature.GetScenarioAt(lineNmber), feature);
                     break;
                 case FeatureParts.ScenarioOutlineExample:
@@ -48,7 +50,6 @@ namespace Nucumber.Core
             foreach (var scenario in feature.Scenarios)
             {
                 ExecuteScenario(scenario, feature);
-                Console.WriteLineBreak();
             }
         }
 
@@ -61,6 +62,8 @@ namespace Nucumber.Core
             {
                 ExecuteStep(step);
             }
+
+            Console.WriteLineBreak();
         }
 
         private void ExecuteBackground(Feature feature)
@@ -73,6 +76,8 @@ namespace Nucumber.Core
             {
                 ExecuteStep(step);
             }
+
+            Console.WriteLineBreak();
         }
 
         private bool SkippingSteps { get; set; }

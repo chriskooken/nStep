@@ -68,7 +68,14 @@ namespace Nucumber.App.CommandLineUtilities
         public void WritePendingFeatureLine(FeatureStep featureStep)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
+            WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public void WriteSkippedFeatureLine(FeatureStep featureStep)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
@@ -78,6 +85,8 @@ namespace Nucumber.App.CommandLineUtilities
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("You can implement step definitions for undefined steps with these snippets:");
+
+            pendingFeatureSteps = pendingFeatureSteps.Distinct();
 
             foreach (var featureStep in pendingFeatureSteps)
             {
@@ -103,6 +112,7 @@ namespace Nucumber.App.CommandLineUtilities
             WriteFailedFeatureLines(stepMother.FailedSteps);
             Console.ForegroundColor = ConsoleColor.Gray;
             WriteDuration();
+            WriteLineBreak();
             WritePendingFeatureSnippets(stepMother.PendingSteps);
             
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -143,13 +153,6 @@ namespace Nucumber.App.CommandLineUtilities
         public void WriteBackgroundHeading(Scenario background)
         {
             WriteLineLevel2(background.Title);
-        }
-
-        public void WriteSkippedFeatureLine(FeatureStep featureStep)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            WriteLineLevel3(featureStep.FeatureLine + " : " + featureStep.LineNumber);
-            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WriteLineBreak()

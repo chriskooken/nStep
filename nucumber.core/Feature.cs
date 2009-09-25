@@ -11,16 +11,16 @@ namespace Nucumber.Core
     {
 		private readonly AltGherkinParser parser;
 
-        IList<Scenario> scenarios;
-        Scenario background;
-        IList<LineValue> summaryLines;
+		public IList<LineValue> SummaryLines { get; set; }
+		public Scenario Background { get; set; }
+		public IList<Scenario> Scenarios { get; set; }
 
-        public Feature(AltGherkinParser parser)
+		public Feature(AltGherkinParser parser)
         {
             this.parser = parser;
-            scenarios = new List<Scenario>();
-            summaryLines = new List<LineValue>();
-            background = new Scenario();
+            Scenarios = new List<Scenario>();
+            SummaryLines = new List<LineValue>();
+            Background = new Scenario();
         }
 
         public Feature()
@@ -58,12 +58,12 @@ namespace Nucumber.Core
             var val = subtree.Value;
             if (subtree.Value.NodeType == "Background:")
             {
-                background.Title = subtree.Value.Text;
-                background.LineNumber = subtree.Value.Line;
+                Background.Title = subtree.Value.Text;
+                Background.LineNumber = subtree.Value.Line;
             }
 
             if (subtree.Parent.Value.NodeType == "Background:")
-                background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.Line });
+                Background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.Line });
         }
 
         Scenario LoadScenario(SimpleTreeNode<LineValue> subtree, Scenario currentScenario)
@@ -78,7 +78,7 @@ namespace Nucumber.Core
             if (subtree.Value.NodeType == "Scenario:")
             {
                 currentScenario = new Scenario();
-                scenarios.Add(currentScenario);
+                Scenarios.Add(currentScenario);
                 currentScenario.Title = subtree.Value.Text;
                 currentScenario.LineNumber = subtree.Value.Line;
             }
@@ -92,29 +92,20 @@ namespace Nucumber.Core
         void LoadHeading(SimpleTreeNode<LineValue> subtree)
         {
             if ((subtree.Parent.Value.NodeType == "Feature:") || (subtree.Value.NodeType == "Feature:"))
-                summaryLines.Add(subtree.Value);
+                SummaryLines.Add(subtree.Value);
         }
 
-        public IList<LineValue> SummaryLines
-        { get { return summaryLines; } }
-
-        public Scenario Background
-        { get { return background; } }
-
-        public IList<Scenario> Scenarios
-        { get { return scenarios; } }
-
-        public string Description { get; set; }
+    	public string Description { get; set; }
 
         public FeatureParts WhatIsAtLine(int lineNmber)
         {
-            if (background.LineNumber == lineNmber)
+            if (Background.LineNumber == lineNmber)
                 return FeatureParts.Background;
 
             if (Scenarios.Where(x => x.LineNumber == lineNmber).Any())
                 return FeatureParts.Scenario;
 
-            if (summaryLines.Where(x => x.Line == lineNmber).Any())
+            if (SummaryLines.Where(x => x.Line == lineNmber).Any())
                 return FeatureParts.Feature;
 
             throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNmber);
@@ -134,6 +125,7 @@ namespace Nucumber.Core
     {
         public int Line { get; set; }
         public string Text { get; set; }
+		[Obsolete("Will go away soon")]
         public string NodeType { get; set; }
     }
 }

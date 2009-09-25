@@ -24,34 +24,48 @@ namespace Nucumber.App
             try
             {
                 var options = new NucumberOptions().Parse<NucumberOptions>(args);
-                if (options.Debug) Console.ReadKey();
+                if (options.Debug)
+                {
+                    Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
+                    Console.ReadLine();
+                }
                 new Program().Run(options);
             }
             catch (ConsoleOptionsException exception)
             {
                 exception.PrintMessageToConsole();
+                Console.ForegroundColor = ConsoleColor.Gray;
                 Console.ReadKey();
             }
             catch(InvalidScenarioLineNumberException ex)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(ex.Message);
-                Console.ForegroundColor = ConsoleColor.Gray;
+                WriteException(ex.Message);
             }
             catch(ArgumentException ex)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine(ex.Message);
-                Console.ForegroundColor = ConsoleColor.Gray;
+                WriteException(ex.Message);
             }
             catch(Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
+
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine(ex.InnerException.Message);
+                    Console.WriteLine(ex.InnerException);
+                    Console.WriteLine();
+                }
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
-            Console.ReadKey();
+        }
+
+        private static void WriteException(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         private void Run(NucumberOptions options)
@@ -69,14 +83,16 @@ namespace Nucumber.App
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
             EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
 
-            env.GlobalBegin(worldViews);
+            if (env != null)
+                env.GlobalBegin(worldViews);
 
             StepMother = new StepMother(worldViews);
             StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
 
             LoadAndExecuteFeatureFile(options.FeatureFiles);
 
-            env.GlobalExit(worldViews);
+            if (env != null)
+                env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
         }
 
