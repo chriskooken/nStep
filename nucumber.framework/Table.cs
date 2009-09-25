@@ -7,31 +7,30 @@ namespace Nucumber.Framework
 {
     public class Table
     {
-        IList<Row> rows = new List<Row>();
-        public IList<Row> Rows { get
-        { return rows;} }
+    	public IList<Row> Rows { get; set; }
 
-        public static Table Parse(string tableText)
+    	public static Table Parse(string tableText)
         {
             return new Table(tableText);
         }
 
         public Table()
         {
-            
+        	Rows = new List<Row>();
         }
 
-        private Table(string tableText)
+    	private Table(string tableText)
         {
-            var lines = tableText.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
+    		Rows = new List<Row>();
+    		var lines = tableText.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).AsEnumerable();
 
             foreach (var line in lines)
             {
-                rows.Add(new Row(line.Trim()));
+                Rows.Add(new Row(line.Trim()));
             }
-            foreach (var row in rows)
+            foreach (var row in Rows)
             {
-                if(row.Columns.Count != rows.First().Columns.Count)
+                if(row.Columns.Count != Rows.First().Columns.Count)
                 {
                     throw new FormatException("All rows must have equal columns");
                 }

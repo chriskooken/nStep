@@ -50,7 +50,8 @@ And						= T_AND FreeLine ;
 But						= T_BUT FreeLine ;
 
 Table					= TableRow+ ;
-TableRow				= "|" (Text "|")+ EOL ;
+TableRow				= "|" (TableColumn "|")+ EOL ;
+TableColumn				= Text ;
 
 Whitespace				= HORIZONTAL_WHITESPACE+ ;
 FreeLine				= Text? EOL ;
