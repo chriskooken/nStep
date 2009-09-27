@@ -51,7 +51,8 @@ namespace Nucumber.Core
             foreach (var item in feature.Items)
             {
 				// TODO: Remove the assumption that item is a scenario
-                ExecuteScenario(item as Scenario, feature);
+				if (item is Scenario)
+					ExecuteScenario(item as Scenario, feature);
             }
         }
 

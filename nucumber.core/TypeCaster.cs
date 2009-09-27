@@ -36,9 +36,6 @@ namespace Nucumber.Core
                 if (type == typeof(Guid))
                     return new Guid(value);
 
-                if (type == typeof(Table))
-                    return Table.Parse(value);
-
             }
             catch (Exception ex)
             {

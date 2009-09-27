@@ -69,20 +69,41 @@ namespace Nucumber.Core.Parsers
 
 			var summaryLines = values[0] as IList<LineValue>;
 			var background = values[1] as Background;
+			var featureIndex = background == null ? 1 : 2;
+
+			// Rest of values are FeatureItems
+			var items = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureItem>().ToList();
 
 			var feature = new Feature
 			{
 				SummaryLines = summaryLines,
-				Background = background
+				Background = background,
+				Items = items,
+				// TODO: Should this get a value?
+				Description = ""
 			};
 
 			node.AddValue(feature);
 			return node;
 		}
 
+		public override Node ExitSummaryLine(Production node)
+		{
+			var text = GetChildValues(node).Cast<string>().SingleOrDefault();
+
+			var lineValue = new LineValue
+			{
+				Text = text,
+				LineNumber = node.StartLine
+			};
+
+			node.AddValue(lineValue);
+			return node;
+		}
+
 		public override Node ExitFeatureHeader(Production node)
 		{
-			var summaryLines = GetChildValues(node).Cast<string>().ToList();
+			var summaryLines = GetChildValues(node).Cast<LineValue>().ToList();
 
 			node.AddValue(summaryLines);
 			return node;
@@ -98,11 +119,12 @@ namespace Nucumber.Core.Parsers
 		{
 			var values = GetChildValues(node);
 
-			// First value is title from header
+			// First value is either title from header or first FeatureStep
 			var title = values[0] as string;
+			var featureIndex = title == null ? 0 : 1;
 
 			// Rest of values are FeatureSteps
-			var steps = values.GetRange(1, values.Count - 1).Cast<FeatureStep>().ToList();
+			var steps = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureStep>().ToList();
 
 			var background = new Background
 			{
@@ -169,8 +191,15 @@ namespace Nucumber.Core.Parsers
 			var steps = values.GetRange(1, values.Count - 2).Cast<FeatureStep>().ToList();
 
 
-			// TODO: Create Scenarios from outline
+			var scenarioOutline = new ScenarioOutline
+			{
+				Title = title,
+				LineNumber = node.StartLine,
+				Steps = steps,
+				Examples = examples
+			};
 
+			node.AddValue(scenarioOutline);
 			return node;
 		}
 

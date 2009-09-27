@@ -9,30 +9,15 @@ namespace Nucumber.Core.Features
 {
 	public class Feature
 	{
-		private readonly AltGherkinParser parser;
 
 		public IList<LineValue> SummaryLines { get; set; }
 		public Background Background { get; set; }
 		public IList<FeatureItem> Items { get; set; }
 
-		public Feature(AltGherkinParser parser)
-		{
-			this.parser = parser;
-			Items = new List<FeatureItem>();
-			SummaryLines = new List<LineValue>();
-			Background = new Background();
-		}
-
 		public Feature()
 		{
             
 		} 
-
-		public void Parse(string fileName)
-		{
-			var parseTree = parser.GetParseTree(fileName);
-			RecursiveTreeLoad(parseTree, null);
-		}
 
 		public void RecursiveTreeLoad(SimpleTreeNode<LineValue> subtree, Scenario currentScenario)
 		{
@@ -59,11 +44,11 @@ namespace Nucumber.Core.Features
 			if (subtree.Value.NodeType == "Background:")
 			{
 				Background.Title = subtree.Value.Text;
-				Background.LineNumber = subtree.Value.Line;
+				Background.LineNumber = subtree.Value.LineNumber;
 			}
 
 			if (subtree.Parent.Value.NodeType == "Background:")
-				Background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.Line });
+				Background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.LineNumber });
 		}
 
 		Scenario LoadScenario(SimpleTreeNode<LineValue> subtree, Scenario currentScenario)
@@ -80,11 +65,11 @@ namespace Nucumber.Core.Features
 				currentScenario = new Scenario();
 				Items.Add(currentScenario);
 				currentScenario.Title = subtree.Value.Text;
-				currentScenario.LineNumber = subtree.Value.Line;
+				currentScenario.LineNumber = subtree.Value.LineNumber;
 			}
 
 			if (subtree.Parent.Value.NodeType == "Scenario:")
-				currentScenario.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.Line });
+				currentScenario.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.LineNumber });
 
 			return currentScenario;
 		}
@@ -105,7 +90,7 @@ namespace Nucumber.Core.Features
 			if (Items.Where(x => x.LineNumber == lineNmber).Any())
 				return FeatureParts.Scenario;
 
-			if (SummaryLines.Where(x => x.Line == lineNmber).Any())
+			if (SummaryLines.Where(x => x.LineNumber == lineNmber).Any())
 				return FeatureParts.Feature;
 
 			throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNmber);
@@ -123,7 +108,7 @@ namespace Nucumber.Core.Features
 
 	public class LineValue
 	{
-		public int Line { get; set; }
+		public int LineNumber { get; set; }
 		public string Text { get; set; }
 		[Obsolete("Will go away soon")]
 		public string NodeType { get; set; }

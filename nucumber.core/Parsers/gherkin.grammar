@@ -26,8 +26,9 @@ PIPE					= "|"
 
 %productions%
 
-Feature					= FeatureHeader BlankLine* Background (Scenario | ScenarioOutline | BlankLine)* ;
-FeatureHeader			= "Feature:" FreeLine+ ;
+Feature					= FeatureHeader BlankLine* Background? (Scenario | ScenarioOutline)* ;
+FeatureHeader			= "Feature:" SummaryLine+ ;
+SummaryLine				= FreeLine ;
 
 Background				= BackgroundHeader Step+ ;
 BackgroundHeader		= "Background:" FreeLine ;
@@ -35,13 +36,13 @@ BackgroundHeader		= "Background:" FreeLine ;
 Scenario				= ScenarioHeader Step+ ;
 ScenarioHeader			= "Scenario:" FreeLine ;
 
-ScenarioOutline			= ScenarioOutlineHeader Step+ Examples ;
+ScenarioOutline			= ScenarioOutlineHeader Step+ Examples BlankLine* ;
 ScenarioOutlineHeader	= "Scenario Outline:" FreeLine ;
 
 Examples				= ExamplesHeader Table ;
 ExamplesHeader			= "Examples:" EOL ;
 
-Step					= Whitespace? (Given | When | Then | And | But | EOL) ;
+Step					= Whitespace? (Given | When | Then | And | But) | BlankLine ;
 
 Given					= T_GIVEN FreeLine ;
 When					= T_WHEN FreeLine ;
@@ -55,5 +56,5 @@ TableColumn				= Text ;
 
 Whitespace				= HORIZONTAL_WHITESPACE+ ;
 FreeLine				= Text? EOL ;
-BlankLine				= HORIZONTAL_WHITESPACE* EOL ;
+BlankLine				= EOL ;
 Text					= (HORIZONTAL_WHITESPACE | TEXT_CHAR)+ ;

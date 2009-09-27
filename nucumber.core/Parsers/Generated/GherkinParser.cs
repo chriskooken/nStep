@@ -87,7 +87,7 @@ namespace Nucumber.Core.Parsers.Generated {
             alt = new ProductionPatternAlternative();
             alt.AddProduction((int) GherkinConstants.FEATURE_HEADER, 1, 1);
             alt.AddProduction((int) GherkinConstants.BLANK_LINE, 0, -1);
-            alt.AddProduction((int) GherkinConstants.BACKGROUND, 1, 1);
+            alt.AddProduction((int) GherkinConstants.BACKGROUND, 0, 1);
             alt.AddProduction((int) SynteticPatterns.SUBPRODUCTION_1, 0, -1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
@@ -96,7 +96,14 @@ namespace Nucumber.Core.Parsers.Generated {
                                             "FeatureHeader");
             alt = new ProductionPatternAlternative();
             alt.AddToken((int) GherkinConstants.T_FEATURE, 1, 1);
-            alt.AddProduction((int) GherkinConstants.FREE_LINE, 1, -1);
+            alt.AddProduction((int) GherkinConstants.SUMMARY_LINE, 1, -1);
+            pattern.AddAlternative(alt);
+            AddPattern(pattern);
+
+            pattern = new ProductionPattern((int) GherkinConstants.SUMMARY_LINE,
+                                            "SummaryLine");
+            alt = new ProductionPatternAlternative();
+            alt.AddProduction((int) GherkinConstants.FREE_LINE, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
 
@@ -138,6 +145,7 @@ namespace Nucumber.Core.Parsers.Generated {
             alt.AddProduction((int) GherkinConstants.SCENARIO_OUTLINE_HEADER, 1, 1);
             alt.AddProduction((int) GherkinConstants.STEP, 1, -1);
             alt.AddProduction((int) GherkinConstants.EXAMPLES, 1, 1);
+            alt.AddProduction((int) GherkinConstants.BLANK_LINE, 0, -1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
 
@@ -170,6 +178,9 @@ namespace Nucumber.Core.Parsers.Generated {
             alt = new ProductionPatternAlternative();
             alt.AddProduction((int) GherkinConstants.WHITESPACE, 0, 1);
             alt.AddProduction((int) SynteticPatterns.SUBPRODUCTION_2, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddProduction((int) GherkinConstants.BLANK_LINE, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
 
@@ -254,7 +265,6 @@ namespace Nucumber.Core.Parsers.Generated {
             pattern = new ProductionPattern((int) GherkinConstants.BLANK_LINE,
                                             "BlankLine");
             alt = new ProductionPatternAlternative();
-            alt.AddToken((int) GherkinConstants.HORIZONTAL_WHITESPACE, 0, -1);
             alt.AddToken((int) GherkinConstants.EOL, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
@@ -275,9 +285,6 @@ namespace Nucumber.Core.Parsers.Generated {
             alt = new ProductionPatternAlternative();
             alt.AddProduction((int) GherkinConstants.SCENARIO_OUTLINE, 1, 1);
             pattern.AddAlternative(alt);
-            alt = new ProductionPatternAlternative();
-            alt.AddProduction((int) GherkinConstants.BLANK_LINE, 1, 1);
-            pattern.AddAlternative(alt);
             AddPattern(pattern);
 
             pattern = new ProductionPattern((int) SynteticPatterns.SUBPRODUCTION_2,
@@ -297,9 +304,6 @@ namespace Nucumber.Core.Parsers.Generated {
             pattern.AddAlternative(alt);
             alt = new ProductionPatternAlternative();
             alt.AddProduction((int) GherkinConstants.BUT, 1, 1);
-            pattern.AddAlternative(alt);
-            alt = new ProductionPatternAlternative();
-            alt.AddToken((int) GherkinConstants.EOL, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
 
