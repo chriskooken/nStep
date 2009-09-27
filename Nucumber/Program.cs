@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Nucumber.App.CommandLineUtilities;
+using Nucumber.Core.Features;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
 using Nucumber.Framework;

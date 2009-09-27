@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Nucumber.Core.Features;
 using Nucumber.Core.Parsers.DataStructures;
 
 

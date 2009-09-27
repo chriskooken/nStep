@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Framework;
+using Nucumber.Core.Features;
 using NUnit.Framework;
 
 namespace Specs

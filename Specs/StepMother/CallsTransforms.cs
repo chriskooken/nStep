@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nucumber.Core;
+using Nucumber.Core.Features;
 using Nucumber.Framework;
 using NUnit.Framework;
 

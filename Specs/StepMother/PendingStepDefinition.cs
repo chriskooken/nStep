@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Nucumber.Core;
+using Nucumber.Core.Features;
 using Nucumber.Framework;
 using NUnit.Framework;
 using System.Collections.Generic;

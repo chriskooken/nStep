@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Nucumber.Core.Features;
 using Nucumber.Core.Parsers.DataStructures;
 
 namespace Nucumber.Core.Parsers

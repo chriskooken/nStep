@@ -1,5 +1,5 @@
 using System;
-using Nucumber.Framework;
+using Nucumber.Core.Features;
 
 namespace Nucumber.Core
 {

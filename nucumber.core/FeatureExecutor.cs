@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Nucumber.Core.Features;
 
 namespace Nucumber.Core
 {

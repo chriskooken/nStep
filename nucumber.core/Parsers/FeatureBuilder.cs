@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Nucumber.Core.Features;
 using PerCederberg.Grammatica.Runtime;
 using Nucumber.Framework;
 

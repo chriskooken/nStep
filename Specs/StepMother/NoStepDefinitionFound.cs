@@ -1,5 +1,6 @@
 ﻿using System;
 using Nucumber.Core;
+using Nucumber.Core.Features;
 using NUnit.Framework;
 
 namespace Specs.StepMother

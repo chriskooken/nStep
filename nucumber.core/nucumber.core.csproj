@@ -46,7 +46,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CSharpSyntaxSuggester.cs" />
     <Compile Include="FeatureExecutor.cs" />
-    <Compile Include="FeatureStep.cs" />
+    <Compile Include="Features\FeatureStep.cs" />
+    <Compile Include="Features\Table.cs" />
     <Compile Include="InvalidScenarioLineNumberException.cs" />
     <Compile Include="ISuggestSyntax.cs" />
     <Compile Include="OnlyOneEnvironmentMayBeDefinedException.cs" />
@@ -61,9 +62,9 @@
     <Compile Include="Parsers\GherkinParser.cs" />
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
-    <Compile Include="Scenario.cs" />
+    <Compile Include="Features\Scenario.cs" />
     <Compile Include="StepMissingException.cs" />
-    <Compile Include="Feature.cs" />
+    <Compile Include="Features\Feature.cs" />
     <Compile Include="StepAmbiguousException.cs" />
     <Compile Include="Parsers\Enums.cs" />
     <Compile Include="Parsers\DataStructures\SimpleSubtree.cs" />
