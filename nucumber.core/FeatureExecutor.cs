@@ -58,7 +58,7 @@ namespace Nucumber.Core
 
         private void ExecuteScenario(Scenario scenario, Feature feature)
         {
-            ExecuteBackground(feature);
+			ExecuteBackground(feature);
             SkippingSteps = false;
             Console.WriteScenarioTitle(scenario);
             foreach (var step in scenario.Steps)
@@ -71,6 +71,10 @@ namespace Nucumber.Core
 
         private void ExecuteBackground(Feature feature)
         {
+			// TODO: Make sure this never gets executed unless background exists
+			if (feature.Background == null)
+				return;
+
             if (feature.Background.Steps.Count > 0)
                 Console.WriteBackgroundHeading(feature.Background);
 
