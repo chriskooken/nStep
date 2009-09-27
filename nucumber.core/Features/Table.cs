@@ -7,37 +7,32 @@ namespace Nucumber.Core.Features
 {
 	public class Table
 	{
-		public IList<Row> Rows { get; set; }
+		public IList<Row> Rows { get; private set; }
 
-		public Table()
+		public Table(IList<Row> rows)
 		{
-			Rows = new List<Row>();
+			Rows = rows;
 		}
 	}
 
 	public class Row
 	{
+		public IList<Column> Columns { get; private set; }
+		public int LineNumber { get; set; }
+
 		public Row(IList<Column> columns)
 		{
-			this.columns = columns;
+			Columns = columns;
 		}
-
-		IList<Column> columns = new List<Column>();
-		public IList<Column> Columns
-		{
-			get
-			{ return columns; }
-		}
-
-		public int LineNumber { get; set; }
 	}
 
 	public class Column
 	{
-		public string Value { get; set; }
-		public Column(string cell)
+		public string Value { get; private set; }
+
+		public Column(string @value)
 		{
-			Value = cell;
+			Value = @value;
 		}
 	}
 }

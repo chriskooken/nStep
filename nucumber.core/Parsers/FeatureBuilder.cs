@@ -215,10 +215,7 @@ namespace Nucumber.Core.Parsers
 		{
 			var rows = GetChildValues(node).Cast<Row>().ToList();
 
-			var table = new Table()
-			{
-				Rows = rows
-			};
+			var table = new Table(rows);
 
 			node.AddValue(table);
 			return node;
