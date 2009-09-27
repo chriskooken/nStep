@@ -34,7 +34,7 @@ Background				= BackgroundHeader Step+ ;
 BackgroundHeader		= "Background:" FreeLine ;
 
 Scenario				= ScenarioHeader Step+ ;
-ScenarioHeader			= "Scenario:" FreeLine ;
+ScenarioHeader			= Whitespace? "Scenario:" FreeLine ;
 
 ScenarioOutline			= ScenarioOutlineHeader Step+ Examples BlankLine* ;
 ScenarioOutlineHeader	= "Scenario Outline:" FreeLine ;

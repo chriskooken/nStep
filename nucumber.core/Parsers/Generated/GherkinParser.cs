@@ -134,6 +134,7 @@ namespace Nucumber.Core.Parsers.Generated {
             pattern = new ProductionPattern((int) GherkinConstants.SCENARIO_HEADER,
                                             "ScenarioHeader");
             alt = new ProductionPatternAlternative();
+            alt.AddProduction((int) GherkinConstants.WHITESPACE, 0, 1);
             alt.AddToken((int) GherkinConstants.T_SCENARIO, 1, 1);
             alt.AddProduction((int) GherkinConstants.FREE_LINE, 1, 1);
             pattern.AddAlternative(alt);
