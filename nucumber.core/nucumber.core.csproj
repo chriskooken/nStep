@@ -46,7 +46,11 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CSharpSyntaxSuggester.cs" />
     <Compile Include="FeatureExecutor.cs" />
+    <Compile Include="Features\Background.cs" />
+    <Compile Include="Features\Executable.cs" />
+    <Compile Include="Features\FeatureItem.cs" />
     <Compile Include="Features\FeatureStep.cs" />
+    <Compile Include="Features\ScenarioOutline.cs" />
     <Compile Include="Features\Table.cs" />
     <Compile Include="InvalidScenarioLineNumberException.cs" />
     <Compile Include="ISuggestSyntax.cs" />
@@ -66,7 +70,7 @@
     <Compile Include="StepMissingException.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="StepAmbiguousException.cs" />
-    <Compile Include="Parsers\Enums.cs" />
+    <Compile Include="Parsers\DataStructures\Enums.cs" />
     <Compile Include="Parsers\DataStructures\SimpleSubtree.cs" />
     <Compile Include="Parsers\DataStructures\SimpleTree.cs" />
     <Compile Include="Parsers\DataStructures\SimpleTreeNode.cs" />

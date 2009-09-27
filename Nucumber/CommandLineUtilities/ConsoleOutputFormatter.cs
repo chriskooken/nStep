@@ -151,7 +151,7 @@ namespace Nucumber.App.CommandLineUtilities
             WriteLineLevel2(scenario.Title);
         }
 
-        public void WriteBackgroundHeading(Scenario background)
+        public void WriteBackgroundHeading(Background background)
         {
             WriteLineLevel2(background.Title);
         }

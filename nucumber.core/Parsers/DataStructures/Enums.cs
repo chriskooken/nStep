@@ -6,17 +6,17 @@
 using System;
 using System.Text;
 
-namespace System.Collections.Generic
+namespace Nucumber.Core.Parsers.DataStructures
 {
-    public enum TreeTraversalType
-    {
-        DepthFirst,
-        BreadthFirst
-    }
+	public enum TreeTraversalType
+	{
+		DepthFirst,
+		BreadthFirst
+	}
 
-    public enum TreeTraversalDirection
-    {
-        TopDown,
-        BottomUp
-    }
+	public enum TreeTraversalDirection
+	{
+		TopDown,
+		BottomUp
+	}
 }

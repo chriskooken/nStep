@@ -12,15 +12,15 @@ namespace Nucumber.Core.Features
 		private readonly AltGherkinParser parser;
 
 		public IList<LineValue> SummaryLines { get; set; }
-		public Scenario Background { get; set; }
-		public IList<Scenario> Scenarios { get; set; }
+		public Background Background { get; set; }
+		public IList<FeatureItem> Items { get; set; }
 
 		public Feature(AltGherkinParser parser)
 		{
 			this.parser = parser;
-			Scenarios = new List<Scenario>();
+			Items = new List<FeatureItem>();
 			SummaryLines = new List<LineValue>();
-			Background = new Scenario();
+			Background = new Background();
 		}
 
 		public Feature()
@@ -78,7 +78,7 @@ namespace Nucumber.Core.Features
 			if (subtree.Value.NodeType == "Scenario:")
 			{
 				currentScenario = new Scenario();
-				Scenarios.Add(currentScenario);
+				Items.Add(currentScenario);
 				currentScenario.Title = subtree.Value.Text;
 				currentScenario.LineNumber = subtree.Value.Line;
 			}
@@ -102,7 +102,7 @@ namespace Nucumber.Core.Features
 			if (Background.LineNumber == lineNmber)
 				return FeatureParts.Background;
 
-			if (Scenarios.Where(x => x.LineNumber == lineNmber).Any())
+			if (Items.Where(x => x.LineNumber == lineNmber).Any())
 				return FeatureParts.Scenario;
 
 			if (SummaryLines.Where(x => x.Line == lineNmber).Any())
@@ -113,7 +113,7 @@ namespace Nucumber.Core.Features
 
 		public Scenario GetScenarioAt(int lineNmber)
 		{
-			var foundScenario = Scenarios.Where(x => x.LineNumber == lineNmber);
+			var foundScenario = Items.Where(x => x is Scenario && x.LineNumber == lineNmber).Select(x => x as Scenario);
 			if (foundScenario.Any())
 				return foundScenario.First();
 

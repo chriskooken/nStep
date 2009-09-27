@@ -69,6 +69,8 @@ namespace Nucumber.Core.Features
 			get
 			{ return columns; }
 		}
+
+		public int LineNumber { get; set; }
 	}
 
 	public class Column

@@ -48,9 +48,10 @@ namespace Nucumber.Core
         {
             Console.WriteFeatureHeading(feature);
 
-            foreach (var scenario in feature.Scenarios)
+            foreach (var item in feature.Items)
             {
-                ExecuteScenario(scenario, feature);
+				// TODO: Remove the assumption that item is a scenario
+                ExecuteScenario(item as Scenario, feature);
             }
         }
 

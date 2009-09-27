@@ -13,7 +13,7 @@ namespace Nucumber.Core
 	    void WriteFeatureHeading(Feature feature);
 	    void WriteResults(StepMother stepMother);
 	    void WriteScenarioTitle(Scenario scenario);
-	    void WriteBackgroundHeading(Scenario background);
+	    void WriteBackgroundHeading(Background background);
 	    void WriteSkippedFeatureLine(FeatureStep featureStep);
 	    void WriteLineBreak();
 	}

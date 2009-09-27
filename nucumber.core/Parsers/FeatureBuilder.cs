@@ -68,10 +68,11 @@ namespace Nucumber.Core.Parsers
 			var values = GetChildValues(node);
 
 			var summaryLines = values[0] as IList<LineValue>;
-			var background = values[1] as Scenario;
+			var background = values[1] as Background;
 
 			var feature = new Feature
 			{
+				SummaryLines = summaryLines,
 				Background = background
 			};
 
@@ -103,11 +104,10 @@ namespace Nucumber.Core.Parsers
 			// Rest of values are FeatureSteps
 			var steps = values.GetRange(1, values.Count - 1).Cast<FeatureStep>().ToList();
 
-			var background = new Scenario
+			var background = new Background
 			{
 				Title = title,
-				Steps = steps,
-				LineNumber = node.StartLine
+				Steps = steps
 			};
 
 			node.AddValue(background);
