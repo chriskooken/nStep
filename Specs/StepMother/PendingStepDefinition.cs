@@ -10,7 +10,7 @@ namespace Specs.StepMother
     [TestFixture]
     public class PendingStepDefinition
     {
-        private class StepSet : Nucumber.Framework.StepSetBase<string>
+        private class StepSet : StepSetBase<string>
         {
             public override void BeforeStep()
             {
@@ -44,7 +44,7 @@ namespace Specs.StepMother
             Set = new StepSet();
             mother = new Nucumber.Core.StepMother(null);
             mother.AdoptSteps(Set);
-            var featureStep = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
+			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
         }
 
@@ -83,7 +83,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_3_params()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\"" ,Kind = StepKinds.When};
+            var featureStep = new FeatureStep(StepKinds.When) { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\""};
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
                  EqualTo("When(\"I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
@@ -93,7 +93,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_2_params()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in the \"search\" field", Kind = StepKinds.When };
+			var featureStep = new FeatureStep(StepKinds.When) { FeatureLine = "When I type \"dogs\" in the \"search\" field" };
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
@@ -104,7 +104,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_1_param()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-            var featureStep = new FeatureStep { FeatureLine = "When I type \"dogs\" in google", Kind = StepKinds.When };
+			var featureStep = new FeatureStep(StepKinds.When) { FeatureLine = "When I type \"dogs\" in google" };
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
@@ -115,7 +115,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_pending_feature_line_into_suggestable_syntax_no_params()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-            var featureStep = new FeatureStep { FeatureLine = "When I type in google", Kind = StepKinds.When };
+			var featureStep = new FeatureStep(StepKinds.When) { FeatureLine = "When I type in google" };
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.

@@ -10,13 +10,15 @@ namespace Nucumber.Core.Features
 	public class Feature
 	{
 
-		public IList<LineValue> SummaryLines { get; set; }
-		public Background Background { get; set; }
-		public IList<FeatureItem> Items { get; set; }
+		public IList<LineValue> SummaryLines { get; private set; }
+		public Background Background { get; private set; }
+		public IList<FeatureItem> Items { get; private set; }
 
-		public Feature()
+		public Feature(IList<LineValue> summaryLines, Background background, IList<FeatureItem> items)
 		{
-            
+			SummaryLines = summaryLines;
+			Background = background;
+			Items = items;
 		} 
 
 		public void RecursiveTreeLoad(SimpleTreeNode<LineValue> subtree, Scenario currentScenario)
@@ -48,7 +50,7 @@ namespace Nucumber.Core.Features
 			}
 
 			if (subtree.Parent.Value.NodeType == "Background:")
-				Background.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.LineNumber });
+				Background.Steps.Add(new FeatureStep(val.NodeType.ToStepKind()) { FeatureLine = val.Text, LineNumber = val.LineNumber });
 		}
 
 		Scenario LoadScenario(SimpleTreeNode<LineValue> subtree, Scenario currentScenario)
@@ -69,7 +71,7 @@ namespace Nucumber.Core.Features
 			}
 
 			if (subtree.Parent.Value.NodeType == "Scenario:")
-				currentScenario.Steps.Add(new FeatureStep { FeatureLine = val.Text, Kind = val.NodeType.ToStepKind(), LineNumber = val.LineNumber });
+				currentScenario.Steps.Add(new FeatureStep(val.NodeType.ToStepKind()) { FeatureLine = val.Text, LineNumber = val.LineNumber });
 
 			return currentScenario;
 		}

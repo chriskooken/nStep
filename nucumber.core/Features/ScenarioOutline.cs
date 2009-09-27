@@ -7,6 +7,11 @@ namespace Nucumber.Core.Features
 {
 	public class ScenarioOutline : FeatureItem
 	{
-		public Table Examples { get; set; }
+		public Table Examples { get; private set; }
+
+		public ScenarioOutline(Table examples)
+		{
+			Examples = examples;
+		}
 	}
 }

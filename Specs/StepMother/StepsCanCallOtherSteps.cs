@@ -73,7 +73,7 @@ namespace Specs.StepMother
             var set = new StepSet();
             var mother = new Nucumber.Core.StepMother(null);
             mother.AdoptSteps(set);
-            var step = new FeatureStep { FeatureLine = "Call Me", Kind = kind };
+            var step = new FeatureStep(kind) { FeatureLine = "Call Me" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Brendan");
         }

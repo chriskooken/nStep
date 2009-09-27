@@ -74,11 +74,8 @@ namespace Nucumber.Core.Parsers
 			// Rest of values are FeatureItems
 			var items = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureItem>().ToList();
 
-			var feature = new Feature
+			var feature = new Feature(summaryLines, background, items)
 			{
-				SummaryLines = summaryLines,
-				Background = background,
-				Items = items,
 				// TODO: Should this get a value?
 				Description = ""
 			};
@@ -191,12 +188,11 @@ namespace Nucumber.Core.Parsers
 			var steps = values.GetRange(1, values.Count - 2).Cast<FeatureStep>().ToList();
 
 
-			var scenarioOutline = new ScenarioOutline
+			var scenarioOutline = new ScenarioOutline(examples)
 			{
 				Title = title,
 				LineNumber = node.StartLine,
-				Steps = steps,
-				Examples = examples
+				Steps = steps
 			};
 
 			node.AddValue(scenarioOutline);
@@ -278,10 +274,9 @@ namespace Nucumber.Core.Parsers
 		{
 			var featureLine = GetChildValues(node).Cast<string>().Single().Trim();
 
-			var featureStep = new FeatureStep
+			var featureStep = new FeatureStep(kind)
 			{
 				FeatureLine = featureLine,
-				Kind = kind,
 				LineNumber = node.StartLine
 			};
 

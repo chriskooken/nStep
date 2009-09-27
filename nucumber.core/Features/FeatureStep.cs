@@ -1,5 +1,4 @@
-﻿using System;
-using Nucumber.Framework;
+﻿using Nucumber.Framework;
 
 namespace Nucumber.Core.Features
 {
@@ -8,6 +7,11 @@ namespace Nucumber.Core.Features
 		public string FeatureLine { get; set; }
 		public int LineNumber { get; set; }
 		public string FeatureFileName { get; set; }
-		public StepKinds Kind { get; set; }
+		public StepKinds Kind { get; private set; }
+
+		public FeatureStep(StepKinds kind)
+		{
+			Kind = kind;
+		}
 	}
 }
