@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Nucumber.Core;
 using System.Linq;
+using Nucumber.Core.Features;
 using Nucumber.Framework;
 
 namespace Nucumber.App.CommandLineUtilities
@@ -150,7 +151,7 @@ namespace Nucumber.App.CommandLineUtilities
             WriteLineLevel2(scenario.Title);
         }
 
-        public void WriteBackgroundHeading(Scenario background)
+        public void WriteBackgroundHeading(Background background)
         {
             WriteLineLevel2(background.Title);
         }

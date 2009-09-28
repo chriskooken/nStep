@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Nucumber.Core.Features;
 
 namespace Nucumber.Core
 {
@@ -47,15 +48,17 @@ namespace Nucumber.Core
         {
             Console.WriteFeatureHeading(feature);
 
-            foreach (var scenario in feature.Scenarios)
+            foreach (var item in feature.Items)
             {
-                ExecuteScenario(scenario, feature);
+				// TODO: Remove the assumption that item is a scenario
+				if (item is Scenario)
+					ExecuteScenario(item as Scenario, feature);
             }
         }
 
         private void ExecuteScenario(Scenario scenario, Feature feature)
         {
-            ExecuteBackground(feature);
+			ExecuteBackground(feature);
             SkippingSteps = false;
             Console.WriteScenarioTitle(scenario);
             foreach (var step in scenario.Steps)
@@ -68,6 +71,10 @@ namespace Nucumber.Core
 
         private void ExecuteBackground(Feature feature)
         {
+			// TODO: Make sure this never gets executed unless background exists
+			if (feature.Background == null)
+				return;
+
             if (feature.Background.Steps.Count > 0)
                 Console.WriteBackgroundHeading(feature.Background);
 

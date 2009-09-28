@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nucumber.Core;
+using Nucumber.Core.Features;
+using Nucumber.Framework;
 using NUnit.Framework;
 
 namespace Specs.StepMother
@@ -34,7 +36,7 @@ namespace Specs.StepMother
             Set = new StepSet();
             mother = new Nucumber.Core.StepMother(null);
             mother.AdoptSteps(Set);
-            var featureStep = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
+            var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
         }
 

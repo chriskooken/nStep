@@ -1,5 +1,3 @@
-#define ALTPARSER
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Nucumber.App.CommandLineUtilities;
+using Nucumber.Core.Features;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
 using Nucumber.Framework;
@@ -108,13 +107,7 @@ namespace Nucumber.App
                 try
                 {
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
-#if ALTPARSER
-					var parser = new AltGherkinParser();
-					var feature = new Feature(parser);
-					feature.Parse(filePath.FullName);
-#else
 					var feature = GherkinParser.GetFeature(filePath);
-#endif
 					new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
                 }
                 catch (FormatException e)
@@ -130,8 +123,7 @@ namespace Nucumber.App
 
             if (filePath.Exists)
             {
-                var feature = new Feature(new AltGherkinParser());
-                feature.Parse(filePath.FullName);
+                var feature = GherkinParser.GetFeature(filePath);
                 new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
                 return;
             }
@@ -139,14 +131,8 @@ namespace Nucumber.App
             var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
             files.ForEach(x =>
                               {
-#if ALTPARSER
-								  var parser = new AltGherkinParser();
-								  var feature = new Feature(parser);
-								  feature.Parse(x);
-#else
 								  var innerFilePath = new FileInfo(x);
 								  var feature = GherkinParser.GetFeature(innerFilePath);
-#endif
 
 								  new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
                               });

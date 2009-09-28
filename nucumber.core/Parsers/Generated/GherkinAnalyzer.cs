@@ -72,6 +72,9 @@ namespace Nucumber.Core.Parsers.Generated {
             case (int) GherkinConstants.FEATURE_HEADER:
                 EnterFeatureHeader((Production) node);
                 break;
+            case (int) GherkinConstants.SUMMARY_LINE:
+                EnterSummaryLine((Production) node);
+                break;
             case (int) GherkinConstants.BACKGROUND:
                 EnterBackground((Production) node);
                 break;
@@ -183,6 +186,8 @@ namespace Nucumber.Core.Parsers.Generated {
                 return ExitFeature((Production) node);
             case (int) GherkinConstants.FEATURE_HEADER:
                 return ExitFeatureHeader((Production) node);
+            case (int) GherkinConstants.SUMMARY_LINE:
+                return ExitSummaryLine((Production) node);
             case (int) GherkinConstants.BACKGROUND:
                 return ExitBackground((Production) node);
             case (int) GherkinConstants.BACKGROUND_HEADER:
@@ -246,6 +251,9 @@ namespace Nucumber.Core.Parsers.Generated {
                 break;
             case (int) GherkinConstants.FEATURE_HEADER:
                 ChildFeatureHeader(node, child);
+                break;
+            case (int) GherkinConstants.SUMMARY_LINE:
+                ChildSummaryLine(node, child);
                 break;
             case (int) GherkinConstants.BACKGROUND:
                 ChildBackground(node, child);
@@ -754,6 +762,46 @@ namespace Nucumber.Core.Parsers.Generated {
          * discovered errors</exception>
          */
         public virtual void ChildFeatureHeader(Production node, Node child) {
+            node.AddChild(child);
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterSummaryLine(Production node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitSummaryLine(Production node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when adding a child to a parse tree
+         * node.</summary>
+         *
+         * <param name='node'>the parent node</param>
+         * <param name='child'>the child node, or null</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void ChildSummaryLine(Production node, Node child) {
             node.AddChild(child);
         }
 

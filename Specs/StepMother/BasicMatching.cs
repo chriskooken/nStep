@@ -1,4 +1,4 @@
-﻿using Nucumber.Core;
+﻿using Nucumber.Core.Features;
 using Nucumber.Framework;
 using NUnit.Framework;
 
@@ -40,7 +40,7 @@ namespace Specs.StepMother
             var mother = new Nucumber.Core.StepMother(null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep {FeatureLine = "My Name is \"Chris\""};
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Chris");
 
@@ -54,7 +54,7 @@ namespace Specs.StepMother
             var mother = new Nucumber.Core.StepMother(null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.Before.Should().Be.EqualTo("This was executed before");
         }
@@ -67,7 +67,7 @@ namespace Specs.StepMother
             var mother = new Nucumber.Core.StepMother(null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.After.Should().Be.EqualTo("This was executed after");
         }

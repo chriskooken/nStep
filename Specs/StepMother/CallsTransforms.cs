@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Nucumber.Core;
+using Nucumber.Core.Features;
 using Nucumber.Framework;
 using NUnit.Framework;
 
@@ -50,7 +51,7 @@ namespace Specs.StepMother
             var mother = new Nucumber.Core.StepMother(null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep { FeatureLine = "My Name is \"Chris\"" };
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             mother.ProcessStep(step).Should().Be.EqualTo(StepRunResults.Passed);
             set.providedName.Should().Be.EqualTo("Chris");
 
