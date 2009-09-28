@@ -49,12 +49,12 @@ namespace Nucumber.App
         
         private static List<TType> GetTypesAssignableFrom<TType>(FileInfo assemblyFile)
         {
-            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t));
+            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t) && !t.IsAbstract);
         }
 
         private static List<TType> GetTypesInheritingFrom<TType>(FileInfo assemblyFile) where TType : class
         {
-            return GetTypes<TType>(assemblyFile, t => t.IsSubclassOf(typeof(TType)));
+            return GetTypes<TType>(assemblyFile, t => t.IsSubclassOf(typeof(TType)) && ! t.IsAbstract );
         }
 
         static List<TType> GetTypes<TType>(FileInfo assemblyFile, Func<Type, bool> predicate)
@@ -62,10 +62,9 @@ namespace Nucumber.App
             var result = new List<TType>();
             foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
             {
-                if ((predicate(t) && (t != typeof(StepSetBase<>))))
+                if ( predicate(t) )
                 {
                     result.Add((TType)Activator.CreateInstance(t));
-
                 }
             }
             return result;
