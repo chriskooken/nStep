@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Features;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
 using Nucumber.Framework;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.App
 {
@@ -18,6 +18,8 @@ namespace Nucumber.App
         private StepMother StepMother;
         private IFormatOutput formatter;
         private NucumberOptions Options;
+        private BeforeScenarioHookList beforeScenarioHooks;
+        private AfterScenarioHookList afterScenarioHooks;
 
         static void Main(string[] args)
         {
@@ -83,6 +85,12 @@ namespace Nucumber.App
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
             EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
 
+            beforeScenarioHooks = new BeforeScenarioHookList();
+            beforeScenarioHooks.Import(AssemblyLoader.GetScenarioHookProviders(assemblyFiles));
+
+            afterScenarioHooks = new AfterScenarioHookList();
+            afterScenarioHooks.Import(AssemblyLoader.GetScenarioHookProviders(assemblyFiles));
+
             if (env != null)
                 env.GlobalBegin(worldViews);
 
@@ -108,7 +116,7 @@ namespace Nucumber.App
                 {
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
 					var feature = GherkinParser.GetFeature(filePath);
-					new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
+					new FeatureExecutor(formatter, StepMother,beforeScenarioHooks, afterScenarioHooks).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
                 }
                 catch (FormatException e)
                 {
@@ -124,7 +132,7 @@ namespace Nucumber.App
             if (filePath.Exists)
             {
                 var feature = GherkinParser.GetFeature(filePath);
-                new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+                new FeatureExecutor(formatter, StepMother, beforeScenarioHooks, afterScenarioHooks).ExecuteFeature(feature);
                 return;
             }
 
@@ -134,7 +142,7 @@ namespace Nucumber.App
 								  var innerFilePath = new FileInfo(x);
 								  var feature = GherkinParser.GetFeature(innerFilePath);
 
-								  new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+                                  new FeatureExecutor(formatter, StepMother, beforeScenarioHooks, afterScenarioHooks).ExecuteFeature(feature);
                               });
 
         }

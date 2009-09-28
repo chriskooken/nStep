@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 
 namespace Nucumber.App.CommandLineUtilities
 {
@@ -122,7 +119,6 @@ namespace Nucumber.App.CommandLineUtilities
         }
 
 
-
         public TConsoleOptions Parse<TConsoleOptions>(string[] args) where TConsoleOptions : ConsoleOptionsBase
         {
             arguments = new List<string>(args);
@@ -228,8 +224,6 @@ namespace Nucumber.App.CommandLineUtilities
                 throw new ConsoleOptionsException("Invalid Switch", PropertyParameters.Values.ToList(), pair);
             }
         }
-
-
 
         public IList<ParameterPair> GetParameters(string[] args)
         {

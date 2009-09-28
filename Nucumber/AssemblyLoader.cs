@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using Nucumber.Core;
 using Nucumber.Framework;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.App
 {
@@ -25,13 +26,22 @@ namespace Nucumber.App
 
         public static IEnumerable<IProvideWorldView> GetWorldViewProviders(IEnumerable<FileInfo> assemblyFiles)
         {
-            IEnumerable<IProvideWorldView> worldViewProviders = new List<IProvideWorldView>();
+            return GetEnumerableOf<IProvideWorldView>(assemblyFiles);
+        }
+
+        public static IEnumerable<IProvideScenarioHooks> GetScenarioHookProviders(IEnumerable<FileInfo> assemblyFiles)
+        {
+            return GetEnumerableOf<IProvideScenarioHooks>(assemblyFiles);
+        }
+
+        private static IEnumerable<T> GetEnumerableOf<T>(IEnumerable<FileInfo> assemblyFiles)
+        {
+            IEnumerable<T> list = new List<T>();
             foreach (var assemblyFile in assemblyFiles)
             {
-                worldViewProviders = worldViewProviders.Concat(GetTypesAssignableFrom<IProvideWorldView>(assemblyFile));
+                list = list.Concat(GetTypesAssignableFrom<T>(assemblyFile));
             }
-
-            return worldViewProviders;
+            return list;
         }
 
         public static EnvironmentBase GetEnvironment(IEnumerable<FileInfo> assemblyFiles)
@@ -49,12 +59,12 @@ namespace Nucumber.App
         
         private static List<TType> GetTypesAssignableFrom<TType>(FileInfo assemblyFile)
         {
-            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t));
+            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t) && !t.IsAbstract);
         }
 
         private static List<TType> GetTypesInheritingFrom<TType>(FileInfo assemblyFile) where TType : class
         {
-            return GetTypes<TType>(assemblyFile, t => t.IsSubclassOf(typeof(TType)));
+            return GetTypes<TType>(assemblyFile, t => t.IsSubclassOf(typeof(TType)) && ! t.IsAbstract );
         }
 
         static List<TType> GetTypes<TType>(FileInfo assemblyFile, Func<Type, bool> predicate)
@@ -62,10 +72,9 @@ namespace Nucumber.App
             var result = new List<TType>();
             foreach (Type t in Assembly.LoadFile(assemblyFile.FullName).GetTypes())
             {
-                if ((predicate(t) && (t != typeof(StepSetBase<>))))
+                if ( predicate(t) )
                 {
                     result.Add((TType)Activator.CreateInstance(t));
-
                 }
             }
             return result;
