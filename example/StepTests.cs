@@ -33,6 +33,7 @@ namespace Cucumber
 
             Given("I am on the google homepage", () =>
                 {
+                    Pending();
                     World.Browser.Open("http://www.google.com");
                     World.Browser.WaitForPageToLoad("10");
                 });

@@ -3,8 +3,8 @@ I want to test some stuff here
 More text goes here
 
 Background:
-Given ProviderLocation "Laurens Office" exists
-And "Laurens Office" has a kiosk called "Kiosk 1"
+#Given ProviderLocation "Laurens Office" exists
+#And "Laurens Office" has a kiosk called "Kiosk 1"
 
 Scenario: I search for dogs
 Given I am on the google homepage
