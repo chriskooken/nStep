@@ -272,6 +272,8 @@ namespace Nucumber.Core.Parsers.Generated {
             pattern = new ProductionPattern((int) GherkinConstants.TEXT,
                                             "Text");
             alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.HORIZONTAL_WHITESPACE, 0, -1);
+            alt.AddToken((int) GherkinConstants.TEXT_CHAR, 1, 1);
             alt.AddProduction((int) SynteticPatterns.SUBPRODUCTION_4, 1, -1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
@@ -324,6 +326,36 @@ namespace Nucumber.Core.Parsers.Generated {
             pattern.AddAlternative(alt);
             alt = new ProductionPatternAlternative();
             alt.AddToken((int) GherkinConstants.TEXT_CHAR, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_FEATURE, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_BACKGROUND, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_SCENARIO, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_SCENARIO_OUTLINE, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_EXAMPLES, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_GIVEN, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_WHEN, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_THEN, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_AND, 1, 1);
+            pattern.AddAlternative(alt);
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.T_BUT, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
         }

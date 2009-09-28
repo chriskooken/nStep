@@ -5,6 +5,7 @@ GRAMMARTYPE	= "LL"
 DESCRIPTION	= "Grammar for Gherkin Language
 			   Limitations: No suppport for tags.
 			                Feature, Background, Scenario, and Examples must be flush to the left
+			                Blank lines must be completely blank (no whitespace)
 "
 
 %tokens%
@@ -62,4 +63,4 @@ TableColumn				= Text ;
 Whitespace				= HORIZONTAL_WHITESPACE+ ;
 FreeLine				= Text? EOL ;
 BlankLine				= EOL ;
-Text					= (HORIZONTAL_WHITESPACE | TEXT_CHAR)+ ;
+Text					= HORIZONTAL_WHITESPACE* TEXT_CHAR (HORIZONTAL_WHITESPACE | TEXT_CHAR | T_FEATURE | T_BACKGROUND | T_SCENARIO | T_SCENARIO_OUTLINE | T_EXAMPLES | T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT)+ ;

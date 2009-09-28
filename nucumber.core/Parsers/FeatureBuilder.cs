@@ -18,18 +18,72 @@ namespace Nucumber.Core.Parsers
 
 		#region Tokens
 
-		public override Node ExitEol(Token node)
-		{
-			return node;
-		}
+		//public override Node ExitEol(Token node)
+		//{
+		//    return node;
+		//}
 
 		public override Node ExitTextChar(Token node)
 		{
-			node.AddValue(node.Image);
-			return node;
+			return EchoImage(node);
 		}
 
 		public override Node ExitHorizontalWhitespace(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTFeature(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTBackground(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTScenario(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTScenarioOutline(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTExamples(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTGiven(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTWhen(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTThen(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTAnd(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTBut(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		private static Node EchoImage(Token node)
 		{
 			node.AddValue(node.Image);
 			return node;
@@ -54,7 +108,7 @@ namespace Nucumber.Core.Parsers
 			foreach (var obj in childValues)
 				text += obj.ToString();
 
-			node.AddValue(text);
+			node.AddValue(text.Trim());
 
 			return node;
 		}
@@ -100,7 +154,9 @@ namespace Nucumber.Core.Parsers
 
 		public override Node ExitFeatureHeader(Production node)
 		{
-			var summaryLines = GetChildValues(node).Cast<LineValue>().ToList();
+			// Skip the first value, it's the string for T_FEATURE
+			var values = GetChildValues(node);
+			var summaryLines = values.GetRange(1, values.Count - 1).Cast<LineValue>().ToList();
 
 			node.AddValue(summaryLines);
 			return node;
@@ -207,6 +263,10 @@ namespace Nucumber.Core.Parsers
 			return node;
 		}
 
+		#endregion
+
+		#region Tables
+
 		public override Node ExitTable(Production node)
 		{
 			var rows = GetChildValues(node).Cast<Row>().ToList();
@@ -272,11 +332,13 @@ namespace Nucumber.Core.Parsers
 
 		private Node AttachFeatureStep(Node node, StepKinds kind)
 		{
-			var featureLine = GetChildValues(node).Cast<string>().Single().Trim();
+			var values = GetChildValues(node);
+			var verbage = values.Cast<string>().First();
+			var featureLine = values.GetRange(1, values.Count - 1).Cast<string>().Single();
 
 			var featureStep = new FeatureStep(kind)
 			{
-				FeatureLine = featureLine,
+				FeatureLine = verbage + " " + featureLine,
 				LineNumber = node.StartLine
 			};
 
@@ -291,9 +353,8 @@ namespace Nucumber.Core.Parsers
 
 		private string GetTitle(Node node)
 		{
-			var freeLines = GetChildValues(node);
-			//return freeLines.Count == 1 ? freeLines[0].ToString().Trim() : null;
-			return freeLines.Cast<string>().SingleOrDefault();
+			// Join together the value of the token as well as the FreeLine (if present)
+			return string.Join(" ", GetChildValues(node).Cast<string>().ToArray());
 		}
 
 		#endregion
