@@ -41,6 +41,15 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IRunStepsFromStrings.cs" />
     <Compile Include="IWorldViewDictionary.cs" />
+    <Compile Include="ScenarioHooks\AfterScenarioHook.cs" />
+    <Compile Include="ScenarioHooks\AfterScenarioHookList.cs" />
+    <Compile Include="ScenarioHooks\BeforeScenarioHook.cs" />
+    <Compile Include="ScenarioHooks\BeforeScenarioHookList.cs" />
+    <Compile Include="ScenarioHooks\IAfterScenarioHookList.cs" />
+    <Compile Include="ScenarioHooks\IBeforeScenarioHookList.cs" />
+    <Compile Include="ScenarioHooks\IHaveImportScenariosIntoList.cs" />
+    <Compile Include="ScenarioHooks\IProvideScenarioHooks.cs" />
+    <Compile Include="ScenarioHooks\ScenarioHook.cs" />
     <Compile Include="ScenarioHooksBase.cs" />
     <Compile Include="ScenarioResult.cs" />
     <Compile Include="StepDefinitionDsl.cs" />
