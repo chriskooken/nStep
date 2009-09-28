@@ -67,11 +67,6 @@
     <Compile Include="StepMissingException.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="StepAmbiguousException.cs" />
-    <Compile Include="Parsers\DataStructures\Enums.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleSubtree.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleTree.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleTreeNode.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleTreeNodeList.cs" />
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
