@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Cuke4Nuke.Server;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
@@ -90,8 +91,8 @@ namespace Nucumber.App
             StepMother = new StepMother(worldViews);
             StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
 
-            LoadAndExecuteFeatureFile(options.FeatureFiles);
-
+            //LoadAndExecuteFeatureFile(options.FeatureFiles);
+            var foo = new Cuke4Nuke.Server.NukeServer(new Cuke4Nuke.Core.Listener(),Console.Out,new Options{} );
             if (env != null)
                 env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
