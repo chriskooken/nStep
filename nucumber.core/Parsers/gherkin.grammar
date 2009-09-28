@@ -1,20 +1,25 @@
 %header%
 
-GRAMMARTYPE = "LL"
+GRAMMARTYPE	= "LL"
+
+DESCRIPTION	= "Grammar for Gherkin Language
+			   Limitations: No suppport for tags.
+			                Feature, Background, Scenario, and Examples must be flush to the left
+"
 
 %tokens%
 
-T_FEATURE			= "Feature:"
-T_BACKGROUND		= "Background:"
-T_SCENARIO			= "Scenario:"
-T_SCENARIO_OUTLINE	= "Scenario Outline:"
-T_EXAMPLES			= "Examples:"
+T_FEATURE			= <<Feature:?>>
+T_BACKGROUND		= <<Background:?>>
+T_SCENARIO			= <<Scenario:?>>
+T_SCENARIO_OUTLINE	= <<Scenario Outline:?>>
+T_EXAMPLES			= <<Examples:?>>
 
-T_GIVEN	= <<(Given|given:)>>
-T_WHEN	= <<(When|when:)>>
-T_THEN	= <<(Then|then:)>>
-T_AND	= <<(And|and:)>>
-T_BUT	= <<(But|but:)>>
+T_GIVEN	= <<Given|given:>>
+T_WHEN	= <<When|when:>>
+T_THEN	= <<Then|then:>>
+T_AND	= <<And|and:>>
+T_BUT	= <<But|but:>>
 
 HORIZONTAL_WHITESPACE	= <<[\t ]>>
 EOL						= <<\r?\n>>					
@@ -27,20 +32,20 @@ PIPE					= "|"
 %productions%
 
 Feature					= FeatureHeader BlankLine* Background? (Scenario | ScenarioOutline)* ;
-FeatureHeader			= "Feature:" SummaryLine+ ;
+FeatureHeader			= T_FEATURE SummaryLine+ ;
 SummaryLine				= FreeLine ;
 
 Background				= BackgroundHeader Step+ ;
-BackgroundHeader		= "Background:" FreeLine ;
+BackgroundHeader		= T_BACKGROUND FreeLine ;
 
 Scenario				= ScenarioHeader Step+ ;
-ScenarioHeader			= Whitespace? "Scenario:" FreeLine ;
+ScenarioHeader			= T_SCENARIO FreeLine ;
 
 ScenarioOutline			= ScenarioOutlineHeader Step+ Examples BlankLine* ;
-ScenarioOutlineHeader	= "Scenario Outline:" FreeLine ;
+ScenarioOutlineHeader	= T_SCENARIO_OUTLINE FreeLine ;
 
 Examples				= ExamplesHeader Table ;
-ExamplesHeader			= "Examples:" EOL ;
+ExamplesHeader			= T_EXAMPLES EOL ;
 
 Step					= Whitespace? (Given | When | Then | And | But) | BlankLine ;
 
