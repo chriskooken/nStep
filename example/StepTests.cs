@@ -33,7 +33,6 @@ namespace Cucumber
 
             Given("I am on the google homepage", () =>
                 {
-                    Pending();
                     World.Browser.Open("http://www.google.com");
                     World.Browser.WaitForPageToLoad("10");
                 });
@@ -60,9 +59,9 @@ namespace Cucumber
                 });
 
             When("I click the \"([^\"]*)\" link", (string link) =>
-            {
-                World.Browser.ClickLinkByText(link);
-            });
+                {
+                    World.Browser.ClickLinkByText(link);
+                });
 
             Given("My Name is \"([^\"]*)\"", (string arg1) =>
                 {
