@@ -81,5 +81,13 @@
     <Compile Include="TypeCaster.cs" />
     <Compile Include="WorldViewDictionary\ImportWorldViews.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Parsers\complex.feature" />
+    <None Include="Parsers\i18n_no.feature" />
+    <None Include="Parsers\i18n_zh-CN.feature" />
+    <None Include="Parsers\simple.feature" />
+    <None Include="Parsers\simple_with_comments.feature" />
+    <None Include="Parsers\simple_with_tags.feature" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

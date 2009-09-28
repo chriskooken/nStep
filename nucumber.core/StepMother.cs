@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nucumber.Core.Features;
 using Nucumber.Framework;
 
 namespace Nucumber.Core

@@ -1,20 +1,26 @@
 %header%
 
-GRAMMARTYPE = "LL"
+GRAMMARTYPE	= "LL"
+
+DESCRIPTION	= "Grammar for Gherkin Language
+			   Limitations: No suppport for tags.
+			                Feature, Background, Scenario, and Examples must be flush to the left
+			                Blank lines must be completely blank (no whitespace)
+"
 
 %tokens%
 
-T_FEATURE			= "Feature:"
-T_BACKGROUND		= "Background:"
-T_SCENARIO			= "Scenario:"
-T_SCENARIO_OUTLINE	= "Scenario Outline:"
-T_EXAMPLES			= "Examples:"
+T_FEATURE			= <<Feature:?>>
+T_BACKGROUND		= <<Background:?>>
+T_SCENARIO			= <<Scenario:?>>
+T_SCENARIO_OUTLINE	= <<Scenario Outline:?>>
+T_EXAMPLES			= <<Examples:?>>
 
-T_GIVEN	= <<(Given|given:)>>
-T_WHEN	= <<(When|when:)>>
-T_THEN	= <<(Then|then:)>>
-T_AND	= <<(And|and:)>>
-T_BUT	= <<(But|but:)>>
+T_GIVEN	= <<Given|given:>>
+T_WHEN	= <<When|when:>>
+T_THEN	= <<Then|then:>>
+T_AND	= <<And|and:>>
+T_BUT	= <<But|but:>>
 
 HORIZONTAL_WHITESPACE	= <<[\t ]>>
 EOL						= <<\r?\n>>					
@@ -26,22 +32,23 @@ PIPE					= "|"
 
 %productions%
 
-Feature					= FeatureHeader BlankLine* Background (Scenario | ScenarioOutline | BlankLine)* ;
-FeatureHeader			= "Feature:" FreeLine+ ;
+Feature					= FeatureHeader BlankLine* Background? (Scenario | ScenarioOutline)* ;
+FeatureHeader			= T_FEATURE SummaryLine+ ;
+SummaryLine				= FreeLine ;
 
 Background				= BackgroundHeader Step+ ;
-BackgroundHeader		= "Background:" FreeLine ;
+BackgroundHeader		= T_BACKGROUND FreeLine ;
 
 Scenario				= ScenarioHeader Step+ ;
-ScenarioHeader			= "Scenario:" FreeLine ;
+ScenarioHeader			= T_SCENARIO FreeLine ;
 
-ScenarioOutline			= ScenarioOutlineHeader Step+ Examples ;
-ScenarioOutlineHeader	= "Scenario Outline:" FreeLine ;
+ScenarioOutline			= ScenarioOutlineHeader Step+ Examples BlankLine* ;
+ScenarioOutlineHeader	= T_SCENARIO_OUTLINE FreeLine ;
 
 Examples				= ExamplesHeader Table ;
-ExamplesHeader			= "Examples:" EOL ;
+ExamplesHeader			= T_EXAMPLES EOL ;
 
-Step					= Whitespace? (Given | When | Then | And | But | EOL) ;
+Step					= Whitespace? (Given | When | Then | And | But) | BlankLine ;
 
 Given					= T_GIVEN FreeLine ;
 When					= T_WHEN FreeLine ;
@@ -55,5 +62,5 @@ TableColumn				= Text ;
 
 Whitespace				= HORIZONTAL_WHITESPACE+ ;
 FreeLine				= Text? EOL ;
-BlankLine				= HORIZONTAL_WHITESPACE* EOL ;
-Text					= (HORIZONTAL_WHITESPACE | TEXT_CHAR)+ ;
+BlankLine				= EOL ;
+Text					= HORIZONTAL_WHITESPACE* TEXT_CHAR (HORIZONTAL_WHITESPACE | TEXT_CHAR | T_FEATURE | T_BACKGROUND | T_SCENARIO | T_SCENARIO_OUTLINE | T_EXAMPLES | T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT)+ ;

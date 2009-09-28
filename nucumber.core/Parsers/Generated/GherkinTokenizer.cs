@@ -42,62 +42,62 @@ namespace Nucumber.Core.Parsers.Generated {
 
             pattern = new TokenPattern((int) GherkinConstants.T_FEATURE,
                                        "T_FEATURE",
-                                       TokenPattern.PatternType.STRING,
-                                       "Feature:");
+                                       TokenPattern.PatternType.REGEXP,
+                                       "Feature:?");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_BACKGROUND,
                                        "T_BACKGROUND",
-                                       TokenPattern.PatternType.STRING,
-                                       "Background:");
+                                       TokenPattern.PatternType.REGEXP,
+                                       "Background:?");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_SCENARIO,
                                        "T_SCENARIO",
-                                       TokenPattern.PatternType.STRING,
-                                       "Scenario:");
+                                       TokenPattern.PatternType.REGEXP,
+                                       "Scenario:?");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_SCENARIO_OUTLINE,
                                        "T_SCENARIO_OUTLINE",
-                                       TokenPattern.PatternType.STRING,
-                                       "Scenario Outline:");
+                                       TokenPattern.PatternType.REGEXP,
+                                       "Scenario Outline:?");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_EXAMPLES,
                                        "T_EXAMPLES",
-                                       TokenPattern.PatternType.STRING,
-                                       "Examples:");
+                                       TokenPattern.PatternType.REGEXP,
+                                       "Examples:?");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_GIVEN,
                                        "T_GIVEN",
                                        TokenPattern.PatternType.REGEXP,
-                                       "(Given|given:)");
+                                       "Given|given:");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_WHEN,
                                        "T_WHEN",
                                        TokenPattern.PatternType.REGEXP,
-                                       "(When|when:)");
+                                       "When|when:");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_THEN,
                                        "T_THEN",
                                        TokenPattern.PatternType.REGEXP,
-                                       "(Then|then:)");
+                                       "Then|then:");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_AND,
                                        "T_AND",
                                        TokenPattern.PatternType.REGEXP,
-                                       "(And|and:)");
+                                       "And|and:");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.T_BUT,
                                        "T_BUT",
                                        TokenPattern.PatternType.REGEXP,
-                                       "(But|but:)");
+                                       "But|but:");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.HORIZONTAL_WHITESPACE,

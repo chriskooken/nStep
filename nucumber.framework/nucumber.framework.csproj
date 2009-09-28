@@ -44,7 +44,6 @@
     <Compile Include="ScenarioHooksBase.cs" />
     <Compile Include="ScenarioResult.cs" />
     <Compile Include="StepDefinitionDsl.cs" />
-    <Compile Include="Table.cs" />
     <Compile Include="CombinedStepDefinitions.cs" />
     <Compile Include="IProvideWorldView.cs" />
     <Compile Include="StepDefinition.cs" />

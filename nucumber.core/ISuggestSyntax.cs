@@ -1,3 +1,5 @@
+using Nucumber.Core.Features;
+
 namespace Nucumber.Core
 {
     public interface ISuggestSyntax
