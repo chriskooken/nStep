@@ -110,7 +110,6 @@ namespace Nucumber.Core
             {
                 LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
                 ExecuteStepDefinitionWithLine(LastProcessStepDefinition, lineText);
-
             }
             catch (StepMissingException ex)
             {

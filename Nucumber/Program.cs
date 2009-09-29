@@ -18,6 +18,7 @@ namespace Nucumber.App
         private IFormatOutput formatter;
         private NucumberOptions Options;
 
+        [STAThread]
         static void Main(string[] args)
         {
             try
@@ -145,8 +146,7 @@ namespace Nucumber.App
             var strTempAssmbPath =
                 Path.GetFullPath(path + @"\" +args.Name.Substring(0, args.Name.IndexOf(",")) +
                                  ".dll");
-
-            return Assembly.LoadFrom(strTempAssmbPath);
+                return Assembly.LoadFrom(strTempAssmbPath);
         }
     }
 }
