@@ -11,7 +11,7 @@ Given I am on the google homepage
 When I type "dogs" in the "search" field
 And I click the "Google Search" button
 And I wait for the page to load
-Then I should be on the "doggies - Google Search" page
+Then I should be on the "dogs - Google Search" page
 When I click the "Search settings" link
 And I wait for the page to load
 Then I should be on the "Preferences" page

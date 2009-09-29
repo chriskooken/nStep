@@ -98,10 +98,13 @@ namespace Nucumber.Core
         private static bool ShouldHookExecute(ScenarioHook hook, IEnumerable<string> tags)
         {
             var shouldExecute = true;
-                
+
+            if (hook.Tags == null) return true;
+
             if (hook.Tags.Count()>1)
             {
                 shouldExecute = false;
+                if (tags == null) return false;
                 foreach (var tag in tags)
                 {
                     if (!hook.Tags.Contains(tag)) continue;
