@@ -1,3 +1,4 @@
+using System;
 using Nucumber.Framework;
 
 namespace Cucumber
@@ -8,11 +9,11 @@ namespace Cucumber
         {
             Before(()=>
                 {
-                    
+                    Console.WriteLine("before scenario");
                 });
             After(scenario =>
                 {
-                    
+                    Console.WriteLine("after scenario");
                 });
 
             Before(new[]{"tag1", "tag2"}, () => { });

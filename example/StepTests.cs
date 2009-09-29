@@ -59,9 +59,9 @@ namespace Cucumber
                 });
 
             When("I click the \"([^\"]*)\" link", (string link) =>
-            {
-                World.Browser.ClickLinkByText(link);
-            });
+                {
+                    World.Browser.ClickLinkByText(link);
+                });
 
             Given("My Name is \"([^\"]*)\"", (string arg1) =>
                 {

@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
     <Compile Include="Parsers\GherkinParserTest.cs" />
+    <Compile Include="ScenarioHookLists\ImportHooks.cs" />
     <Compile Include="StepMother\BasicMatching.cs" />
     <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="EnvironmentSubclassing.cs" />

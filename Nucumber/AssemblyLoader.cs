@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using Nucumber.Core;
 using Nucumber.Framework;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.App
 {
@@ -25,13 +26,22 @@ namespace Nucumber.App
 
         public static IEnumerable<IProvideWorldView> GetWorldViewProviders(IEnumerable<FileInfo> assemblyFiles)
         {
-            IEnumerable<IProvideWorldView> worldViewProviders = new List<IProvideWorldView>();
+            return GetEnumerableOf<IProvideWorldView>(assemblyFiles);
+        }
+
+        public static IEnumerable<IProvideScenarioHooks> GetScenarioHookProviders(IEnumerable<FileInfo> assemblyFiles)
+        {
+            return GetEnumerableOf<IProvideScenarioHooks>(assemblyFiles);
+        }
+
+        private static IEnumerable<T> GetEnumerableOf<T>(IEnumerable<FileInfo> assemblyFiles)
+        {
+            IEnumerable<T> list = new List<T>();
             foreach (var assemblyFile in assemblyFiles)
             {
-                worldViewProviders = worldViewProviders.Concat(GetTypesAssignableFrom<IProvideWorldView>(assemblyFile));
+                list = list.Concat(GetTypesAssignableFrom<T>(assemblyFile));
             }
-
-            return worldViewProviders;
+            return list;
         }
 
         public static EnvironmentBase GetEnvironment(IEnumerable<FileInfo> assemblyFiles)
