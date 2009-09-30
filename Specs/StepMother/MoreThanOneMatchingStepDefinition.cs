@@ -57,7 +57,7 @@ namespace Specs.StepMother
             worldViews = new Nucumber.Core.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView), new StringWorldView());
             Set = new StepSet();
-			mother = new Nucumber.Core.StepMother(worldViews, null, null);
+			mother = new Nucumber.Core.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
 			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);

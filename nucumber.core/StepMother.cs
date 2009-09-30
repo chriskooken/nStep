@@ -22,7 +22,7 @@ namespace Nucumber.Core
 		public IEnumerable<AfterScenarioHook> AfterScenarioHooks { get; private set; }
 
 
-		public StepMother(IWorldViewDictionary worldViews, IEnumerable<BeforeScenarioHook> beforeScenarioHooks, IEnumerable<AfterScenarioHook> afterScenarioHooks)
+		public StepMother(IWorldViewDictionary worldViews,IScenarioHooksRepository hooksRepository)
 		{
             if(worldViews == null)
                 throw new ArgumentNullException("world views dictionary cannot be null");
@@ -34,8 +34,8 @@ namespace Nucumber.Core
             whens = new List<StepDefinition>();
             thens = new List<StepDefinition>();
             transforms = new List<TransformDefinition>();
-			BeforeScenarioHooks = beforeScenarioHooks;
-			AfterScenarioHooks = afterScenarioHooks;
+            BeforeScenarioHooks = hooksRepository == null ? null : hooksRepository.BeforeScenarioHooks;
+            AfterScenarioHooks = hooksRepository == null ? null : hooksRepository.AfterScenarioHooks;
 		}
 
         public IList<FeatureStep> PassedSteps

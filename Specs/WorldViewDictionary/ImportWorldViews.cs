@@ -106,7 +106,7 @@ namespace Specs.WorldViewDictionary
             var set = new StepSet();
             var worldViewDictionary = new Nucumber.Core.WorldViewDictionary();
             worldViewDictionary.Add(typeof(TestWorldView),new TestWorldView());
-            var mother = new Nucumber.Core.StepMother(worldViewDictionary, null, null);
+            var mother = new Nucumber.Core.StepMother(worldViewDictionary, null);
             
             Assert.DoesNotThrow(() => mother.AdoptSteps(set));
         }
@@ -119,7 +119,7 @@ namespace Specs.WorldViewDictionary
         public void It_Should_Error_if_world_view_is_not_initialized()
         {
             var set = new StepSet();
-            var mother = new Nucumber.Core.StepMother(new Nucumber.Core.WorldViewDictionary(),null,null);
+            var mother = new Nucumber.Core.StepMother(new Nucumber.Core.WorldViewDictionary(),null);
             Assert.Throws<UnInitializedWorldViewException>(() => mother.AdoptSteps(set));
         }
     }

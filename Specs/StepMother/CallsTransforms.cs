@@ -61,7 +61,7 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-			var mother = new Nucumber.Core.StepMother(worldViews, null, null);
+			var mother = new Nucumber.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
 			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };

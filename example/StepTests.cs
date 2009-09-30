@@ -12,7 +12,7 @@ namespace Cucumber
         public string Name;
     }
 
-    public class StepTests : StepSetBase<SeleniumWorldView>
+    public sealed class StepTests : StepSetBase<SeleniumWorldView>
     {
         public override void BeforeStep()
         {

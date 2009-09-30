@@ -67,6 +67,7 @@
     <Compile Include="CommandLineUtilities\ConsoleOutputFormatter.cs" />
     <Compile Include="CommandLineUtilities\TestOptions.cs" />
     <Compile Include="CommandLineUtilities\ConsoleOptionsBase.cs" />
+    <Compile Include="ConsoleExceptionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

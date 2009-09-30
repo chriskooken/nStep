@@ -5,11 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Nucumber.App.CommandLineUtilities;
-using Nucumber.Core.Features;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
 using Nucumber.Framework;
-using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.App
 {
@@ -18,64 +16,23 @@ namespace Nucumber.App
         private StepMother StepMother;
         private IFormatOutput formatter;
         private NucumberOptions Options;
-        private BeforeScenarioHookList beforeScenarioHooks;
-        private AfterScenarioHookList afterScenarioHooks;
-
 
         [STAThread]
         static void Main(string[] args)
         {
-            try
-            {
-                var options = new NucumberOptions().Parse<NucumberOptions>(args);
-                if (options.Debug)
-                {
-                    Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
-                    Console.ReadLine();
-                }
-                new Program().Run(options);
-            }
-            catch (ConsoleOptionsException exception)
-            {
-                exception.PrintMessageToConsole();
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.ReadKey();
-            }
-            catch(InvalidScenarioLineNumberException ex)
-            {
-                WriteException(ex.Message);
-            }
-            catch(ArgumentException ex)
-            {
-                WriteException(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine(ex.InnerException.Message);
-                    Console.WriteLine(ex.InnerException);
-                    Console.WriteLine();
-                }
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                Console.ForegroundColor = ConsoleColor.Gray;
-            }
+            ConsoleExceptionHandler consoleExceptionHandler = new ConsoleExceptionHandler(() => new Program().Run(args));
+            consoleExceptionHandler.Execute();
         }
 
-        private static void WriteException(string message)
+        private void Run(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
-
-        private void Run(NucumberOptions options)
-        {
-            Options = options;
-
+            Options = new NucumberOptions().Parse<NucumberOptions>(args);
+            if (Options.Debug)
+            {
+                Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
+                Console.ReadLine();
+            }
+            
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
@@ -83,26 +40,22 @@ namespace Nucumber.App
             var assemblyFiles = Options.Assemblies.Select(x => new FileInfo(x)).ToList();
 
             var worldViews = new WorldViewDictionary();
-
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
+            
             EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
 
             IEnumerable<IProvideSteps> stepSets = AssemblyLoader.GetStepSets(assemblyFiles);
 
-            beforeScenarioHooks = new BeforeScenarioHookList();
-            beforeScenarioHooks.Import(stepSets);
+            var scenarioHooks = new ScenarioHooksRepository(stepSets);
 
-            afterScenarioHooks = new AfterScenarioHookList();
-            afterScenarioHooks.Import(stepSets);
+            StepMother = new StepMother(worldViews, scenarioHooks);
+
+            StepMother.AdoptSteps(stepSets);
 
             if (env != null)
                 env.GlobalBegin(worldViews);
 
-            StepMother = new StepMother(worldViews, beforeScenarioHooks, afterScenarioHooks);
-            
-            StepMother.AdoptSteps(stepSets);
-
-            LoadAndExecuteFeatureFile(options.FeatureFiles);
+            LoadAndExecuteFeatureFile(Options.FeatureFiles);
 
             if (env != null)
                 env.GlobalExit(worldViews);

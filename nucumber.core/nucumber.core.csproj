@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="IScenarioHooksRepository.cs" />
     <Compile Include="CSharpSyntaxSuggester.cs" />
     <Compile Include="Features\Background.cs" />
     <Compile Include="Features\StepSequence.cs" />
