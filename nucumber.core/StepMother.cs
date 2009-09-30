@@ -24,7 +24,9 @@ namespace Nucumber.Core
 
 		public StepMother(IWorldViewDictionary worldViews, IEnumerable<BeforeScenarioHook> beforeScenarioHooks, IEnumerable<AfterScenarioHook> afterScenarioHooks)
 		{
-            this.worldViews = worldViews;
+            if(worldViews == null)
+                throw new ArgumentNullException("world views dictionary cannot be null");
+		    this.worldViews = worldViews;
             failedSteps = new List<FeatureStep>();
             pendingSteps = new List<FeatureStep>();
             passedSteps = new List<FeatureStep>();
@@ -56,9 +58,14 @@ namespace Nucumber.Core
 
         public void AdoptSteps(IProvideSteps stepSet)
         {
-            if (worldViews != null)
+            try
+            {
                 stepSet.WorldView = worldViews[stepSet.WorldViewType];
-
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new UnInitializedWorldViewException(stepSet.WorldViewType.Name + " may not have been initialized");
+            }
             givens = givens.Union(stepSet.StepDefinitions.Givens).ToList();
             whens = whens.Union(stepSet.StepDefinitions.Whens).ToList();
             thens = thens.Union(stepSet.StepDefinitions.Thens).ToList();
@@ -145,7 +152,7 @@ namespace Nucumber.Core
                 LastProcessStepException = ex.InnerException;
                 return StepRunResults.Failed;
             }
-           
+            
             passedSteps.Add(featureStepToProcess);
             return StepRunResults.Passed;
         }

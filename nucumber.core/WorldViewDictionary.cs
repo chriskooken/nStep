@@ -11,7 +11,7 @@ namespace Nucumber.Core
             Add(worldViewProvider.WorldViewType, worldViewProvider.WorldView);
         }
 
-        public T GetWorldViewOfType<T>()
+        public T GetWorldViewOfType<T>() where T : IAmWorldView
         {
             return (T) this[typeof (T)];
         }

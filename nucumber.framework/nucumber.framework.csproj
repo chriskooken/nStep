@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="IRunStepsFromStrings.cs" />
+    <Compile Include="IAmWorldView.cs" />
     <Compile Include="IWorldViewDictionary.cs" />
     <Compile Include="ScenarioHooks\AfterScenarioHook.cs" />
     <Compile Include="ScenarioHooks\AfterScenarioHookList.cs" />
@@ -51,7 +52,6 @@
     <Compile Include="ScenarioHooks\IHaveImportScenariosIntoList.cs" />
     <Compile Include="ScenarioHooks\IProvideScenarioHooks.cs" />
     <Compile Include="ScenarioHooks\ScenarioHook.cs" />
-    <Compile Include="ScenarioHooksBase.cs" />
     <Compile Include="ScenarioResult.cs" />
     <Compile Include="StepDefinitionDsl.cs" />
     <Compile Include="CombinedStepDefinitions.cs" />

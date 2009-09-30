@@ -10,7 +10,14 @@ namespace Specs.StepMother
     [TestFixture]
     public class PendingStepDefinition
     {
-        private class StepSet : StepSetBase<string>
+        private class StringWorldView : IAmWorldView
+        {
+
+        }
+
+        private Nucumber.Core.WorldViewDictionary worldViews;
+
+        private class StepSet : StepSetBase<StringWorldView>
         {
             public override void BeforeStep()
             {
@@ -41,8 +48,10 @@ namespace Specs.StepMother
         [SetUp]
         public void Setup()
         {
+            worldViews = new Nucumber.Core.WorldViewDictionary();
+            worldViews.Add(typeof(StringWorldView), new StringWorldView());
             Set = new StepSet();
-			mother = new Nucumber.Core.StepMother(null, null, null);
+            mother = new Nucumber.Core.StepMother(worldViews, null, null);
             mother.AdoptSteps(Set);
 			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);

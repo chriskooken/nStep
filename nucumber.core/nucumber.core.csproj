@@ -71,6 +71,7 @@
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
+    <Compile Include="UnInitializedWorldViewException.cs" />
     <Compile Include="WorldViewDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

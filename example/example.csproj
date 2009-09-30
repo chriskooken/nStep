@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Environment.cs" />
-    <Compile Include="ScenarioHooks.cs" />
     <Compile Include="Selenium\SeleniumExtensions.cs" />
     <Compile Include="StepTests.cs" />
     <Compile Include="SeleniumWorldView.cs" />

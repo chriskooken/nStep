@@ -26,6 +26,9 @@ namespace Cucumber
 
         public StepTests()
         {
+            
+
+
             Transform("([Uu]ser .*)", userName =>
                 {
                     return new User {Name = userName};

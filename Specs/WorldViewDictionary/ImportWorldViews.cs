@@ -5,30 +5,67 @@ using NUnit.Framework;
 
 namespace Specs.WorldViewDictionary
 {
+    public class TestWorldView : IAmWorldView
+    {
+
+    }
+    public class StepSet : StepSetBase<TestWorldView>
+    {
+        public string providedName { get; private set; }
+        public string Before { get; set; }
+        public string After { get; set; }
+
+        public StepSet()
+        {
+            Given("^My Name is \"([^\"]*)\"$", name =>
+            {
+                providedName = name;
+            });
+        }
+    }
+
     [TestFixture]
     public class ImportWorldViews
     {
-        public class foo : Nucumber.Framework.WorldViewProviderBase<string>
+
+        private IWorldViewDictionary cut;
+
+
+        public class StringWorldView : IAmWorldView
         {
-            protected override string InitializeWorldView()
+            public string Foo = "monkey";
+
+            public StringWorldView()
             {
-                return "monkey";
+                
+            }
+            public StringWorldView(string foo)
+            {
+                Foo = foo;
             }
         }
 
-        private IWorldViewDictionary cut;
+
+        public class foo : WorldViewProviderBase<StringWorldView>
+        {
+            protected override StringWorldView InitializeWorldView()
+            {
+                return new StringWorldView();
+            }
+        }
+
+
+        private void NewCut()
+        {
+            cut = new Nucumber.Core.WorldViewDictionary();
+        }
 
         [Test]
         public void It_should_get_an_instance_from_the_provided_provider()
         {            
             NewCut();
             cut.Import(new foo());
-            cut[typeof (string)].Should().Be.EqualTo("monkey");
-        }
-
-        private void NewCut()
-        {
-            cut = new Nucumber.Core.WorldViewDictionary();
+            ((StringWorldView)cut[typeof(StringWorldView)]).Foo.Should().Be.EqualTo("monkey");
         }
 
 
@@ -48,8 +85,42 @@ namespace Specs.WorldViewDictionary
             NewCut();
             cut.Import(new foo());
 
-            new Action(() => cut.Add(typeof (string), "not monkey!")).Should().Throw
+            new Action(() => cut.Add(typeof (StringWorldView), new StringWorldView("not monkey!"))).Should().Throw
                 <OnlyOneWorldViewTypeCanExistAtATimeException>();
+        }
+    }
+
+    [TestFixture]
+    public class InitializeWorldViews
+    {
+        public class WorldViewProvider : WorldViewProviderBase<TestWorldView>
+        {
+            protected override TestWorldView InitializeWorldView()
+            {
+                return new TestWorldView();
+            }
+        }
+        [Test]
+        public void It_Should_not_Error_if_world_view_is_initialized()
+        {
+            var set = new StepSet();
+            var worldViewDictionary = new Nucumber.Core.WorldViewDictionary();
+            worldViewDictionary.Add(typeof(TestWorldView),new TestWorldView());
+            var mother = new Nucumber.Core.StepMother(worldViewDictionary, null, null);
+            
+            Assert.DoesNotThrow(() => mother.AdoptSteps(set));
+        }
+    }
+
+    [TestFixture]
+    public class NotInitializeWorldViews
+    {
+        [Test]
+        public void It_Should_Error_if_world_view_is_not_initialized()
+        {
+            var set = new StepSet();
+            var mother = new Nucumber.Core.StepMother(new Nucumber.Core.WorldViewDictionary(),null,null);
+            Assert.Throws<UnInitializedWorldViewException>(() => mother.AdoptSteps(set));
         }
     }
 }
