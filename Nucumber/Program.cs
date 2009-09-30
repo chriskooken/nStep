@@ -87,17 +87,20 @@ namespace Nucumber.App
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
             EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
 
+            IEnumerable<IProvideSteps> stepSets = AssemblyLoader.GetStepSets(assemblyFiles);
+
             beforeScenarioHooks = new BeforeScenarioHookList();
-            beforeScenarioHooks.Import(AssemblyLoader.GetScenarioHookProviders(assemblyFiles));
+            beforeScenarioHooks.Import(stepSets);
 
             afterScenarioHooks = new AfterScenarioHookList();
-            afterScenarioHooks.Import(AssemblyLoader.GetScenarioHookProviders(assemblyFiles));
+            afterScenarioHooks.Import(stepSets);
 
             if (env != null)
                 env.GlobalBegin(worldViews);
 
             StepMother = new StepMother(worldViews, beforeScenarioHooks, afterScenarioHooks);
-            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
+            
+            StepMother.AdoptSteps(stepSets);
 
             LoadAndExecuteFeatureFile(options.FeatureFiles);
 

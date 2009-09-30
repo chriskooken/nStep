@@ -88,5 +88,15 @@ namespace Nucumber.Framework
         {
             transformDefinitions.Add(new TransformDefinition { Func = func, Regex = new Regex(regex), ReturnType = typeof(TReturn) });
         }
+
+        public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks
+        {
+            get { return beforeScenarioHooks; }
+        }
+
+        public IEnumerable<AfterScenarioHook> AfterScenarioHooks
+        {
+            get { return afterScenarioHooks; }
+        }
     }
 }

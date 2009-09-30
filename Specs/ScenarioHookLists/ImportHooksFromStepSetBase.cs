@@ -11,8 +11,8 @@ namespace Specs.ScenarioHookLists
         {
             public foo()
             {
-                Before(() => { return;});
-                After(scen=>{return;});
+                BeforeScenario(() => { return;});
+                AfterScenario(scen=>{return;});
             }
         }
 

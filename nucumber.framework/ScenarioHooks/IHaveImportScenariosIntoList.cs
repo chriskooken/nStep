@@ -5,6 +5,6 @@ namespace Nucumber.Framework.ScenarioHooks
     public interface IHaveImportScenariosIntoList
     {
         void Import(IProvideScenarioHooks hookProvider);
-        void Import(IEnumerable<IProvideScenarioHooks> hookProviders);
+        void Import(IEnumerable<IProvideSteps> hookProviders);
     }
 }

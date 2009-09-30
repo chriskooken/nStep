@@ -149,7 +149,7 @@ namespace Nucumber.Core
                     return StepRunResults.Pending;
                 }
                 failedSteps.Add(featureStepToProcess);
-                LastProcessStepException = ex.InnerException;
+                LastProcessStepException = ex;
                 return StepRunResults.Failed;
             }
             
@@ -162,8 +162,17 @@ namespace Nucumber.Core
             stepDefinition.StepSet.StepFromStringRunner = this;
 
             stepDefinition.StepSet.BeforeStep();
+            try
+            {
             new StepCaller(stepDefinition,
                            new TypeCaster()).Call(lineText);
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new ParameterMismatchExcepsion("The number of paramters is not equal to the number of captured groups in the step definition in", 
+                    stepDefinition.StepSet.GetType().Name + "  on regex \n" + stepDefinition.Regex);
+            }
+
             stepDefinition.StepSet.AfterStep();
         }
 

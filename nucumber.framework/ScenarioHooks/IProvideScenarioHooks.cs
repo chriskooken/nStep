@@ -4,7 +4,7 @@ namespace Nucumber.Framework.ScenarioHooks
 {
     public interface IProvideScenarioHooks
     {
-        IEnumerable<BeforeScenarioHook> BeforeHooks { get; }
-        IEnumerable<AfterScenarioHook> AfterHooks { get; }
+        IEnumerable<BeforeScenarioHook> BeforeScenarioHooks { get; }
+        IEnumerable<AfterScenarioHook> AfterScenarioHooks { get; }
     }
 }

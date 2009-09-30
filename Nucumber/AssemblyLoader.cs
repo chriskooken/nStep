@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Nucumber.Core;
 using Nucumber.Framework;
-using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.App
 {
@@ -18,7 +15,7 @@ namespace Nucumber.App
             IEnumerable<IProvideSteps> stepSets = new List<IProvideSteps>();
             foreach (var assemblyFile in assemblyFiles)
             {
-                stepSets = stepSets.Concat(GetTypesAssignableFrom<IProvideSteps>(assemblyFile));
+                stepSets = stepSets.Concat(GetSealedTypesAssignableFrom<IProvideSteps>(assemblyFile));
             }
 
             return stepSets;
@@ -29,17 +26,12 @@ namespace Nucumber.App
             return GetEnumerableOf<IProvideWorldView>(assemblyFiles);
         }
 
-        public static IEnumerable<IProvideScenarioHooks> GetScenarioHookProviders(IEnumerable<FileInfo> assemblyFiles)
-        {
-            return GetEnumerableOf<IProvideScenarioHooks>(assemblyFiles);
-        }
-
         private static IEnumerable<T> GetEnumerableOf<T>(IEnumerable<FileInfo> assemblyFiles)
         {
             IEnumerable<T> list = new List<T>();
             foreach (var assemblyFile in assemblyFiles)
             {
-                list = list.Concat(GetTypesAssignableFrom<T>(assemblyFile));
+                list = list.Concat(GetSealedTypesAssignableFrom<T>(assemblyFile));
             }
             return list;
         }
@@ -57,9 +49,9 @@ namespace Nucumber.App
             return environmentBases.FirstOrDefault();
         }
         
-        private static List<TType> GetTypesAssignableFrom<TType>(FileInfo assemblyFile)
+        private static List<TType> GetSealedTypesAssignableFrom<TType>(FileInfo assemblyFile)
         {
-            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t) && !t.IsAbstract);
+            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t) && t.IsSealed);
         }
 
         private static List<TType> GetTypesInheritingFrom<TType>(FileInfo assemblyFile) where TType : class

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.Framework
 {
-    public interface IProvideSteps
+    public interface IProvideSteps : IProvideScenarioHooks 
     {
         IEnumerable<TransformDefinition> TransformDefinitions { get; }
         CombinedStepDefinitions StepDefinitions { get; }

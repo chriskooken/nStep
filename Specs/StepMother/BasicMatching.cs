@@ -34,7 +34,13 @@ namespace Specs.StepMother
                     {
                         providedName = name;
                     });
+
+                Given("^This is a (bad) step \"([^\"]*)\"$", name =>
+                {
+                    providedName = name;
+                });
             }
+
 
             public override void BeforeStep()
             {
@@ -84,8 +90,19 @@ namespace Specs.StepMother
 			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.After.Should().Be.EqualTo("This was executed after");
-        }
+        }        
+        [Test]
+        public void It_should_throw_parameter_mismatch_exception()
+        {
+            var set = new StepSet();
 
+            var mother = new Nucumber.Core.StepMother(worldViews, null, null);
+            mother.AdoptSteps(set);
+
+            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "This is a bad step \"Bobcat\"" };
+            mother.ProcessStep(step);
+            mother.LastProcessStepException.Should().Be.OfType<ParameterMismatchExcepsion>();
+        }
     }
 
 }

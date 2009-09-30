@@ -33,6 +33,7 @@ namespace Nucumber.Core
         {
             var objects = new List<Object>();
             var groups = CompiledRegex.Match(featureLine).Groups;
+
             for (int i = 1; i < groups.Count; i++)
             {
                 objects.Add(TypeCaster.MakeIntoType(groups[i].Value, Types[i-1]));

@@ -227,38 +227,30 @@ namespace Nucumber.Framework
 
         #region scenario hooks
 
-        private IList<BeforeScenarioHook> befores = new List<BeforeScenarioHook>();
-        private IList<AfterScenarioHook> afters = new List<AfterScenarioHook>();
+        protected IList<BeforeScenarioHook> beforeScenarioHooks = new List<BeforeScenarioHook>();
+        protected IList<AfterScenarioHook> afterScenarioHooks = new List<AfterScenarioHook>();
 
-        protected void Before(string[] tags, Action action)
+        protected void BeforeScenario(string[] tags, Action action)
         {
-            befores.Add(new BeforeScenarioHook { Action = action, Tags = tags });
+            beforeScenarioHooks.Add(new BeforeScenarioHook { Action = action, Tags = tags });
         }
 
-        protected void Before(Action action)
+        protected void BeforeScenario(Action action)
         {
-            befores.Add(new BeforeScenarioHook { Action = action });
+            beforeScenarioHooks.Add(new BeforeScenarioHook { Action = action });
         }
 
-        protected void After(string[] tags, Action<ScenarioResult> action)
+        protected void AfterScenario(string[] tags, Action<ScenarioResult> action)
         {
-            afters.Add(new AfterScenarioHook { Action = action, Tags = tags });
+            afterScenarioHooks.Add(new AfterScenarioHook { Action = action, Tags = tags });
         }
 
-        protected void After(Action<ScenarioResult> action)
+        protected void AfterScenario(Action<ScenarioResult> action)
         {
-            afters.Add(new AfterScenarioHook { Action = action });
+            afterScenarioHooks.Add(new AfterScenarioHook { Action = action });
         }
 
-        public IEnumerable<BeforeScenarioHook> BeforeHooks
-        {
-            get { return befores; }
-        }
 
-        public IEnumerable<AfterScenarioHook> AfterHooks
-        {
-            get { return afters; }
-        }
 
         #endregion
 

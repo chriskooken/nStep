@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Nucumber.Core;
+﻿using System.Collections.Generic;
 
 namespace Nucumber.Framework.ScenarioHooks
 {
@@ -10,10 +6,10 @@ namespace Nucumber.Framework.ScenarioHooks
     {
         public void Import(IProvideScenarioHooks hookProvider)
         {
-            AddRange(hookProvider.AfterHooks);
+            AddRange(hookProvider.AfterScenarioHooks);
         }
 
-        public void Import(IEnumerable<IProvideScenarioHooks> hookProviders)
+        public void Import(IEnumerable<IProvideSteps> hookProviders)
         {
             foreach (var provider in hookProviders)
                 Import(provider);

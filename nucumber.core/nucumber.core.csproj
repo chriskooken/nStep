@@ -56,6 +56,7 @@
     <Compile Include="InvalidScenarioLineNumberException.cs" />
     <Compile Include="ISuggestSyntax.cs" />
     <Compile Include="OnlyOneEnvironmentMayBeDefinedException.cs" />
+    <Compile Include="ParameterMismatchExcepsion.cs" />
     <Compile Include="Parsers\Generated\GherkinAnalyzer.cs" />
     <Compile Include="Parsers\Generated\GherkinConstants.cs" />
     <Compile Include="Parsers\Generated\GherkinParser.cs" />
