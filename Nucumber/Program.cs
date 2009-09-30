@@ -21,6 +21,7 @@ namespace Nucumber.App
         private BeforeScenarioHookList beforeScenarioHooks;
         private AfterScenarioHookList afterScenarioHooks;
 
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -117,7 +118,7 @@ namespace Nucumber.App
                 {
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
 					var feature = GherkinParser.GetFeature(filePath);
-					new FeatureExecutor(formatter, StepMother,beforeScenarioHooks, afterScenarioHooks).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
+					feature.Execute(StepMother, formatter);
                 }
                 catch (FormatException e)
                 {
@@ -133,7 +134,7 @@ namespace Nucumber.App
             if (filePath.Exists)
             {
                 var feature = GherkinParser.GetFeature(filePath);
-                new FeatureExecutor(formatter, StepMother, beforeScenarioHooks, afterScenarioHooks).ExecuteFeature(feature);
+				feature.Execute(StepMother, formatter);
                 return;
             }
 
@@ -143,7 +144,7 @@ namespace Nucumber.App
 								  var innerFilePath = new FileInfo(x);
 								  var feature = GherkinParser.GetFeature(innerFilePath);
 
-                                  new FeatureExecutor(formatter, StepMother, beforeScenarioHooks, afterScenarioHooks).ExecuteFeature(feature);
+								  feature.Execute(StepMother, formatter);
                               });
 
         }
