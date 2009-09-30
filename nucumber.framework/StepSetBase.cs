@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.Framework
 {
-    public abstract class StepSetBase<TWorldView>: StepDefinitionDsl<TWorldView>, IProvideSteps where TWorldView : class
+    public abstract class StepSetBase<TWorldView> : StepDefinitionDsl<TWorldView>, IProvideScenarioHooks, IProvideSteps where TWorldView : class
     {
         protected StepSetBase()
         {

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Nucumber.Framework;
+﻿using System.Linq;
 using Nucumber.Framework.ScenarioHooks;
 using NUnit.Framework;
 
 namespace Specs.ScenarioHookLists
 {
     [TestFixture]
-    public class ImportHooks
+    public class ImportHooksFromStepSetBase
     {
-        public class foo : Nucumber.Framework.ScenarioHooksBase
+        public class foo : Nucumber.Framework.StepSetBase<string>
         {
             public foo()
             {
