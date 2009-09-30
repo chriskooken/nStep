@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nucumber.Core.Features;
 using Nucumber.Framework;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.Core
 {
@@ -16,8 +17,12 @@ namespace Nucumber.Core
         IList<FeatureStep> failedSteps;
         private IList<FeatureStep> pendingSteps;
         IList<FeatureStep> passedSteps;
-        
-        public StepMother(IWorldViewDictionary worldViews)
+
+		public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks { get; private set; }
+		public IEnumerable<AfterScenarioHook> AfterScenarioHooks { get; private set; }
+
+
+		public StepMother(IWorldViewDictionary worldViews, IEnumerable<BeforeScenarioHook> beforeScenarioHooks, IEnumerable<AfterScenarioHook> afterScenarioHooks)
 		{
             this.worldViews = worldViews;
             failedSteps = new List<FeatureStep>();
@@ -27,6 +32,8 @@ namespace Nucumber.Core
             whens = new List<StepDefinition>();
             thens = new List<StepDefinition>();
             transforms = new List<TransformDefinition>();
+			BeforeScenarioHooks = beforeScenarioHooks;
+			AfterScenarioHooks = afterScenarioHooks;
 		}
 
         public IList<FeatureStep> PassedSteps

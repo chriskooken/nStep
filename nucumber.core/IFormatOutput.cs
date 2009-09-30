@@ -7,6 +7,8 @@ namespace Nucumber.Core
 {
 	public interface IFormatOutput
 	{
+		bool SkippingSteps { get; set; }
+
         void WriteException(FeatureStep featureStep, Exception ex);
         void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition);
         void WritePendingFeatureLine(FeatureStep featureStep);

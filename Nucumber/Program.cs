@@ -95,7 +95,7 @@ namespace Nucumber.App
             if (env != null)
                 env.GlobalBegin(worldViews);
 
-            StepMother = new StepMother(worldViews);
+            StepMother = new StepMother(worldViews, beforeScenarioHooks, afterScenarioHooks);
             StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
 
             LoadAndExecuteFeatureFile(options.FeatureFiles);

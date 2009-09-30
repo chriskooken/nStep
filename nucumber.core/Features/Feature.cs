@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Nucumber.Core.Parsers;
-using Nucumber.Framework;
 using System.Linq;
 
 namespace Nucumber.Core.Features
 {
-	public class Feature
+	public class Feature : IExecute
 	{
 
 		public IList<LineValue> SummaryLines { get; private set; }
@@ -18,9 +16,23 @@ namespace Nucumber.Core.Features
 			SummaryLines = summaryLines;
 			Background = background;
 			Items = items;
+
+			foreach (var item in items)
+				item.Feature = this;
 		} 
 
 		public string Description { get; set; }
+
+
+		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
+		{
+			outputFormatter.WriteFeatureHeading(this);
+
+			foreach (var item in Items)
+			{
+				item.Execute(stepMother, outputFormatter);
+			}
+		}
 
 		public FeatureParts WhatIsAtLine(int lineNmber)
 		{

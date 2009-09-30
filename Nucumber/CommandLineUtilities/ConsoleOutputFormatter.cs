@@ -10,7 +10,10 @@ namespace Nucumber.App.CommandLineUtilities
 {
     public class ConsoleOutputFormatter : IFormatOutput 
     {
-        readonly ISuggestSyntax syntaxSuggester;
+		public bool SkippingSteps { get; set; }
+
+		
+		readonly ISuggestSyntax syntaxSuggester;
         DateTime startTime;
 
         public ConsoleOutputFormatter(string consoleTitle, ISuggestSyntax syntaxSuggester)

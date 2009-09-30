@@ -179,10 +179,9 @@ namespace Nucumber.Core.Parsers
 			// Rest of values are FeatureSteps
 			var steps = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureStep>().ToList();
 
-			var background = new Background
+			var background = new Background(steps)
 			{
-				Title = title,
-				Steps = steps
+				Title = title
 			};
 
 			node.AddValue(background);
@@ -209,10 +208,9 @@ namespace Nucumber.Core.Parsers
 			// Rest of values are FeatureSteps
 			var steps = values.GetRange(1, values.Count - 1).Cast<FeatureStep>().ToList();
 
-			var scenario = new Scenario
+			var scenario = new Scenario(steps)
 			{
 				Title = title,
-				Steps = steps,
 				LineNumber = node.StartLine
 			};
 
@@ -244,11 +242,10 @@ namespace Nucumber.Core.Parsers
 			var steps = values.GetRange(1, values.Count - 2).Cast<FeatureStep>().ToList();
 
 
-			var scenarioOutline = new ScenarioOutline(examples)
+			var scenarioOutline = new ScenarioOutline(steps, examples)
 			{
 				Title = title,
-				LineNumber = node.StartLine,
-				Steps = steps
+				LineNumber = node.StartLine
 			};
 
 			node.AddValue(scenarioOutline);

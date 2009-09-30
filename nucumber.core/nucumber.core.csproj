@@ -48,9 +48,10 @@
     <Compile Include="CSharpSyntaxSuggester.cs" />
     <Compile Include="FeatureExecutor.cs" />
     <Compile Include="Features\Background.cs" />
-    <Compile Include="Features\Executable.cs" />
+    <Compile Include="Features\StepSequence.cs" />
     <Compile Include="Features\FeatureItem.cs" />
     <Compile Include="Features\FeatureStep.cs" />
+    <Compile Include="Features\IExecute.cs" />
     <Compile Include="Features\ScenarioOutline.cs" />
     <Compile Include="Features\Table.cs" />
     <Compile Include="InvalidScenarioLineNumberException.cs" />
