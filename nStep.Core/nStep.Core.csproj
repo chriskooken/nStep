@@ -82,7 +82,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\nucumber.framework\nStep.Framework.csproj">
+    <ProjectReference Include="..\nStep.Framework\nStep.Framework.csproj">
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
       <Name>nStep.Framework</Name>
     </ProjectReference>

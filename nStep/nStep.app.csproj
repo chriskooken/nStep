@@ -12,6 +12,8 @@
     <AssemblyName>nStep</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationIcon>step.ico</ApplicationIcon>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +26,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -103,6 +104,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="step.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -112,13 +116,16 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\nucumber.core\nStep.Core.csproj">
+    <ProjectReference Include="..\nStep.Core\nStep.Core.csproj">
       <Project>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</Project>
       <Name>nStep.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\nucumber.framework\nStep.Framework.csproj">
+    <ProjectReference Include="..\nStep.Framework\nStep.Framework.csproj">
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
       <Name>nStep.Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy nStep.exe anStep.exe</PostBuildEvent>
+  </PropertyGroup>
 </Project>
