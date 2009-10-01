@@ -15,17 +15,13 @@ namespace Nucumber.Core
 
     public class ScenarioHooksRepository : IScenarioHooksRepository
     {
-        readonly IEnumerable<IProvideSteps> stepsets;
-
         public ScenarioHooksRepository(IEnumerable<IProvideSteps> stepSets)
         {
-            this.stepsets = stepsets;
             BeforeScenarioHooks = new BeforeScenarioHookList();
             BeforeScenarioHooks.Import(stepSets);
 
             AfterScenarioHooks = new AfterScenarioHookList();
             AfterScenarioHooks.Import(stepSets);
-            
         }
 
         public BeforeScenarioHookList BeforeScenarioHooks { get; set; }
