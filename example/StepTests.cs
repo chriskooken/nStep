@@ -12,7 +12,7 @@ namespace Cucumber
         public string Name;
     }
 
-    public class StepTests : StepSetBase<SeleniumWorldView>
+    public sealed class StepTests : StepSetBase<SeleniumWorldView>
     {
         public override void BeforeStep()
         {
@@ -26,6 +26,9 @@ namespace Cucumber
 
         public StepTests()
         {
+            
+
+
             Transform("([Uu]ser .*)", userName =>
                 {
                     return new User {Name = userName};
@@ -59,9 +62,9 @@ namespace Cucumber
                 });
 
             When("I click the \"([^\"]*)\" link", (string link) =>
-            {
-                World.Browser.ClickLinkByText(link);
-            });
+                {
+                    World.Browser.ClickLinkByText(link);
+                });
 
             Given("My Name is \"([^\"]*)\"", (string arg1) =>
                 {

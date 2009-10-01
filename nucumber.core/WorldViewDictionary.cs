@@ -4,14 +4,14 @@ using Nucumber.Framework;
 
 namespace Nucumber.Core
 {
-    public class WorldViewDictionary : System.Collections.Generic.Dictionary<Type,Object>, IWorldViewDictionary
+    public class WorldViewDictionary : Dictionary<Type,Object>, IWorldViewDictionary
     {
         public void Import(IProvideWorldView worldViewProvider)
         {
             Add(worldViewProvider.WorldViewType, worldViewProvider.WorldView);
         }
 
-        public T GetWorldViewOfType<T>()
+        public T GetWorldViewOfType<T>() where T : IAmWorldView
         {
             return (T) this[typeof (T)];
         }

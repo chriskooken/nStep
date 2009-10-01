@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.Framework
 {
-    public abstract class StepSetBase<TWorldView>: StepDefinitionDsl<TWorldView>, IProvideSteps where TWorldView : class
+    public abstract class StepSetBase<TWorldView> : StepDefinitionDsl<TWorldView>, IProvideScenarioHooks, IProvideSteps where TWorldView : class
     {
         protected StepSetBase()
         {
@@ -87,6 +87,16 @@ namespace Nucumber.Framework
         protected override void AddTransform<TReturn>(Delegate func, string regex)
         {
             transformDefinitions.Add(new TransformDefinition { Func = func, Regex = new Regex(regex), ReturnType = typeof(TReturn) });
+        }
+
+        public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks
+        {
+            get { return beforeScenarioHooks; }
+        }
+
+        public IEnumerable<AfterScenarioHook> AfterScenarioHooks
+        {
+            get { return afterScenarioHooks; }
         }
     }
 }

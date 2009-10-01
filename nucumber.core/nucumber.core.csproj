@@ -20,6 +20,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -44,15 +45,19 @@
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="IScenarioHooksRepository.cs" />
     <Compile Include="CSharpSyntaxSuggester.cs" />
-    <Compile Include="FeatureExecutor.cs" />
-    <Compile Include="FeatureStep.cs" />
+    <Compile Include="Features\Background.cs" />
+    <Compile Include="Features\StepSequence.cs" />
+    <Compile Include="Features\FeatureItem.cs" />
+    <Compile Include="Features\FeatureStep.cs" />
+    <Compile Include="Features\IExecute.cs" />
+    <Compile Include="Features\ScenarioOutline.cs" />
+    <Compile Include="Features\Table.cs" />
     <Compile Include="InvalidScenarioLineNumberException.cs" />
     <Compile Include="ISuggestSyntax.cs" />
     <Compile Include="OnlyOneEnvironmentMayBeDefinedException.cs" />
-    <Compile Include="Parsers\AltGherkinParser.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ParameterMismatchExcepsion.cs" />
     <Compile Include="Parsers\Generated\GherkinAnalyzer.cs" />
     <Compile Include="Parsers\Generated\GherkinConstants.cs" />
     <Compile Include="Parsers\Generated\GherkinParser.cs" />
@@ -61,18 +66,14 @@
     <Compile Include="Parsers\GherkinParser.cs" />
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
-    <Compile Include="Scenario.cs" />
+    <Compile Include="Features\Scenario.cs" />
     <Compile Include="StepMissingException.cs" />
-    <Compile Include="Feature.cs" />
+    <Compile Include="Features\Feature.cs" />
     <Compile Include="StepAmbiguousException.cs" />
-    <Compile Include="Parsers\Enums.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleSubtree.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleTree.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleTreeNode.cs" />
-    <Compile Include="Parsers\DataStructures\SimpleTreeNodeList.cs" />
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
+    <Compile Include="UnInitializedWorldViewException.cs" />
     <Compile Include="WorldViewDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

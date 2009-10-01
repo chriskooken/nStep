@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nucumber.Core.Features;
 using Nucumber.Framework;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.Core
 {
@@ -15,10 +17,16 @@ namespace Nucumber.Core
         IList<FeatureStep> failedSteps;
         private IList<FeatureStep> pendingSteps;
         IList<FeatureStep> passedSteps;
-        
-        public StepMother(IWorldViewDictionary worldViews)
+
+		public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks { get; private set; }
+		public IEnumerable<AfterScenarioHook> AfterScenarioHooks { get; private set; }
+
+
+		public StepMother(IWorldViewDictionary worldViews,IScenarioHooksRepository hooksRepository)
 		{
-            this.worldViews = worldViews;
+            if(worldViews == null)
+                throw new ArgumentNullException("world views dictionary cannot be null");
+		    this.worldViews = worldViews;
             failedSteps = new List<FeatureStep>();
             pendingSteps = new List<FeatureStep>();
             passedSteps = new List<FeatureStep>();
@@ -26,6 +34,8 @@ namespace Nucumber.Core
             whens = new List<StepDefinition>();
             thens = new List<StepDefinition>();
             transforms = new List<TransformDefinition>();
+            BeforeScenarioHooks = hooksRepository == null ? null : hooksRepository.BeforeScenarioHooks;
+            AfterScenarioHooks = hooksRepository == null ? null : hooksRepository.AfterScenarioHooks;
 		}
 
         public IList<FeatureStep> PassedSteps
@@ -48,9 +58,14 @@ namespace Nucumber.Core
 
         public void AdoptSteps(IProvideSteps stepSet)
         {
-            if (worldViews != null)
+            try
+            {
                 stepSet.WorldView = worldViews[stepSet.WorldViewType];
-
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw new UnInitializedWorldViewException(stepSet.WorldViewType.Name + " may not have been initialized");
+            }
             givens = givens.Union(stepSet.StepDefinitions.Givens).ToList();
             whens = whens.Union(stepSet.StepDefinitions.Whens).ToList();
             thens = thens.Union(stepSet.StepDefinitions.Thens).ToList();
@@ -109,7 +124,6 @@ namespace Nucumber.Core
             {
                 LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
                 ExecuteStepDefinitionWithLine(LastProcessStepDefinition, lineText);
-
             }
             catch (StepMissingException ex)
             {
@@ -135,10 +149,10 @@ namespace Nucumber.Core
                     return StepRunResults.Pending;
                 }
                 failedSteps.Add(featureStepToProcess);
-                LastProcessStepException = ex.InnerException;
+                LastProcessStepException = ex;
                 return StepRunResults.Failed;
             }
-           
+            
             passedSteps.Add(featureStepToProcess);
             return StepRunResults.Passed;
         }
@@ -148,8 +162,17 @@ namespace Nucumber.Core
             stepDefinition.StepSet.StepFromStringRunner = this;
 
             stepDefinition.StepSet.BeforeStep();
+            try
+            {
             new StepCaller(stepDefinition,
                            new TypeCaster()).Call(lineText);
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new ParameterMismatchExcepsion("The number of paramters is not equal to the number of captured groups in the step definition in", 
+                    stepDefinition.StepSet.GetType().Name + "  on regex \n" + stepDefinition.Regex);
+            }
+
             stepDefinition.StepSet.AfterStep();
         }
 

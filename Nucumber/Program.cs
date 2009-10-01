@@ -1,12 +1,9 @@
-#define ALTPARSER
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Cuke4Nuke.Server;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
@@ -21,59 +18,22 @@ namespace Nucumber.App
         private IFormatOutput formatter;
         private NucumberOptions Options;
 
+        [STAThread]
         static void Main(string[] args)
         {
-            try
-            {
-                var options = new NucumberOptions().Parse<NucumberOptions>(args);
-                if (options.Debug)
-                {
-                    Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
-                    Console.ReadLine();
-                }
-                new Program().Run(options);
-            }
-            catch (ConsoleOptionsException exception)
-            {
-                exception.PrintMessageToConsole();
-                Console.ForegroundColor = ConsoleColor.Gray;
-                Console.ReadKey();
-            }
-            catch(InvalidScenarioLineNumberException ex)
-            {
-                WriteException(ex.Message);
-            }
-            catch(ArgumentException ex)
-            {
-                WriteException(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine(ex.InnerException.Message);
-                    Console.WriteLine(ex.InnerException);
-                    Console.WriteLine();
-                }
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                Console.ForegroundColor = ConsoleColor.Gray;
-            }
+            ConsoleExceptionHandler consoleExceptionHandler = new ConsoleExceptionHandler(() => new Program().Run(args));
+            consoleExceptionHandler.Execute();
         }
 
-        private static void WriteException(string message)
+        private void Run(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
-
-        private void Run(NucumberOptions options)
-        {
-            Options = options;
-
+            Options = new NucumberOptions().Parse<NucumberOptions>(args);
+            if (Options.Debug)
+            {
+                Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
+                Console.ReadLine();
+            }
+            
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
@@ -81,18 +41,23 @@ namespace Nucumber.App
             var assemblyFiles = Options.Assemblies.Select(x => new FileInfo(x)).ToList();
 
             var worldViews = new WorldViewDictionary();
-
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
+            
             EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
+
+            IEnumerable<IProvideSteps> stepSets = AssemblyLoader.GetStepSets(assemblyFiles);
+
+            var scenarioHooks = new ScenarioHooksRepository(stepSets);
+
+            StepMother = new StepMother(worldViews, scenarioHooks);
+
+            StepMother.AdoptSteps(stepSets);
 
             if (env != null)
                 env.GlobalBegin(worldViews);
 
-            StepMother = new StepMother(worldViews);
-            StepMother.AdoptSteps(AssemblyLoader.GetStepSets(assemblyFiles));
+            LoadAndExecuteFeatureFile(Options.FeatureFiles);
 
-            //LoadAndExecuteFeatureFile(options.FeatureFiles);
-            var foo = new Cuke4Nuke.Server.NukeServer(new Cuke4Nuke.Core.Listener(),Console.Out,new Options{} );
             if (env != null)
                 env.GlobalExit(worldViews);
             formatter.WriteResults(StepMother);
@@ -109,14 +74,8 @@ namespace Nucumber.App
                 try
                 {
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
-#if ALTPARSER
-					var parser = new AltGherkinParser();
-					var feature = new Feature(parser);
-					feature.Parse(filePath.FullName);
-#else
 					var feature = GherkinParser.GetFeature(filePath);
-#endif
-					new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature, int.Parse(featureDescription.Groups[2].Value));
+					feature.Execute(StepMother, formatter);
                 }
                 catch (FormatException e)
                 {
@@ -131,25 +90,18 @@ namespace Nucumber.App
 
             if (filePath.Exists)
             {
-                var feature = new Feature(new AltGherkinParser());
-                feature.Parse(filePath.FullName);
-                new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+                var feature = GherkinParser.GetFeature(filePath);
+				feature.Execute(StepMother, formatter);
                 return;
             }
 
             var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
             files.ForEach(x =>
                               {
-#if ALTPARSER
-								  var parser = new AltGherkinParser();
-								  var feature = new Feature(parser);
-								  feature.Parse(x);
-#else
 								  var innerFilePath = new FileInfo(x);
 								  var feature = GherkinParser.GetFeature(innerFilePath);
-#endif
 
-								  new FeatureExecutor(formatter, StepMother).ExecuteFeature(feature);
+								  feature.Execute(StepMother, formatter);
                               });
 
         }
@@ -161,8 +113,7 @@ namespace Nucumber.App
             var strTempAssmbPath =
                 Path.GetFullPath(path + @"\" +args.Name.Substring(0, args.Name.IndexOf(",")) +
                                  ".dll");
-
-            return Assembly.LoadFrom(strTempAssmbPath);
+                return Assembly.LoadFrom(strTempAssmbPath);
         }
     }
 }

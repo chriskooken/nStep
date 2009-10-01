@@ -1,8 +1,9 @@
+using Nucumber.Framework;
 using Selenium;
 
 namespace Cucumber
 {
-    public class SeleniumWorldView
+    public class SeleniumWorldView : IAmWorldView 
     {
         public readonly DefaultSelenium Browser;
         public SeleniumWorldView()

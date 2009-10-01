@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Nucumber.Core;
 using System.Linq;
+using Nucumber.Core.Features;
 using Nucumber.Framework;
 
 namespace Nucumber.App.CommandLineUtilities
 {
     public class ConsoleOutputFormatter : IFormatOutput 
     {
-        readonly ISuggestSyntax syntaxSuggester;
+		public bool SkippingSteps { get; set; }
+
+		
+		readonly ISuggestSyntax syntaxSuggester;
         DateTime startTime;
 
         public ConsoleOutputFormatter(string consoleTitle, ISuggestSyntax syntaxSuggester)
@@ -32,22 +36,22 @@ namespace Nucumber.App.CommandLineUtilities
 
         private void WriteLineLevel1(string line)
         {
-            Console.WriteLine(LevelPad(1, line));
+            WriteMultipleLines(1, line);
         }
 
         private void WriteLineLevel2(string line)
         {
-            Console.WriteLine(LevelPad(2, line));
+            WriteMultipleLines(2, line);
         }
 
         private void WriteLineLevel3(string line)
         {
-            Console.WriteLine(LevelPad(3, line));
+            WriteMultipleLines(3, line);
         }
 
         private void WriteLineLevel4(string line)
         {
-            Console.WriteLine(LevelPad(4, line));
+            WriteMultipleLines(4, line);
         }
 
         public void WriteException(FeatureStep step, Exception ex)
@@ -55,9 +59,16 @@ namespace Nucumber.App.CommandLineUtilities
 			Console.ForegroundColor = ConsoleColor.DarkRed;
             WriteLineLevel3(step.FeatureLine + ":" + step.LineNumber);
 			WriteLineLevel3(ex.Message);
+            
 			WriteLineLevel4(ex.StackTrace);
 			Console.ForegroundColor = ConsoleColor.Gray;	
 		}
+        public void WriteMultipleLines(int padding, string line)
+        {
+            line = line ?? "";
+            var splitList = line.Split('\n').ToList();
+            splitList.ForEach(x => Console.WriteLine(LevelPad(padding, x)));
+        }
 
         public void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition)
         {
@@ -150,7 +161,7 @@ namespace Nucumber.App.CommandLineUtilities
             WriteLineLevel2(scenario.Title);
         }
 
-        public void WriteBackgroundHeading(Scenario background)
+        public void WriteBackgroundHeading(Background background)
         {
             WriteLineLevel2(background.Title);
         }

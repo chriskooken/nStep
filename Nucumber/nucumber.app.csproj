@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,6 +67,7 @@
     <Compile Include="CommandLineUtilities\ConsoleOutputFormatter.cs" />
     <Compile Include="CommandLineUtilities\TestOptions.cs" />
     <Compile Include="CommandLineUtilities\ConsoleOptionsBase.cs" />
+    <Compile Include="ConsoleExceptionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

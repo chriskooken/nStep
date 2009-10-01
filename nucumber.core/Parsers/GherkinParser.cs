@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Nucumber.Core.Parsers.DataStructures;
+using Nucumber.Core.Features;
 
 
 namespace Nucumber.Core.Parsers {
@@ -22,7 +22,7 @@ namespace Nucumber.Core.Parsers {
 			var parser = new Generated.GherkinParser(reader, new FeatureBuilder());
 			var node = parser.Parse();
 
-			var feature = node.Values.ToArray().Single() as Feature;
+			var feature = node.Values.Cast<Feature>().SingleOrDefault();
 			return feature;
 		}
 	}

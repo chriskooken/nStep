@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Nucumber.Core.Features;
 using PerCederberg.Grammatica.Runtime;
 using Nucumber.Framework;
 
@@ -17,18 +18,72 @@ namespace Nucumber.Core.Parsers
 
 		#region Tokens
 
-		public override Node ExitEol(Token node)
-		{
-			return node;
-		}
+		//public override Node ExitEol(Token node)
+		//{
+		//    return node;
+		//}
 
 		public override Node ExitTextChar(Token node)
 		{
-			node.AddValue(node.Image);
-			return node;
+			return EchoImage(node);
 		}
 
 		public override Node ExitHorizontalWhitespace(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTFeature(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTBackground(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTScenario(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTScenarioOutline(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTExamples(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTGiven(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTWhen(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTThen(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTAnd(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitTBut(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		private static Node EchoImage(Token node)
 		{
 			node.AddValue(node.Image);
 			return node;
@@ -53,7 +108,7 @@ namespace Nucumber.Core.Parsers
 			foreach (var obj in childValues)
 				text += obj.ToString();
 
-			node.AddValue(text);
+			node.AddValue(text.Trim());
 
 			return node;
 		}
@@ -67,20 +122,41 @@ namespace Nucumber.Core.Parsers
 			var values = GetChildValues(node);
 
 			var summaryLines = values[0] as IList<LineValue>;
-			var background = values[1] as Scenario;
+			var background = values[1] as Background;
+			var featureIndex = background == null ? 1 : 2;
 
-			var feature = new Feature
+			// Rest of values are FeatureItems
+			var items = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureItem>().ToList();
+
+			var feature = new Feature(summaryLines, background, items)
 			{
-				Background = background
+				// TODO: Should this get a value?
+				Description = ""
 			};
 
 			node.AddValue(feature);
 			return node;
 		}
 
+		public override Node ExitSummaryLine(Production node)
+		{
+			var text = GetChildValues(node).Cast<string>().SingleOrDefault();
+
+			var lineValue = new LineValue
+			{
+				Text = text,
+				LineNumber = node.StartLine
+			};
+
+			node.AddValue(lineValue);
+			return node;
+		}
+
 		public override Node ExitFeatureHeader(Production node)
 		{
-			var summaryLines = GetChildValues(node).Cast<string>().ToList();
+			// Skip the first value, it's the string for T_FEATURE
+			var values = GetChildValues(node);
+			var summaryLines = values.GetRange(1, values.Count - 1).Cast<LineValue>().ToList();
 
 			node.AddValue(summaryLines);
 			return node;
@@ -96,17 +172,16 @@ namespace Nucumber.Core.Parsers
 		{
 			var values = GetChildValues(node);
 
-			// First value is title from header
+			// First value is either title from header or first FeatureStep
 			var title = values[0] as string;
+			var featureIndex = title == null ? 0 : 1;
 
 			// Rest of values are FeatureSteps
-			var steps = values.GetRange(1, values.Count - 1).Cast<FeatureStep>().ToList();
+			var steps = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureStep>().ToList();
 
-			var background = new Scenario
+			var background = new Background(steps)
 			{
-				Title = title,
-				Steps = steps,
-				LineNumber = node.StartLine
+				Title = title
 			};
 
 			node.AddValue(background);
@@ -133,10 +208,9 @@ namespace Nucumber.Core.Parsers
 			// Rest of values are FeatureSteps
 			var steps = values.GetRange(1, values.Count - 1).Cast<FeatureStep>().ToList();
 
-			var scenario = new Scenario
+			var scenario = new Scenario(steps)
 			{
 				Title = title,
-				Steps = steps,
 				LineNumber = node.StartLine
 			};
 
@@ -168,8 +242,13 @@ namespace Nucumber.Core.Parsers
 			var steps = values.GetRange(1, values.Count - 2).Cast<FeatureStep>().ToList();
 
 
-			// TODO: Create Scenarios from outline
+			var scenarioOutline = new ScenarioOutline(steps, examples)
+			{
+				Title = title,
+				LineNumber = node.StartLine
+			};
 
+			node.AddValue(scenarioOutline);
 			return node;
 		}
 
@@ -181,14 +260,15 @@ namespace Nucumber.Core.Parsers
 			return node;
 		}
 
+		#endregion
+
+		#region Tables
+
 		public override Node ExitTable(Production node)
 		{
 			var rows = GetChildValues(node).Cast<Row>().ToList();
 
-			var table = new Table()
-			{
-				Rows = rows
-			};
+			var table = new Table(rows);
 
 			node.AddValue(table);
 			return node;
@@ -249,12 +329,13 @@ namespace Nucumber.Core.Parsers
 
 		private Node AttachFeatureStep(Node node, StepKinds kind)
 		{
-			var featureLine = GetChildValues(node).Cast<string>().Single().Trim();
+			var values = GetChildValues(node);
+			var verbage = values.Cast<string>().First();
+			var featureLine = values.GetRange(1, values.Count - 1).Cast<string>().Single();
 
-			var featureStep = new FeatureStep
+			var featureStep = new FeatureStep(kind)
 			{
-				FeatureLine = featureLine,
-				Kind = kind,
+				FeatureLine = verbage + " " + featureLine,
 				LineNumber = node.StartLine
 			};
 
@@ -269,9 +350,8 @@ namespace Nucumber.Core.Parsers
 
 		private string GetTitle(Node node)
 		{
-			var freeLines = GetChildValues(node);
-			//return freeLines.Count == 1 ? freeLines[0].ToString().Trim() : null;
-			return freeLines.Cast<string>().SingleOrDefault();
+			// Join together the value of the token as well as the FreeLine (if present)
+			return string.Join(" ", GetChildValues(node).Cast<string>().ToArray());
 		}
 
 		#endregion

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Nucumber.Framework.ScenarioHooks;
 
 namespace Nucumber.Framework
 {
@@ -222,5 +224,35 @@ namespace Nucumber.Framework
             AddTransform<TReturn>(func, regex);
         }
         #endregion
+
+        #region scenario hooks
+
+        protected IList<BeforeScenarioHook> beforeScenarioHooks = new List<BeforeScenarioHook>();
+        protected IList<AfterScenarioHook> afterScenarioHooks = new List<AfterScenarioHook>();
+
+        protected void BeforeScenario(string[] tags, Action action)
+        {
+            beforeScenarioHooks.Add(new BeforeScenarioHook { Action = action, Tags = tags });
+        }
+
+        protected void BeforeScenario(Action action)
+        {
+            beforeScenarioHooks.Add(new BeforeScenarioHook { Action = action });
+        }
+
+        protected void AfterScenario(string[] tags, Action<ScenarioResult> action)
+        {
+            afterScenarioHooks.Add(new AfterScenarioHook { Action = action, Tags = tags });
+        }
+
+        protected void AfterScenario(Action<ScenarioResult> action)
+        {
+            afterScenarioHooks.Add(new AfterScenarioHook { Action = action });
+        }
+
+
+
+        #endregion
+
     }
 }
