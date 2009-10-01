@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Nucumber.App.CommandLineUtilities;
 using Nucumber.Core.Parsers;
 using Nucumber.Core;
+using Nucumber.Core.WireProtocol;
 using Nucumber.Framework;
 
 namespace Nucumber.App
@@ -37,9 +38,30 @@ namespace Nucumber.App
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
-            InitializeThenRun(Options.Assemblies.Select(x => new FileInfo(x)).ToList(), ()=>LoadAndExecuteFeatureFile(Options.FeatureFiles));
+            var assemblyFiles = Options.Assemblies.Select(x => new FileInfo(x)).ToList();
+            if (Options.Server)
+            {
+                InitializeThenRun(assemblyFiles, () => RunServer());
+            }
+            else
+            {
+                InitializeThenRun(assemblyFiles, () => LoadAndExecuteFeatureFile(Options.FeatureFiles));    
+            }
+            
 
             formatter.WriteResults(StepMother);
+        }
+
+        private void RunServer()
+        {
+            var server = new Server();
+
+            server.Start();
+
+            Console.WriteLine("Press any key to quit.");
+            Console.ReadKey(true);
+
+            server.Stop();
         }
 
         private void InitializeThenRun(List<FileInfo> assemblyFiles, Action action)

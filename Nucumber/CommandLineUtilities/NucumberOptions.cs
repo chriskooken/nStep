@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Nucumber.App.CommandLineUtilities
 {
@@ -24,6 +25,8 @@ namespace Nucumber.App.CommandLineUtilities
         [Help("Allows user to set up debugger before executing.")]
         public bool Debug { get; set; }
 
+        [Help("Runs in wire_protocol step runner server mode.")]
+        public bool Server { get; set; }
     }
 
     public enum OutputFormat

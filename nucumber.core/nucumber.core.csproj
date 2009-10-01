@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\grammatica-1.5.dll</HintPath>
     </Reference>
+    <Reference Include="LitJson, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\LitJson.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -64,6 +68,12 @@
     <Compile Include="Parsers\Generated\GherkinTokenizer.cs" />
     <Compile Include="Parsers\FeatureBuilder.cs" />
     <Compile Include="Parsers\GherkinParser.cs" />
+    <Compile Include="WireProtocol\Responses\Failed.cs" />
+    <Compile Include="WireProtocol\Responses\GeneralFailure.cs" />
+    <Compile Include="WireProtocol\Responses\Ok.cs" />
+    <Compile Include="WireProtocol\Responses\StepDefinitions.cs" />
+    <Compile Include="WireProtocol\Responses\StepFailure.cs" />
+    <Compile Include="WireProtocol\Server.cs" />
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Features\Scenario.cs" />
@@ -74,6 +84,7 @@
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
     <Compile Include="UnInitializedWorldViewException.cs" />
+    <Compile Include="WireProtocol\VersionOneMessage.cs" />
     <Compile Include="WorldViewDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

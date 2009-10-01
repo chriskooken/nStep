@@ -112,14 +112,6 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\..\Cuke4Nuke\Cuke4Nuke\Core\Core.csproj">
-      <Project>{3CF36FF9-CE32-4868-84EC-D76E1E75148C}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Cuke4Nuke\Cuke4Nuke\Server\Server.csproj">
-      <Project>{936E6D55-416C-4008-A682-84825AE0E4DB}</Project>
-      <Name>Server</Name>
-    </ProjectReference>
     <ProjectReference Include="..\nucumber.core\nucumber.core.csproj">
       <Project>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</Project>
       <Name>nucumber.core</Name>

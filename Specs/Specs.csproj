@@ -28,6 +28,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LitJson, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\LitJson.dll</HintPath>
+    </Reference>
     <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Moq.dll</HintPath>
@@ -80,6 +84,8 @@
     <Compile Include="StepSetBase\When.cs" />
     <Compile Include="StepSetBase\Given.cs" />
     <Compile Include="TypeCaster.cs" />
+    <Compile Include="wire_protocol\GeneralFailureResponse.cs" />
+    <Compile Include="wire_protocol\StepDefinitions.cs" />
     <Compile Include="WorldViewDictionary\ImportWorldViews.cs" />
   </ItemGroup>
   <ItemGroup>
