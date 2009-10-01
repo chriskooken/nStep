@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Framework;
+using nStep.Framework;
 
-namespace Nucumber.Core.Features
+namespace nStep.Core.Features
 {
 	public interface IExecute
 	{

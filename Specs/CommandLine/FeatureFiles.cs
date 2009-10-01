@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Nucumber.App.CommandLineUtilities;
+using nStep.App.CommandLineUtilities;
+using nStep.App.CommandLineUtilities;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -87,7 +88,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example" };
+            args = new string[] { "C:/Projects/nStep/example" };
         }
     }
 
@@ -102,7 +103,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-v" };
+            args = new string[] { "C:/Projects/nStep/example", "-v" };
         }
     }
 
@@ -117,7 +118,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-verbose" };
+            args = new string[] { "C:/Projects/nStep/example", "-verbose" };
         }
     }
 
@@ -141,7 +142,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {"C:/Projects/Nucumber/example", "-r" };
+            args = new string[] {"C:/Projects/nStep/example", "-r" };
         }
     }
 
@@ -165,7 +166,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {"C:/Projects/Nucumber/example", "-require" };
+            args = new string[] {"C:/Projects/nStep/example", "-require" };
         }
     }
 
@@ -184,7 +185,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-r", someAssembly };
+            args = new string[] { "C:/Projects/nStep/example", "-r", someAssembly };
         }
     }
     [TestFixture]
@@ -201,7 +202,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-require", someAssembly };
+            args = new string[] { "C:/Projects/nStep/example", "-require", someAssembly };
         }
     }
 
@@ -218,7 +219,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-r", someAssembly[0], someAssembly[1] };
+            args = new string[] { "C:/Projects/nStep/example", "-r", someAssembly[0], someAssembly[1] };
         }
     }
     [TestFixture]
@@ -234,7 +235,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {"C:/Projects/Nucumber/example", "-require", someAssembly[0],someAssembly[1]};
+            args = new string[] {"C:/Projects/nStep/example", "-require", someAssembly[0],someAssembly[1]};
 
         }
     }
@@ -259,7 +260,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] {"C:/Projects/Nucumber/example", "-f" };
+            args = new string[] {"C:/Projects/nStep/example", "-f" };
         }
     }
     [TestFixture]
@@ -283,7 +284,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-format" };
+            args = new string[] { "C:/Projects/nStep/example", "-format" };
         }
     }
 
@@ -300,7 +301,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-f", format.ToString() };
+            args = new string[] { "C:/Projects/nStep/example", "-f", format.ToString() };
         }
     }
 
@@ -317,7 +318,7 @@ namespace CommandLine
 
         protected override void InitializeArguments()
         {
-            args = new string[] { "C:/Projects/Nucumber/example", "-format", format.ToString() };
+            args = new string[] { "C:/Projects/nStep/example", "-format", format.ToString() };
         }
     }
 
@@ -334,7 +335,7 @@ namespace CommandLine
 
     //    protected override void InitializeArguments()
     //    {
-    //        args = new string[] { "C:/Projects/Nucumber/example", "-lformat", lformat[0].ToString(), lformat[1].ToString() };
+    //        args = new string[] { "C:/Projects/nStep/example", "-lformat", lformat[0].ToString(), lformat[1].ToString() };
     //    }
     //}
 

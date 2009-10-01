@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Nucumber.Framework
+namespace nStep.Framework
 {
     public class TransformDefinition
     {

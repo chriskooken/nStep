@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Framework;
+using nStep.Framework;
 using NUnit.Framework;
 
 namespace Specs
@@ -15,7 +15,7 @@ namespace Specs
         {
             string enclosed = "hello";
             Action action = () => { enclosed = "goodbye"; };
-            var caller = new Nucumber.Core.ActionCaller(action);
+            var caller = new nStep.Core.ActionCaller(action);
             caller.Call();
             enclosed.Should().Be.EqualTo("goodbye");
         }
@@ -25,7 +25,7 @@ namespace Specs
         {
             string enclosed = "hello";
             Action<string> action = (foo) => { enclosed = foo; }; 
-            var caller = new Nucumber.Core.ActionCaller(action,"bob");
+            var caller = new nStep.Core.ActionCaller(action,"bob");
             caller.Call();
             enclosed.Should().Be.EqualTo("bob");
         }
@@ -36,7 +36,7 @@ namespace Specs
         {
             string enclosed = "hello";
             Action<string,string> action = (foo, bar) => { enclosed = foo + bar; };
-            var caller = new Nucumber.Core.ActionCaller(action, "bob", "o");
+            var caller = new nStep.Core.ActionCaller(action, "bob", "o");
             caller.Call();
             enclosed.Should().Be.EqualTo("bobo");
         }
@@ -45,7 +45,7 @@ namespace Specs
         public void it_should_throw_the_internal_exception()
         {
             Action action = () => { throw new InvalidTimeZoneException(); };
-            var caller = new Nucumber.Core.ActionCaller(action);
+            var caller = new nStep.Core.ActionCaller(action);
             new Action(() => caller.Call()).Should().Throw<InvalidTimeZoneException>();
         }
 	}

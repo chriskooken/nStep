@@ -1,7 +1,7 @@
 using System;
-using Nucumber.Framework;
+using nStep.Framework;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public interface IWorldViewDictionary : System.Collections.Generic.IDictionary<Type,Object>
     {

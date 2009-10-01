@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Framework;
+using nStep.Framework;
 using NUnit.Framework;
 
 namespace Specs
@@ -38,7 +38,7 @@ namespace Specs
 
             var featureLine = "This is a test: Boo";
 
-            var caller = new Nucumber.Core.StepCaller(step, new Nucumber.Core.TypeCaster());
+            var caller = new nStep.Core.StepCaller(step, new nStep.Core.TypeCaster());
             caller.Call(featureLine);
 
             set.Output.Should().Be.EqualTo("Boo");
@@ -52,7 +52,7 @@ namespace Specs
 
             var featureLine = "This is a test: 42";
 
-            var caller = new Nucumber.Core.StepCaller(step, new Nucumber.Core.TypeCaster());
+            var caller = new nStep.Core.StepCaller(step, new nStep.Core.TypeCaster());
             caller.Call(featureLine);
 
             set.Output.Should().Be.EqualTo("42");

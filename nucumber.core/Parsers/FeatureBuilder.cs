@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Core.Features;
+using nStep.Core.Features;
 using PerCederberg.Grammatica.Runtime;
-using Nucumber.Framework;
+using nStep.Framework;
 
-namespace Nucumber.Core.Parsers
+namespace nStep.Core.Parsers
 {
 	internal class FeatureBuilder : Generated.GherkinAnalyzer
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nucumber.Framework.ScenarioHooks
+namespace nStep.Framework.ScenarioHooks
 {
     public class AfterScenarioHookList : List<AfterScenarioHook>, IAfterScenarioHookList
     {

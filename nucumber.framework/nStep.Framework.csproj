@@ -7,9 +7,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{66CBD8CF-52C1-4221-B320-8A405520F810}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>nucumber.framework</AssemblyName>
+    <AssemblyName>nStep.Framework</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RootNamespace>Nucumber.Framework</RootNamespace>
+    <RootNamespace>nStep.Framework</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -1,6 +1,6 @@
-using Nucumber.Core.Features;
+using nStep.Core.Features;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public interface ISuggestSyntax
     {

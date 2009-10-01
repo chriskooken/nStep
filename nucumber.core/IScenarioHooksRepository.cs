@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Framework;
-using Nucumber.Framework.ScenarioHooks;
+using nStep.Framework;
+using nStep.Framework.ScenarioHooks;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public interface IScenarioHooksRepository
     {

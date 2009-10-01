@@ -1,6 +1,6 @@
 using System;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public class StepAmbiguousException : Exception
     {

@@ -1,7 +1,7 @@
 ﻿
-using Nucumber.Core;
+using nStep.Core;
 
-namespace Nucumber.Framework
+namespace nStep.Framework
 {
     public abstract class EnvironmentBase
     {

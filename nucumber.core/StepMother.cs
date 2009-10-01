@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nucumber.Core.Features;
-using Nucumber.Framework;
-using Nucumber.Framework.ScenarioHooks;
+using nStep.Core.Features;
+using nStep.Framework;
+using nStep.Framework.ScenarioHooks;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public class StepMother : IRunStepsFromStrings
     {

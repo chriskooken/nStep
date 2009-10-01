@@ -8,7 +8,7 @@ using System.IO;
 
 using PerCederberg.Grammatica.Runtime;
 
-namespace Nucumber.Core.Parsers.Generated {
+namespace nStep.Core.Parsers.Generated {
 
     /**
      * <remarks>A token stream parser.</remarks>

@@ -6,7 +6,7 @@
 
 using PerCederberg.Grammatica.Runtime;
 
-namespace Nucumber.Core.Parsers.Generated {
+namespace nStep.Core.Parsers.Generated {
 
     /**
      * <remarks>A class providing callback methods for the

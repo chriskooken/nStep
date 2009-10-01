@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Nucumber.Core;
-using Nucumber.Framework;
+using nStep.Core;
+using nStep.Framework;
 
-namespace Nucumber.App
+namespace nStep.App
 {
     public static class AssemblyLoader
     {

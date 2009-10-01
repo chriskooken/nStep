@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Nucumber.Framework.ScenarioHooks;
+using nStep.Framework.ScenarioHooks;
 
-namespace Nucumber.Framework
+namespace nStep.Framework
 {
     public abstract class StepSetBase<TWorldView> : StepDefinitionDsl<TWorldView>, IProvideScenarioHooks, IProvideSteps where TWorldView : class
     {

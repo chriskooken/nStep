@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Nucumber.Framework.ScenarioHooks;
+using nStep.Framework.ScenarioHooks;
 
-namespace Nucumber.Framework
+namespace nStep.Framework
 {
     public abstract class StepDefinitionDsl<TWorldView> where TWorldView : class
     {

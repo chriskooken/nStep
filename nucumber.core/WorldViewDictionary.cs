@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Nucumber.Framework;
+using nStep.Framework;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public class WorldViewDictionary : Dictionary<Type,Object>, IWorldViewDictionary
     {

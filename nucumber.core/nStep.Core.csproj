@@ -7,9 +7,9 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>nucumber.core</AssemblyName>
+    <AssemblyName>nStep.Core</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <RootNamespace>Nucumber.Core</RootNamespace>
+    <RootNamespace>nStep.Core</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -82,9 +82,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">
+    <ProjectReference Include="..\nucumber.framework\nStep.Framework.csproj">
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
-      <Name>nucumber.framework</Name>
+      <Name>nStep.Framework</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Framework;
+using nStep.Framework;
 using NUnit.Framework;
 
 namespace StepSetBase

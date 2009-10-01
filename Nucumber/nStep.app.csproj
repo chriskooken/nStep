@@ -8,8 +8,8 @@
     <ProjectGuid>{A3967229-2EF9-4BAA-9013-930B1FF8BE66}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nucumber.App</RootNamespace>
-    <AssemblyName>Cucumber</AssemblyName>
+    <RootNamespace>nStep.App</RootNamespace>
+    <AssemblyName>nStep</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -112,13 +112,13 @@
   </Target>
   -->
   <ItemGroup>
-    <ProjectReference Include="..\nucumber.core\nucumber.core.csproj">
+    <ProjectReference Include="..\nucumber.core\nStep.Core.csproj">
       <Project>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</Project>
-      <Name>nucumber.core</Name>
+      <Name>nStep.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\nucumber.framework\nucumber.framework.csproj">
+    <ProjectReference Include="..\nucumber.framework\nStep.Framework.csproj">
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
-      <Name>nucumber.framework</Name>
+      <Name>nStep.Framework</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

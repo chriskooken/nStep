@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Nucumber.Core;
+using nStep.Core;
 using System.Linq;
-using Nucumber.Core.Features;
-using Nucumber.Framework;
+using nStep.Core.Features;
+using nStep.Framework;
 
-namespace Nucumber.App.CommandLineUtilities
+namespace nStep.App.CommandLineUtilities
 {
     public class ConsoleOutputFormatter : IFormatOutput 
     {

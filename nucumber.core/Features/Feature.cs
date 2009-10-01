@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nucumber.Core.Features
+namespace nStep.Core.Features
 {
 	public class Feature : IExecute
 	{

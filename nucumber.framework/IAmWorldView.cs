@@ -1,4 +1,4 @@
-﻿namespace Nucumber.Framework
+﻿namespace nStep.Framework
 {
     public interface IAmWorldView
     {

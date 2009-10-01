@@ -1,6 +1,6 @@
 ﻿using System;
-using Nucumber.Core;
-using Nucumber.Framework;
+using nStep.Core;
+using nStep.Framework;
 using NUnit.Framework;
 
 namespace Specs.WorldViewDictionary
@@ -57,7 +57,7 @@ namespace Specs.WorldViewDictionary
 
         private void NewCut()
         {
-            cut = new Nucumber.Core.WorldViewDictionary();
+            cut = new nStep.Core.WorldViewDictionary();
         }
 
         [Test]
@@ -104,9 +104,9 @@ namespace Specs.WorldViewDictionary
         public void It_Should_not_Error_if_world_view_is_initialized()
         {
             var set = new StepSet();
-            var worldViewDictionary = new Nucumber.Core.WorldViewDictionary();
+            var worldViewDictionary = new nStep.Core.WorldViewDictionary();
             worldViewDictionary.Add(typeof(TestWorldView),new TestWorldView());
-            var mother = new Nucumber.Core.StepMother(worldViewDictionary, null);
+            var mother = new nStep.Core.StepMother(worldViewDictionary, null);
             
             Assert.DoesNotThrow(() => mother.AdoptSteps(set));
         }
@@ -119,7 +119,7 @@ namespace Specs.WorldViewDictionary
         public void It_Should_Error_if_world_view_is_not_initialized()
         {
             var set = new StepSet();
-            var mother = new Nucumber.Core.StepMother(new Nucumber.Core.WorldViewDictionary(),null);
+            var mother = new nStep.Core.StepMother(new nStep.Core.WorldViewDictionary(),null);
             Assert.Throws<UnInitializedWorldViewException>(() => mother.AdoptSteps(set));
         }
     }

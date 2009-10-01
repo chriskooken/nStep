@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.Core.Features;
+using nStep.Core.Features;
 using NUnit.Framework;
 
 namespace Specs
@@ -11,7 +11,7 @@ namespace Specs
     public class TypeCaster
     {
 
-        private Nucumber.Core.TypeCaster cut = new Nucumber.Core.TypeCaster();
+        private nStep.Core.TypeCaster cut = new nStep.Core.TypeCaster();
 
         private void AssertItWorks<T>(string sample)
         {

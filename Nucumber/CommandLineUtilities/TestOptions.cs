@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using nStep.App.CommandLineUtilities;
 
-namespace Nucumber.App.CommandLineUtilities
+namespace nStep.App.CommandLineUtilities
 {
     public class TestOptions : ConsoleOptionsBase
     {   

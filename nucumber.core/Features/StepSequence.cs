@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nucumber.Core.Features
+namespace nStep.Core.Features
 {
 	public abstract class StepSequence : IExecute
 	{

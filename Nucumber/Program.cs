@@ -4,18 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using Nucumber.App.CommandLineUtilities;
-using Nucumber.Core.Parsers;
-using Nucumber.Core;
-using Nucumber.Framework;
+using nStep.App.CommandLineUtilities;
+using nStep.Core.Parsers;
+using nStep.Core;
+using nStep.Framework;
 
-namespace Nucumber.App
+namespace nStep.App
 {
     class Program
     {
         private StepMother StepMother;
         private IFormatOutput formatter;
-        private NucumberOptions Options;
+        private nStepOptions Options;
 
         [STAThread]
         static void Main(string[] args)
@@ -26,7 +26,7 @@ namespace Nucumber.App
 
         private void Run(string[] args)
         {
-            Options = new NucumberOptions().Parse<NucumberOptions>(args);
+            Options = new nStepOptions().Parse<nStepOptions>(args);
             if (Options.Debug)
             {
                 Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
@@ -35,7 +35,7 @@ namespace Nucumber.App
             
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
-            formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
+            formatter = new ConsoleOutputFormatter("nStep", new CSharpSyntaxSuggester());
 
             InitializeThenRun(Options.Assemblies.Select(x => new FileInfo(x)).ToList(), ()=>LoadAndExecuteFeatureFile(Options.FeatureFiles));
 

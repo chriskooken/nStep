@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Nucumber.Framework;
-using Nucumber.Framework.ScenarioHooks;
+using nStep.Framework;
+using nStep.Framework.ScenarioHooks;
 
-namespace Nucumber.Core.Features
+namespace nStep.Core.Features
 {
 	public abstract class FeatureItem : StepSequence
 	{

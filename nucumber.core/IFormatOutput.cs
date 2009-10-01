@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Nucumber.Core.Features;
-using Nucumber.Framework;
+using nStep.Core.Features;
+using nStep.Framework;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
 	public interface IFormatOutput
 	{

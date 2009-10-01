@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Nucumber.Core;
-using Nucumber.Core.Features;
-using Nucumber.Framework;
+using nStep.Core;
+using nStep.Core.Features;
+using nStep.Framework;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -15,7 +15,7 @@ namespace Specs.StepMother
 
         }
 
-        private Nucumber.Core.WorldViewDictionary worldViews;
+        private nStep.Core.WorldViewDictionary worldViews;
 
         private class StepSet : StepSetBase<StringWorldView>
         {
@@ -41,17 +41,17 @@ namespace Specs.StepMother
                 });
             }
         }
-        private Nucumber.Core.StepMother mother;
+        private nStep.Core.StepMother mother;
         private StepRunResults result;
         private StepSet Set;
 
         [SetUp]
         public void Setup()
         {
-            worldViews = new Nucumber.Core.WorldViewDictionary();
+            worldViews = new nStep.Core.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView), new StringWorldView());
             Set = new StepSet();
-            mother = new Nucumber.Core.StepMother(worldViews, null);
+            mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
 			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
@@ -67,7 +67,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_Set_LastProcessStepException_to_PendingStepException()
         {
-            mother.LastProcessStepException.Should().Be.OfType<Nucumber.Framework.StepPendingException>();
+            mother.LastProcessStepException.Should().Be.OfType<nStep.Framework.StepPendingException>();
         }
 
         [Test]

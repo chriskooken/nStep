@@ -1,7 +1,7 @@
 ﻿using System;
-using Nucumber.Framework;
+using nStep.Framework;
 
-namespace Nucumber.Core.Features
+namespace nStep.Core.Features
 {
 	public class FeatureStep : IExecute
 	{

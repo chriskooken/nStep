@@ -1,6 +1,6 @@
 using System;
 
-namespace Nucumber.Framework
+namespace nStep.Framework
 {
     public class OnlyOneWorldViewTypeCanExistAtATimeException : ApplicationException
     {

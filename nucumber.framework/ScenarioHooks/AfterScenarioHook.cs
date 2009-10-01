@@ -1,6 +1,6 @@
 using System;
 
-namespace Nucumber.Framework.ScenarioHooks
+namespace nStep.Framework.ScenarioHooks
 {
     public class AfterScenarioHook : ScenarioHook
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Nucumber.Framework
+namespace nStep.Framework
 {
     public class CombinedStepDefinitions
     {

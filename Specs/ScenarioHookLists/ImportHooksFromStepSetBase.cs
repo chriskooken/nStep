@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Nucumber.Framework.ScenarioHooks;
+using nStep.Framework.ScenarioHooks;
 using NUnit.Framework;
 
 namespace Specs.ScenarioHookLists
@@ -7,7 +7,7 @@ namespace Specs.ScenarioHookLists
     [TestFixture]
     public class ImportHooksFromStepSetBase
     {
-        public class foo : Nucumber.Framework.StepSetBase<string>
+        public class foo : nStep.Framework.StepSetBase<string>
         {
             public foo()
             {

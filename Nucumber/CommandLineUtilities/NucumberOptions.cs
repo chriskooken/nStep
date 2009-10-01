@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using nStep.App.CommandLineUtilities;
 
-namespace Nucumber.App.CommandLineUtilities
+namespace nStep.App.CommandLineUtilities
 {
-    public class NucumberOptions : ConsoleOptionsBase
+    public class nStepOptions : ConsoleOptionsBase
     {
         [Default]
         [Required]

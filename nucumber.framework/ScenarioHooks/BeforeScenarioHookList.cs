@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Nucumber.Framework.ScenarioHooks
+namespace nStep.Framework.ScenarioHooks
 {
     public class BeforeScenarioHookList : List<BeforeScenarioHook>, IBeforeScenarioHookList
     {

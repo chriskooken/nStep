@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using Nucumber.Core;
-using Nucumber.Core.Features;
-using Nucumber.Framework;
+using nStep.Core;
+using nStep.Core.Features;
+using nStep.Framework;
 using NUnit.Framework;
 
 namespace Specs.StepMother
@@ -15,12 +15,12 @@ namespace Specs.StepMother
 
         }
 
-        private Nucumber.Core.WorldViewDictionary worldViews;
+        private nStep.Core.WorldViewDictionary worldViews;
 
         [SetUp]
         public void Setup()
         {
-            worldViews = new Nucumber.Core.WorldViewDictionary();
+            worldViews = new nStep.Core.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView), new StringWorldView());
         }
 
@@ -61,7 +61,7 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-			var mother = new Nucumber.Core.StepMother(worldViews, null);
+			var mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
 			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };

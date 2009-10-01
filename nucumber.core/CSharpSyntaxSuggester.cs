@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Nucumber.Core.Features;
-using Nucumber.Framework;
+using nStep.Core.Features;
+using nStep.Framework;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public class CSharpSyntaxSuggester : ISuggestSyntax
     {

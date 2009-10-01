@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public class ActionCaller
     {

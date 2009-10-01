@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Nucumber.Core.Features;
+using nStep.Core.Features;
 
 
-namespace Nucumber.Core.Parsers {
+namespace nStep.Core.Parsers {
 	public static class GherkinParser  {
 		public static Feature GetFeature(string text)
 		{

@@ -1,4 +1,4 @@
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public enum StepRunResults
     {

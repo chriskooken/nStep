@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Nucumber.App.CommandLineUtilities;
+using nStep.App.CommandLineUtilities;
 
-namespace Nucumber.Core
+namespace nStep.Core
 {
     public class ConsoleExceptionHandler
     {

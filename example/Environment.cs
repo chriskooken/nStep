@@ -1,6 +1,6 @@
 ﻿using System;
-using Nucumber.Core;
-using Nucumber.Framework;
+using nStep.Core;
+using nStep.Framework;
 using Selenium;
 
 namespace Cucumber

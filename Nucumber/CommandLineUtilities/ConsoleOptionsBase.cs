@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Nucumber.App.CommandLineUtilities
+namespace nStep.App.CommandLineUtilities
 {
     public abstract class ConsoleOptionsBase
     {
@@ -30,7 +30,7 @@ namespace Nucumber.App.CommandLineUtilities
             {
                 return classProperties ??
                        (classProperties =
-                       childType.GetProperties().ToList());
+                        childType.GetProperties().ToList());
             }
         }
 
@@ -353,10 +353,10 @@ namespace Nucumber.App.CommandLineUtilities
             var helpMessages = new List<List<string>>();
             
             parameters.Distinct().ToList().ForEach(x =>
-            {
-                x.GenerateHelpMessage();
-                helpMessages.Add(x.Help);
-            });
+                {
+                    x.GenerateHelpMessage();
+                    helpMessages.Add(x.Help);
+                });
             return helpMessages;
         }
 
@@ -371,8 +371,6 @@ namespace Nucumber.App.CommandLineUtilities
         }
 
     }
-
-    #region attributes
 
     public class Required : Attribute
     {
@@ -406,12 +404,6 @@ namespace Nucumber.App.CommandLineUtilities
             HelpMessage = help;
         }
     }
-
-    #endregion
-
-    #region exceptions
-
-    
 
     public class ConsoleOptionsException : Exception
     {
@@ -480,15 +472,13 @@ namespace Nucumber.App.CommandLineUtilities
                 Console.Write(pair.First().PadLeft(12));
                 
                 pair[1].Split(new []{'\n'}).ToList().ForEach(x =>
-                         {
-                             Console.CursorLeft = 22;
-                             Console.WriteLine(x.Trim());
-                         });
+                    {
+                        Console.CursorLeft = 22;
+                        Console.WriteLine(x.Trim());
+                    });
                 Console.WriteLine();
             }
         }
 
     }
-    #endregion
-
 }

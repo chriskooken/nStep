@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Nucumber.Core.Parsers;
+using nStep.Core.Parsers;
 using NUnit.Framework;
 
 namespace Specs.Parsers

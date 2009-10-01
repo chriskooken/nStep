@@ -4,7 +4,7 @@
  * THIS FILE HAS BEEN GENERATED AUTOMATICALLY. DO NOT EDIT!
  */
 
-namespace Nucumber.Core.Parsers.Generated {
+namespace nStep.Core.Parsers.Generated {
 
     /**
      * <remarks>An enumeration with token and production node

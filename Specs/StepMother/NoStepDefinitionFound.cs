@@ -1,7 +1,7 @@
 ﻿using System;
-using Nucumber.Core;
-using Nucumber.Core.Features;
-using Nucumber.Framework;
+using nStep.Core;
+using nStep.Core.Features;
+using nStep.Framework;
 using NUnit.Framework;
 
 namespace Specs.StepMother
@@ -14,12 +14,12 @@ namespace Specs.StepMother
 
         }
 
-        private Nucumber.Core.WorldViewDictionary worldViews;
+        private nStep.Core.WorldViewDictionary worldViews;
 
 
 
 
-        private class StepSet : Nucumber.Framework.StepSetBase<StringWorldView>
+        private class StepSet : nStep.Framework.StepSetBase<StringWorldView>
         {
 
             public override void BeforeStep()
@@ -41,17 +41,17 @@ namespace Specs.StepMother
                 
             }
         }
-        private Nucumber.Core.StepMother mother;
+        private nStep.Core.StepMother mother;
         private StepRunResults result;
         private StepSet Set;
 
         [SetUp]
         public void Setup()
         {
-            worldViews = new Nucumber.Core.WorldViewDictionary();
+            worldViews = new nStep.Core.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView), new StringWorldView());
             Set = new StepSet();
-			mother = new Nucumber.Core.StepMother(worldViews, null);
+			mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
 			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
