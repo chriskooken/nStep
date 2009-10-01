@@ -48,20 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\nucumber.core\nStep.Core.csproj">
-      <Project>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</Project>
-      <Name>nStep.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\nucumber.framework\nStep.Framework.csproj">
-      <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
-      <Name>nStep.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nucumber\nStep.app.csproj">
-      <Project>{A3967229-2EF9-4BAA-9013-930B1FF8BE66}</Project>
-      <Name>nStep.app</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ActionCaller.cs" />
     <Compile Include="Parsers\GherkinParserTest.cs" />
     <Compile Include="ScenarioHookLists\ImportHooksFromStepSetBase.cs" />
@@ -89,6 +75,20 @@
     <None Include="Parsers\simple.feature" />
     <None Include="Parsers\simple_with_comments.feature" />
     <None Include="Parsers\simple_with_tags.feature" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\nStep.Core\nStep.Core.csproj">
+      <Project>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</Project>
+      <Name>nStep.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nStep.Framework\nStep.Framework.csproj">
+      <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
+      <Name>nStep.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nStep\nStep.app.csproj">
+      <Project>{A3967229-2EF9-4BAA-9013-930B1FF8BE66}</Project>
+      <Name>nStep.app</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
