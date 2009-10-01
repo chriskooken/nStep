@@ -37,29 +37,35 @@ namespace Nucumber.App
 
             formatter = new ConsoleOutputFormatter("Nucumber", new CSharpSyntaxSuggester());
 
-            var assemblyFiles = Options.Assemblies.Select(x => new FileInfo(x)).ToList();
+            InitializeThenRun(Options.Assemblies.Select(x => new FileInfo(x)).ToList(), ()=>LoadAndExecuteFeatureFile(Options.FeatureFiles));
 
-            var worldViews = new WorldViewDictionary();
-            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
-            
-            EnvironmentBase env = AssemblyLoader.GetEnvironment(assemblyFiles);
+            formatter.WriteResults(StepMother);
+        }
 
-            IEnumerable<IProvideSteps> stepSets = AssemblyLoader.GetStepSets(assemblyFiles);
-
+        private void InitializeThenRun(List<FileInfo> assemblyFiles, Action action)
+        {
+            var worldViews = GetWorldViews(assemblyFiles);
+            var env = AssemblyLoader.GetEnvironment(assemblyFiles);
+            var stepSets = AssemblyLoader.GetStepSets(assemblyFiles);
             var scenarioHooks = new ScenarioHooksRepository(stepSets);
 
             StepMother = new StepMother(worldViews, scenarioHooks);
-
             StepMother.AdoptSteps(stepSets);
 
             if (env != null)
                 env.GlobalBegin(worldViews);
 
-            LoadAndExecuteFeatureFile(Options.FeatureFiles);
+            action.Invoke();
 
             if (env != null)
                 env.GlobalExit(worldViews);
-            formatter.WriteResults(StepMother);
+        }
+
+        private WorldViewDictionary GetWorldViews(List<FileInfo> assemblyFiles)
+        {
+            var worldViews = new WorldViewDictionary();
+            worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
+            return worldViews;
         }
 
         void LoadAndExecuteFeatureFile(string pathToFeature)
