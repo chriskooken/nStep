@@ -7,8 +7,6 @@ namespace nStep.Core.Features
 {
 	public class Background : StepSequence
 	{
-		public int LineNumber { get; set; }
-
 		public Background(IList<FeatureStep> steps)
 			: base(steps)
 		{ }

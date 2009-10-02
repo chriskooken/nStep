@@ -181,7 +181,8 @@ namespace nStep.Core.Parsers
 
 			var background = new Background(steps)
 			{
-				Title = title
+				Title = title,
+				LineNumber = node.StartLine
 			};
 
 			node.AddValue(background);

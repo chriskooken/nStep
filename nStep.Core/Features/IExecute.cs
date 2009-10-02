@@ -8,6 +8,7 @@ namespace nStep.Core.Features
 {
 	public interface IExecute
 	{
+		int LineNumber { get; }
 		void Execute(StepMother stepMother, IFormatOutput outputFormatter);
 	}
 }
