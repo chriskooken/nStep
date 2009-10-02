@@ -11,11 +11,6 @@ namespace Specs.StepMother
     [TestFixture]
     public class PendingStepDefinition
     {
-        private class StringWorldView : IAmWorldView
-        {
-
-        }
-
         private nStep.Core.WorldViewDictionary worldViews;
 
         private class StepSet : StepSetBase<ImportWorldViews.StringWorldView>
@@ -55,7 +50,7 @@ namespace Specs.StepMother
         public void Setup()
         {
             worldViews = new nStep.Core.WorldViewDictionary();
-            worldViews.Add(typeof(StringWorldView), new StringWorldView());
+            worldViews.Add(typeof(ImportWorldViews.StringWorldView), new ImportWorldViews.StringWorldView());
             Set = new StepSet();
             mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(Set);

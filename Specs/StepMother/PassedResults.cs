@@ -3,27 +3,23 @@ using nStep.Core;
 using nStep.Core.Features;
 using nStep.Framework;
 using NUnit.Framework;
+using Specs.WorldViewDictionary;
 
 namespace Specs.StepMother
 {
     [TestFixture]
     public class PassedResults
     {
-        private class StringWorldView : IAmWorldView
-        {
-
-        }
-
         private nStep.Core.WorldViewDictionary worldViews;
 
-        private class StepSet : nStep.Framework.StepSetBase<StringWorldView>
+        private class StepSet : nStep.Framework.StepSetBase<ImportWorldViews.StringWorldView>
         {
 
             public StepSet()
             {
                 Given("^My Name is \"([^\"]*)\"$", name =>
                 {
-
+                    return;
                 });
 
             }
@@ -38,7 +34,7 @@ namespace Specs.StepMother
         public void Setup()
         {
             worldViews = new nStep.Core.WorldViewDictionary();
-            worldViews.Add(typeof(StringWorldView), new StringWorldView());
+            worldViews.Add(typeof(ImportWorldViews.StringWorldView), new ImportWorldViews.StringWorldView());
             Set = new StepSet();
             mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
