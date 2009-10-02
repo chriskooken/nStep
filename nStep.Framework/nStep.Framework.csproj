@@ -61,7 +61,6 @@
     <Compile Include="StepPendingException.cs" />
     <Compile Include="StepSetBase.cs" />
     <Compile Include="TransformDefinition.cs" />
-    <Compile Include="OnlyOneWorldViewTypeCanExistAtATimeException.cs" />
     <Compile Include="WorldViewProviderBase.cs" />
     <Compile Include="IProvideSteps.cs" />
     <Compile Include="EnvironmentBase.cs" />
