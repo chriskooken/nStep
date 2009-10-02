@@ -64,7 +64,5 @@ namespace nStep.Core.Features
 	{
 		public int LineNumber { get; set; }
 		public string Text { get; set; }
-		[Obsolete("Will go away soon")]
-		public string NodeType { get; set; }
 	}
 }
