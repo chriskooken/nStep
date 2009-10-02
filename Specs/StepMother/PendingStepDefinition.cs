@@ -4,6 +4,7 @@ using nStep.Core.Features;
 using nStep.Framework;
 using NUnit.Framework;
 using System.Collections.Generic;
+using Specs.WorldViewDictionary;
 
 namespace Specs.StepMother
 {
@@ -17,7 +18,7 @@ namespace Specs.StepMother
 
         private nStep.Core.WorldViewDictionary worldViews;
 
-        private class StepSet : StepSetBase<StringWorldView>
+        private class StepSet : StepSetBase<ImportWorldViews.StringWorldView>
         {
             public override void BeforeStep()
             {
