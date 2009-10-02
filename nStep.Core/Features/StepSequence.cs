@@ -5,6 +5,7 @@ namespace nStep.Core.Features
 	public abstract class StepSequence : IExecute
 	{
 		public string Title { get; set; }
+		public int LineNumber { get; set; }
 		public IList<FeatureStep> Steps { get; private set; }
 
 		protected StepSequence(IList<FeatureStep> steps)

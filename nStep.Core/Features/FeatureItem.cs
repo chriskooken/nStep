@@ -7,7 +7,6 @@ namespace nStep.Core.Features
 {
 	public abstract class FeatureItem : StepSequence
 	{
-		public int LineNumber { get; set; }
 		public Feature Feature { get; set; }
 
 		public FeatureItem(IList<FeatureStep> steps)

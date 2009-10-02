@@ -7,11 +7,20 @@ namespace nStep.Core.Features
 {
 	public class Feature : IExecute
 	{
+		#region Public Properties
 
+		public int LineNumber {
+			get { return SummaryLines != null && SummaryLines.Count > 0 ? SummaryLines.First().LineNumber : 1; }
+		}
+		
 		public IList<LineValue> SummaryLines { get; private set; }
 		public Background Background { get; private set; }
 		public IList<FeatureItem> Items { get; private set; }
 		public string Description { get; set; }
+
+		#endregion
+
+		#region Constructor
 
 		public Feature(IList<LineValue> summaryLines, Background background, IList<FeatureItem> items)
 		{
@@ -21,7 +30,11 @@ namespace nStep.Core.Features
 
 			foreach (var item in items)
 				item.Feature = this;
-		} 
+		}
+
+		#endregion
+
+		#region Execution
 
 		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
@@ -58,13 +71,13 @@ namespace nStep.Core.Features
 
 			throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNumber);
 		}
+
+		#endregion
 	}
 
 	public class LineValue
 	{
 		public int LineNumber { get; set; }
 		public string Text { get; set; }
-		[Obsolete("Will go away soon")]
-		public string NodeType { get; set; }
 	}
 }
