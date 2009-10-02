@@ -1,4 +1,5 @@
 ﻿using nStep.Core;
+using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
 using NUnit.Framework;
@@ -73,7 +74,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_Set_LastProcessStepException_to_AmbigousStepException()
         {
-            mother.LastProcessStepException.Should().Be.OfType<nStep.Core.StepAmbiguousException>();            
+            mother.LastProcessStepException.Should().Be.OfType<StepAmbiguousException>();            
         }
 
         [Test]
