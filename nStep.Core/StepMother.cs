@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
 using nStep.Framework.ScenarioHooks;
@@ -169,7 +170,7 @@ namespace nStep.Core
             }
             catch (IndexOutOfRangeException e)
             {
-                throw new ParameterMismatchExcepsion("The number of paramters is not equal to the number of captured groups in the step definition in", 
+                throw new ParameterMismatchException("The number of paramters is not equal to the number of captured groups in the step definition in", 
                     stepDefinition.StepSet.GetType().Name + "  on regex \n" + stepDefinition.Regex);
             }
 

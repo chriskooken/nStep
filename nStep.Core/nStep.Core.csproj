@@ -54,10 +54,10 @@
     <Compile Include="Features\IExecute.cs" />
     <Compile Include="Features\ScenarioOutline.cs" />
     <Compile Include="Features\Table.cs" />
-    <Compile Include="InvalidScenarioLineNumberException.cs" />
+    <Compile Include="Exceptions\InvalidScenarioLineNumberException.cs" />
     <Compile Include="ISuggestSyntax.cs" />
-    <Compile Include="OnlyOneEnvironmentMayBeDefinedException.cs" />
-    <Compile Include="ParameterMismatchExcepsion.cs" />
+    <Compile Include="Exceptions\OnlyOneEnvironmentMayBeDefinedException.cs" />
+    <Compile Include="Exceptions\ParameterMismatchException.cs" />
     <Compile Include="Parsers\Generated\GherkinAnalyzer.cs" />
     <Compile Include="Parsers\Generated\GherkinConstants.cs" />
     <Compile Include="Parsers\Generated\GherkinParser.cs" />
@@ -67,13 +67,13 @@
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother.cs" />
     <Compile Include="Features\Scenario.cs" />
-    <Compile Include="StepMissingException.cs" />
+    <Compile Include="Exceptions\StepMissingException.cs" />
     <Compile Include="Features\Feature.cs" />
-    <Compile Include="StepAmbiguousException.cs" />
+    <Compile Include="Exceptions\StepAmbiguousException.cs" />
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="StepRunResults.cs" />
     <Compile Include="TypeCaster.cs" />
-    <Compile Include="UnInitializedWorldViewException.cs" />
+    <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
     <Compile Include="WorldViewDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

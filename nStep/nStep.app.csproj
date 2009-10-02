@@ -126,6 +126,6 @@
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy nStep.exe anStep.exe</PostBuildEvent>
+    <PostBuildEvent>copy nStep.exe _nStep.exe</PostBuildEvent>
   </PropertyGroup>
 </Project>

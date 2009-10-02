@@ -1,5 +1,6 @@
 ﻿using System;
 using nStep.Core;
+using nStep.Core.Exceptions;
 using nStep.Framework;
 using NUnit.Framework;
 

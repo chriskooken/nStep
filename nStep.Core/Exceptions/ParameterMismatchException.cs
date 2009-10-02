@@ -1,13 +1,13 @@
 using System;
 
-namespace nStep.Core
+namespace nStep.Core.Exceptions
 {
-    public class ParameterMismatchExcepsion : ApplicationException
+    public class ParameterMismatchException : ApplicationException
     {
 
         private readonly string _source;
 
-        public ParameterMismatchExcepsion(string s, string source) : base (s)
+        public ParameterMismatchException(string s, string source) : base (s)
         {
             _source = source;
         }

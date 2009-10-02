@@ -1,4 +1,4 @@
-﻿using nStep.Core;
+﻿using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
 using NUnit.Framework;
@@ -101,7 +101,7 @@ namespace Specs.StepMother
 
             var step = new FeatureStep(StepKinds.Given) { FeatureLine = "This is a bad step \"Bobcat\"" };
             mother.ProcessStep(step);
-            mother.LastProcessStepException.Should().Be.OfType<ParameterMismatchExcepsion>();
+            mother.LastProcessStepException.Should().Be.OfType<ParameterMismatchException>();
         }
     }
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace nStep.Core
+namespace nStep.Core.Exceptions
 {
     public class InvalidScenarioLineNumberException : ApplicationException
     {

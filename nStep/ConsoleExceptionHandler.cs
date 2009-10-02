@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using nStep.App.CommandLineUtilities;
+using nStep.Core.Exceptions;
 
 namespace nStep.Core
 {
