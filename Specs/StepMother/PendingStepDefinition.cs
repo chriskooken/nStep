@@ -39,6 +39,11 @@ namespace Specs.StepMother
                 {
                     Pending();
                 });
+
+                Given("^I am a pending step with no body \"([^\"]*)\"$", name =>
+                {
+                    
+                });
             }
         }
         private nStep.Core.StepMother mother;
@@ -65,9 +70,19 @@ namespace Specs.StepMother
         }
 
         [Test]
+        public void it_should_return_pending_if_there_is_no_method_body()
+        {
+            var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "I am a pending step with no body \"Chris\"" };
+            result = mother.ProcessStep(featureStep);
+            result.Should().Be.EqualTo(StepRunResults.Pending);
+            mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Pending);
+        }
+
+
+        [Test]
         public void it_should_Set_LastProcessStepException_to_PendingStepException()
         {
-            mother.LastProcessStepException.Should().Be.OfType<nStep.Framework.StepPendingException>();
+            mother.LastProcessStepException.Should().Be.OfType<StepPendingException>();
         }
 
         [Test]

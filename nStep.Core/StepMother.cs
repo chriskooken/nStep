@@ -165,12 +165,13 @@ namespace nStep.Core
             stepDefinition.StepSet.BeforeStep();
             try
             {
-            new StepCaller(stepDefinition,
-                           new TypeCaster()).Call(lineText);
+                new StepCaller(stepDefinition,
+                               new TypeCaster()).Call(lineText);
             }
             catch (IndexOutOfRangeException e)
             {
-                throw new ParameterMismatchException("The number of paramters is not equal to the number of captured groups in the step definition in", 
+                throw new ParameterMismatchException(
+                    "The number of paramters is not equal to the number of captured groups in the step definition in",
                     stepDefinition.StepSet.GetType().Name + "  on regex \n" + stepDefinition.Regex);
             }
 
@@ -199,8 +200,18 @@ namespace nStep.Core
 
             if (results.Count() > 1) throw new StepAmbiguousException(lineText);
 
+            CheckForEmptyAction(results.First().Action);
+
             return results.First();
         }
 
+        private static void CheckForEmptyAction(Delegate action)
+        {
+            var bytes = action.Method.GetMethodBody().GetILAsByteArray();
+            var emptyMethod = new byte[] { 0, 42 };
+            
+            if (bytes.SequenceEqual(emptyMethod))
+                throw new StepPendingException();
+        }
     }
 }
