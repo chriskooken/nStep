@@ -92,7 +92,7 @@ namespace nStep.Core
             ExecuteStepDefinitionWithLine(stepDefinition, featureStepToProcess);
         }
 
-        public void ChekForMissingStep(FeatureStep featureStep)
+        public void CheckForMissingStep(FeatureStep featureStep)
         {
             try
             {
