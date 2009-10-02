@@ -22,7 +22,6 @@ namespace nStep.Core.Features
 				item.Feature = this;
 		} 
 
-
 		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
 			outputFormatter.WriteFeatureHeading(this);
@@ -31,6 +30,32 @@ namespace nStep.Core.Features
 			{
 				item.Execute(stepMother, outputFormatter);
 			}
+		}
+
+		public void Execute(StepMother stepMother, IFormatOutput outputFormatter, int lineNumber)
+		{
+			GetExecutableAt(lineNumber).Execute(stepMother, outputFormatter);
+		}
+
+		private IExecute GetExecutableAt(int lineNumber)
+		{
+			// Return entire feature if any SummaryLine is selected
+			foreach (var summaryLine in SummaryLines)
+				if (summaryLine.LineNumber == lineNumber)
+					return this;
+
+			// Test for Background header
+			if (Background.LineNumber == lineNumber)
+				return Background;
+
+			// Test for FeatureItem headers
+			foreach (var featureItem in Items)
+				if (featureItem.LineNumber == lineNumber)
+					return featureItem;
+
+			// TODO: Test for Scenario Outline examples
+
+			throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNumber);
 		}
 	}
 
