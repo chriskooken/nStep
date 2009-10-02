@@ -31,7 +31,7 @@ namespace nStep.App
             IEnumerable<T> list = new List<T>();
             foreach (var assemblyFile in assemblyFiles)
             {
-                list = list.Concat(GetSealedTypesAssignableFrom<T>(assemblyFile));
+                list = list.Concat(GetTypesAssignableFrom<T>(assemblyFile));
             }
             return list;
         }
@@ -52,6 +52,11 @@ namespace nStep.App
         private static List<TType> GetSealedTypesAssignableFrom<TType>(FileInfo assemblyFile)
         {
             return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t) && t.IsSealed);
+        }
+
+        private static List<TType> GetTypesAssignableFrom<TType>(FileInfo assemblyFile)
+        {
+            return GetTypes<TType>(assemblyFile, t => typeof(TType).IsAssignableFrom(t));
         }
 
         private static List<TType> GetTypesInheritingFrom<TType>(FileInfo assemblyFile) where TType : class
