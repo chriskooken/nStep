@@ -79,8 +79,9 @@ namespace nStep.App
                 try
                 {
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
+					var lineNumber = int.Parse(featureDescription.Groups[2].Value);
 					var feature = GherkinParser.GetFeature(filePath);
-					feature.Execute(StepMother, formatter);
+					feature.Execute(StepMother, formatter, lineNumber);
                 }
                 catch (FormatException e)
                 {
