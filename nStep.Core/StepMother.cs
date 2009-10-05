@@ -208,9 +208,11 @@ namespace nStep.Core
         private static void CheckForEmptyAction(Delegate action)
         {
             var bytes = action.Method.GetMethodBody().GetILAsByteArray();
-            var emptyMethod = new byte[] { 0, 42 };
-            
-            if (bytes.SequenceEqual(emptyMethod))
+            var emptyMethodWithDebugSymbols = new byte[] { 0, 42 };
+            var emptyMethodWithoutDebugSymbols = new byte[] { 42 };
+
+
+            if (bytes.SequenceEqual(emptyMethodWithDebugSymbols) || bytes.SequenceEqual(emptyMethodWithoutDebugSymbols))
                 throw new StepPendingException();
         }
     }
