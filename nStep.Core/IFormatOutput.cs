@@ -15,6 +15,7 @@ namespace nStep.Core
 	    void WriteFeatureHeading(Feature feature);
 	    void WriteResults(StepMother stepMother);
 	    void WriteScenarioTitle(Scenario scenario);
+		void WriteScenarioOutlineTitle(ScenarioOutline scenarioOutline);
 	    void WriteBackgroundHeading(Background background);
 	    void WriteSkippedFeatureLine(FeatureStep featureStep);
 	    void WriteLineBreak();

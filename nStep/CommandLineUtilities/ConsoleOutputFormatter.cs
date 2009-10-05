@@ -161,6 +161,11 @@ namespace nStep.App.CommandLineUtilities
             WriteLineLevel2(scenario.Title);
         }
 
+        public void WriteScenarioOutlineTitle(ScenarioOutline scenarioOutline)
+        {
+            WriteLineLevel2(scenarioOutline.Title);
+        }
+
         public void WriteBackgroundHeading(Background background)
         {
             WriteLineLevel2(background.Title);

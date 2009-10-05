@@ -277,7 +277,7 @@ namespace nStep.Core.Parsers
 
 		public override Node ExitTableRow(Production node)
 		{
-			var columns = GetChildValues(node).Cast<Column>().ToList();
+			var columns = GetChildValues(node).Cast<Cell>().ToList();
 
 			var row = new Row(columns);
 			node.AddValue(row);
@@ -287,7 +287,7 @@ namespace nStep.Core.Parsers
 		public override Node ExitTableColumn(Production node)
 		{
 			var cell = GetChildValues(node).Cast<string>().Single().Trim();
-			var column = new Column(cell);
+			var column = new Cell(cell);
 			node.AddValue(column);
 			return node;
 		}
