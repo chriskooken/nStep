@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using nStep.App.CommandLineUtilities;
@@ -22,6 +23,7 @@ namespace nStep.App
         {
             ConsoleExceptionHandler consoleExceptionHandler = new ConsoleExceptionHandler(() => new Program().Run(args));
             consoleExceptionHandler.Execute();
+            Environment.Exit(0);
         }
 
         private void Run(string[] args)
