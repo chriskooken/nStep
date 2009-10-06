@@ -7,12 +7,6 @@ namespace nStep.Core.Features
 {
 	public class Scenario : FeatureItem
 	{
-		#region Properties
-
-		public IEnumerable<string> Tags { get; set; }
-
-		#endregion
-
 		#region Constructor
 
 		public Scenario(IList<FeatureStep> steps)

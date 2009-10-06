@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using nStep.Framework;
 
 namespace nStep.Core.Features
@@ -7,7 +8,6 @@ namespace nStep.Core.Features
 	{
 		public string FeatureLine { get; set; }
 		public int LineNumber { get; set; }
-		public string FeatureFileName { get; set; }
 		public StepKinds Kind { get; private set; }
 
 		public FeatureStep(StepKinds kind)
@@ -15,9 +15,16 @@ namespace nStep.Core.Features
 			Kind = kind;
 		}
 
+		private FeatureStep(FeatureStep originalStep)
+		{
+			FeatureLine = originalStep.FeatureLine;
+			LineNumber = originalStep.LineNumber;
+			Kind = originalStep.Kind;
+		}
+
 		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
-            stepMother.ChekForMissingStep(this);
+            stepMother.CheckForMissingStep(this);
 
             if (outputFormatter.SkippingSteps)
             {
@@ -43,6 +50,17 @@ namespace nStep.Core.Features
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		public void Execute(StepMother stepMother, IFormatOutput outputFormatter, IDictionary<string, string> dictionary)
+		{
+			var newLine = FeatureLine;
+
+			foreach (var key in dictionary.Keys)
+				newLine = newLine.Replace("<" + key + ">", dictionary[key]);
+
+			var newFeatureStep = new FeatureStep(this) { FeatureLine = newLine };
+			newFeatureStep.Execute(stepMother, outputFormatter);
 		}
 	}
 }

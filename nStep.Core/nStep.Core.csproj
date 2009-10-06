@@ -46,6 +46,7 @@
     <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Exceptions\OnlyOneWorldViewTypeCanExistAtATimeException.cs" />
+    <Compile Include="Features\JaggedTableException.cs" />
     <Compile Include="IScenarioHooksRepository.cs" />
     <Compile Include="CSharpSyntaxSuggester.cs" />
     <Compile Include="Features\Background.cs" />

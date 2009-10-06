@@ -7,7 +7,13 @@ namespace nStep.Core.Features
 {
 	public abstract class FeatureItem : StepSequence
 	{
+		#region Properties
+
 		public Feature Feature { get; set; }
+		public IEnumerable<string> Tags { get; set; }
+
+		#endregion
+
 
 		public FeatureItem(IList<FeatureStep> steps)
 			: base(steps)

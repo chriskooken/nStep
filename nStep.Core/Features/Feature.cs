@@ -17,6 +17,7 @@ namespace nStep.Core.Features
 		public Background Background { get; private set; }
 		public IList<FeatureItem> Items { get; private set; }
 		public string Description { get; set; }
+		public string FileName { get; set; }
 
 		#endregion
 
@@ -64,10 +65,17 @@ namespace nStep.Core.Features
 
 			// Test for FeatureItem headers
 			foreach (var featureItem in Items)
+			{
 				if (featureItem.LineNumber == lineNumber)
 					return featureItem;
 
-			// TODO: Test for Scenario Outline examples
+				// Test ScenarioOutline examples
+				//var scenarioOutline = featureItem as ScenarioOutline;
+				//if (scenarioOutline != null)
+				//    foreach (var example in scenarioOutline.Examples.Rows)
+				//        if (example.LineNumber == lineNumber)
+				//            return example;
+			}
 
 			throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNumber);
 		}
