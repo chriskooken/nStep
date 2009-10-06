@@ -14,7 +14,9 @@ namespace nStep.Core.Parsers {
 
 		public static Feature GetFeature(FileInfo fileInfo)
 		{
-			return GetFeature(fileInfo.OpenText());
+			var feature = GetFeature(fileInfo.OpenText());
+			feature.FileName = fileInfo.Name;
+			return feature;
 		}
 
 		public static Feature GetFeature(TextReader reader)

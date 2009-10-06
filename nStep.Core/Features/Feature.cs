@@ -17,6 +17,7 @@ namespace nStep.Core.Features
 		public Background Background { get; private set; }
 		public IList<FeatureItem> Items { get; private set; }
 		public string Description { get; set; }
+		public string FileName { get; set; }
 
 		#endregion
 
