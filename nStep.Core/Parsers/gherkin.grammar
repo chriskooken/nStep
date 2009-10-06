@@ -26,13 +26,14 @@ HORIZONTAL_WHITESPACE	= <<[\t ]>>
 EOL						= <<\r?\n>>					
 COMMENT					= <<[\t ]*#[^\r^\n]*\r?\n>>	%ignore%
 
-TEXT_CHAR				= <<[^\r^\n^\|^\t^ ]>>
-
+TEXT_CHAR				= <<[^\r^\n^\|^\t^ ^@]>>
 PIPE					= "|"
+TAG						= <<@\w+>>
 
 %productions%
 
-Feature					= FeatureHeader BlankLine* Background? (Scenario | ScenarioOutline)* ;
+//Feature					= Tags? FeatureHeader BlankLine* Background? (Tags? (Scenario | ScenarioOutline))* ;
+Feature					= Tags? FeatureHeader BlankLine* Background? (Scenario | ScenarioOutline)* ;
 FeatureHeader			= T_FEATURE SummaryLine+ ;
 SummaryLine				= FreeLine ;
 
@@ -64,3 +65,4 @@ Whitespace				= HORIZONTAL_WHITESPACE+ ;
 FreeLine				= Text? EOL ;
 BlankLine				= EOL ;
 Text					= HORIZONTAL_WHITESPACE* TEXT_CHAR (HORIZONTAL_WHITESPACE | TEXT_CHAR | T_FEATURE | T_BACKGROUND | T_SCENARIO | T_SCENARIO_OUTLINE | T_EXAMPLES | T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT)+ ;
+Tags					= TAG (Whitespace TAG)* EOL ;

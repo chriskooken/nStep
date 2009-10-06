@@ -26,6 +26,7 @@ namespace nStep.Core.Parsers.Generated {
         COMMENT = 1013,
         TEXT_CHAR = 1014,
         PIPE = 1015,
+        TAG = 1016,
         FEATURE = 2001,
         FEATURE_HEADER = 2002,
         SUMMARY_LINE = 2003,
@@ -49,6 +50,7 @@ namespace nStep.Core.Parsers.Generated {
         WHITESPACE = 2021,
         FREE_LINE = 2022,
         BLANK_LINE = 2023,
-        TEXT = 2024
+        TEXT = 2024,
+        TAGS = 2025
     }
 }

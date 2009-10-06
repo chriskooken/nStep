@@ -18,11 +18,6 @@ namespace nStep.Core.Parsers
 
 		#region Tokens
 
-		//public override Node ExitEol(Token node)
-		//{
-		//    return node;
-		//}
-
 		public override Node ExitTextChar(Token node)
 		{
 			return EchoImage(node);
@@ -83,6 +78,13 @@ namespace nStep.Core.Parsers
 			return EchoImage(node);
 		}
 
+		public override Node ExitTag(Token node)
+		{
+			var text = node.Image.Substring(1);
+			node.AddValue(text);
+			return node;
+		}
+
 		private static Node EchoImage(Token node)
 		{
 			node.AddValue(node.Image);
@@ -102,14 +104,17 @@ namespace nStep.Core.Parsers
 
 		public override Node ExitText(Production node)
 		{
-			var childValues = GetChildValues(node);
-			var text = "";
-
-			foreach (var obj in childValues)
-				text += obj.ToString();
+			var text = string.Concat(GetChildValues(node).Cast<string>().ToArray());
 
 			node.AddValue(text.Trim());
 
+			return node;
+		}
+
+		public override Node ExitTags(Production node)
+		{
+			var tags = GetChildValues(node).Cast<string>().ToArray();
+			node.AddValue(tags);
 			return node;
 		}
 
@@ -121,14 +126,22 @@ namespace nStep.Core.Parsers
 		{
 			var values = GetChildValues(node);
 
-			var summaryLines = values[0] as IList<LineValue>;
-			var background = values[1] as Background;
-			var featureIndex = background == null ? 1 : 2;
+			var tags = (IEnumerable<string>) null;
+			int summaryLinesIndex = 0;
+			if (values[0] is IEnumerable<string>)
+			{
+				tags = values[0] as IEnumerable<string>;
+				summaryLinesIndex++;
+			}
+
+			var summaryLines = values[summaryLinesIndex] as IList<LineValue>;
+			var background = values[summaryLinesIndex + 1] as Background;
+			var featureIndex = summaryLinesIndex + (background == null ? 1 : 2);
 
 			// Rest of values are FeatureItems
 			var items = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureItem>().ToList();
 
-			var feature = new Feature(summaryLines, background, items)
+			var feature = new Feature(summaryLines, background, items, tags)
 			{
 				// TODO: Should this get a value?
 				Description = ""
