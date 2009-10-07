@@ -59,10 +59,10 @@ namespace Specs.StepMother
         }
 
         [Test]
-        public void it_should_return_Pending()
+        public void it_should_return_Missing()
         {
-            result.Should().Be.EqualTo(StepRunResults.Pending);
-            mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Pending);
+            result.Should().Be.EqualTo(StepRunResults.Missing);
+            mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Missing);
         }
 
         [Test]

@@ -26,8 +26,11 @@ namespace Cucumber
 
         public StepTests()
         {
-            
 
+            Then("I should see \"([^\"]*)\"", (string arg1) =>
+            {
+                Pending();
+            });
 
             Transform("([Uu]ser .*)", userName =>
                 {

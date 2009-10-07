@@ -15,6 +15,7 @@ Then I should be on the "dogs - Google Search" page
 When I click the "Search settings" link
 And I wait for the page to load
 Then I should be on the "Preferences" page
+And I should see "stuff"
 
 Scenario: I search for cars
 Given I am on the google homepage

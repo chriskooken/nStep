@@ -5,6 +5,6 @@ namespace nStep.Core
         Passed  = 0,
         Failed  = 1,
         Pending = 2,
-        Missing
+        Missing = 3
     }
 }

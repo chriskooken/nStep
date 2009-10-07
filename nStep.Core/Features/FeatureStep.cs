@@ -42,10 +42,10 @@ namespace nStep.Core.Features
 					outputFormatter.WriteException(this, stepMother.LastProcessStepException);
 					break;
 				case StepRunResults.Pending:
-					outputFormatter.WritePendingFeatureLine(this);
+                    outputFormatter.WritePendingFeatureLine(this, stepMother.LastProcessStepException);
 					break;
 				case StepRunResults.Missing:
-					outputFormatter.WritePendingFeatureLine(this);
+                    outputFormatter.WriteMissingFeatureLine(this);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

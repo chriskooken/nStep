@@ -17,6 +17,7 @@ namespace nStep.Core
         private IList<TransformDefinition> transforms;
         IList<FeatureStep> failedSteps;
         private IList<FeatureStep> pendingSteps;
+        private IList<FeatureStep> missingSteps;
         IList<FeatureStep> passedSteps;
 
 		public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks { get; private set; }
@@ -30,6 +31,7 @@ namespace nStep.Core
 		    this.worldViews = worldViews;
             failedSteps = new List<FeatureStep>();
             pendingSteps = new List<FeatureStep>();
+            missingSteps = new List<FeatureStep>();
             passedSteps = new List<FeatureStep>();
 		    givens = new List<StepDefinition>();
             whens = new List<StepDefinition>();
@@ -49,6 +51,12 @@ namespace nStep.Core
         {
             get { return pendingSteps; }
             set { pendingSteps = value; }
+        }    
+        
+        public IList<FeatureStep> MissingSteps
+        {
+            get { return missingSteps; }
+            set { missingSteps = value; }
         }
 
         public IList<FeatureStep> FailedSteps
@@ -100,7 +108,7 @@ namespace nStep.Core
             }
             catch(StepMissingException ex)
             {
-                pendingSteps.Add(featureStep);
+                missingSteps.Add(featureStep);
             }
             catch(Exception e)
             {
@@ -128,12 +136,13 @@ namespace nStep.Core
             }
             catch (StepMissingException ex)
             {
-                pendingSteps.Add(featureStepToProcess);
+                missingSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex;
-                return StepRunResults.Pending;
+                return StepRunResults.Missing;
             }
             catch (StepPendingException ex)
             {
+                failedSteps.Add(featureStepToProcess);
                 LastProcessStepException = ex;
                 return StepRunResults.Pending;
             }

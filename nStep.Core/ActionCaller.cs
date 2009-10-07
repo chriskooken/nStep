@@ -31,10 +31,18 @@ namespace nStep.Core
             }
             catch (TargetInvocationException exception)
             {
-               throw new ApplicationException(exception.InnerException.Message, exception.InnerException);
+                throw new NStepInvocationException(exception.InnerException.Message, exception.InnerException);
+               
             }
            
         }
     }
 
+    public class NStepInvocationException : ApplicationException
+    {
+        public NStepInvocationException(string message, Exception innerException) : base(message, innerException)
+        {
+            
+        }
+    }
 }

@@ -11,7 +11,7 @@ namespace nStep.Core
 
         void WriteException(FeatureStep featureStep, Exception ex);
         void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition);
-        void WritePendingFeatureLine(FeatureStep featureStep);
+        void WritePendingFeatureLine(FeatureStep featureStep, Exception exception);
 	    void WriteFeatureHeading(Feature feature);
 	    void WriteResults(StepMother stepMother);
 	    void WriteScenarioTitle(Scenario scenario);
@@ -19,5 +19,6 @@ namespace nStep.Core
 	    void WriteBackgroundHeading(Background background);
 	    void WriteSkippedFeatureLine(FeatureStep featureStep);
 	    void WriteLineBreak();
+	    void WriteMissingFeatureLine(FeatureStep step);
 	}
 }

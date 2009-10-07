@@ -56,13 +56,29 @@ namespace nStep.App.CommandLineUtilities
 
         public void WriteException(FeatureStep step, Exception ex)
 		{
-			Console.ForegroundColor = ConsoleColor.DarkRed;
-            WriteLineLevel3(step.FeatureLine + ":" + step.LineNumber);
-			WriteLineLevel3(ex.Message);
             
-			WriteLineLevel4(ex.StackTrace);
-			Console.ForegroundColor = ConsoleColor.Gray;	
+            Exception MainException = ex;
+
+            if (MainException.GetType() == typeof(NStepInvocationException))
+                MainException = ex.InnerException;
+
+            var exceptionTypeName = MainException.GetType().Name;
+            var stackTrace = MainException.StackTrace;
+
+
+            OutputException(ex, step, exceptionTypeName, stackTrace);
 		}
+
+        void OutputException(Exception ex, FeatureStep step, string exceptionTypeName, string stackTrace)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            WriteLineLevel3(step.FeatureLine + ":" + step.LineNumber);
+            WriteLineLevel3(exceptionTypeName + ": " + ex.Message);
+            
+            WriteLineLevel4(stackTrace);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
         public void WriteMultipleLines(int padding, string line)
         {
             line = line ?? "";
@@ -76,10 +92,13 @@ namespace nStep.App.CommandLineUtilities
             WriteLineLevel3(featureStep.FeatureLine);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
-        public void WritePendingFeatureLine(FeatureStep featureStep)
+        public void WritePendingFeatureLine(FeatureStep featureStep, Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
+            WriteLineLevel3(ex.Message);
+
+            WriteLineLevel4(ex.StackTrace);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
@@ -90,7 +109,15 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        public void WritePendingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
+        public void WriteMissingFeatureLine(FeatureStep featureStep)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            
+        }
+
+        public void WriteMissingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
         {
             if (pendingFeatureSteps.Count() == 0) return;
 
@@ -108,6 +135,8 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
+
+
         public void WriteFeatureHeading(Feature feature)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -124,7 +153,7 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Gray;
             WriteDuration();
             WriteLineBreak();
-            WritePendingFeatureSnippets(stepMother.PendingSteps);
+            WriteMissingFeatureSnippets(stepMother.MissingSteps);
             
             Console.ForegroundColor = ConsoleColor.Gray;
         }
@@ -175,5 +204,7 @@ namespace nStep.App.CommandLineUtilities
         {
             Console.WriteLine();
         }
+
+
     }
 }
