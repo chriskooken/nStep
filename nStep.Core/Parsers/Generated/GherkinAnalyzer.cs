@@ -66,6 +66,9 @@ namespace nStep.Core.Parsers.Generated {
             case (int) GherkinConstants.PIPE:
                 EnterPipe((Token) node);
                 break;
+            case (int) GherkinConstants.TAG:
+                EnterTag((Token) node);
+                break;
             case (int) GherkinConstants.FEATURE:
                 EnterFeature((Production) node);
                 break;
@@ -138,6 +141,9 @@ namespace nStep.Core.Parsers.Generated {
             case (int) GherkinConstants.TEXT:
                 EnterText((Production) node);
                 break;
+            case (int) GherkinConstants.TAGS:
+                EnterTags((Production) node);
+                break;
             }
         }
 
@@ -182,6 +188,8 @@ namespace nStep.Core.Parsers.Generated {
                 return ExitTextChar((Token) node);
             case (int) GherkinConstants.PIPE:
                 return ExitPipe((Token) node);
+            case (int) GherkinConstants.TAG:
+                return ExitTag((Token) node);
             case (int) GherkinConstants.FEATURE:
                 return ExitFeature((Production) node);
             case (int) GherkinConstants.FEATURE_HEADER:
@@ -230,6 +238,8 @@ namespace nStep.Core.Parsers.Generated {
                 return ExitBlankLine((Production) node);
             case (int) GherkinConstants.TEXT:
                 return ExitText((Production) node);
+            case (int) GherkinConstants.TAGS:
+                return ExitTags((Production) node);
             }
             return node;
         }
@@ -317,6 +327,9 @@ namespace nStep.Core.Parsers.Generated {
                 break;
             case (int) GherkinConstants.TEXT:
                 ChildText(node, child);
+                break;
+            case (int) GherkinConstants.TAGS:
+                ChildTags(node, child);
                 break;
             }
         }
@@ -682,6 +695,32 @@ namespace nStep.Core.Parsers.Generated {
          * discovered errors</exception>
          */
         public virtual Node ExitPipe(Token node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterTag(Token node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitTag(Token node) {
             return node;
         }
 
@@ -1642,6 +1681,46 @@ namespace nStep.Core.Parsers.Generated {
          * discovered errors</exception>
          */
         public virtual void ChildText(Production node, Node child) {
+            node.AddChild(child);
+        }
+
+        /**
+         * <summary>Called when entering a parse tree node.</summary>
+         *
+         * <param name='node'>the node being entered</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void EnterTags(Production node) {
+        }
+
+        /**
+         * <summary>Called when exiting a parse tree node.</summary>
+         *
+         * <param name='node'>the node being exited</param>
+         *
+         * <returns>the node to add to the parse tree, or
+         *          null if no parse tree should be created</returns>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual Node ExitTags(Production node) {
+            return node;
+        }
+
+        /**
+         * <summary>Called when adding a child to a parse tree
+         * node.</summary>
+         *
+         * <param name='node'>the parent node</param>
+         * <param name='child'>the child node, or null</param>
+         *
+         * <exception cref='ParseException'>if the node analysis
+         * discovered errors</exception>
+         */
+        public virtual void ChildTags(Production node, Node child) {
             node.AddChild(child);
         }
     }

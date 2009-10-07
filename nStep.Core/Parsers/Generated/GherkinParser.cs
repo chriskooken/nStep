@@ -23,7 +23,8 @@ namespace nStep.Core.Parsers.Generated {
             SUBPRODUCTION_1 = 3001,
             SUBPRODUCTION_2 = 3002,
             SUBPRODUCTION_3 = 3003,
-            SUBPRODUCTION_4 = 3004
+            SUBPRODUCTION_4 = 3004,
+            SUBPRODUCTION_5 = 3005
         }
 
         /**
@@ -85,6 +86,7 @@ namespace nStep.Core.Parsers.Generated {
             pattern = new ProductionPattern((int) GherkinConstants.FEATURE,
                                             "Feature");
             alt = new ProductionPatternAlternative();
+            alt.AddProduction((int) GherkinConstants.TAGS, 0, 1);
             alt.AddProduction((int) GherkinConstants.FEATURE_HEADER, 1, 1);
             alt.AddProduction((int) GherkinConstants.BLANK_LINE, 0, -1);
             alt.AddProduction((int) GherkinConstants.BACKGROUND, 0, 1);
@@ -278,6 +280,15 @@ namespace nStep.Core.Parsers.Generated {
             pattern.AddAlternative(alt);
             AddPattern(pattern);
 
+            pattern = new ProductionPattern((int) GherkinConstants.TAGS,
+                                            "Tags");
+            alt = new ProductionPatternAlternative();
+            alt.AddToken((int) GherkinConstants.TAG, 1, 1);
+            alt.AddProduction((int) SynteticPatterns.SUBPRODUCTION_5, 0, -1);
+            alt.AddToken((int) GherkinConstants.EOL, 1, 1);
+            pattern.AddAlternative(alt);
+            AddPattern(pattern);
+
             pattern = new ProductionPattern((int) SynteticPatterns.SUBPRODUCTION_1,
                                             "Subproduction1");
             pattern.Synthetic = true;
@@ -356,6 +367,15 @@ namespace nStep.Core.Parsers.Generated {
             pattern.AddAlternative(alt);
             alt = new ProductionPatternAlternative();
             alt.AddToken((int) GherkinConstants.T_BUT, 1, 1);
+            pattern.AddAlternative(alt);
+            AddPattern(pattern);
+
+            pattern = new ProductionPattern((int) SynteticPatterns.SUBPRODUCTION_5,
+                                            "Subproduction5");
+            pattern.Synthetic = true;
+            alt = new ProductionPatternAlternative();
+            alt.AddProduction((int) GherkinConstants.WHITESPACE, 1, 1);
+            alt.AddToken((int) GherkinConstants.TAG, 1, 1);
             pattern.AddAlternative(alt);
             AddPattern(pattern);
         }
