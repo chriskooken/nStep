@@ -103,7 +103,7 @@ namespace nStep.Core
 
         public void CheckForMissingStep(FeatureStep featureStep)
         {
-            var lineText = RemoveGivenWhenThens(featureStep.FeatureLine);
+            var lineText = RemoveGivenWhenThensForWholeLineMatching(featureStep.FeatureLine);
             try
             {
                 GetStepDefinition(featureStep.Kind, lineText);
@@ -130,7 +130,7 @@ namespace nStep.Core
             LastProcessStepException = null;
             LastProcessStepDefinition = null;
 
-            var lineText = RemoveGivenWhenThens(featureStepToProcess.FeatureLine);
+            var lineText = RemoveGivenWhenThensForWholeLineMatching(featureStepToProcess.FeatureLine);
             try
             {
                 LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
@@ -216,7 +216,7 @@ namespace nStep.Core
             return results.First();
         }
 
-        string RemoveGivenWhenThens(string text)
+        string RemoveGivenWhenThensForWholeLineMatching(string text)
         {
             var regexPattern = "^(Given|When|Then|And|But|given:|when:|then:|and:|but:)(.*)";
             var regex = new Regex(regexPattern);
