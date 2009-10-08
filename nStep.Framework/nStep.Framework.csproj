@@ -43,6 +43,7 @@
     <Compile Include="IRunStepsFromStrings.cs" />
     <Compile Include="IAmWorldView.cs" />
     <Compile Include="IWorldViewDictionary.cs" />
+    <Compile Include="NotWorkingCorrectlyException.cs" />
     <Compile Include="ScenarioHooks\AfterScenarioHook.cs" />
     <Compile Include="ScenarioHooks\AfterScenarioHookList.cs" />
     <Compile Include="ScenarioHooks\BeforeScenarioHook.cs" />

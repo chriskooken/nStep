@@ -183,6 +183,11 @@ namespace nStep.Framework
             throw new StepPendingException();
         }
 
+        protected void NotWorking()
+        {
+            throw new NotWorkingCorrectlyException();
+        }
+
         #region Transform
         protected void Transform<TReturn>(string regex, Func<TReturn> func)
         {
