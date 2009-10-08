@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace nStep.App.CommandLineUtilities
 {
+    [Serializable]
     public abstract class ConsoleOptionsBase
     {
         public const string DefaultFlag = "#";
@@ -307,12 +308,14 @@ namespace nStep.App.CommandLineUtilities
         }
     }
 
+    [Serializable]
     public class ParameterPair
     {
         public string Flag { get; set; }
         public List<string> Parameter { get; set; }
     }
 
+    [Serializable]
     public class PropertyParameter
     {
         public PropertyInfo Property { get; set; }
@@ -325,6 +328,7 @@ namespace nStep.App.CommandLineUtilities
         public List<string> Help { get; set;}
     }
 
+    [Serializable]
     public static class ConsoleOptionsExtensions
     {
         public const string Spacer = "\t\t";
@@ -372,16 +376,19 @@ namespace nStep.App.CommandLineUtilities
 
     }
 
+    [Serializable]
     public class Required : Attribute
     {
 
     }
 
+    [Serializable]
     public class Default : Attribute
     {
         
     }
 
+    [Serializable]
     public class Switch : Attribute
     {
         public IList<string> switches { get; set; }
@@ -396,6 +403,7 @@ namespace nStep.App.CommandLineUtilities
         }
     }
 
+    [Serializable]
     public class Help : Attribute
     {
         public string HelpMessage { get; set; }
@@ -405,6 +413,7 @@ namespace nStep.App.CommandLineUtilities
         }
     }
 
+    [Serializable]
     public class ConsoleOptionsException : Exception
     {
         protected string ErrorMessage { get; set; }

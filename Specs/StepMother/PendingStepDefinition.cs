@@ -54,7 +54,7 @@ namespace Specs.StepMother
             Set = new StepSet();
             mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
-			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
+			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
         }
 
@@ -68,7 +68,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_return_pending_if_there_is_no_method_body()
         {
-            var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "I am a pending step with no body \"Chris\"" };
+            var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "Given I am a pending step with no body \"Chris\"" };
             result = mother.ProcessStep(featureStep);
             result.Should().Be.EqualTo(StepRunResults.Pending);
             mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Pending);
@@ -106,7 +106,7 @@ namespace Specs.StepMother
             var featureStep = new FeatureStep(StepKinds.When) { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\""};
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
+                 EqualTo("When(\"^I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"$\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace Specs.StepMother
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field\", (string arg1, string arg2) =>\n{\n\tPending();\n});");
+                 EqualTo("When(\"^I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field$\", (string arg1, string arg2) =>\n{\n\tPending();\n});");
         }
 
         [Test]
@@ -128,7 +128,7 @@ namespace Specs.StepMother
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"I type \\\"([^\\\"]*)\\\" in google\", (string arg1) =>\n{\n\tPending();\n});");
+                 EqualTo("When(\"^I type \\\"([^\\\"]*)\\\" in google$\", (string arg1) =>\n{\n\tPending();\n});");
         }
 
         [Test]
@@ -139,7 +139,7 @@ namespace Specs.StepMother
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"I type in google\", () =>\n{\n\tPending();\n});");
+                 EqualTo("When(\"^I type in google$\", () =>\n{\n\tPending();\n});");
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Specs.StepMother
                     providedName = name;
                 });
 
-                Given("Call Me", () =>
+                Given("^Call Me$", () =>
                 {
                     Given("My Name is \"Brendan\"");
                 });
@@ -43,7 +43,7 @@ namespace Specs.StepMother
                     providedName = name;
                 });
 
-                When("Call Me", () =>
+                When("^Call Me$", () =>
                 {
                     When("My Name is \"Brendan\"");
                 });
@@ -53,7 +53,7 @@ namespace Specs.StepMother
                     providedName = name;
                 });
 
-                Then("Call Me", () =>
+                Then("^Call Me$", () =>
                 {
                     Then("My Name is \"Brendan\"");
                 });
@@ -84,7 +84,7 @@ namespace Specs.StepMother
             var set = new StepSet();
             var mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
-            var step = new FeatureStep(kind) { FeatureLine = "Call Me" };
+            var step = new FeatureStep(kind) { FeatureLine = "Given Call Me" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Brendan");
         }

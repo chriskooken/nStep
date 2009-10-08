@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using nStep.App.CommandLineUtilities;
 
 namespace nStep.App.CommandLineUtilities
 {
+    [Serializable]
     public class nStepOptions : ConsoleOptionsBase
     {
         [Default]
@@ -24,6 +26,10 @@ namespace nStep.App.CommandLineUtilities
         [Switch("d", "debug")]
         [Help("Allows user to set up debugger before executing.")]
         public bool Debug { get; set; }
+
+        [Switch("rr", "rerun")]
+        [Help("Allows the user to re-run with the last command-line arguments")]
+        public bool Rerun { get; set; }
 
     }
 

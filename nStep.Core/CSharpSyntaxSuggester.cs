@@ -26,7 +26,7 @@ namespace nStep.Core
                     var keyword = step.Kind.ToStringValue();//m.Groups[1];
                     var text = m.Groups[2].Value.Trim();
          
-                    const string template = "{0}(\"{1}\", {2} =>\n{{\n\tPending();\n}});";
+                    const string template = "{0}(\"^{1}$\", {2} =>\n{{\n\tPending();\n}});";
 
                     return string.Format(template, keyword, text, paramText);
                 });

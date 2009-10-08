@@ -1,4 +1,5 @@
-﻿using nStep.Core.Exceptions;
+﻿using System.Text.RegularExpressions;
+using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
 using NUnit.Framework;
@@ -54,6 +55,14 @@ namespace Specs.StepMother
         }
 
         [Test]
+        public void It_should_generate_all_permutations_of_regex()
+        {
+            //var pattern = "^My (?:biological)? Name is \"([^\"]*)\"$";
+            //var regex = new Regex(pattern);
+            //regex.
+        }
+
+        [Test]
         public void it_should_match_correct_step_Defition_given_a_feature_line()
         {
             var set = new StepSet();
@@ -61,7 +70,33 @@ namespace Specs.StepMother
             var mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
+            mother.ProcessStep(step);
+            set.providedName.Should().Be.EqualTo("Chris");
+        }
+
+        [Test]
+        public void it_should_match_correct_step_Defition_with_and()
+        {
+            var set = new StepSet();
+
+            var mother = new nStep.Core.StepMother(worldViews, null);
+            mother.AdoptSteps(set);
+
+            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "And My Name is \"Chris\"" };
+            mother.ProcessStep(step);
+            set.providedName.Should().Be.EqualTo("Chris");
+        }
+
+        [Test]
+        public void it_should_match_correct_step_Defition_with_but()
+        {
+            var set = new StepSet();
+
+            var mother = new nStep.Core.StepMother(worldViews, null);
+            mother.AdoptSteps(set);
+
+            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "And My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Chris");
         }
@@ -74,7 +109,7 @@ namespace Specs.StepMother
             var mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.Before.Should().Be.EqualTo("This was executed before");
         }
@@ -87,7 +122,7 @@ namespace Specs.StepMother
             var mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.After.Should().Be.EqualTo("This was executed after");
         }        
@@ -99,7 +134,7 @@ namespace Specs.StepMother
             var mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "This is a bad step \"Bobcat\"" };
+            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given This is a bad step \"Bobcat\"" };
             mother.ProcessStep(step);
             mother.LastProcessStepException.Should().Be.OfType<ParameterMismatchException>();
         }

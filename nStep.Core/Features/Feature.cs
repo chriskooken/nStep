@@ -23,12 +23,12 @@ namespace nStep.Core.Features
 
 		#region Constructor
 
-		public Feature(IList<LineValue> summaryLines, Background background, IList<FeatureItem> items)
+		public Feature(IList<LineValue> summaryLines, Background background, IList<FeatureItem> items,IEnumerable<string> tags)
 		{
 			SummaryLines = summaryLines;
 			Background = background;
 			Items = items;
-
+            
 			foreach (var item in items)
 				item.Feature = this;
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
@@ -102,9 +103,10 @@ namespace nStep.Core
 
         public void CheckForMissingStep(FeatureStep featureStep)
         {
+            var lineText = RemoveGivenWhenThens(featureStep.FeatureLine);
             try
             {
-                GetStepDefinition(featureStep.Kind, featureStep.FeatureLine);
+                GetStepDefinition(featureStep.Kind, lineText);
             }
             catch(StepMissingException ex)
             {
@@ -128,7 +130,7 @@ namespace nStep.Core
             LastProcessStepException = null;
             LastProcessStepDefinition = null;
 
-            var lineText = featureStepToProcess.FeatureLine;
+            var lineText = RemoveGivenWhenThens(featureStepToProcess.FeatureLine);
             try
             {
                 LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
@@ -212,6 +214,13 @@ namespace nStep.Core
             CheckForEmptyAction(results.First().Action);
 
             return results.First();
+        }
+
+        string RemoveGivenWhenThens(string text)
+        {
+            var regexPattern = "^(Given|When|Then|And|But|given:|when:|then:|and:|but:)(.*)";
+            var regex = new Regex(regexPattern);
+            return regex.Match(text).Groups[2].Value.Trim();
         }
 
         private static void CheckForEmptyAction(Delegate action)

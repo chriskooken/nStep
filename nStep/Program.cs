@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using nStep.App.CommandLineUtilities;
 using nStep.Core.Parsers;
@@ -34,7 +35,12 @@ namespace nStep.App
                 Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
                 Console.ReadLine();
             }
-            
+
+            if (Options.Rerun)
+                Options = ReadRerunFile();
+
+            WriteRerunFile(Options);
+
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             formatter = new ConsoleOutputFormatter("nStep", new CSharpSyntaxSuggester());
@@ -42,6 +48,26 @@ namespace nStep.App
             InitializeThenRun(Options.Assemblies.Select(x => new FileInfo(x)).ToList(), ()=>LoadAndExecuteFeatureFile(Options.FeatureFiles));
 
             formatter.WriteResults(StepMother);
+        }
+
+        void WriteRerunFile(nStepOptions options)
+        {
+            FileInfo fi = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "rerun.dat");
+            Stream stream = File.Open(fi.ToString(), FileMode.Create);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            bFormatter.Serialize(stream, options);
+            stream.Close();
+        }
+
+        nStepOptions ReadRerunFile()
+        {
+            FileInfo fi = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "rerun.dat");
+            nStepOptions objectToSerialize;
+            Stream stream = File.Open(fi.ToString(), FileMode.Open);
+            BinaryFormatter bFormatter = new BinaryFormatter();
+            objectToSerialize = (nStepOptions)bFormatter.Deserialize(stream);
+            stream.Close();
+            return objectToSerialize;
         }
 
         private void InitializeThenRun(List<FileInfo> assemblyFiles, Action action)
