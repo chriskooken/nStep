@@ -19,7 +19,8 @@ namespace nStep.Core.Features
 		public override void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
 			ExecuteBeforeScenarioHooks(Tags, stepMother);
-			Feature.Background.Execute(stepMother, outputFormatter);
+			if (Feature.Background != null)
+				Feature.Background.Execute(stepMother, outputFormatter);
 			outputFormatter.SkippingSteps = false;
 			outputFormatter.WriteScenarioOutlineTitle(this);
 			foreach (var dictionary in Examples.GetDictionaries())
