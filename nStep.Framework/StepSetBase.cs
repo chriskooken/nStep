@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using nStep.Framework.ScenarioHooks;
+using nStep.Framework.StepDefinitions;
 
 namespace nStep.Framework
 {

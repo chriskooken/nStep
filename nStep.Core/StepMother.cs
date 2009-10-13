@@ -6,6 +6,7 @@ using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
 using nStep.Framework.ScenarioHooks;
+using nStep.Framework.StepDefinitions;
 
 namespace nStep.Core
 {

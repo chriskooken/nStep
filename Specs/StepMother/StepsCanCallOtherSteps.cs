@@ -1,4 +1,5 @@
 ﻿using nStep.Core.Features;
+using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 using nStep.Framework;
 

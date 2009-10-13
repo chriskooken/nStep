@@ -1,4 +1,5 @@
 ﻿using nStep.Framework;
+using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 using System.Linq;
 

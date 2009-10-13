@@ -2,6 +2,7 @@
 using nStep.Core;
 using nStep.Core.Features;
 using nStep.Framework;
+using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 using System.Collections.Generic;
 using Specs.WorldViewDictionary;

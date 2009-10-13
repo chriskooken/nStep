@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using nStep.Framework;
+using nStep.Framework.StepDefinitions;
 
 namespace nStep.Core.Features
 {

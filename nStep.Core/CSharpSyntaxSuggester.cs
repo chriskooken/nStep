@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using nStep.Core.Features;
-using nStep.Framework;
+using nStep.Framework.StepDefinitions;
 
 namespace nStep.Core
 {

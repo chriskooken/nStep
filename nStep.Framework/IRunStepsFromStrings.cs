@@ -1,4 +1,6 @@
-﻿namespace nStep.Framework
+﻿using nStep.Framework.StepDefinitions;
+
+namespace nStep.Framework
 {
     public interface IRunStepsFromStrings
     {

@@ -3,6 +3,7 @@ using nStep.Core;
 using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
+using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 
 namespace Specs.StepMother

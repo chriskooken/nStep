@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using nStep.Core.Features;
-using nStep.Framework;
+using nStep.Framework.StepDefinitions;
 
 namespace nStep.Core
 {

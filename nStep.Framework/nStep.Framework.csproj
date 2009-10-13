@@ -54,11 +54,11 @@
     <Compile Include="ScenarioHooks\IProvideScenarioHooks.cs" />
     <Compile Include="ScenarioHooks\ScenarioHook.cs" />
     <Compile Include="ScenarioResult.cs" />
-    <Compile Include="StepDefinitionDsl.cs" />
+    <Compile Include="StepDefinitions\StepDefinitionDsl.cs" />
     <Compile Include="CombinedStepDefinitions.cs" />
     <Compile Include="IProvideWorldView.cs" />
-    <Compile Include="StepDefinition.cs" />
-    <Compile Include="StepKinds.cs" />
+    <Compile Include="StepDefinitions\StepDefinition.cs" />
+    <Compile Include="StepDefinitions\StepKinds.cs" />
     <Compile Include="StepPendingException.cs" />
     <Compile Include="StepSetBase.cs" />
     <Compile Include="TransformDefinition.cs" />

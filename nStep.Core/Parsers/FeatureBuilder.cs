@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using nStep.Core.Features;
+using nStep.Framework.StepDefinitions;
 using PerCederberg.Grammatica.Runtime;
-using nStep.Framework;
 
 namespace nStep.Core.Parsers
 {
