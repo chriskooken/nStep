@@ -73,7 +73,9 @@
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Exceptions\StepAmbiguousException.cs" />
     <Compile Include="IFormatOutput.cs" />
+    <Compile Include="StepOrTransformCallerBase.cs" />
     <Compile Include="StepRunResults.cs" />
+    <Compile Include="TransformCaller.cs" />
     <Compile Include="TypeCaster.cs" />
     <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
     <Compile Include="WorldViewDictionary.cs" />

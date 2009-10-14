@@ -18,21 +18,15 @@ namespace nStep.Core
             this.parms = parms;
         }
 
-        public void Call()
+        public object Call()
         {
             try
             {
-                if (parms != null)
-                {
-                    action.DynamicInvoke(parms);
-                    return;
-                }
-                action.DynamicInvoke();
+                return parms != null ? action.DynamicInvoke(parms) : action.DynamicInvoke();
             }
             catch (TargetInvocationException exception)
             {
                 throw new NStepInvocationException(exception.InnerException.Message, exception.InnerException);
-               
             }
            
         }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using nStep.Core.Features;
+using System.Text.RegularExpressions;
+using nStep.Framework;
 using NUnit.Framework;
 
 namespace Specs
@@ -10,12 +9,32 @@ namespace Specs
     [TestFixture]
     public class TypeCaster
     {
+        public class monkey
+        {
+            public string banana;
+        }
 
-        private nStep.Core.TypeCaster cut = new nStep.Core.TypeCaster();
+        private nStep.Core.TypeCaster cut = new nStep.Core.TypeCaster(GetTranformdefinitions());
+
+        private static IEnumerable<TransformDefinition> GetTranformdefinitions()
+        {
+            var foo = new List<TransformDefinition>();
+            var def = new TransformDefinition(new Regex("monkey"), new Func<monkey>(() => new monkey()), typeof (monkey));
+
+            foo.Add(def);
+
+            return foo;
+        }
 
         private void AssertItWorks<T>(string sample)
         {
             cut.MakeIntoType(sample, typeof(T)).GetType().Should().Be.EqualTo(typeof(T));
+        }
+
+        [Test]
+        public void it_should_convert_things_to_monkeys()
+        {
+            AssertItWorks<monkey>("monkey");
         }
 
         [Test]

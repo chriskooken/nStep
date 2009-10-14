@@ -36,7 +36,7 @@ namespace StepSetBase
         [Test]
         public void it_should_register_the_param_type()
         {
-            cut.ParamsTypes.Should().Contain(typeof (string));
+            cut.InputParamsTypes.Should().Contain(typeof (string));
         }
 	}
 }

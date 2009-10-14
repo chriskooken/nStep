@@ -177,7 +177,7 @@ namespace nStep.Core
             try
             {
                 new StepCaller(stepDefinition,
-                               new TypeCaster()).Call(lineText);
+                               new TypeCaster(this.transforms)).Call(lineText);
             }
             catch (IndexOutOfRangeException e)
             {

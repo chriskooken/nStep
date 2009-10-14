@@ -1,20 +1,18 @@
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace nStep.Framework
 {
-    public class StepDefinition
+    public class StepDefinition : DefinitionBase
     {
-        public StepKinds Kind { get; set; }
+        public StepDefinition(Regex regex, Delegate action, StepKinds kind, IProvideSteps stepSet)
+            : base(regex, action)
+        {
+            Kind = kind;
+            StepSet = stepSet;
+        }
 
-        public Regex Regex { get; set; }
-
-        public Delegate Action { get; set; }
-
-        public IEnumerable<Type> ParamsTypes { get; set; }
-
-        public IProvideSteps StepSet { get; set; }
-        
+        public StepKinds Kind { get; private set; }
+        public IProvideSteps StepSet { get; private set; }        
     }
 }

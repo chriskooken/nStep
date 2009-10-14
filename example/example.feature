@@ -3,7 +3,7 @@ I want to test some stuff here
 More text goes here
 
 Background:
-#Given ProviderLocation "Laurens Office" exists
+Given user "Some User" is logged in
 #And "Laurens Office" has a kiosk called "Kiosk 1"
 
 Scenario: I search for dogs
