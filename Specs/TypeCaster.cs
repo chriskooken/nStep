@@ -23,12 +23,21 @@ namespace Specs
 
             foo.Add(def);
 
+            foo.Add(new TransformDefinition(new Regex("bool through transform"), new Func<bool>(() => false), typeof (bool)));
+
             return foo;
         }
 
         private void AssertItWorks<T>(string sample)
         {
             cut.MakeIntoType(sample, typeof(T)).GetType().Should().Be.EqualTo(typeof(T));
+        }
+
+        [Test]
+        public void it_should_use_the_transform_even_for_simple_types_if_the_transform_applies()
+        {
+            AssertItWorks<bool>("false");
+            AssertItWorks<bool>("bool through transform");
         }
 
         [Test]
