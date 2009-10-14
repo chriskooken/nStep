@@ -19,13 +19,16 @@ namespace nStep.Core.Features
 		public override void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
 			ExecuteBeforeScenarioHooks(Tags, stepMother);
-			if (Feature.Background != null)
-				Feature.Background.Execute(stepMother, outputFormatter);
 			outputFormatter.SkippingSteps = false;
 			outputFormatter.WriteScenarioOutlineTitle(this);
 			foreach (var dictionary in Examples.GetDictionaries())
+			{
+				if (Feature.Background != null)
+					Feature.Background.Execute(stepMother, outputFormatter);
+
 				foreach (var step in Steps)
 					step.Execute(stepMother, outputFormatter, dictionary);
+			}
 			ExecuteAfterScenarioHooks(Tags, stepMother, new ScenarioResult(null)); //TODO: Load an appropriate scenarioResult here...
 			outputFormatter.WriteLineBreak();
 		}
