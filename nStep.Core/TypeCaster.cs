@@ -18,6 +18,10 @@ namespace nStep.Core
         {
             try
             {
+                var defs = transforms.Where(x => x.ReturnType == typeBeingCastTo && x.Regex.Match(valueBeingCast).Success);
+                if (defs.Any())
+                    return new TransformCaller(defs.First(), this).Call(valueBeingCast);
+
                 if (typeBeingCastTo == typeof(string))
                     return valueBeingCast;
 
@@ -45,9 +49,7 @@ namespace nStep.Core
                 if (typeBeingCastTo == typeof(Guid))
                     return new Guid(valueBeingCast);
 
-                var defs = transforms.Where(x => x.ReturnType == typeBeingCastTo && x.Regex.Match(valueBeingCast).Success);
-                if (defs.Any())
-                    return new TransformCaller(defs.First(), this).Call(valueBeingCast);
+
 
             }
             catch (Exception ex)
