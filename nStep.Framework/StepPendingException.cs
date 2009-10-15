@@ -6,5 +6,9 @@ namespace nStep.Framework
     {
         public StepPendingException() : base("The StepDefinition is Pending.")
         {}
+
+        public StepPendingException(string message)
+            : base(message)
+        { }
     }
 }
