@@ -42,7 +42,7 @@ namespace Specs.StepMother
                         return new NameObject {Value = name};
                     });
 
-                Given("^My Name is \"([^\"]*)\"$", (NameObject name)=>
+                Given("^My Name (is \"[^\"]*\")$", (NameObject name)=>
                 {
                     providedName = name.Value;
                 });
@@ -65,7 +65,7 @@ namespace Specs.StepMother
 			var mother = new nStep.Core.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
+			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
             mother.ProcessStep(step).Should().Be.EqualTo(StepRunResults.Passed);
             set.providedName.Should().Be.EqualTo("Chris");
 

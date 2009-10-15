@@ -1,14 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace nStep.Framework
 {
-    public class TransformDefinition
+    public class TransformDefinition : DefinitionBase
     {
-        public Regex Regex { get; set; }
+        public TransformDefinition(Regex regex, Delegate action, Type returnType)
+            : base(regex, action)
+        {
+            ReturnType = returnType;
+        }
 
-        public Delegate Func { get; set; }
-
-        public Type ReturnType { get; set; }
+        public Type ReturnType { get; private set; }
     }
 }
