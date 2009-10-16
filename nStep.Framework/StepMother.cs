@@ -13,23 +13,22 @@ using nStep.Framework.WorldViews;
 
 namespace nStep.Framework
 {
-	public class StepMother : IRunStepsFromStrings, IProcessSteps
+	public class StepMother : IRunStepsFromStrings, IProcessSteps, IProcessScenarioHooks
 	{
 		private readonly IWorldViewDictionary worldViews;
 		private IList<StepDefinition> givens;
 		private IList<StepDefinition> whens;
 		private IList<StepDefinition> thens;
 		private IList<TransformDefinition> transforms;
-		IList<Step> failedSteps;
+		private IEnumerable<BeforeScenarioHook> beforeScenarioHooks;
+		private IEnumerable<AfterScenarioHook> afterScenarioHooks;
+		private IList<Step> failedSteps;
 		private IList<Step> pendingSteps;
 		private IList<Step> missingSteps;
-		IList<Step> passedSteps;
-
-		public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks { get; private set; }
-		public IEnumerable<AfterScenarioHook> AfterScenarioHooks { get; private set; }
+		private IList<Step> passedSteps;
 
 
-		public StepMother(IWorldViewDictionary worldViews,IScenarioHooksRepository hooksRepository)
+		public StepMother(IWorldViewDictionary worldViews, IScenarioHooksRepository hooksRepository)
 		{
 			if(worldViews == null)
 				throw new ArgumentNullException("world views dictionary cannot be null");
@@ -42,8 +41,8 @@ namespace nStep.Framework
 			whens = new List<StepDefinition>();
 			thens = new List<StepDefinition>();
 			transforms = new List<TransformDefinition>();
-			BeforeScenarioHooks = hooksRepository == null ? null : hooksRepository.BeforeScenarioHooks;
-			AfterScenarioHooks = hooksRepository == null ? null : hooksRepository.AfterScenarioHooks;
+			beforeScenarioHooks = hooksRepository == null ? null : hooksRepository.BeforeScenarioHooks;
+			afterScenarioHooks = hooksRepository == null ? null : hooksRepository.AfterScenarioHooks;
 		}
 
 		public IList<Step> PassedSteps
@@ -236,6 +235,44 @@ namespace nStep.Framework
 
 			if (bytes.SequenceEqual(emptyMethodWithDebugSymbols) || bytes.SequenceEqual(emptyMethodWithoutDebugSymbols))
 				throw new StepPendingException();
+		}
+
+		public void ProcessAfterScenarioHooks(IEnumerable<string> tags, ScenarioResult result)
+		{
+			foreach (var hook in afterScenarioHooks)
+			{
+				if (ShouldHookExecute(hook, tags))
+					hook.Action.Invoke(result);
+			}
+		}
+
+		public void ProcessBeforeScenarioHooks(IEnumerable<string> tags)
+		{
+			foreach (var hook in beforeScenarioHooks)
+			{
+				if (ShouldHookExecute(hook, tags))
+					hook.Action.Invoke();
+			}
+		}
+
+		protected static bool ShouldHookExecute(ScenarioHook hook, IEnumerable<string> tags)
+		{
+			var shouldExecute = true;
+
+			if (hook.Tags == null) return true;
+
+			if (hook.Tags.Count() > 1)
+			{
+				shouldExecute = false;
+				if (tags == null) return false;
+				foreach (var tag in tags)
+				{
+					if (!hook.Tags.Contains(tag)) continue;
+					shouldExecute = true;
+					break;
+				}
+			}
+			return shouldExecute;
 		}
 	}
 }

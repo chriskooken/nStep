@@ -18,7 +18,7 @@ namespace nStep.Framework.Features
 
 		public override void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
-			ExecuteBeforeScenarioHooks(Tags, stepMother);
+			stepMother.ProcessBeforeScenarioHooks(Tags);
 			outputFormatter.SkippingSteps = false;
 			outputFormatter.WriteScenarioOutlineTitle(this);
 			foreach (var dictionary in Examples.GetDictionaries())
@@ -29,7 +29,8 @@ namespace nStep.Framework.Features
 				foreach (var step in Steps)
 					step.Execute(stepMother, outputFormatter, dictionary);
 			}
-			ExecuteAfterScenarioHooks(Tags, stepMother, new ScenarioResult(null)); //TODO: Load an appropriate scenarioResult here...
+			var result = new ScenarioResult(null); //TODO: Load an appropriate scenarioResult here...
+			stepMother.ProcessAfterScenarioHooks(Tags, result);
 			outputFormatter.WriteLineBreak();
 		}
 	}

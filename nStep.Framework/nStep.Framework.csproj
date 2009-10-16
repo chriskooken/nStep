@@ -49,6 +49,7 @@
     <Compile Include="Exceptions\StepAmbiguousException.cs" />
     <Compile Include="Exceptions\StepMissingException.cs" />
     <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
+    <Compile Include="Execution\IProcessScenarioHooks.cs" />
     <Compile Include="Execution\IProcessSteps.cs" />
     <Compile Include="Execution\Results\StepRunResults.cs" />
     <Compile Include="Features\Background.cs" />

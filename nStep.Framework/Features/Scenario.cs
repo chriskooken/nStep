@@ -19,7 +19,7 @@ namespace nStep.Framework.Features
 
 		public override void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
-			ExecuteBeforeScenarioHooks(Tags, stepMother);
+			stepMother.ProcessBeforeScenarioHooks(Tags);
 			if(Feature.Background != null)
 				Feature.Background.Execute(stepMother, outputFormatter);
 			outputFormatter.SkippingSteps = false;
@@ -28,7 +28,8 @@ namespace nStep.Framework.Features
 			{
 				step.Execute(stepMother, outputFormatter);
 			}
-			ExecuteAfterScenarioHooks(Tags, stepMother, new ScenarioResult(null)); //TODO: Load an appropriate scenarioResult here...
+			var result = new ScenarioResult(null); //TODO: Load an appropriate scenarioResult here...
+			stepMother.ProcessAfterScenarioHooks(Tags, result);
 			outputFormatter.WriteLineBreak();
 		}
 
