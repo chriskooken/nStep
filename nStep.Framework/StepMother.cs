@@ -13,7 +13,7 @@ using nStep.Framework.WorldViews;
 
 namespace nStep.Framework
 {
-	public class StepMother : IRunStepsFromStrings
+	public class StepMother : IRunStepsFromStrings, IProcessSteps
 	{
 		private readonly IWorldViewDictionary worldViews;
 		private IList<StepDefinition> givens;

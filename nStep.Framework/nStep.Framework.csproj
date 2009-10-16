@@ -49,11 +49,12 @@
     <Compile Include="Exceptions\StepAmbiguousException.cs" />
     <Compile Include="Exceptions\StepMissingException.cs" />
     <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
+    <Compile Include="Execution\IProcessSteps.cs" />
     <Compile Include="Execution\Results\StepRunResults.cs" />
     <Compile Include="Features\Background.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\FeatureItem.cs" />
-    <Compile Include="Features\FeatureStep.cs" />
+    <Compile Include="Features\Step.cs" />
     <Compile Include="Execution\IExecute.cs" />
     <Compile Include="Exceptions\JaggedTableException.cs" />
     <Compile Include="Features\Scenario.cs" />
