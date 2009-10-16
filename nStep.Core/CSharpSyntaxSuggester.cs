@@ -14,7 +14,7 @@ namespace nStep.Core
         {
             var argValues = new[] { "string arg1", "string arg2", "string arg3", "string arg4" };
             const string parameterPattern = "\"[^\"]*\"";
-            const string stepPatern = "^(Given|When|Then|And)(.*)$";
+            const string stepPatern = "^(Given|When|Then|And|But)(.*)$";
 
             var paramCount = new Regex(parameterPattern).Matches(step.FeatureLine).Count;
             var paramText = string.Format("({0})", string.Join(", ", argValues, 0, paramCount));
