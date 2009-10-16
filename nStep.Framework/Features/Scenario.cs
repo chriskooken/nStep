@@ -9,7 +9,7 @@ namespace nStep.Framework.Features
 	{
 		#region Constructor
 
-		public Scenario(IList<FeatureStep> steps)
+		public Scenario(IList<Step> steps)
 			: base(steps)
 		{ }
 

@@ -7,7 +7,7 @@ namespace nStep.Framework.Features
 {
 	public class Background : StepSequence
 	{
-		public Background(IList<FeatureStep> steps)
+		public Background(IList<Step> steps)
 			: base(steps)
 		{ }
 

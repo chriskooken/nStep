@@ -86,7 +86,7 @@ namespace Specs.StepMother
             var set = new StepSet();
             var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
-            var step = new FeatureStep(kind) { FeatureLine = "Given Call Me" };
+            var step = new Step(kind) { FeatureLine = "Given Call Me" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Brendan");
         }

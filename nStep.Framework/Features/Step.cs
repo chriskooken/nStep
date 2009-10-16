@@ -6,18 +6,18 @@ using nStep.Framework.StepDefinitions;
 
 namespace nStep.Framework.Features
 {
-	public class FeatureStep : IExecute
+	public class Step : IExecute
 	{
 		public string FeatureLine { get; set; }
 		public int LineNumber { get; set; }
 		public StepKinds Kind { get; private set; }
 
-		public FeatureStep(StepKinds kind)
+		public Step(StepKinds kind)
 		{
 			Kind = kind;
 		}
 
-		private FeatureStep(FeatureStep originalStep)
+		private Step(Step originalStep)
 		{
 			FeatureLine = originalStep.FeatureLine;
 			LineNumber = originalStep.LineNumber;
@@ -61,7 +61,7 @@ namespace nStep.Framework.Features
 			foreach (var key in dictionary.Keys)
 				newLine = newLine.Replace("<" + key + ">", dictionary[key]);
 
-			var newFeatureStep = new FeatureStep(this) { FeatureLine = newLine };
+			var newFeatureStep = new Step(this) { FeatureLine = newLine };
 			newFeatureStep.Execute(stepMother, outputFormatter);
 		}
 	}

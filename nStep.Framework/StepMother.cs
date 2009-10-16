@@ -20,10 +20,10 @@ namespace nStep.Framework
 		private IList<StepDefinition> whens;
 		private IList<StepDefinition> thens;
 		private IList<TransformDefinition> transforms;
-		IList<FeatureStep> failedSteps;
-		private IList<FeatureStep> pendingSteps;
-		private IList<FeatureStep> missingSteps;
-		IList<FeatureStep> passedSteps;
+		IList<Step> failedSteps;
+		private IList<Step> pendingSteps;
+		private IList<Step> missingSteps;
+		IList<Step> passedSteps;
 
 		public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks { get; private set; }
 		public IEnumerable<AfterScenarioHook> AfterScenarioHooks { get; private set; }
@@ -34,10 +34,10 @@ namespace nStep.Framework
 			if(worldViews == null)
 				throw new ArgumentNullException("world views dictionary cannot be null");
 			this.worldViews = worldViews;
-			failedSteps = new List<FeatureStep>();
-			pendingSteps = new List<FeatureStep>();
-			missingSteps = new List<FeatureStep>();
-			passedSteps = new List<FeatureStep>();
+			failedSteps = new List<Step>();
+			pendingSteps = new List<Step>();
+			missingSteps = new List<Step>();
+			passedSteps = new List<Step>();
 			givens = new List<StepDefinition>();
 			whens = new List<StepDefinition>();
 			thens = new List<StepDefinition>();
@@ -46,25 +46,25 @@ namespace nStep.Framework
 			AfterScenarioHooks = hooksRepository == null ? null : hooksRepository.AfterScenarioHooks;
 		}
 
-		public IList<FeatureStep> PassedSteps
+		public IList<Step> PassedSteps
 		{
 			get { return passedSteps; }
 			set { passedSteps = value; }
 		}
 
-		public IList<FeatureStep> PendingSteps
+		public IList<Step> PendingSteps
 		{
 			get { return pendingSteps; }
 			set { pendingSteps = value; }
 		}    
         
-		public IList<FeatureStep> MissingSteps
+		public IList<Step> MissingSteps
 		{
 			get { return missingSteps; }
 			set { missingSteps = value; }
 		}
 
-		public IList<FeatureStep> FailedSteps
+		public IList<Step> FailedSteps
 		{
 			get { return failedSteps; }
 			set { failedSteps = value; }
@@ -105,7 +105,7 @@ namespace nStep.Framework
 			ExecuteStepDefinitionWithLine(stepDefinition, featureStepToProcess);
 		}
 
-		public void CheckForMissingStep(FeatureStep featureStep)
+		public void CheckForMissingStep(Step featureStep)
 		{
 			var lineText = RemoveGivenWhenThensForWholeLineMatching(featureStep.FeatureLine);
 			try
@@ -123,13 +123,13 @@ namespace nStep.Framework
 			}
 		}
 
-		public StepRunResults ProcessStep(FeatureStep featureStepToProcess)
+		public StepRunResults ProcessStep(Step featureStepToProcess)
 		{
 			LastProcessStepResult =  DoProcessStep(featureStepToProcess);
 			return LastProcessStepResult;
 		}
 
-		private StepRunResults DoProcessStep(FeatureStep featureStepToProcess)
+		private StepRunResults DoProcessStep(Step featureStepToProcess)
 		{
 			LastProcessStepException = null;
 			LastProcessStepDefinition = null;

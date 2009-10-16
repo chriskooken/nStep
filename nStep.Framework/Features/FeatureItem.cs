@@ -15,7 +15,7 @@ namespace nStep.Framework.Features
 		#endregion
 
 
-		public FeatureItem(IList<FeatureStep> steps)
+		public FeatureItem(IList<Step> steps)
 			: base(steps)
 		{ }
 

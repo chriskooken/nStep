@@ -55,7 +55,7 @@ namespace nStep.App.CommandLineUtilities
             WriteMultipleLines(4, line);
         }
 
-        public void WriteException(FeatureStep step, Exception ex)
+        public void WriteException(Step step, Exception ex)
 		{
             
             Exception MainException = ex;
@@ -70,7 +70,7 @@ namespace nStep.App.CommandLineUtilities
             OutputException(ex, step, exceptionTypeName, stackTrace);
 		}
 
-        void OutputException(Exception ex, FeatureStep step, string exceptionTypeName, string stackTrace)
+        void OutputException(Exception ex, Step step, string exceptionTypeName, string stackTrace)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             WriteLineLevel3(step.FeatureLine + ":" + step.LineNumber);
@@ -87,13 +87,13 @@ namespace nStep.App.CommandLineUtilities
             splitList.ForEach(x => Console.WriteLine(LevelPad(padding, x)));
         }
 
-        public void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition)
+        public void WritePassedFeatureLine(Step featureStep, StepDefinition stepDefinition)
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             WriteLineLevel3(featureStep.FeatureLine);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
-        public void WritePendingFeatureLine(FeatureStep featureStep, Exception ex)
+        public void WritePendingFeatureLine(Step featureStep, Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
@@ -103,14 +103,14 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        public void WriteSkippedFeatureLine(FeatureStep featureStep)
+        public void WriteSkippedFeatureLine(Step featureStep)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        public void WriteMissingFeatureLine(FeatureStep featureStep)
+        public void WriteMissingFeatureLine(Step featureStep)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
@@ -118,7 +118,7 @@ namespace nStep.App.CommandLineUtilities
             
         }
 
-        public void WriteMissingFeatureSnippets(IEnumerable<FeatureStep> pendingFeatureSteps)
+        public void WriteMissingFeatureSnippets(IEnumerable<Step> pendingFeatureSteps)
         {
             if (pendingFeatureSteps.Count() == 0) return;
 
@@ -159,7 +159,7 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        static void WriteFailedFeatureLines(IList<FeatureStep> failedSteps)
+        static void WriteFailedFeatureLines(IList<Step> failedSteps)
         {
             if (failedSteps.Count == 0) return;
             Console.ForegroundColor = ConsoleColor.DarkRed;

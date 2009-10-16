@@ -7,9 +7,9 @@ namespace nStep.Framework.Features
 	{
 		public string Title { get; set; }
 		public int LineNumber { get; set; }
-		public IList<FeatureStep> Steps { get; private set; }
+		public IList<Step> Steps { get; private set; }
 
-		protected StepSequence(IList<FeatureStep> steps)
+		protected StepSequence(IList<Step> steps)
 		{
 			Steps = steps;
 		}

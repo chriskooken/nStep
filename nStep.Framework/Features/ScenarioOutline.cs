@@ -10,7 +10,7 @@ namespace nStep.Framework.Features
 	{
 		public Table Examples { get; private set; }
 
-		public ScenarioOutline(IList<FeatureStep> steps, Table examples)
+		public ScenarioOutline(IList<Step> steps, Table examples)
 			: base(steps)
 		{
 			Examples = examples;

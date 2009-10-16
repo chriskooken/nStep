@@ -190,7 +190,7 @@ namespace nStep.Core.Parsers
 			var featureIndex = title == null ? 0 : 1;
 
 			// Rest of values are FeatureSteps
-			var steps = values.GetRange(featureIndex, values.Count - featureIndex).Cast<FeatureStep>().ToList();
+			var steps = values.GetRange(featureIndex, values.Count - featureIndex).Cast<Step>().ToList();
 
 			var background = new Background(steps)
 			{
@@ -220,7 +220,7 @@ namespace nStep.Core.Parsers
 			var title = values[0] as string;
 
 			// Rest of values are FeatureSteps
-			var steps = values.GetRange(1, values.Count - 1).Cast<FeatureStep>().ToList();
+			var steps = values.GetRange(1, values.Count - 1).Cast<Step>().ToList();
 
 			var scenario = new Scenario(steps)
 			{
@@ -253,7 +253,7 @@ namespace nStep.Core.Parsers
 			var examples = values[values.Count - 1] as Table;
 
 			// Rest of values are FeatureSteps
-			var steps = values.GetRange(1, values.Count - 2).Cast<FeatureStep>().ToList();
+			var steps = values.GetRange(1, values.Count - 2).Cast<Step>().ToList();
 
 
 			var scenarioOutline = new ScenarioOutline(steps, examples)
@@ -347,7 +347,7 @@ namespace nStep.Core.Parsers
 			var verbage = values.Cast<string>().First();
 			var featureLine = values.GetRange(1, values.Count - 1).Cast<string>().Single();
 
-			var featureStep = new FeatureStep(kind)
+			var featureStep = new Step(kind)
 			{
 				FeatureLine = verbage + " " + featureLine,
 				LineNumber = node.StartLine

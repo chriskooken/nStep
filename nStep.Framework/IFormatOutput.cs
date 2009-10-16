@@ -9,16 +9,16 @@ namespace nStep.Framework
 	{
 		bool SkippingSteps { get; set; }
 
-		void WriteException(FeatureStep featureStep, Exception ex);
-		void WritePassedFeatureLine(FeatureStep featureStep, StepDefinition stepDefinition);
-		void WritePendingFeatureLine(FeatureStep featureStep, Exception exception);
+		void WriteException(Step featureStep, Exception ex);
+		void WritePassedFeatureLine(Step featureStep, StepDefinition stepDefinition);
+		void WritePendingFeatureLine(Step featureStep, Exception exception);
 		void WriteFeatureHeading(Feature feature);
 		void WriteResults(StepMother stepMother);
 		void WriteScenarioTitle(Scenario scenario);
 		void WriteScenarioOutlineTitle(ScenarioOutline scenarioOutline);
 		void WriteBackgroundHeading(Background background);
-		void WriteSkippedFeatureLine(FeatureStep featureStep);
+		void WriteSkippedFeatureLine(Step featureStep);
 		void WriteLineBreak();
-		void WriteMissingFeatureLine(FeatureStep step);
+		void WriteMissingFeatureLine(Step step);
 	}
 }
