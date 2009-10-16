@@ -1,9 +1,9 @@
-using nStep.Core.Features;
+using nStep.Framework.Features;
 
 namespace nStep.Core
 {
     public interface ISuggestSyntax
     {
-        string TurnFeatureIntoSnippet(FeatureStep step);
+        string TurnFeatureIntoSnippet(Step step);
     }
 }

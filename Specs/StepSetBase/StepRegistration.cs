@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using nStep.Framework;
+using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 
 namespace StepSetBase

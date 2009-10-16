@@ -1,7 +1,7 @@
 ﻿using System;
-using nStep.Core;
-using nStep.Core.Exceptions;
 using nStep.Framework;
+using nStep.Framework.Exceptions;
+using nStep.Framework.WorldViews;
 using NUnit.Framework;
 
 namespace Specs.WorldViewDictionary
@@ -58,7 +58,7 @@ namespace Specs.WorldViewDictionary
 
         private void NewCut()
         {
-            cut = new nStep.Core.WorldViewDictionary();
+            cut = new nStep.Framework.WorldViews.WorldViewDictionary();
         }
 
         [Test]
@@ -105,9 +105,9 @@ namespace Specs.WorldViewDictionary
         public void It_Should_not_Error_if_world_view_is_initialized()
         {
             var set = new StepSet();
-            var worldViewDictionary = new nStep.Core.WorldViewDictionary();
+            var worldViewDictionary = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViewDictionary.Add(typeof(TestWorldView),new TestWorldView());
-            var mother = new nStep.Core.StepMother(worldViewDictionary, null);
+            var mother = new nStep.Framework.StepMother(worldViewDictionary, null);
             
             Assert.DoesNotThrow(() => mother.AdoptSteps(set));
         }
@@ -120,7 +120,7 @@ namespace Specs.WorldViewDictionary
         public void It_Should_Error_if_world_view_is_not_initialized()
         {
             var set = new StepSet();
-            var mother = new nStep.Core.StepMother(new nStep.Core.WorldViewDictionary(),null);
+            var mother = new nStep.Framework.StepMother(new nStep.Framework.WorldViews.WorldViewDictionary(),null);
             Assert.Throws<UnInitializedWorldViewException>(() => mother.AdoptSteps(set));
         }
     }

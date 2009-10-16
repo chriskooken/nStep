@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using nStep.Core;
-using nStep.Core.Features;
-using nStep.Framework;
+using nStep.Framework.Execution.Results;
+using nStep.Framework.Features;
+using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 using Specs.WorldViewDictionary;
 
@@ -10,7 +11,7 @@ namespace Specs.StepMother
     [TestFixture]
     public class PassedResults
     {
-        private nStep.Core.WorldViewDictionary worldViews;
+        private nStep.Framework.WorldViews.WorldViewDictionary worldViews;
 
         private class StepSet : nStep.Framework.StepSetBase<ImportWorldViews.StringWorldView>
         {
@@ -26,19 +27,19 @@ namespace Specs.StepMother
         }
 
         
-        private nStep.Core.StepMother mother;
+        private nStep.Framework.StepMother mother;
         private StepRunResults result;
         private StepSet Set;
 
         [SetUp]
         public void Setup()
         {
-            worldViews = new nStep.Core.WorldViewDictionary();
+            worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(ImportWorldViews.StringWorldView), new ImportWorldViews.StringWorldView());
             Set = new StepSet();
-            mother = new nStep.Core.StepMother(worldViews, null);
+            mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
-            var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
+            var featureStep = new Step(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);
         }
 

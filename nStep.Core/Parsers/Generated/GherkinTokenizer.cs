@@ -122,7 +122,7 @@ namespace nStep.Core.Parsers.Generated {
             pattern = new TokenPattern((int) GherkinConstants.TEXT_CHAR,
                                        "TEXT_CHAR",
                                        TokenPattern.PatternType.REGEXP,
-                                       "[^\\r^\\n^\\|^\\t^ ^@]");
+                                       "[^\\r^\\n^\\|^\\t^ ^@^:]");
             AddPattern(pattern);
 
             pattern = new TokenPattern((int) GherkinConstants.PIPE,
@@ -131,10 +131,16 @@ namespace nStep.Core.Parsers.Generated {
                                        "|");
             AddPattern(pattern);
 
-            pattern = new TokenPattern((int) GherkinConstants.TAG,
-                                       "TAG",
-                                       TokenPattern.PatternType.REGEXP,
-                                       "@\\w+");
+            pattern = new TokenPattern((int) GherkinConstants.COLON,
+                                       "COLON",
+                                       TokenPattern.PatternType.STRING,
+                                       ":");
+            AddPattern(pattern);
+
+            pattern = new TokenPattern((int) GherkinConstants.AT,
+                                       "AT",
+                                       TokenPattern.PatternType.STRING,
+                                       "@");
             AddPattern(pattern);
         }
     }

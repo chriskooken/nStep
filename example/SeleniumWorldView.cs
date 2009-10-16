@@ -1,7 +1,7 @@
-using nStep.Framework;
+using nStep.Framework.WorldViews;
 using Selenium;
 
-namespace Cucumber
+namespace nStep
 {
     public class SeleniumWorldView : IAmWorldView 
     {

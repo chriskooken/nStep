@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Selenium;
 
-namespace Cucumber.Selenium
+namespace nStep.Selenium
 {
 	static class SeleniumExtensions
 	{

@@ -1,6 +1,6 @@
 using nStep.Framework;
 
-namespace Cucumber
+namespace nStep
 {
     public sealed class WorldViewProvider : WorldViewProviderBase<SeleniumWorldView>
     {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using nStep.Core.Exceptions;
 using nStep.Framework;
+using nStep.Framework.Exceptions;
 
 namespace nStep.App
 {
