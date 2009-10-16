@@ -5,7 +5,7 @@ using nStep.Framework.ScenarioHooks;
 
 namespace nStep.Framework.Features
 {
-	public abstract class FeatureItem : StepSequence
+	public abstract class FeatureItem : StepSequence, ICanBeTagged
 	{
 		#region Properties
 

@@ -6,14 +6,15 @@ using nStep.Framework.Execution;
 
 namespace nStep.Framework.Features
 {
-	public class Feature : IExecute
+	public class Feature : IExecute, ICanBeTagged
 	{
 		#region Public Properties
 
 		public int LineNumber {
 			get { return SummaryLines != null && SummaryLines.Count > 0 ? SummaryLines.First().LineNumber : 1; }
 		}
-		
+
+		public IEnumerable<string> Tags { get; set; }
 		public IList<LineValue> SummaryLines { get; private set; }
 		public Background Background { get; private set; }
 		public IList<FeatureItem> Items { get; private set; }
@@ -24,11 +25,12 @@ namespace nStep.Framework.Features
 
 		#region Constructor
 
-		public Feature(IList<LineValue> summaryLines, Background background, IList<FeatureItem> items,IEnumerable<string> tags)
+		public Feature(IList<LineValue> summaryLines, Background background, IList<FeatureItem> items, IEnumerable<string> tags)
 		{
 			SummaryLines = summaryLines;
 			Background = background;
 			Items = items;
+			Tags = tags;
             
 			foreach (var item in items)
 				item.Feature = this;

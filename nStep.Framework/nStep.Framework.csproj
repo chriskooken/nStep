@@ -55,6 +55,7 @@
     <Compile Include="Features\Background.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\FeatureItem.cs" />
+    <Compile Include="Features\ICanBeTagged.cs" />
     <Compile Include="Features\Step.cs" />
     <Compile Include="Execution\IExecute.cs" />
     <Compile Include="Exceptions\JaggedTableException.cs" />
