@@ -41,15 +41,14 @@ namespace nStep.Core.Parsers.Generated {
         EXAMPLES = 2011,
         EXAMPLES_HEADER = 2012,
         STEP = 2013,
-        NORMAL_STEP = 2014,
-        TABLE = 2015,
-        TABLE_ROW = 2016,
-        TABLE_COLUMN = 2017,
-        WHITESPACE = 2018,
-        FREE_LINE = 2019,
-        BLANK_LINE = 2020,
-        TEXT = 2021,
-        TAGS = 2022,
-        TAG = 2023
+        TABLE = 2014,
+        TABLE_ROW = 2015,
+        TABLE_COLUMN = 2016,
+        WHITESPACE = 2017,
+        FREE_LINE = 2018,
+        BLANK_LINE = 2019,
+        TEXT = 2020,
+        TAGS = 2021,
+        TAG = 2022
     }
 }

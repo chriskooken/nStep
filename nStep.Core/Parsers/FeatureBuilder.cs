@@ -164,14 +164,16 @@ namespace nStep.Core.Parsers
 		public override Node ExitSummaryLine(Production node)
 		{
 			var text = GetChildValues(node).Cast<string>().SingleOrDefault();
-
-			var lineValue = new LineValue
+			if (!string.IsNullOrEmpty(text))
 			{
-				Text = text,
-				LineNumber = node.StartLine
-			};
+				var lineValue = new LineValue
+				{
+					Text = text.Trim(),
+					LineNumber = node.StartLine
+				};
 
-			node.AddValue(lineValue);
+				node.AddValue(lineValue);
+			}
 			return node;
 		}
 
@@ -351,28 +353,20 @@ namespace nStep.Core.Parsers
 			var values = GetChildValues(node);
 			if (values.Count > 0)
 			{
-				var step = (Step) values.Cast<object>().First();
-				step.Table = values.Cast<object>().Skip(1).Cast<Table>().SingleOrDefault();
+				var verbage = (string) values[0];
+				var kind = LookupStepKind(verbage);
+				var featureLine = (string) values[1];
+				var table = (Table) null;
+				if (values.Count > 2)
+					table = (Table)values[3];
+
+				var step = new Step(kind, table)
+				{
+					FeatureLine = verbage + " " + featureLine,
+					LineNumber = node.StartLine
+				};
 				node.AddValue(step);
 			}
-			return node;
-		}
-
-		public override Node ExitNormalStep(Production node)
-		{
-			var values = GetChildValues(node);
-			var verbage = values.Cast<string>().First();
-			var kind = LookupStepKind(verbage);
-			var featureLine = values.GetRange(1, values.Count - 1).Cast<string>().Single();
-
-			var featureStep = new Step(kind)
-			{
-				FeatureLine = verbage + " " + featureLine,
-				LineNumber = node.StartLine
-			};
-
-			node.AddValue(featureStep);
-			CurrentStepKind = kind;
 			return node;
 		}
 

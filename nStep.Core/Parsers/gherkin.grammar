@@ -51,9 +51,7 @@ ScenarioOutlineHeader	= T_SCENARIO_OUTLINE FreeLine ;
 Examples				= ExamplesHeader Table ;
 ExamplesHeader			= T_EXAMPLES FreeLine ;
 
-Step					= Whitespace? NormalStep (COLON Table)? | BlankLine ;
-
-NormalStep				= (T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT) FreeLine ;
+Step					= Whitespace? (T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT) Text (EOL | COLON EOL Table) | BlankLine ;
 
 Table					= TableRow+ ;
 TableRow				= Whitespace? "|" (TableColumn "|")+ EOL ;
@@ -62,6 +60,6 @@ TableColumn				= Text ;
 Whitespace				= HORIZONTAL_WHITESPACE+ ;
 FreeLine				= Text? EOL ;
 BlankLine				= EOL ;
-Text					= Whitespace? (TEXT_CHAR | T_FEATURE | T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT) (HORIZONTAL_WHITESPACE | TEXT_CHAR | T_FEATURE | T_BACKGROUND | T_SCENARIO | T_SCENARIO_OUTLINE | T_EXAMPLES | T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT)+ ;
+Text					= Whitespace? (TEXT_CHAR | AT | T_FEATURE | T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT) (HORIZONTAL_WHITESPACE | TEXT_CHAR | AT | T_FEATURE | T_BACKGROUND | T_SCENARIO | T_SCENARIO_OUTLINE | T_EXAMPLES | T_GIVEN | T_WHEN | T_THEN | T_AND | T_BUT)+ ;
 Tags					= Tag (Whitespace Tag)* EOL ;
 Tag						= "@" TEXT_CHAR+ ;

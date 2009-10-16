@@ -111,9 +111,6 @@ namespace nStep.Core.Parsers.Generated {
             case (int) GherkinConstants.STEP:
                 EnterStep((Production) node);
                 break;
-            case (int) GherkinConstants.NORMAL_STEP:
-                EnterNormalStep((Production) node);
-                break;
             case (int) GherkinConstants.TABLE:
                 EnterTable((Production) node);
                 break;
@@ -215,8 +212,6 @@ namespace nStep.Core.Parsers.Generated {
                 return ExitExamplesHeader((Production) node);
             case (int) GherkinConstants.STEP:
                 return ExitStep((Production) node);
-            case (int) GherkinConstants.NORMAL_STEP:
-                return ExitNormalStep((Production) node);
             case (int) GherkinConstants.TABLE:
                 return ExitTable((Production) node);
             case (int) GherkinConstants.TABLE_ROW:
@@ -289,9 +284,6 @@ namespace nStep.Core.Parsers.Generated {
                 break;
             case (int) GherkinConstants.STEP:
                 ChildStep(node, child);
-                break;
-            case (int) GherkinConstants.NORMAL_STEP:
-                ChildNormalStep(node, child);
                 break;
             case (int) GherkinConstants.TABLE:
                 ChildTable(node, child);
@@ -1256,46 +1248,6 @@ namespace nStep.Core.Parsers.Generated {
          * discovered errors</exception>
          */
         public virtual void ChildStep(Production node, Node child) {
-            node.AddChild(child);
-        }
-
-        /**
-         * <summary>Called when entering a parse tree node.</summary>
-         *
-         * <param name='node'>the node being entered</param>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual void EnterNormalStep(Production node) {
-        }
-
-        /**
-         * <summary>Called when exiting a parse tree node.</summary>
-         *
-         * <param name='node'>the node being exited</param>
-         *
-         * <returns>the node to add to the parse tree, or
-         *          null if no parse tree should be created</returns>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual Node ExitNormalStep(Production node) {
-            return node;
-        }
-
-        /**
-         * <summary>Called when adding a child to a parse tree
-         * node.</summary>
-         *
-         * <param name='node'>the parent node</param>
-         * <param name='child'>the child node, or null</param>
-         *
-         * <exception cref='ParseException'>if the node analysis
-         * discovered errors</exception>
-         */
-        public virtual void ChildNormalStep(Production node, Node child) {
             node.AddChild(child);
         }
 
