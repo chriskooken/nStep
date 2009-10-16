@@ -2,9 +2,9 @@
 using Selenium;
 using nStep.Framework;
 using NUnit.Framework;
-using Cucumber.Selenium;
+using nStep.Selenium;
 
-namespace Cucumber
+namespace nStep
 {
 
     public class User
