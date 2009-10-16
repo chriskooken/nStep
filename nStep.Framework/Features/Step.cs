@@ -8,14 +8,25 @@ namespace nStep.Framework.Features
 {
 	public class Step : IExecute
 	{
+		#region Properties
+
 		public string FeatureLine { get; set; }
 		public int LineNumber { get; set; }
 		public StepKinds Kind { get; private set; }
-		public Table Table { get; set; }
+		public Table Table { get; private set; }
+
+		#endregion
+
+		#region Constructors
 
 		public Step(StepKinds kind)
+			: this(kind, null)
+		{ }
+
+		public Step(StepKinds kind, Table table)
 		{
 			Kind = kind;
+			Table = table;
 		}
 
 		private Step(Step originalStep)
@@ -23,7 +34,12 @@ namespace nStep.Framework.Features
 			FeatureLine = originalStep.FeatureLine;
 			LineNumber = originalStep.LineNumber;
 			Kind = originalStep.Kind;
+			Table = originalStep.Table;
 		}
+
+		#endregion
+
+		#region Execution
 
 		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
@@ -65,5 +81,7 @@ namespace nStep.Framework.Features
 			var newFeatureStep = new Step(this) { FeatureLine = newLine };
 			newFeatureStep.Execute(stepMother, outputFormatter);
 		}
+
+		#endregion
 	}
 }
