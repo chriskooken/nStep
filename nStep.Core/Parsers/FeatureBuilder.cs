@@ -354,13 +354,13 @@ namespace nStep.Core.Parsers
 			if (values.Count > 0)
 			{
 				var verbage = (string) values[0];
-				var kind = LookupStepKind(verbage);
+				CurrentStepKind = LookupStepKind(verbage);
 				var featureLine = (string) values[1];
 				var table = (Table) null;
 				if (values.Count > 2)
 					table = (Table)values[3];
 
-				var step = new Step(kind, table)
+				var step = new Step(CurrentStepKind, table)
 				{
 					FeatureLine = verbage + " " + featureLine,
 					LineNumber = node.StartLine
