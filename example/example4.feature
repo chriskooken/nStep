@@ -15,3 +15,6 @@ Scenario: When I search for dogs
 		| Wheaton	| IL	|
 		| Auburn	| AL	|
 
+	Then all is well
+	And that is all
+
