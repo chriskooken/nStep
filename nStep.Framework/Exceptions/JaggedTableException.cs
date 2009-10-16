@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using nStep.Framework.Features;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Exceptions
 {
 	public class JaggedTableException : ApplicationException
 	{

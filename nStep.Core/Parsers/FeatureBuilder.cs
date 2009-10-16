@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using nStep.Core.Features;
+using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
 using PerCederberg.Grammatica.Runtime;
 

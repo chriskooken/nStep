@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using nStep.Core.Features;
+using nStep.Framework.Features;
 
 
 namespace nStep.Core.Parsers {

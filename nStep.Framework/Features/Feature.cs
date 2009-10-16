@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using nStep.Framework.Exceptions;
+using nStep.Framework.Execution;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Features
 {
 	public class Feature : IExecute
 	{

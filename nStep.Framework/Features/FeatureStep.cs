@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using nStep.Framework.Execution;
+using nStep.Framework.Execution.Results;
 using nStep.Framework.StepDefinitions;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Features
 {
 	public class FeatureStep : IExecute
 	{
@@ -24,14 +26,14 @@ namespace nStep.Core.Features
 
 		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
 		{
-            stepMother.CheckForMissingStep(this);
+			stepMother.CheckForMissingStep(this);
 
-            if (outputFormatter.SkippingSteps)
-            {
-                outputFormatter.WriteSkippedFeatureLine(this);
-                return;
-            }
-            outputFormatter.SkippingSteps = true;
+			if (outputFormatter.SkippingSteps)
+			{
+				outputFormatter.WriteSkippedFeatureLine(this);
+				return;
+			}
+			outputFormatter.SkippingSteps = true;
 			switch (stepMother.ProcessStep(this))
 			{
 				case StepRunResults.Passed:
@@ -42,10 +44,10 @@ namespace nStep.Core.Features
 					outputFormatter.WriteException(this, stepMother.LastProcessStepException);
 					break;
 				case StepRunResults.Pending:
-                    outputFormatter.WritePendingFeatureLine(this, stepMother.LastProcessStepException);
+					outputFormatter.WritePendingFeatureLine(this, stepMother.LastProcessStepException);
 					break;
 				case StepRunResults.Missing:
-                    outputFormatter.WriteMissingFeatureLine(this);
+					outputFormatter.WriteMissingFeatureLine(this);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

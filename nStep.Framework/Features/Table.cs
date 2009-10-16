@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using nStep.Framework.Exceptions;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Features
 {
 	public class Table
 	{
@@ -16,14 +17,14 @@ namespace nStep.Core.Features
 			var dataRows = rowsIncludingHeader.Skip(1);
 
 			ColumnHeadings = (from c in headerRow.Cells
-							  select c.Value).ToArray();
+			                  select c.Value).ToArray();
 			Rows = dataRows.ToList(); ;
 		}
 
 		public IEnumerable<IDictionary<string, string>> GetDictionaries()
 		{
 			return from r in Rows
-			        select r.ToDictionary(ColumnHeadings);
+			       select r.ToDictionary(ColumnHeadings);
 		}
 	}
 

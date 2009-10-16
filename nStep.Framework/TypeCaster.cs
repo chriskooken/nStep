@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using nStep.Core.Features;
 using nStep.Framework;
 using System.Linq;
 namespace nStep.Core

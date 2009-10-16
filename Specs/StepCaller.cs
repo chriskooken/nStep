@@ -38,7 +38,7 @@ namespace Specs
 
             var featureLine = "This is a test: Boo";
 
-            var caller = new nStep.Core.StepCaller(step, new nStep.Core.TypeCaster(null));
+            var caller = new nStep.Framework.StepCaller(step, new nStep.Core.TypeCaster(null));
             caller.Call(featureLine);
 
             set.Output.Should().Be.EqualTo("Boo");
@@ -52,7 +52,7 @@ namespace Specs
 
             var featureLine = "This is a test: 42";
 
-            var caller = new nStep.Core.StepCaller(step, new nStep.Core.TypeCaster(null));
+            var caller = new nStep.Framework.StepCaller(step, new nStep.Core.TypeCaster(null));
             caller.Call(featureLine);
 
             set.Output.Should().Be.EqualTo("42");

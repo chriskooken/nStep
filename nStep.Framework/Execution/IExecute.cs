@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using nStep.Framework;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Execution
 {
 	public interface IExecute
 	{

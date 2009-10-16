@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using nStep.Core;
-using nStep.Core.Features;
 using nStep.Framework;
 using nStep.Framework.Exceptions;
+using nStep.Framework.Execution.Results;
+using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace Specs.StepMother
                 });
             }
         }
-        private nStep.Core.StepMother mother;
+        private nStep.Framework.StepMother mother;
         private StepRunResults result;
         private StepSet Set;
 
@@ -54,7 +55,7 @@ namespace Specs.StepMother
             worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(ImportWorldViews.StringWorldView), new ImportWorldViews.StringWorldView());
             Set = new StepSet();
-            mother = new nStep.Core.StepMother(worldViews, null);
+            mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
 			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
             result = mother.ProcessStep(featureStep);

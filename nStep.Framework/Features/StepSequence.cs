@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using nStep.Framework.Execution;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Features
 {
 	public abstract class StepSequence : IExecute
 	{

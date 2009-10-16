@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using nStep.Core.Features;
+using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
 
 namespace nStep.Core

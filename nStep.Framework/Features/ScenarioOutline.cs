@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using nStep.Framework;
+using nStep.Framework.Execution.Results;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Features
 {
 	public class ScenarioOutline : FeatureItem
 	{

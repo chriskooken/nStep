@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using nStep.Framework;
+using nStep.Framework.Execution.Results;
 using nStep.Framework.ScenarioHooks;
 
-namespace nStep.Core.Features
+namespace nStep.Framework.Features
 {
 	public abstract class FeatureItem : StepSequence
 	{

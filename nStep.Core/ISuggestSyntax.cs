@@ -1,4 +1,4 @@
-using nStep.Core.Features;
+using nStep.Framework.Features;
 
 namespace nStep.Core
 {

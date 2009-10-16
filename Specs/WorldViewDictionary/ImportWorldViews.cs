@@ -107,7 +107,7 @@ namespace Specs.WorldViewDictionary
             var set = new StepSet();
             var worldViewDictionary = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViewDictionary.Add(typeof(TestWorldView),new TestWorldView());
-            var mother = new nStep.Core.StepMother(worldViewDictionary, null);
+            var mother = new nStep.Framework.StepMother(worldViewDictionary, null);
             
             Assert.DoesNotThrow(() => mother.AdoptSteps(set));
         }
@@ -120,7 +120,7 @@ namespace Specs.WorldViewDictionary
         public void It_Should_Error_if_world_view_is_not_initialized()
         {
             var set = new StepSet();
-            var mother = new nStep.Core.StepMother(new nStep.Framework.WorldViews.WorldViewDictionary(),null);
+            var mother = new nStep.Framework.StepMother(new nStep.Framework.WorldViews.WorldViewDictionary(),null);
             Assert.Throws<UnInitializedWorldViewException>(() => mother.AdoptSteps(set));
         }
     }

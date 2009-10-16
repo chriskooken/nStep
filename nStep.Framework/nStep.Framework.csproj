@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DefinitionBase.cs" />
     <Compile Include="Exceptions\InvalidExecutableLineNumberException.cs" />
@@ -48,7 +49,25 @@
     <Compile Include="Exceptions\StepAmbiguousException.cs" />
     <Compile Include="Exceptions\StepMissingException.cs" />
     <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
-    <Compile Include="IRunStepsFromStrings.cs" />
+    <Compile Include="Execution\Results\StepRunResults.cs" />
+    <Compile Include="Features\Background.cs" />
+    <Compile Include="Features\Feature.cs" />
+    <Compile Include="Features\FeatureItem.cs" />
+    <Compile Include="Features\FeatureStep.cs" />
+    <Compile Include="Execution\IExecute.cs" />
+    <Compile Include="Exceptions\JaggedTableException.cs" />
+    <Compile Include="Features\Scenario.cs" />
+    <Compile Include="Features\ScenarioOutline.cs" />
+    <Compile Include="Features\StepSequence.cs" />
+    <Compile Include="Features\Table.cs" />
+    <Compile Include="Execution\IRunStepsFromStrings.cs" />
+    <Compile Include="IFormatOutput.cs" />
+    <Compile Include="IScenarioHooksRepository.cs" />
+    <Compile Include="StepCaller.cs" />
+    <Compile Include="StepMother.cs" />
+    <Compile Include="StepOrTransformCallerBase.cs" />
+    <Compile Include="TransformCaller.cs" />
+    <Compile Include="TypeCaster.cs" />
     <Compile Include="WorldViews\IAmWorldView.cs" />
     <Compile Include="WorldViews\IWorldViewDictionary.cs" />
     <Compile Include="Exceptions\NotWorkingCorrectlyException.cs" />
@@ -61,7 +80,7 @@
     <Compile Include="ScenarioHooks\IHaveImportScenariosIntoList.cs" />
     <Compile Include="ScenarioHooks\IProvideScenarioHooks.cs" />
     <Compile Include="ScenarioHooks\ScenarioHook.cs" />
-    <Compile Include="ScenarioResult.cs" />
+    <Compile Include="Execution\Results\ScenarioResult.cs" />
     <Compile Include="StepDefinitions\StepDefinitionDsl.cs" />
     <Compile Include="CombinedStepDefinitions.cs" />
     <Compile Include="IProvideWorldView.cs" />

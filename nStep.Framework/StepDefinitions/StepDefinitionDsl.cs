@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using nStep.Framework.Exceptions;
+using nStep.Framework.Execution;
+using nStep.Framework.Execution.Results;
 using nStep.Framework.ScenarioHooks;
 
 namespace nStep.Framework.StepDefinitions

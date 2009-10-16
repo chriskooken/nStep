@@ -1,4 +1,4 @@
-﻿using nStep.Core.Features;
+﻿using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
 using nStep.Framework.WorldViews;
 using NUnit.Framework;
@@ -84,7 +84,7 @@ namespace Specs.StepMother
         private void AssertItWorks(StepKinds kind)
         {
             var set = new StepSet();
-            var mother = new nStep.Core.StepMother(worldViews, null);
+            var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
             var step = new FeatureStep(kind) { FeatureLine = "Given Call Me" };
             mother.ProcessStep(step);
