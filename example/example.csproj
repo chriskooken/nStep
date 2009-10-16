@@ -61,6 +61,7 @@
     <None Include="example.feature" />
     <None Include="example2.feature" />
     <None Include="example3.feature" />
+    <None Include="example4.feature" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nStep.Framework\nStep.Framework.csproj">
