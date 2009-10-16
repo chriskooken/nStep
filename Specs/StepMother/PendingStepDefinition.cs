@@ -2,6 +2,7 @@
 using nStep.Core;
 using nStep.Core.Features;
 using nStep.Framework;
+using nStep.Framework.Exceptions;
 using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Specs.StepMother
     [TestFixture]
     public class PendingStepDefinition
     {
-        private nStep.Core.WorldViewDictionary worldViews;
+        private nStep.Framework.WorldViews.WorldViewDictionary worldViews;
 
         private class StepSet : StepSetBase<ImportWorldViews.StringWorldView>
         {
@@ -50,7 +51,7 @@ namespace Specs.StepMother
         [SetUp]
         public void Setup()
         {
-            worldViews = new nStep.Core.WorldViewDictionary();
+            worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(ImportWorldViews.StringWorldView), new ImportWorldViews.StringWorldView());
             Set = new StepSet();
             mother = new nStep.Core.StepMother(worldViews, null);

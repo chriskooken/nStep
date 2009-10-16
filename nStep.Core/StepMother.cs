@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using nStep.Core.Exceptions;
 using nStep.Core.Features;
 using nStep.Framework;
+using nStep.Framework.Exceptions;
 using nStep.Framework.ScenarioHooks;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.WorldViews;
 
 namespace nStep.Core
 {

@@ -41,10 +41,17 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DefinitionBase.cs" />
+    <Compile Include="Exceptions\InvalidExecutableLineNumberException.cs" />
+    <Compile Include="Exceptions\OnlyOneEnvironmentMayBeDefinedException.cs" />
+    <Compile Include="Exceptions\OnlyOneWorldViewTypeCanExistAtATimeException.cs" />
+    <Compile Include="Exceptions\ParameterMismatchException.cs" />
+    <Compile Include="Exceptions\StepAmbiguousException.cs" />
+    <Compile Include="Exceptions\StepMissingException.cs" />
+    <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
     <Compile Include="IRunStepsFromStrings.cs" />
-    <Compile Include="IAmWorldView.cs" />
-    <Compile Include="IWorldViewDictionary.cs" />
-    <Compile Include="NotWorkingCorrectlyException.cs" />
+    <Compile Include="WorldViews\IAmWorldView.cs" />
+    <Compile Include="WorldViews\IWorldViewDictionary.cs" />
+    <Compile Include="Exceptions\NotWorkingCorrectlyException.cs" />
     <Compile Include="ScenarioHooks\AfterScenarioHook.cs" />
     <Compile Include="ScenarioHooks\AfterScenarioHookList.cs" />
     <Compile Include="ScenarioHooks\BeforeScenarioHook.cs" />
@@ -60,9 +67,10 @@
     <Compile Include="IProvideWorldView.cs" />
     <Compile Include="StepDefinitions\StepDefinition.cs" />
     <Compile Include="StepDefinitions\StepKinds.cs" />
-    <Compile Include="StepPendingException.cs" />
+    <Compile Include="Exceptions\StepPendingException.cs" />
     <Compile Include="StepSetBase.cs" />
     <Compile Include="TransformDefinition.cs" />
+    <Compile Include="WorldViews\WorldViewDictionary.cs" />
     <Compile Include="WorldViewProviderBase.cs" />
     <Compile Include="IProvideSteps.cs" />
     <Compile Include="EnvironmentBase.cs" />

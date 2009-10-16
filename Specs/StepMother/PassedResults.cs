@@ -10,7 +10,7 @@ namespace Specs.StepMother
     [TestFixture]
     public class PassedResults
     {
-        private nStep.Core.WorldViewDictionary worldViews;
+        private nStep.Framework.WorldViews.WorldViewDictionary worldViews;
 
         private class StepSet : nStep.Framework.StepSetBase<ImportWorldViews.StringWorldView>
         {
@@ -33,7 +33,7 @@ namespace Specs.StepMother
         [SetUp]
         public void Setup()
         {
-            worldViews = new nStep.Core.WorldViewDictionary();
+            worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(ImportWorldViews.StringWorldView), new ImportWorldViews.StringWorldView());
             Set = new StepSet();
             mother = new nStep.Core.StepMother(worldViews, null);

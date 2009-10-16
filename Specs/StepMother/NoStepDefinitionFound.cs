@@ -1,9 +1,9 @@
 ﻿using System;
 using nStep.Core;
-using nStep.Core.Exceptions;
 using nStep.Core.Features;
-using nStep.Framework;
+using nStep.Framework.Exceptions;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.WorldViews;
 using NUnit.Framework;
 
 namespace Specs.StepMother
@@ -16,7 +16,7 @@ namespace Specs.StepMother
 
         }
 
-        private nStep.Core.WorldViewDictionary worldViews;
+        private nStep.Framework.WorldViews.WorldViewDictionary worldViews;
 
 
 
@@ -50,7 +50,7 @@ namespace Specs.StepMother
         [SetUp]
         public void Setup()
         {
-            worldViews = new nStep.Core.WorldViewDictionary();
+            worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView), new StringWorldView());
             Set = new StepSet();
 			mother = new nStep.Core.StepMother(worldViews, null);

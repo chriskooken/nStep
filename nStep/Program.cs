@@ -10,6 +10,7 @@ using nStep.App.CommandLineUtilities;
 using nStep.Core.Parsers;
 using nStep.Core;
 using nStep.Framework;
+using nStep.Framework.WorldViews;
 
 namespace nStep.App
 {

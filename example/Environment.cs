@@ -1,6 +1,6 @@
 ﻿using System;
-using nStep.Core;
 using nStep.Framework;
+using nStep.Framework.WorldViews;
 using Selenium;
 
 namespace Cucumber

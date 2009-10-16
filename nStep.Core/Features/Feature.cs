@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using nStep.Core.Exceptions;
+using nStep.Framework.Exceptions;
 
 namespace nStep.Core.Features
 {
@@ -77,7 +77,7 @@ namespace nStep.Core.Features
 				//            return example;
 			}
 
-			throw new InvalidScenarioLineNumberException("There is nothing to execute on line: " + lineNumber);
+			throw new InvalidExecutableLineNumberException("There is nothing to execute on line: " + lineNumber);
 		}
 
 		#endregion
