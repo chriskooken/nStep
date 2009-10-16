@@ -11,6 +11,7 @@ namespace nStep.Framework.Features
 		public string FeatureLine { get; set; }
 		public int LineNumber { get; set; }
 		public StepKinds Kind { get; private set; }
+		public Table Table { get; set; }
 
 		public Step(StepKinds kind)
 		{
