@@ -28,6 +28,16 @@ namespace nStep.Core.Parsers
 			return EchoImage(node);
 		}
 
+		public override Node ExitAt(Token node)
+		{
+			return EchoImage(node);
+		}
+
+		public override Node ExitColon(Token node)
+		{
+			return EchoImage(node);
+		}
+
 		public override Node ExitTFeature(Token node)
 		{
 			return EchoImage(node);
@@ -78,13 +88,6 @@ namespace nStep.Core.Parsers
 			return EchoImage(node);
 		}
 
-		public override Node ExitTag(Token node)
-		{
-			var text = node.Image.Substring(1);
-			node.AddValue(text);
-			return node;
-		}
-
 		private static Node EchoImage(Token node)
 		{
 			node.AddValue(node.Image);
@@ -118,9 +121,16 @@ namespace nStep.Core.Parsers
 			return node;
 		}
 
+		public override Node ExitTag(Production node)
+		{
+			var text = string.Concat(GetChildValues(node).Cast<string>().Skip(1).ToArray());
+			node.AddValue(text);
+			return node;
+		}
+
 		#endregion
 
-		#region Feature
+		#region Features
 
 		public override Node ExitFeature(Production node)
 		{
@@ -204,7 +214,26 @@ namespace nStep.Core.Parsers
 
 		#endregion
 
-		#region Scenario
+		#region Feature Items
+
+		public override Node ExitFeatureItem(Production node)
+		{
+			// Add tags to already constructed feature item
+			var values = GetChildValues(node);
+			var hasTags = values[0] is IEnumerable<string>;
+
+			var tags = hasTags ? GetChildValues(node).Cast<object>().Take(1).Cast<IEnumerable<string>>().Single() : null;
+			var featureItem = hasTags ?
+				GetChildValues(node).Cast<object>().Skip(1).Cast<FeatureItem>().Single() :
+				GetChildValues(node).Cast<FeatureItem>().Single();
+
+			featureItem.Tags = tags;
+			node.AddValue(featureItem);
+
+			return node;
+		}
+
+			#region Scenarios
 
 		public override Node ExitScenarioHeader(Production node)
 		{
@@ -232,9 +261,9 @@ namespace nStep.Core.Parsers
 			return node;
 		}
 
-		#endregion
+			#endregion
 
-		#region Scenario Outline
+			#region Scenario Outlines
 
 		public override Node ExitScenarioOutlineHeader(Production node)
 		{
@@ -266,6 +295,11 @@ namespace nStep.Core.Parsers
 			return node;
 		}
 
+		public override void EnterExamplesHeader(Production node)
+		{
+			base.EnterExamplesHeader(node);
+		}
+
 		public override Node ExitExamples(Production node)
 		{
 			var table = GetChildValues(node).Cast<Table>().Single();
@@ -273,6 +307,8 @@ namespace nStep.Core.Parsers
 			node.AddValue(table);
 			return node;
 		}
+
+			#endregion
 
 		#endregion
 
@@ -290,7 +326,8 @@ namespace nStep.Core.Parsers
 
 		public override Node ExitTableRow(Production node)
 		{
-			var columns = GetChildValues(node).Cast<Cell>().ToList();
+			// Ignore whitespace and grab columms
+			var columns = GetChildValues(node).Cast<object>().Where(o => o is Cell).Cast<Cell>().ToList();
 
 			var row = new Row(columns);
 			node.AddValue(row);
@@ -311,40 +348,21 @@ namespace nStep.Core.Parsers
 
 		public override Node ExitStep(Production node)
 		{
-			// May be blank or a real step -- 0 or 1 values
-			node.AddValues(GetChildValues(node));
+			var values = GetChildValues(node);
+			if (values.Count > 0)
+			{
+				var step = (Step) values.Cast<object>().First();
+				step.Table = values.Cast<object>().Skip(1).Cast<Table>().SingleOrDefault();
+				node.AddValue(step);
+			}
 			return node;
 		}
 
-		public override Node ExitGiven(Production node)
-		{
-			return AttachFeatureStep(node, StepKinds.Given);
-		}
-
-		public override Node ExitWhen(Production node)
-		{
-			return AttachFeatureStep(node, StepKinds.When);
-		}
-
-		public override Node ExitThen(Production node)
-		{
-			return AttachFeatureStep(node, StepKinds.Then);
-		}
-
-		public override Node ExitAnd(Production node)
-		{
-			return AttachFeatureStep(node, CurrentStepKind);
-		}
-
-		public override Node ExitBut(Production node)
-		{
-			return AttachFeatureStep(node, CurrentStepKind);
-		}
-
-		private Node AttachFeatureStep(Node node, StepKinds kind)
+		public override Node ExitNormalStep(Production node)
 		{
 			var values = GetChildValues(node);
 			var verbage = values.Cast<string>().First();
+			var kind = LookupStepKind(verbage);
 			var featureLine = values.GetRange(1, values.Count - 1).Cast<string>().Single();
 
 			var featureStep = new Step(kind)
@@ -356,6 +374,22 @@ namespace nStep.Core.Parsers
 			node.AddValue(featureStep);
 			CurrentStepKind = kind;
 			return node;
+		}
+
+		private StepKinds LookupStepKind(string verbage)
+		{
+			switch(verbage) {
+				case "Given": case "given:":
+					return StepKinds.Given;
+				case "When": case "when:":
+					return StepKinds.When;
+				case "Then": case "then:":
+					return StepKinds.Then;
+				case "And": case "and:": case "But": case "but:":
+					return CurrentStepKind;
+				default:
+					throw new Exception("Not a step kind");
+			}
 		}
 
 		#endregion
