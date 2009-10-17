@@ -40,19 +40,19 @@ namespace nStep.Framework.Features
 
 		#region Execution
 
-		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
 			outputFormatter.WriteFeatureHeading(this);
 
 			foreach (var item in Items)
 			{
-				item.Execute(stepMother, outputFormatter);
+				item.Execute(stepProcessor, hookProcessor, outputFormatter);
 			}
 		}
 
-		public void Execute(StepMother stepMother, IFormatOutput outputFormatter, int lineNumber)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter, int lineNumber)
 		{
-			GetExecutableAt(lineNumber).Execute(stepMother, outputFormatter);
+			GetExecutableAt(lineNumber).Execute(stepProcessor, hookProcessor, outputFormatter);
 		}
 
 		private IExecute GetExecutableAt(int lineNumber)

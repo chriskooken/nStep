@@ -68,7 +68,7 @@ namespace Specs.StepMother
             mother.AdoptSteps(set);
 
 			var step = new Step(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
-            mother.ProcessStep(step).Should().Be.EqualTo(StepRunResults.Passed);
+            mother.ProcessStep(step).ResultCode.Should().Be.EqualTo(StepRunResultCode.Passed);
             set.providedName.Should().Be.EqualTo("Chris");
 
         }

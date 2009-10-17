@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using nStep.Framework.Execution;
 using nStep.Framework.Execution.Results;
 
 namespace nStep.Framework.Features
@@ -16,21 +17,21 @@ namespace nStep.Framework.Features
 			Examples = examples;
 		}
 
-		public override void Execute(StepMother stepMother, IFormatOutput outputFormatter)
+		public override void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
-			stepMother.ProcessBeforeScenarioHooks(Tags);
+			hookProcessor.ProcessBeforeScenarioHooks(Tags);
 			outputFormatter.SkippingSteps = false;
 			outputFormatter.WriteScenarioOutlineTitle(this);
 			foreach (var dictionary in Examples.GetDictionaries())
 			{
 				if (Feature.Background != null)
-					Feature.Background.Execute(stepMother, outputFormatter);
+					Feature.Background.Execute(stepProcessor, hookProcessor, outputFormatter);
 
 				foreach (var step in Steps)
-					step.Execute(stepMother, outputFormatter, dictionary);
+					step.Execute(stepProcessor, hookProcessor, outputFormatter, dictionary);
 			}
 			var result = new ScenarioResult(null); //TODO: Load an appropriate scenarioResult here...
-			stepMother.ProcessAfterScenarioHooks(Tags, result);
+			hookProcessor.ProcessAfterScenarioHooks(Tags, result);
 			outputFormatter.WriteLineBreak();
 		}
 	}

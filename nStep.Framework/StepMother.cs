@@ -94,7 +94,7 @@ namespace nStep.Framework
 
 		public Exception LastProcessStepException { get; private set; }
 
-		public StepRunResults LastProcessStepResult { get; private set; }
+		public StepRunResultCode LastProcessStepResultCode { get; private set; }
 
 		public StepDefinition LastProcessStepDefinition { get; private set; }
 
@@ -122,17 +122,18 @@ namespace nStep.Framework
 			}
 		}
 
-		public StepRunResults ProcessStep(Step featureStepToProcess)
+		public StepRunResult ProcessStep(Step featureStepToProcess)
 		{
-			LastProcessStepResult =  DoProcessStep(featureStepToProcess);
-			return LastProcessStepResult;
+			var result = RunStep(featureStepToProcess);
+			return result;
 		}
 
-		private StepRunResults DoProcessStep(Step featureStepToProcess)
+
+		private StepRunResult RunStep(Step featureStepToProcess)
 		{
 			LastProcessStepException = null;
 			LastProcessStepDefinition = null;
-
+	
 			var lineText = RemoveGivenWhenThensForWholeLineMatching(featureStepToProcess.FeatureLine);
 			try
 			{
@@ -143,33 +144,39 @@ namespace nStep.Framework
 			{
 				missingSteps.Add(featureStepToProcess);
 				LastProcessStepException = ex;
-				return StepRunResults.Missing;
+				LastProcessStepResultCode = StepRunResultCode.Missing;
 			}
 			catch (StepPendingException ex)
 			{
 				failedSteps.Add(featureStepToProcess);
 				LastProcessStepException = ex;
-				return StepRunResults.Pending;
+				LastProcessStepResultCode = StepRunResultCode.Pending;
 			}
 			catch (StepAmbiguousException ex)
 			{
 				LastProcessStepException = ex;
-				return StepRunResults.Failed;
+				LastProcessStepResultCode = StepRunResultCode.Failed;
 			}
 			catch (Exception ex)
 			{
 				if ((ex.InnerException != null) && (typeof(StepPendingException) == ex.InnerException.GetType()))
 				{
 					LastProcessStepException = ex.InnerException;
-					return StepRunResults.Pending;
+					LastProcessStepResultCode = StepRunResultCode.Pending;
 				}
-				failedSteps.Add(featureStepToProcess);
-				LastProcessStepException = ex;
-				return StepRunResults.Failed;
+				else
+				{
+					failedSteps.Add(featureStepToProcess);
+					LastProcessStepException = ex;
+					LastProcessStepResultCode = StepRunResultCode.Failed;
+				}
 			}
             
 			passedSteps.Add(featureStepToProcess);
-			return StepRunResults.Passed;
+
+			CheckForMissingStep(featureStepToProcess);
+			var result = new StepRunResult { ResultCode = LastProcessStepResultCode, MatchedStepDefinition = LastProcessStepDefinition, Exception = LastProcessStepException };
+			return result;
 		}
 
 		private void ExecuteStepDefinitionWithLine(StepDefinition stepDefinition, string lineText)

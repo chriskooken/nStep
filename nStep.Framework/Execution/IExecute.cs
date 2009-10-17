@@ -9,6 +9,6 @@ namespace nStep.Framework.Execution
 	public interface IExecute
 	{
 		int LineNumber { get; }
-		void Execute(StepMother stepMother, IFormatOutput outputFormatter);
+		void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter);
 	}
 }

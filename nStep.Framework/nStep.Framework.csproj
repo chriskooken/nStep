@@ -51,7 +51,7 @@
     <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
     <Compile Include="Execution\IProcessScenarioHooks.cs" />
     <Compile Include="Execution\IProcessSteps.cs" />
-    <Compile Include="Execution\Results\StepRunResults.cs" />
+    <Compile Include="Execution\Results\StepRunResult.cs" />
     <Compile Include="Features\Background.cs" />
     <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\FeatureItem.cs" />

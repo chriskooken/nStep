@@ -46,7 +46,7 @@ namespace Specs.StepMother
             }
         }
         private nStep.Framework.StepMother mother;
-        private StepRunResults result;
+        private StepRunResultCode resultCode;
         private StepSet Set;
 
         [SetUp]
@@ -58,23 +58,23 @@ namespace Specs.StepMother
             mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
 			var featureStep = new Step(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
-            result = mother.ProcessStep(featureStep);
+            resultCode = mother.ProcessStep(featureStep).ResultCode;
         }
 
         [Test]
         public void it_should_return_Pending()
         {
-            result.Should().Be.EqualTo(StepRunResults.Pending);
-            mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Pending);
+            resultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
+            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
         }
 
         [Test]
         public void it_should_return_pending_if_there_is_no_method_body()
         {
             var featureStep = new Step(StepKinds.Given) { FeatureLine = "Given I am a pending step with no body \"Chris\"" };
-            result = mother.ProcessStep(featureStep);
-            result.Should().Be.EqualTo(StepRunResults.Pending);
-            mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Pending);
+            resultCode = mother.ProcessStep(featureStep).ResultCode;
+            resultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
+            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
         }
 
 

@@ -9,6 +9,6 @@ namespace nStep.Framework.Execution
 {
 	public interface IProcessSteps
 	{
-		StepRunResults ProcessStep(Step step);
+		StepRunResult ProcessStep(Step step);
 	}
 }

@@ -41,9 +41,8 @@ namespace nStep.Framework.Features
 
 		#region Execution
 
-		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
-			stepMother.CheckForMissingStep(this);
 
 			if (outputFormatter.SkippingSteps)
 			{
@@ -51,19 +50,20 @@ namespace nStep.Framework.Features
 				return;
 			}
 			outputFormatter.SkippingSteps = true;
-			switch (stepMother.ProcessStep(this))
+			var result = stepProcessor.ProcessStep(this);
+			switch (result.ResultCode)
 			{
-				case StepRunResults.Passed:
+				case StepRunResultCode.Passed:
 					outputFormatter.SkippingSteps = false;
-					outputFormatter.WritePassedFeatureLine(this, stepMother.LastProcessStepDefinition);
+					outputFormatter.WritePassedFeatureLine(this, result.MatchedStepDefinition);
 					break;
-				case StepRunResults.Failed:
-					outputFormatter.WriteException(this, stepMother.LastProcessStepException);
+				case StepRunResultCode.Failed:
+					outputFormatter.WriteException(this, result.Exception);
 					break;
-				case StepRunResults.Pending:
-					outputFormatter.WritePendingFeatureLine(this, stepMother.LastProcessStepException);
+				case StepRunResultCode.Pending:
+					outputFormatter.WritePendingFeatureLine(this, result.Exception);
 					break;
-				case StepRunResults.Missing:
+				case StepRunResultCode.Missing:
 					outputFormatter.WriteMissingFeatureLine(this);
 					break;
 				default:
@@ -71,7 +71,7 @@ namespace nStep.Framework.Features
 			}
 		}
 
-		public void Execute(StepMother stepMother, IFormatOutput outputFormatter, IDictionary<string, string> dictionary)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter, IDictionary<string, string> dictionary)
 		{
 			var newLine = FeatureLine;
 
@@ -79,7 +79,7 @@ namespace nStep.Framework.Features
 				newLine = newLine.Replace("<" + key + ">", dictionary[key]);
 
 			var newFeatureStep = new Step(this) { FeatureLine = newLine };
-			newFeatureStep.Execute(stepMother, outputFormatter);
+			newFeatureStep.Execute(stepProcessor, hookProcessor, outputFormatter);
 		}
 
 		#endregion

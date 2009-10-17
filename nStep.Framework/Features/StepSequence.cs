@@ -14,6 +14,6 @@ namespace nStep.Framework.Features
 			Steps = steps;
 		}
 
-		public abstract void Execute(StepMother stepMother, IFormatOutput outputFormatter);
+		public abstract void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter);
 	}
 }

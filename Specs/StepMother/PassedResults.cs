@@ -28,7 +28,7 @@ namespace Specs.StepMother
 
         
         private nStep.Framework.StepMother mother;
-        private StepRunResults result;
+        private StepRunResultCode resultCode;
         private StepSet Set;
 
         [SetUp]
@@ -40,14 +40,14 @@ namespace Specs.StepMother
             mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
             var featureStep = new Step(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
-            result = mother.ProcessStep(featureStep);
+            resultCode = mother.ProcessStep(featureStep).ResultCode;
         }
 
         [Test]
         public void It_should_return_Passed()
         {
-            result.Should().Be.EqualTo(StepRunResults.Passed);
-            mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Passed);
+            resultCode.Should().Be.EqualTo(StepRunResultCode.Passed);
+            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Passed);
         }
 
         [Test]
