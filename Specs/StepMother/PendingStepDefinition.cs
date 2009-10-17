@@ -57,7 +57,7 @@ namespace Specs.StepMother
             Set = new StepSet();
             mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
-			var featureStep = new Step(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
+			var featureStep = new Step { FeatureLine = "Given My Name is \"Chris\"" };
             resultCode = mother.ProcessStep(featureStep).ResultCode;
         }
 
@@ -71,7 +71,7 @@ namespace Specs.StepMother
         [Test]
         public void it_should_return_pending_if_there_is_no_method_body()
         {
-            var featureStep = new Step(StepKinds.Given) { FeatureLine = "Given I am a pending step with no body \"Chris\"" };
+            var featureStep = new Step { FeatureLine = "Given I am a pending step with no body \"Chris\"" };
             resultCode = mother.ProcessStep(featureStep).ResultCode;
             resultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
             mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
@@ -106,7 +106,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_3_params()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-            var featureStep = new Step(StepKinds.When) { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\""};
+            var featureStep = new Step { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\""};
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
                  EqualTo("When(\"^I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"$\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
@@ -116,7 +116,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_2_params()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-			var featureStep = new Step(StepKinds.When) { FeatureLine = "When I type \"dogs\" in the \"search\" field" };
+			var featureStep = new Step { FeatureLine = "When I type \"dogs\" in the \"search\" field" };
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
@@ -127,7 +127,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_1_param()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-			var featureStep = new Step(StepKinds.When) { FeatureLine = "When I type \"dogs\" in google" };
+			var featureStep = new Step { FeatureLine = "When I type \"dogs\" in google" };
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
@@ -138,7 +138,7 @@ namespace Specs.StepMother
         public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_no_params()
         {
             ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-			var featureStep = new Step(StepKinds.When) { FeatureLine = "When I type in google" };
+			var featureStep = new Step { FeatureLine = "When I type in google" };
 
 
             syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.

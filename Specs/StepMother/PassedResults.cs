@@ -39,7 +39,7 @@ namespace Specs.StepMother
             Set = new StepSet();
             mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
-            var featureStep = new Step(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
+            var featureStep = new Step { FeatureLine = "Given My Name is \"Chris\"" };
             resultCode = mother.ProcessStep(featureStep).ResultCode;
         }
 

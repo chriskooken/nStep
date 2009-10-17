@@ -353,16 +353,17 @@ namespace nStep.Core.Parsers
 			var values = GetChildValues(node);
 			if (values.Count > 0)
 			{
-				var verbage = (string) values[0];
-				CurrentStepKind = LookupStepKind(verbage);
-				var featureLine = (string) values[1];
+				var kindWord = (string) values[0];
+				CurrentStepKind = LookupStepKind(kindWord);
+				var stepBody = (string) values[1];
 				var table = (Table) null;
 				if (values.Count > 2)
 					table = (Table)values[3];
 
-				var step = new Step(CurrentStepKind, table)
+				var step = new Step(table)
 				{
-					FeatureLine = verbage + " " + featureLine,
+					KindWord = kindWord,
+					Body = stepBody,
 					LineNumber = node.StartLine
 				};
 				node.AddValue(step);
@@ -370,9 +371,9 @@ namespace nStep.Core.Parsers
 			return node;
 		}
 
-		private StepKinds LookupStepKind(string verbage)
+		private StepKinds LookupStepKind(string kindWord)
 		{
-			switch(verbage) {
+			switch(kindWord) {
 				case "Given": case "given:":
 					return StepKinds.Given;
 				case "When": case "when:":
