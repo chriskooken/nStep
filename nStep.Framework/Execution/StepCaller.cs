@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using nStep.Core;
 using nStep.Framework.StepDefinitions;
-using nStep.Framework;
 
-namespace nStep.Framework
+namespace nStep.Framework.Execution
 {
 	public class StepCaller : StepOrTransformCallerBase
 	{

@@ -66,11 +66,11 @@
     <Compile Include="Execution\IRunStepsFromStrings.cs" />
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="IScenarioHooksRepository.cs" />
-    <Compile Include="StepCaller.cs" />
+    <Compile Include="Execution\StepCaller.cs" />
     <Compile Include="StepMother.cs" />
-    <Compile Include="StepOrTransformCallerBase.cs" />
-    <Compile Include="TransformCaller.cs" />
-    <Compile Include="TypeCaster.cs" />
+    <Compile Include="Execution\StepOrTransformCallerBase.cs" />
+    <Compile Include="Execution\TransformCaller.cs" />
+    <Compile Include="Execution\TypeCaster.cs" />
     <Compile Include="WorldViews\IAmWorldView.cs" />
     <Compile Include="WorldViews\IWorldViewDictionary.cs" />
     <Compile Include="Exceptions\NotWorkingCorrectlyException.cs" />
