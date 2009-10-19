@@ -117,7 +117,7 @@ namespace nStep.Framework
 		public void RunStep(Step step)
 		{
 			var stepDefinition = GetStepDefinition(step.Kind, step.Body);
-			ExecuteStepDefinitionWithLine(stepDefinition, step.Body);
+			ExecuteStepDefinitionWithStep(stepDefinition, step);
 		}
 
 		public StepRunResult ProcessStep(Step featureStepToProcess)
@@ -128,7 +128,7 @@ namespace nStep.Framework
 			try
 			{
 				LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, featureStepToProcess.Body);
-				ExecuteStepDefinitionWithLine(LastProcessStepDefinition, featureStepToProcess.Body);
+				ExecuteStepDefinitionWithStep(LastProcessStepDefinition, featureStepToProcess);
 			}
 			catch (StepMissingException ex)
 			{
@@ -169,7 +169,7 @@ namespace nStep.Framework
 			return result;
 		}
 
-		private void ExecuteStepDefinitionWithLine(StepDefinition stepDefinition, string lineText)
+		private void ExecuteStepDefinitionWithStep(StepDefinition stepDefinition, Step step)
 		{
 			stepDefinition.StepSet.StepFromStringRunner = this;
 
@@ -177,7 +177,7 @@ namespace nStep.Framework
 			try
 			{
 				new StepCaller(stepDefinition,
-				               new TypeCaster(this.transforms)).Call(lineText);
+				               new TypeCaster(this.transforms)).Call(step.Body);
 			}
 			catch (IndexOutOfRangeException e)
 			{
