@@ -9,7 +9,7 @@ namespace nStep.Framework.StepDefinitions
 {
 	public abstract class StepDefinitionDsl<TWorldView> where TWorldView : class
 	{
-		protected IRunStepsFromStrings StepRunner;
+		protected IRunSteps StepRunner;
 
 		protected abstract void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action);
 

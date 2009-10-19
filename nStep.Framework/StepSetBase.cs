@@ -53,7 +53,7 @@ namespace nStep.Framework
             get { return typeof (TWorldView); }
         }
 
-        public IRunStepsFromStrings StepFromStringRunner
+        public IRunSteps StepFromStringRunner
         {
             set { StepRunner = value; }
         }

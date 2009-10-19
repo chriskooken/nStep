@@ -11,7 +11,7 @@ namespace nStep.Framework
         CombinedStepDefinitions StepDefinitions { get; }
         object WorldView { set; }
         Type WorldViewType { get; }
-        IRunStepsFromStrings StepFromStringRunner { set; }
+        IRunSteps StepFromStringRunner { set; }
 
         void BeforeStep();
         void AfterStep();

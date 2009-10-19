@@ -63,7 +63,7 @@
     <Compile Include="Features\ScenarioOutline.cs" />
     <Compile Include="Features\StepSequence.cs" />
     <Compile Include="Features\Table.cs" />
-    <Compile Include="Execution\IRunStepsFromStrings.cs" />
+    <Compile Include="Execution\IRunSteps.cs" />
     <Compile Include="IFormatOutput.cs" />
     <Compile Include="IScenarioHooksRepository.cs" />
     <Compile Include="Execution\StepCaller.cs" />

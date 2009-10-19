@@ -2,7 +2,7 @@
 
 namespace nStep.Framework.Execution
 {
-	public interface IRunStepsFromStrings
+	public interface IRunSteps
 	{
 		void ProcessStep(StepKinds kind, string featureStepToProcess);
 	}
