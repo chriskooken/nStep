@@ -115,7 +115,6 @@ namespace nStep.App
                 {
                     throw new ArgumentException("Invalid feature file description");
                 }
-                
                 return;
             }
 
