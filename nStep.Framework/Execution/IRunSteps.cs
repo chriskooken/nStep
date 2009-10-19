@@ -1,9 +1,10 @@
-﻿using nStep.Framework.StepDefinitions;
+﻿using nStep.Framework.Features;
+using nStep.Framework.StepDefinitions;
 
 namespace nStep.Framework.Execution
 {
 	public interface IRunSteps
 	{
-		void RunStep(StepKinds kind, string featureStepToProcess);
+		void RunStep(StepKinds kind, string body);
 	}
 }

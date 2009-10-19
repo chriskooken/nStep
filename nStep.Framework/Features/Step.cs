@@ -12,7 +12,10 @@ namespace nStep.Framework.Features
 
 		private string _kindWord;
 		public string KindWord {
-			get { return _kindWord; }
+			get
+			{
+				return _kindWord ?? Kind.ToStringValue();
+			}
 			set
 			{
 				_kindWord = value;
