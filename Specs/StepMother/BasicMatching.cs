@@ -1,7 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using nStep.Core.Exceptions;
-using nStep.Core.Features;
 using nStep.Framework;
+using nStep.Framework.Exceptions;
+using nStep.Framework.Features;
+using nStep.Framework.StepDefinitions;
+using nStep.Framework.WorldViews;
 using NUnit.Framework;
 
 namespace Specs.StepMother
@@ -14,12 +16,12 @@ namespace Specs.StepMother
 
         }
 
-        private nStep.Core.WorldViewDictionary worldViews;
+        private nStep.Framework.WorldViews.WorldViewDictionary worldViews;
 
         [SetUp]
         public void Setup()
         {
-            worldViews = new nStep.Core.WorldViewDictionary();
+            worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView),new StringWorldView());
         }
 
@@ -67,10 +69,10 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-            var mother = new nStep.Core.StepMother(worldViews, null);
+            var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
+			var step = new Step { FeatureLine = "Given My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Chris");
         }
@@ -80,10 +82,10 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-            var mother = new nStep.Core.StepMother(worldViews, null);
+            var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "And My Name is \"Chris\"" };
+            var step = new Step { FeatureLine = "And My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Chris");
         }
@@ -93,10 +95,10 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-            var mother = new nStep.Core.StepMother(worldViews, null);
+            var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "And My Name is \"Chris\"" };
+            var step = new Step { FeatureLine = "And My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.providedName.Should().Be.EqualTo("Chris");
         }
@@ -106,10 +108,10 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-            var mother = new nStep.Core.StepMother(worldViews, null);
+            var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
+			var step = new Step { FeatureLine = "Given My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.Before.Should().Be.EqualTo("This was executed before");
         }
@@ -119,10 +121,10 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-            var mother = new nStep.Core.StepMother(worldViews, null);
+            var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-			var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given My Name is \"Chris\"" };
+			var step = new Step { FeatureLine = "Given My Name is \"Chris\"" };
             mother.ProcessStep(step);
             set.After.Should().Be.EqualTo("This was executed after");
         }        
@@ -131,10 +133,10 @@ namespace Specs.StepMother
         {
             var set = new StepSet();
 
-            var mother = new nStep.Core.StepMother(worldViews, null);
+            var mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(set);
 
-            var step = new FeatureStep(StepKinds.Given) { FeatureLine = "Given This is a bad step \"Bobcat\"" };
+            var step = new Step { FeatureLine = "Given This is a bad step \"Bobcat\"" };
             mother.ProcessStep(step);
             mother.LastProcessStepException.Should().Be.OfType<ParameterMismatchException>();
         }

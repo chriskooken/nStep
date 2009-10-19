@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using nStep.Framework.Execution;
 using nStep.Framework.ScenarioHooks;
+using nStep.Framework.StepDefinitions;
 
 namespace nStep.Framework
 {
@@ -51,21 +53,15 @@ namespace nStep.Framework
             get { return typeof (TWorldView); }
         }
 
-        public IRunStepsFromStrings StepFromStringRunner
+        public IRunSteps StepFromStringRunner
         {
             set { StepRunner = value; }
         }
 
         protected override void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
         {
-            var def = new StepDefinition
-            {
-                Regex = new Regex(stepText),
-                Kind = kind,
-                Action = action,
-                ParamsTypes = action.GetType().GetGenericArguments(),
-                StepSet = this
-            };
+            var def = new StepDefinition(new Regex(stepText), action, kind, this);
+            
             switch (kind)
             {
                 case StepKinds.Given:
@@ -86,7 +82,7 @@ namespace nStep.Framework
 
         protected override void AddTransform<TReturn>(Delegate func, string regex)
         {
-            transformDefinitions.Add(new TransformDefinition { Func = func, Regex = new Regex(regex), ReturnType = typeof(TReturn) });
+            transformDefinitions.Add(new TransformDefinition(new Regex(regex), func, typeof (TReturn)));
         }
 
         public IEnumerable<BeforeScenarioHook> BeforeScenarioHooks

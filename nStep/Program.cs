@@ -10,6 +10,7 @@ using nStep.App.CommandLineUtilities;
 using nStep.Core.Parsers;
 using nStep.Core;
 using nStep.Framework;
+using nStep.Framework.WorldViews;
 
 namespace nStep.App
 {
@@ -109,7 +110,7 @@ namespace nStep.App
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
 					var lineNumber = int.Parse(featureDescription.Groups[2].Value);
 					var feature = GherkinParser.GetFeature(filePath);
-					feature.Execute(StepMother, formatter, lineNumber);
+					feature.Execute(StepMother, StepMother, formatter, lineNumber);
                 }
                 catch (FormatException e)
                 {
@@ -124,7 +125,7 @@ namespace nStep.App
             if (filePath.Exists)
             {
                 var feature = GherkinParser.GetFeature(filePath);
-				feature.Execute(StepMother, formatter);
+				feature.Execute(StepMother, StepMother, formatter);
                 return;
             }
 
@@ -134,7 +135,7 @@ namespace nStep.App
 								  var innerFilePath = new FileInfo(x);
 								  var feature = GherkinParser.GetFeature(innerFilePath);
 
-								  feature.Execute(StepMother, formatter);
+								  feature.Execute(StepMother, StepMother, formatter);
                               });
 
         }

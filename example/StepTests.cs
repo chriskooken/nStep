@@ -2,9 +2,9 @@
 using Selenium;
 using nStep.Framework;
 using NUnit.Framework;
-using Cucumber.Selenium;
+using nStep.Selenium;
 
-namespace Cucumber
+namespace nStep
 {
 
     public class User
@@ -32,7 +32,7 @@ namespace Cucumber
                 Pending();
             });
 
-            Transform("([Uu]ser .*)", userName =>
+            Transform("[Uu]ser \"(.*)\"", userName =>
                 {
                     return new User {Name = userName};
                 });
@@ -42,6 +42,11 @@ namespace Cucumber
                     World.Browser.Open("http://www.google.com");
                     World.Browser.WaitForPageToLoad("10");
                 });
+
+            Given("^(User \".*\") is logged in", (User user) =>
+                 {
+                    Console.WriteLine(user.Name);  
+                 });
 
             When("I type \"([^\"]*)\" in the \"([^\"]*)\" field", (string value, string field) =>
                 {
@@ -83,7 +88,12 @@ namespace Cucumber
                 {
 
                 });
-        }
+
+			Given("^user \"([^\"]*)\" is logged in$", (string arg1) =>
+				{
+					
+				});
+		}
     }
 }
 

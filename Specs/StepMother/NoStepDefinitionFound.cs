@@ -1,8 +1,10 @@
 ﻿using System;
 using nStep.Core;
-using nStep.Core.Exceptions;
-using nStep.Core.Features;
-using nStep.Framework;
+using nStep.Framework.Exceptions;
+using nStep.Framework.Execution.Results;
+using nStep.Framework.Features;
+using nStep.Framework.StepDefinitions;
+using nStep.Framework.WorldViews;
 using NUnit.Framework;
 
 namespace Specs.StepMother
@@ -15,7 +17,7 @@ namespace Specs.StepMother
 
         }
 
-        private nStep.Core.WorldViewDictionary worldViews;
+        private nStep.Framework.WorldViews.WorldViewDictionary worldViews;
 
 
 
@@ -42,27 +44,27 @@ namespace Specs.StepMother
                 
             }
         }
-        private nStep.Core.StepMother mother;
-        private StepRunResults result;
+        private nStep.Framework.StepMother mother;
+        private StepRunResultCode resultCode;
         private StepSet Set;
 
         [SetUp]
         public void Setup()
         {
-            worldViews = new nStep.Core.WorldViewDictionary();
+            worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView), new StringWorldView());
             Set = new StepSet();
-			mother = new nStep.Core.StepMother(worldViews, null);
+			mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
-			var featureStep = new FeatureStep(StepKinds.Given) { FeatureLine = "My Name is \"Chris\"" };
-            result = mother.ProcessStep(featureStep);
+			var featureStep = new Step { FeatureLine = "Given My Name is \"Chris\"" };
+            resultCode = mother.ProcessStep(featureStep).ResultCode;
         }
 
         [Test]
         public void it_should_return_Missing()
         {
-            result.Should().Be.EqualTo(StepRunResults.Missing);
-            mother.LastProcessStepResult.Should().Be.EqualTo(StepRunResults.Missing);
+            resultCode.Should().Be.EqualTo(StepRunResultCode.Missing);
+            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Missing);
         }
 
         [Test]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using nStep.Core;
 using nStep.Framework;
 using NUnit.Framework;
 
@@ -42,11 +43,11 @@ namespace Specs
         }
 
         [Test]
-        public void it_should_throw_the_internal_exception()
+        public void it_should_throw_an_NStepInvocationException()
         {
             Action action = () => { throw new InvalidTimeZoneException(); };
             var caller = new nStep.Core.ActionCaller(action);
-            new Action(() => caller.Call()).Should().Throw<InvalidTimeZoneException>();
+            new Action(() => caller.Call()).Should().Throw<NStepInvocationException>();
         }
 	}
 }

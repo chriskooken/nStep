@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using nStep.App.CommandLineUtilities;
-using nStep.Core.Exceptions;
+using nStep.Framework.Exceptions;
 
 namespace nStep.Core
 {
@@ -28,7 +28,7 @@ namespace nStep.Core
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.ReadKey();
             }
-            catch (InvalidScenarioLineNumberException ex)
+            catch (InvalidExecutableLineNumberException ex)
             {
                 WriteException(ex.Message);
             }

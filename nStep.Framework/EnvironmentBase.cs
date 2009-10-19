@@ -1,5 +1,4 @@
-﻿
-using nStep.Core;
+﻿using nStep.Framework.WorldViews;
 
 namespace nStep.Framework
 {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using nStep.Framework.Execution;
 using nStep.Framework.ScenarioHooks;
 
 namespace nStep.Framework
@@ -10,7 +11,7 @@ namespace nStep.Framework
         CombinedStepDefinitions StepDefinitions { get; }
         object WorldView { set; }
         Type WorldViewType { get; }
-        IRunStepsFromStrings StepFromStringRunner { set; }
+        IRunSteps StepFromStringRunner { set; }
 
         void BeforeStep();
         void AfterStep();
