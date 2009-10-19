@@ -88,7 +88,12 @@ namespace nStep
                 {
 
                 });
-        }
+
+			Given("^user \"([^\"]*)\" is logged in$", (string arg1) =>
+				{
+					
+				});
+		}
     }
 }
 

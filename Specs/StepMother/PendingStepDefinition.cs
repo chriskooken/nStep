@@ -46,7 +46,7 @@ namespace Specs.StepMother
             }
         }
         private nStep.Framework.StepMother mother;
-        private StepRunResultCode resultCode;
+        private StepRunResult result;
         private StepSet Set;
 
         [SetUp]
@@ -58,13 +58,13 @@ namespace Specs.StepMother
             mother = new nStep.Framework.StepMother(worldViews, null);
             mother.AdoptSteps(Set);
 			var featureStep = new Step { FeatureLine = "Given My Name is \"Chris\"" };
-            resultCode = mother.ProcessStep(featureStep).ResultCode;
+            result = mother.ProcessStep(featureStep);
         }
 
         [Test]
         public void it_should_return_Pending()
         {
-            resultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
+            result.ResultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
             mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
         }
 
@@ -72,8 +72,8 @@ namespace Specs.StepMother
         public void it_should_return_pending_if_there_is_no_method_body()
         {
             var featureStep = new Step { FeatureLine = "Given I am a pending step with no body \"Chris\"" };
-            resultCode = mother.ProcessStep(featureStep).ResultCode;
-            resultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
+            result = mother.ProcessStep(featureStep);
+            result.ResultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
             mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Pending);
         }
 
@@ -85,9 +85,21 @@ namespace Specs.StepMother
         }
 
         [Test]
+        public void it_should_Set_Result_Exception_to_PendingStepException()
+        {
+            result.Exception.Should().Be.OfType<StepPendingException>();
+        }
+
+        [Test]
         public void it_should_set_LastProcess_StepDefinition_to_the_pending_Step()
         {
             mother.LastProcessStepDefinition.Should().Be.EqualTo(Set.StepDefinitions.Givens.First());
+        }
+
+        [Test]
+        public void it_should_set_Result_StepDefinition_to_the_pending_Step()
+        {
+            result.MatchedStepDefinition.Should().Be.EqualTo(Set.StepDefinitions.Givens.First());
         }
 
         [Test]
