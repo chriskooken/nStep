@@ -123,13 +123,6 @@ namespace nStep.Framework
 
 		public StepRunResult ProcessStep(Step featureStepToProcess)
 		{
-			var result = RunStep(featureStepToProcess);
-			return result;
-		}
-
-
-		private StepRunResult RunStep(Step featureStepToProcess)
-		{
 			LastProcessStepException = null;
 			LastProcessStepDefinition = null;
 	

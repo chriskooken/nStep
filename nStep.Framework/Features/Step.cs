@@ -32,7 +32,7 @@ namespace nStep.Framework.Features
 			}
 		}
 		public int LineNumber { get; set; }
-		public StepKinds Kind { get; private set; }
+		public StepKinds Kind { get; set; }
 		public Table Table { get; private set; }
 
 		#endregion
