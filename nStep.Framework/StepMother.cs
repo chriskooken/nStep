@@ -177,7 +177,7 @@ namespace nStep.Framework
 			try
 			{
 				new StepCaller(stepDefinition,
-				               new TypeCaster(this.transforms)).Call(step.Body);
+				               new TypeCaster(this.transforms)).Call(step);
 			}
 			catch (IndexOutOfRangeException e)
 			{

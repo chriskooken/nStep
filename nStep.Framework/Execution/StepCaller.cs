@@ -1,4 +1,5 @@
 using nStep.Core;
+using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
 
 namespace nStep.Framework.Execution
@@ -8,9 +9,9 @@ namespace nStep.Framework.Execution
 		public StepCaller(StepDefinition step, TypeCaster typeCaster) : base(typeCaster, step)
 		{}
 
-		public void Call(string featureLine)
+		public void Call(Step step)
 		{
-			new ActionCaller(DelegateToInvoke, GetParams(featureLine)).Call();
+			new ActionCaller(DelegateToInvoke, GetParams(step.Body)).Call();
 		}
 	}
 }

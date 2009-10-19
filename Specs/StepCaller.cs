@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using nStep.Framework;
+using nStep.Framework.Features;
+using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 
 namespace Specs
@@ -33,10 +35,10 @@ namespace Specs
             var set = new StepSet();
             var step = set.StepDefinitions.Givens.First();
 
-            var featureLine = "This is a test: Boo";
+            var body = "This is a test: Boo";
 
             var caller = new nStep.Framework.Execution.StepCaller(step, new nStep.Framework.Execution.TypeCaster(null));
-            caller.Call(featureLine);
+			caller.Call(new Step { Body = body, Kind = StepKinds.Given });
 
             set.Output.Should().Be.EqualTo("Boo");
         }
@@ -47,10 +49,10 @@ namespace Specs
             var set = new StepSet();
             var step = set.StepDefinitions.Givens.Last();
 
-            var featureLine = "This is a test: 42";
+            var body = "This is a test: 42";
 
             var caller = new nStep.Framework.Execution.StepCaller(step, new nStep.Framework.Execution.TypeCaster(null));
-            caller.Call(featureLine);
+			caller.Call(new Step { Body = body, Kind = StepKinds.Given });
 
             set.Output.Should().Be.EqualTo("42");
         }
