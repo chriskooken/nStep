@@ -27,7 +27,7 @@ namespace nStep.Framework.StepDefinitions
 		protected void Given(string body)
 		{
 			var step = new Step { Body = body, Kind = StepKinds.Given };
-			StepRunner.RunStep(step.Kind, step.Body);
+			StepRunner.RunStep(step);
 		}
 
 		protected void Given<T1>(string regex, Action<T1> action)
@@ -81,7 +81,7 @@ namespace nStep.Framework.StepDefinitions
 		protected void When(string body)
 		{
 			var step = new Step { Body = body, Kind = StepKinds.When };
-			StepRunner.RunStep(step.Kind, step.Body);
+			StepRunner.RunStep(step);
 		}
 
 		protected void When<T1>(string regex, Action<T1> action)
@@ -134,7 +134,7 @@ namespace nStep.Framework.StepDefinitions
 		protected void Then(string body)
 		{
 			var step = new Step { Body = body, Kind = StepKinds.Then };
-			StepRunner.RunStep(step.Kind, step.Body);
+			StepRunner.RunStep(step);
 		}
 
 		protected void Then<T1>(string regex, Action<T1> action)
