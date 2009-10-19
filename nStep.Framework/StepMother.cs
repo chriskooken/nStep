@@ -97,18 +97,11 @@ namespace nStep.Framework
 
 		public StepDefinition LastProcessStepDefinition { get; private set; }
 
-		public void RunStep(Step step)
-		{
-			var stepDefinition = GetStepDefinition(step.Kind, step.Body);
-			ExecuteStepDefinitionWithLine(stepDefinition, step.Body);
-		}
-
 		public void CheckForMissingStep(Step featureStep)
 		{
-			var lineText = RemoveGivenWhenThensForWholeLineMatching(featureStep.FeatureLine);
 			try
 			{
-				GetStepDefinition(featureStep.Kind, lineText);
+				GetStepDefinition(featureStep.Kind, featureStep.Body);
 			}
 			catch(StepMissingException ex)
 			{
@@ -121,16 +114,21 @@ namespace nStep.Framework
 			}
 		}
 
+		public void RunStep(Step step)
+		{
+			var stepDefinition = GetStepDefinition(step.Kind, step.Body);
+			ExecuteStepDefinitionWithLine(stepDefinition, step.Body);
+		}
+
 		public StepRunResult ProcessStep(Step featureStepToProcess)
 		{
 			LastProcessStepException = null;
 			LastProcessStepDefinition = null;
 	
-			var lineText = RemoveGivenWhenThensForWholeLineMatching(featureStepToProcess.FeatureLine);
 			try
 			{
-				LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, lineText);
-				ExecuteStepDefinitionWithLine(LastProcessStepDefinition, lineText);
+				LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, featureStepToProcess.Body);
+				ExecuteStepDefinitionWithLine(LastProcessStepDefinition, featureStepToProcess.Body);
 			}
 			catch (StepMissingException ex)
 			{
@@ -216,13 +214,6 @@ namespace nStep.Framework
 			CheckForEmptyAction(results.First().Action);
 
 			return results.First();
-		}
-
-		string RemoveGivenWhenThensForWholeLineMatching(string text)
-		{
-			var regexPattern = "^(Given|When|Then|And|But|given:|when:|then:|and:|but:)(.*)";
-			var regex = new Regex(regexPattern);
-			return regex.Match(text).Groups[2].Value.Trim();
 		}
 
 		private static void CheckForEmptyAction(Delegate action)
