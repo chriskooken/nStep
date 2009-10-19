@@ -25,7 +25,7 @@ namespace nStep.Framework.StepDefinitions
 
 		protected void Given(string featureLine)
 		{
-			StepRunner.ProcessStep(StepKinds.Given, featureLine);
+			StepRunner.RunStep(StepKinds.Given, featureLine);
 		}
 
 		protected void Given<T1>(string regex, Action<T1> action)
@@ -78,7 +78,7 @@ namespace nStep.Framework.StepDefinitions
 		#region When StepDefinitions
 		protected void When(string featureLine)
 		{
-			StepRunner.ProcessStep(StepKinds.When, featureLine);
+			StepRunner.RunStep(StepKinds.When, featureLine);
 		}
 
 		protected void When<T1>(string regex, Action<T1> action)
@@ -130,7 +130,7 @@ namespace nStep.Framework.StepDefinitions
 		#region Then StepDefinitions
 		protected void Then(string featureLine)
 		{
-			StepRunner.ProcessStep(StepKinds.Then, featureLine);
+			StepRunner.RunStep(StepKinds.Then, featureLine);
 		}
 
 		protected void Then<T1>(string regex, Action<T1> action)

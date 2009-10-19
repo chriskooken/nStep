@@ -97,7 +97,7 @@ namespace nStep.Framework
 
 		public StepDefinition LastProcessStepDefinition { get; private set; }
 
-		public void ProcessStep(StepKinds kind, string featureStepToProcess)
+		public void RunStep(StepKinds kind, string featureStepToProcess)
 		{
 			var stepDefinition = GetStepDefinition(kind, featureStepToProcess);
 			ExecuteStepDefinitionWithLine(stepDefinition, featureStepToProcess);
