@@ -8,8 +8,9 @@ namespace nStep.Framework
 	public interface IFormatOutput
 	{
 		bool SkippingSteps { get; set; }
+	    bool SkipWritingBackground { get; set; }
 
-		void WriteException(Step featureStep, Exception ex);
+	    void WriteException(Step featureStep, Exception ex);
 		void WritePassedFeatureLine(Step featureStep, StepDefinition stepDefinition);
 		void WritePendingFeatureLine(Step featureStep, Exception exception);
 		void WriteFeatureHeading(Feature feature);

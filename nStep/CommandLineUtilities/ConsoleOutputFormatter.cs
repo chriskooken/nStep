@@ -12,7 +12,7 @@ namespace nStep.App.CommandLineUtilities
     public class ConsoleOutputFormatter : IFormatOutput 
     {
 		public bool SkippingSteps { get; set; }
-
+        public bool SkipWritingBackground { get; set; }
 		
 		readonly ISuggestSyntax syntaxSuggester;
         DateTime startTime;

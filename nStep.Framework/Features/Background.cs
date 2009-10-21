@@ -14,7 +14,7 @@ namespace nStep.Framework.Features
 
 		public override void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
-			if (Steps.Count > 0)
+			if ((Steps.Count > 0) && (!outputFormatter.SkipWritingBackground))
 				outputFormatter.WriteBackgroundHeading(this);
 
 			outputFormatter.SkippingSteps = false;

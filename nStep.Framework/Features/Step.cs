@@ -68,6 +68,15 @@ namespace nStep.Framework.Features
 
 		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
+            //if step is in background, and background has ran once,then dont write it.
+            if (StepSequence is Background && outputFormatter.SkipWritingBackground)
+            {
+               stepProcessor.ProcessStep(this);
+                return;
+            }
+
+            if (!(StepSequence is Background))
+                outputFormatter.SkipWritingBackground = true;
 
 			if (outputFormatter.SkippingSteps)
 			{
@@ -76,6 +85,10 @@ namespace nStep.Framework.Features
 			}
 			outputFormatter.SkippingSteps = true;
 			var result = stepProcessor.ProcessStep(this);
+
+            
+		    
+
 			switch (result.ResultCode)
 			{
 				case StepRunResultCode.Passed:
