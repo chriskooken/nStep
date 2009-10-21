@@ -5,7 +5,7 @@ More text goes here
 And Adam is cool
 
 Background:
-	Given user "Some User" is logged in
+	Given User "Some User" is logged in
 	#And "Laurens Office" has a kiosk called "Kiosk 1"
 
 Scenario: I search for dogs
