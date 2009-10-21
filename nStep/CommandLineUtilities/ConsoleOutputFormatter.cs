@@ -146,12 +146,14 @@ namespace nStep.App.CommandLineUtilities
         public void WriteFeatureHeading(Feature feature)
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            foreach (var tag in feature.Tags)
-                Console.Write("@"+tag + " ");
+            if (feature.Tags != null)
+            {
+                foreach (var tag in feature.Tags)
+                    Console.Write("@" + tag + " ");
 
-            if (feature.Tags.Any())
-                WriteLineBreak();
-            
+                if (feature.Tags.Any())
+                    WriteLineBreak();
+            }
             Console.ForegroundColor = ConsoleColor.Gray;
             WriteLineLevel1("Feature: " +feature.Description);
             foreach (var s in feature.SummaryLines)
