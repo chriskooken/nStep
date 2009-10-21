@@ -21,51 +21,31 @@ namespace nStep.Framework
 		private IList<TransformDefinition> transforms;
 		private IEnumerable<BeforeScenarioHook> beforeScenarioHooks;
 		private IEnumerable<AfterScenarioHook> afterScenarioHooks;
-		private IList<Step> failedSteps;
-		private IList<Step> pendingSteps;
-		private IList<Step> missingSteps;
-		private IList<Step> passedSteps;
 
+		public Exception LastProcessStepException { get; private set; }
+		public StepRunResultCode LastProcessStepResultCode { get; private set; }
+		public StepDefinition LastProcessStepDefinition { get; private set; }
+
+		public IList<Step> PassedSteps { get; private set; }
+		public IList<Step> PendingSteps { get; private set; }
+		public IList<Step> MissingSteps { get; private set; }
+		public IList<Step> FailedSteps { get; private set; }
 
 		public StepMother(IWorldViewDictionary worldViews, IScenarioHooksRepository hooksRepository)
 		{
 			if(worldViews == null)
 				throw new ArgumentNullException("world views dictionary cannot be null");
 			this.worldViews = worldViews;
-			failedSteps = new List<Step>();
-			pendingSteps = new List<Step>();
-			missingSteps = new List<Step>();
-			passedSteps = new List<Step>();
+			FailedSteps = new List<Step>();
+			PendingSteps = new List<Step>();
+			MissingSteps = new List<Step>();
+			PassedSteps = new List<Step>();
 			givens = new List<StepDefinition>();
 			whens = new List<StepDefinition>();
 			thens = new List<StepDefinition>();
 			transforms = new List<TransformDefinition>();
 			beforeScenarioHooks = hooksRepository == null ? null : hooksRepository.BeforeScenarioHooks;
 			afterScenarioHooks = hooksRepository == null ? null : hooksRepository.AfterScenarioHooks;
-		}
-
-		public IList<Step> PassedSteps
-		{
-			get { return passedSteps; }
-			set { passedSteps = value; }
-		}
-
-		public IList<Step> PendingSteps
-		{
-			get { return pendingSteps; }
-			set { pendingSteps = value; }
-		}    
-        
-		public IList<Step> MissingSteps
-		{
-			get { return missingSteps; }
-			set { missingSteps = value; }
-		}
-
-		public IList<Step> FailedSteps
-		{
-			get { return failedSteps; }
-			set { failedSteps = value; }
 		}
 
 		public void AdoptSteps(IProvideSteps stepSet)
@@ -91,21 +71,15 @@ namespace nStep.Framework
 				AdoptSteps(set);
 		}
 
-		public Exception LastProcessStepException { get; private set; }
-
-		public StepRunResultCode LastProcessStepResultCode { get; private set; }
-
-		public StepDefinition LastProcessStepDefinition { get; private set; }
-
 		public void CheckForMissingStep(Step featureStep)
 		{
 			try
 			{
-				GetStepDefinition(featureStep.Kind, featureStep.Body);
+				GetStepDefinition(featureStep);
 			}
 			catch(StepMissingException ex)
 			{
-				missingSteps.Add(featureStep);
+				MissingSteps.Add(featureStep);
 			}
 			catch(Exception e)
 			{
@@ -116,7 +90,7 @@ namespace nStep.Framework
 
 		public void RunStep(Step step)
 		{
-			var stepDefinition = GetStepDefinition(step.Kind, step.Body);
+			var stepDefinition = GetStepDefinition(step);
 			ExecuteStepDefinitionWithStep(stepDefinition, step);
 		}
 
@@ -127,18 +101,18 @@ namespace nStep.Framework
 	
 			try
 			{
-				LastProcessStepDefinition = GetStepDefinition(step.Kind, step.Body);
+				LastProcessStepDefinition = GetStepDefinition(step);
 				ExecuteStepDefinitionWithStep(LastProcessStepDefinition, step);
 			}
 			catch (StepMissingException ex)
 			{
-				missingSteps.Add(step);
+				MissingSteps.Add(step);
 				LastProcessStepException = ex;
 				LastProcessStepResultCode = StepRunResultCode.Missing;
 			}
 			catch (StepPendingException ex)
 			{
-				failedSteps.Add(step);
+				FailedSteps.Add(step);
 				LastProcessStepException = ex;
 				LastProcessStepResultCode = StepRunResultCode.Pending;
 			}
@@ -156,13 +130,13 @@ namespace nStep.Framework
 				}
 				else
 				{
-					failedSteps.Add(step);
+					FailedSteps.Add(step);
 					LastProcessStepException = ex;
 					LastProcessStepResultCode = StepRunResultCode.Failed;
 				}
 			}
             
-			passedSteps.Add(step);
+			PassedSteps.Add(step);
 
 			CheckForMissingStep(step);
 			var result = new StepRunResult { ResultCode = LastProcessStepResultCode, MatchedStepDefinition = LastProcessStepDefinition, Exception = LastProcessStepException };
@@ -189,19 +163,19 @@ namespace nStep.Framework
 			stepDefinition.StepSet.AfterStep();
 		}
 
-		private StepDefinition GetStepDefinition(StepKinds stepKind, string lineText)
+		private StepDefinition GetStepDefinition(Step step)
 		{
 			IEnumerable<StepDefinition> results;
-			switch (stepKind)
+			switch (step.Kind)
 			{
 				case StepKinds.Given:
-					results = givens.Where(definition => definition.Regex.IsMatch(lineText));
+					results = givens.Where(definition => definition.Regex.IsMatch(step.Body));
 					break;
 				case StepKinds.When:
-					results = whens.Where(definition => definition.Regex.IsMatch(lineText));
+					results = whens.Where(definition => definition.Regex.IsMatch(step.Body));
 					break;
 				case StepKinds.Then:
-					results = thens.Where(definition => definition.Regex.IsMatch(lineText));
+					results = thens.Where(definition => definition.Regex.IsMatch(step.Body));
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -209,7 +183,7 @@ namespace nStep.Framework
 
 			if (results.Count() == 0) throw new StepMissingException();
 
-			if (results.Count() > 1) throw new StepAmbiguousException(lineText);
+			if (results.Count() > 1) throw new StepAmbiguousException(step.Body);
 
 			CheckForEmptyAction(results.First().Action);
 
