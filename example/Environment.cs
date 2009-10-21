@@ -7,7 +7,7 @@ namespace nStep
 {
 	public class Environment : EnvironmentBase
 	{
-	    public override void GlobalBegin(IWorldViewDictionary worldViewDictionary)
+	    public override void GlobalBegin()
 	    {
 	    }
 
