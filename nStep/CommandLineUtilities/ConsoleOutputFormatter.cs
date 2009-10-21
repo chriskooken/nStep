@@ -97,10 +97,15 @@ namespace nStep.App.CommandLineUtilities
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
-            WriteLineLevel3(ex.Message);
 
-            WriteLineLevel4(ex.StackTrace);
-            Console.ForegroundColor = ConsoleColor.Gray;
+			// ex is null if the step follows a pending step (rendering itself pending)
+			if (ex != null)
+			{
+				WriteLineLevel3(ex.Message);
+				WriteLineLevel4(ex.StackTrace);
+			}
+
+        	Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WriteSkippedFeatureLine(Step featureStep)

@@ -13,15 +13,16 @@ namespace nStep.Framework.StepDefinitions
 	{
 		public static StepKinds ToStepKind(this string value)
 		{
-			switch (value.Trim().ToUpper())
+			switch (value)
 			{
-				case "GIVEN":
+				case "Given": case "given:":
 					return StepKinds.Given;
-					break;
-				case "WHEN":
+				case "When": case "when:":
 					return StepKinds.When;
-				case "THEN":
+				case "Then": case "then:":
 					return StepKinds.Then;
+				case "And": case "and:": case "But": case "but:":
+					return 0;
 				default:
 					throw new InvalidOperationException("Value not found in enumeration.");
 			}

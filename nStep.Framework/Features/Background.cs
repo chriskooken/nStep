@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using nStep.Framework.Execution;
 
 namespace nStep.Framework.Features
 {
@@ -11,7 +12,7 @@ namespace nStep.Framework.Features
 			: base(steps)
 		{ }
 
-		public override void Execute(StepMother stepMother, IFormatOutput outputFormatter)
+		public override void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
 			if (Steps.Count > 0)
 				outputFormatter.WriteBackgroundHeading(this);
@@ -19,7 +20,7 @@ namespace nStep.Framework.Features
 			outputFormatter.SkippingSteps = false;
 			foreach (var step in Steps)
 			{
-				step.Execute(stepMother, outputFormatter);
+				step.Execute(stepProcessor, hookProcessor, outputFormatter);
 			}
 
 			outputFormatter.WriteLineBreak();

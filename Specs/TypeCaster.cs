@@ -14,7 +14,7 @@ namespace Specs
             public string banana;
         }
 
-        private nStep.Core.TypeCaster cut = new nStep.Core.TypeCaster(GetTranformdefinitions());
+        private nStep.Framework.Execution.TypeCaster cut = new nStep.Framework.Execution.TypeCaster(GetTranformdefinitions());
 
         private static IEnumerable<TransformDefinition> GetTranformdefinitions()
         {

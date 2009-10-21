@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using nStep.Framework.Exceptions;
 using nStep.Framework.Execution;
 using nStep.Framework.Execution.Results;
+using nStep.Framework.Features;
 using nStep.Framework.ScenarioHooks;
 
 namespace nStep.Framework.StepDefinitions
 {
 	public abstract class StepDefinitionDsl<TWorldView> where TWorldView : class
 	{
-		protected IRunStepsFromStrings StepRunner;
+		protected IRunSteps StepRunner;
 
 		protected abstract void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action);
 
@@ -23,9 +24,10 @@ namespace nStep.Framework.StepDefinitions
 
 		#region Given StepDefinitions
 
-		protected void Given(string featureLine)
+		protected void Given(string body)
 		{
-			StepRunner.ProcessStep(StepKinds.Given, featureLine);
+			var step = new Step { Body = body, Kind = StepKinds.Given };
+			StepRunner.RunStep(step);
 		}
 
 		protected void Given<T1>(string regex, Action<T1> action)
@@ -76,9 +78,10 @@ namespace nStep.Framework.StepDefinitions
 		#endregion
 
 		#region When StepDefinitions
-		protected void When(string featureLine)
+		protected void When(string body)
 		{
-			StepRunner.ProcessStep(StepKinds.When, featureLine);
+			var step = new Step { Body = body, Kind = StepKinds.When };
+			StepRunner.RunStep(step);
 		}
 
 		protected void When<T1>(string regex, Action<T1> action)
@@ -128,9 +131,10 @@ namespace nStep.Framework.StepDefinitions
 		#endregion
 
 		#region Then StepDefinitions
-		protected void Then(string featureLine)
+		protected void Then(string body)
 		{
-			StepRunner.ProcessStep(StepKinds.Then, featureLine);
+			var step = new Step { Body = body, Kind = StepKinds.Then };
+			StepRunner.RunStep(step);
 		}
 
 		protected void Then<T1>(string regex, Action<T1> action)

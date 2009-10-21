@@ -9,9 +9,12 @@ Background:
 
 Scenario: When I search for dogs
 	Given I am on the google homepage
-	When I type "dogs" in the "search" field:
+	Given "America" has the following geography:
 		| CITY	    | VALUE	|
 		| Roswell	| GA	|
 		| Wheaton	| IL	|
 		| Auburn	| AL	|
+
+	Then all is well
+	And that is all
 

@@ -10,28 +10,51 @@ namespace nStep.Framework.Features
 	{
 		#region Properties
 
-		public string FeatureLine { get; set; }
+		private string _kindWord;
+		public string KindWord {
+			get
+			{
+				return _kindWord ?? Kind.ToStringValue();
+			}
+			set
+			{
+				_kindWord = value;
+				Kind = KindWord.ToStepKind();
+			}
+		}
+
+		public string Body { get; set; }
+		public string FeatureLine
+		{
+			get { return KindWord + " " + Body; }
+			set
+			{
+				var index = value.IndexOf(" ");
+				KindWord = value.Substring(0, index);
+				Body = value.Substring(index).Trim();
+			}
+		}
 		public int LineNumber { get; set; }
-		public StepKinds Kind { get; private set; }
+		public StepKinds Kind { get; set; }
 		public Table Table { get; private set; }
 
 		#endregion
 
 		#region Constructors
 
-		public Step(StepKinds kind)
-			: this(kind, null)
+		public Step()
+			: this(null as Table)
 		{ }
 
-		public Step(StepKinds kind, Table table)
+		public Step(Table table)
 		{
-			Kind = kind;
 			Table = table;
 		}
 
 		private Step(Step originalStep)
 		{
-			FeatureLine = originalStep.FeatureLine;
+			KindWord = originalStep.KindWord;
+			Body = originalStep.Body;
 			LineNumber = originalStep.LineNumber;
 			Kind = originalStep.Kind;
 			Table = originalStep.Table;
@@ -41,9 +64,8 @@ namespace nStep.Framework.Features
 
 		#region Execution
 
-		public void Execute(StepMother stepMother, IFormatOutput outputFormatter)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
-			stepMother.CheckForMissingStep(this);
 
 			if (outputFormatter.SkippingSteps)
 			{
@@ -51,19 +73,20 @@ namespace nStep.Framework.Features
 				return;
 			}
 			outputFormatter.SkippingSteps = true;
-			switch (stepMother.ProcessStep(this))
+			var result = stepProcessor.ProcessStep(this);
+			switch (result.ResultCode)
 			{
-				case StepRunResults.Passed:
+				case StepRunResultCode.Passed:
 					outputFormatter.SkippingSteps = false;
-					outputFormatter.WritePassedFeatureLine(this, stepMother.LastProcessStepDefinition);
+					outputFormatter.WritePassedFeatureLine(this, result.MatchedStepDefinition);
 					break;
-				case StepRunResults.Failed:
-					outputFormatter.WriteException(this, stepMother.LastProcessStepException);
+				case StepRunResultCode.Failed:
+					outputFormatter.WriteException(this, result.Exception);
 					break;
-				case StepRunResults.Pending:
-					outputFormatter.WritePendingFeatureLine(this, stepMother.LastProcessStepException);
+				case StepRunResultCode.Pending:
+					outputFormatter.WritePendingFeatureLine(this, result.Exception);
 					break;
-				case StepRunResults.Missing:
+				case StepRunResultCode.Missing:
 					outputFormatter.WriteMissingFeatureLine(this);
 					break;
 				default:
@@ -71,15 +94,15 @@ namespace nStep.Framework.Features
 			}
 		}
 
-		public void Execute(StepMother stepMother, IFormatOutput outputFormatter, IDictionary<string, string> dictionary)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter, IDictionary<string, string> dictionary)
 		{
-			var newLine = FeatureLine;
+			var newBody = FeatureLine;
 
 			foreach (var key in dictionary.Keys)
-				newLine = newLine.Replace("<" + key + ">", dictionary[key]);
+				newBody = newBody.Replace("<" + key + ">", dictionary[key]);
 
-			var newFeatureStep = new Step(this) { FeatureLine = newLine };
-			newFeatureStep.Execute(stepMother, outputFormatter);
+			var newFeatureStep = new Step(this) { Body = newBody };
+			newFeatureStep.Execute(stepProcessor, hookProcessor, outputFormatter);
 		}
 
 		#endregion

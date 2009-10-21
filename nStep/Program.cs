@@ -35,9 +35,14 @@ namespace nStep.App
             if (Options.Debug)
             {
                 Console.WriteLine("Please attach the .Net debugger to continue...");
+                int seconds = 0;
                 while (!System.Diagnostics.Debugger.IsAttached)
                 {
                     Thread.Sleep(200);
+                    System.Threading.Thread.Sleep(1000);
+                    seconds += 1;
+                    if (seconds > 60)
+                        return;
                 }
             }
 
@@ -114,13 +119,12 @@ namespace nStep.App
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
 					var lineNumber = int.Parse(featureDescription.Groups[2].Value);
 					var feature = GherkinParser.GetFeature(filePath);
-					feature.Execute(StepMother, formatter, lineNumber);
+					feature.Execute(StepMother, StepMother, formatter, lineNumber);
                 }
                 catch (FormatException e)
                 {
                     throw new ArgumentException("Invalid feature file description");
                 }
-                
                 return;
             }
 
@@ -130,7 +134,7 @@ namespace nStep.App
             if (filePath.Exists)
             {
                 var feature = GherkinParser.GetFeature(filePath);
-				feature.Execute(StepMother, formatter);
+				feature.Execute(StepMother, StepMother, formatter);
                 return;
             }
 
@@ -140,7 +144,7 @@ namespace nStep.App
 								  var innerFilePath = new FileInfo(x);
 								  var feature = GherkinParser.GetFeature(innerFilePath);
 
-								  feature.Execute(StepMother, formatter);
+								  feature.Execute(StepMother, StepMother, formatter);
                               });
 
         }
