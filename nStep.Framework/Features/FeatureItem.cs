@@ -9,15 +9,16 @@ namespace nStep.Framework.Features
 	{
 		#region Properties
 
-		public Feature Feature { get; set; }
+		public Feature Feature { get; internal set; }
 		public IEnumerable<string> Tags { get; set; }
 
 		#endregion
 
-
-		public FeatureItem(IList<Step> steps)
+		protected FeatureItem(IList<Step> steps)
 			: base(steps)
-		{ }
-
+		{
+			foreach (var step in steps)
+				step.FeatureItem = this;
+		}
 	}
 }
