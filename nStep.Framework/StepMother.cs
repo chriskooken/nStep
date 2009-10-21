@@ -113,7 +113,7 @@ namespace nStep.Framework
 			}
 			catch (StepPendingException ex)
 			{
-				FailedSteps.Add(step);
+                PendingSteps.Add(step);
 				LastProcessStepException = ex;
 				LastProcessStepResultCode = StepRunResultCode.Pending;
 			}
@@ -128,6 +128,7 @@ namespace nStep.Framework
 				{
 					LastProcessStepException = ex.InnerException;
 					LastProcessStepResultCode = StepRunResultCode.Pending;
+                    PendingSteps.Add(step);
 				}
 				else
 				{

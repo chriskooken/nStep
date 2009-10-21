@@ -155,7 +155,9 @@ namespace nStep.App.CommandLineUtilities
         public void WriteResults(StepMother stepMother)
         {
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteFailedFeatureLines(stepMother.FailedSteps);
+            WritePendingFeatureLineSummary(stepMother.PendingSteps);
+            WriteLineBreak();
+            WriteFailedFeatureLineSummary(stepMother.FailedSteps);
             Console.ForegroundColor = ConsoleColor.Gray;
             WriteDuration();
             WriteLineBreak();
@@ -164,14 +166,26 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        static void WriteFailedFeatureLines(IList<Step> failedSteps)
+        static void WritePendingFeatureLineSummary(IList<Step> pendingSteps)
         {
-            if (failedSteps.Count == 0) return;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            WriteLineSummary(pendingSteps, "Pending Steps:");
+        }
+
+        static void WriteFailedFeatureLineSummary(IList<Step> failedSteps)
+        {
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine(failedSteps.Count + " Failed Steps: ");
-            foreach (var failedStep in failedSteps)
+            WriteLineSummary(failedSteps, "Failed Steps:");
+        }
+
+        static void WriteLineSummary(IList<Step> stepsToSummarize, string summaryTitle)
+        {
+            if (stepsToSummarize.Count == 0) return;
+            
+            Console.WriteLine(stepsToSummarize.Count + " "+summaryTitle+" ");
+            foreach (var step in stepsToSummarize)
             {
-                Console.WriteLine(failedStep.FeatureLine + ":" + failedStep.LineNumber);
+                Console.WriteLine(step.FeatureLine + ":" + step.LineNumber);
             }
         }
 

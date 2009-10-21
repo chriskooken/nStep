@@ -22,8 +22,8 @@ namespace nStep.Framework.Execution
 			if (step.Table == null)
 				return regularParameters;
 			else
-				return regularParameters;
-				//return regularParameters.Concat(new[] { step.Table }).ToArray();
+				//return regularParameters;
+				return regularParameters.Concat(new[] { step.Table }).ToArray();
 		}
 	}
 }

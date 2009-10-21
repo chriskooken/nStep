@@ -1,4 +1,5 @@
 ﻿using System;
+using nStep.Framework.Features;
 using Selenium;
 using nStep.Framework;
 using NUnit.Framework;
@@ -93,6 +94,11 @@ namespace nStep
 				{
 					
 				});
+            
+            Given("^\"([^\"]*)\" has the following geography$", (string arg1, Table table) =>
+            {
+                Pending();
+            });
 		}
     }
 }
