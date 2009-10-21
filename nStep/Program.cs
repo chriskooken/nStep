@@ -33,8 +33,15 @@ namespace nStep.App
             Options = new nStepOptions().Parse<nStepOptions>(args);
             if (Options.Debug)
             {
-                Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
-                Console.ReadLine();
+                Console.WriteLine("Please attach the .Net debugger to continue...");
+                int seconds = 0;
+                while (!System.Diagnostics.Debugger.IsAttached)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    seconds += 1;
+                    if (seconds > 60)
+                        return;
+                }
             }
 
             if (Options.Rerun)
