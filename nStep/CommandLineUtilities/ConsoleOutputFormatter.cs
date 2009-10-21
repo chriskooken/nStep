@@ -16,6 +16,7 @@ namespace nStep.App.CommandLineUtilities
 		
 		readonly ISuggestSyntax syntaxSuggester;
         DateTime startTime;
+        int max;
 
         public ConsoleOutputFormatter(string consoleTitle, ISuggestSyntax syntaxSuggester)
         {
@@ -73,7 +74,7 @@ namespace nStep.App.CommandLineUtilities
         void OutputException(Exception ex, Step step, string exceptionTypeName, string stackTrace)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            WriteLineLevel3(step.FeatureLine + "    # " + step.StepSequence.Feature.FileName + ":" + step.LineNumber);
+            WriteStepAtLevel(3, step.FeatureLine, step.StepSequence.Feature.FileName + ":" + step.LineNumber);
             WriteLineLevel3(exceptionTypeName + ": " + ex.Message);
             
             WriteLineLevel4(stackTrace);
@@ -87,17 +88,27 @@ namespace nStep.App.CommandLineUtilities
             splitList.ForEach(x => Console.WriteLine(LevelPad(padding, x)));
         }
 
+        private void WriteStepAtLevel(int level, string step, string file)
+        {
+            Console.CursorLeft = level *3;
+            Console.Write(step);
+            Console.CursorLeft = max;
+            Console.WriteLine("# " + file);
+        }
+
         public void WritePassedFeatureLine(Step featureStep, StepDefinition stepDefinition)
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
+            WriteStepAtLevel(3, featureStep.FeatureLine,
+                             featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
+            
             Console.ForegroundColor = ConsoleColor.Gray;
         }
         public void WritePendingFeatureLine(Step featureStep, Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
-
+            WriteStepAtLevel(3, featureStep.FeatureLine,
+                             featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
 			// ex is null if the step follows a pending step (rendering itself pending)
 			if (ex != null)
 			{
@@ -111,14 +122,18 @@ namespace nStep.App.CommandLineUtilities
         public void WriteSkippedFeatureLine(Step featureStep)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
+            WriteStepAtLevel(3, featureStep.FeatureLine,
+                             featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
+            
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WriteMissingFeatureLine(Step featureStep)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
+            WriteStepAtLevel(3, featureStep.FeatureLine,
+                             featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
+            
             Console.ForegroundColor = ConsoleColor.Gray;
             
         }
@@ -145,6 +160,7 @@ namespace nStep.App.CommandLineUtilities
 
         public void WriteFeatureHeading(Feature feature)
         {
+            this.max = feature.GetLongestFeatureLine()+10;
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             if (feature.Tags != null)
             {
@@ -191,10 +207,14 @@ namespace nStep.App.CommandLineUtilities
         {
             if (stepsToSummarize.Count == 0) return;
             
-            Console.WriteLine(stepsToSummarize.Count + " "+summaryTitle+" ");
-            foreach (var step in stepsToSummarize)
+            var strings =
+                stepsToSummarize.Select(
+                    x => x.FeatureLine + "    # " + x.StepSequence.Feature.FileName + ":" + x.LineNumber);
+
+            Console.WriteLine(strings.Distinct().Count() + " " + summaryTitle + " ");
+            foreach (var step in strings.Distinct())
             {
-                Console.WriteLine(step.FeatureLine + "    # " + step.StepSequence.Feature.FileName + ":" + step.LineNumber);
+                Console.WriteLine(step);
             }
         }
 
@@ -216,17 +236,21 @@ namespace nStep.App.CommandLineUtilities
 
         public void WriteScenarioTitle(Scenario scenario)
         {
-            WriteLineLevel2(scenario.Title + "    # " + scenario.Feature.FileName +":"+scenario.LineNumber);
+            WriteStepAtLevel(2, scenario.Title,
+                             scenario.Feature.FileName + ":" + scenario.LineNumber);
         }
 
         public void WriteScenarioOutlineTitle(ScenarioOutline scenarioOutline)
         {
-            WriteLineLevel2(scenarioOutline.Title + "    # " + scenarioOutline.Feature.FileName + ":" + scenarioOutline.LineNumber);
+            WriteStepAtLevel(2, scenarioOutline.Title,
+                             scenarioOutline.Feature.FileName + ":" + scenarioOutline.LineNumber);
         }
 
         public void WriteBackgroundHeading(Background background)
         {
-            WriteLineLevel2(background.Title+ "    # " + background.Feature.FileName + ":" + background.LineNumber);
+            WriteStepAtLevel(2, background.Title,
+                             background.Feature.FileName + ":" + background.LineNumber);
+            
         }
 
         public void WriteLineBreak()

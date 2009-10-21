@@ -84,6 +84,22 @@ namespace nStep.Framework.Features
 			throw new InvalidExecutableLineNumberException("There is nothing to execute on line: " + lineNumber);
 		}
 
+        public int GetLongestFeatureLine()
+        {
+            var MaxLine = 0;
+            MaxLine = Math.Max(MaxLine, SummaryLines.Select(x => x.Text.Length).Max());
+            MaxLine = Math.Max(MaxLine, Background.Title.Length);
+            MaxLine = Math.Max(MaxLine, Background.Steps.Select(x => x.FeatureLine.Length).Max());
+
+            foreach (var item in Items)
+            {
+                MaxLine = Math.Max(MaxLine, item.Title.Length);
+                MaxLine = Math.Max(MaxLine, item.Steps.Select(x => x.FeatureLine.Length).Max());
+            }
+
+            return MaxLine;
+        }
+
 		#endregion
 	}
 
