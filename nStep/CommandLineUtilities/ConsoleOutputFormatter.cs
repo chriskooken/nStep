@@ -73,7 +73,7 @@ namespace nStep.App.CommandLineUtilities
         void OutputException(Exception ex, Step step, string exceptionTypeName, string stackTrace)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            WriteLineLevel3(step.FeatureLine + ":" + step.LineNumber);
+            WriteLineLevel3(step.FeatureLine + "    # " + step.StepSequence.Feature.FileName + ":" + step.LineNumber);
             WriteLineLevel3(exceptionTypeName + ": " + ex.Message);
             
             WriteLineLevel4(stackTrace);
@@ -90,13 +90,13 @@ namespace nStep.App.CommandLineUtilities
         public void WritePassedFeatureLine(Step featureStep, StepDefinition stepDefinition)
         {
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            WriteLineLevel3(featureStep.FeatureLine);
+            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
         public void WritePendingFeatureLine(Step featureStep, Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
+            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
 
 			// ex is null if the step follows a pending step (rendering itself pending)
 			if (ex != null)
@@ -111,14 +111,14 @@ namespace nStep.App.CommandLineUtilities
         public void WriteSkippedFeatureLine(Step featureStep)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
+            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void WriteMissingFeatureLine(Step featureStep)
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            WriteLineLevel3(featureStep.FeatureLine + ":" + featureStep.LineNumber);
+            WriteLineLevel3(featureStep.FeatureLine + "    # " + featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
             Console.ForegroundColor = ConsoleColor.Gray;
             
         }
@@ -145,8 +145,15 @@ namespace nStep.App.CommandLineUtilities
 
         public void WriteFeatureHeading(Feature feature)
         {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            foreach (var tag in feature.Tags)
+                Console.Write("@"+tag + " ");
+
+            if (feature.Tags.Any())
+                WriteLineBreak();
+            
             Console.ForegroundColor = ConsoleColor.Gray;
-            WriteLineLevel1(feature.Description);
+            WriteLineLevel1("Feature: " +feature.Description);
             foreach (var s in feature.SummaryLines)
                 WriteLineLevel1(s.Text);
             WriteLineLevel1(string.Empty);
@@ -185,7 +192,7 @@ namespace nStep.App.CommandLineUtilities
             Console.WriteLine(stepsToSummarize.Count + " "+summaryTitle+" ");
             foreach (var step in stepsToSummarize)
             {
-                Console.WriteLine(step.FeatureLine + ":" + step.LineNumber);
+                Console.WriteLine(step.FeatureLine + "    # " + step.StepSequence.Feature.FileName + ":" + step.LineNumber);
             }
         }
 
@@ -207,17 +214,17 @@ namespace nStep.App.CommandLineUtilities
 
         public void WriteScenarioTitle(Scenario scenario)
         {
-            WriteLineLevel2(scenario.Title);
+            WriteLineLevel2(scenario.Title + "    # " + scenario.Feature.FileName +":"+scenario.LineNumber);
         }
 
         public void WriteScenarioOutlineTitle(ScenarioOutline scenarioOutline)
         {
-            WriteLineLevel2(scenarioOutline.Title);
+            WriteLineLevel2(scenarioOutline.Title + "    # " + scenarioOutline.Feature.FileName + ":" + scenarioOutline.LineNumber);
         }
 
         public void WriteBackgroundHeading(Background background)
         {
-            WriteLineLevel2(background.Title);
+            WriteLineLevel2(background.Title+ "    # " + background.Feature.FileName + ":" + background.LineNumber);
         }
 
         public void WriteLineBreak()

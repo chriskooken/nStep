@@ -1,4 +1,4 @@
-@aTag
+@aTag @a2Tag
 Feature: This is a test feature
 I want to test some stuff here
 More text goes here
