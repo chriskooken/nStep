@@ -82,11 +82,9 @@ namespace nStep.App
 
         private void InitializeThenRun(List<FileInfo> assemblyFiles, Action action)
         {
-            var env = AssemblyLoader.GetEnvironment(assemblyFiles);
-            var worldViews = GetWorldViews(assemblyFiles);
-            if (env != null)
-                env.GlobalBegin(worldViews);
-
+            var env = InitializeEnvironment(assemblyFiles);
+            var worldViews = InitializeWorldViews(assemblyFiles);
+            
             var stepSets = AssemblyLoader.GetStepSets(assemblyFiles);
             var scenarioHooks = new ScenarioHooksRepository(stepSets);
 
@@ -99,7 +97,15 @@ namespace nStep.App
                 env.GlobalExit(worldViews);
         }
 
-        private WorldViewDictionary GetWorldViews(List<FileInfo> assemblyFiles)
+        private EnvironmentBase InitializeEnvironment(List<FileInfo> assemblyFiles)
+        {
+            var env = AssemblyLoader.GetEnvironment(assemblyFiles);
+            if (env != null)
+                env.GlobalBegin();
+            return env;
+        }
+
+        private WorldViewDictionary InitializeWorldViews(List<FileInfo> assemblyFiles)
         {
             var worldViews = new WorldViewDictionary();
             worldViews.Import(AssemblyLoader.GetWorldViewProviders(assemblyFiles));
