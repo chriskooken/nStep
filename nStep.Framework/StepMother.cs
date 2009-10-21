@@ -120,25 +120,25 @@ namespace nStep.Framework
 			ExecuteStepDefinitionWithStep(stepDefinition, step);
 		}
 
-		public StepRunResult ProcessStep(Step featureStepToProcess)
+		public StepRunResult ProcessStep(Step step)
 		{
 			LastProcessStepException = null;
 			LastProcessStepDefinition = null;
 	
 			try
 			{
-				LastProcessStepDefinition = GetStepDefinition(featureStepToProcess.Kind, featureStepToProcess.Body);
-				ExecuteStepDefinitionWithStep(LastProcessStepDefinition, featureStepToProcess);
+				LastProcessStepDefinition = GetStepDefinition(step.Kind, step.Body);
+				ExecuteStepDefinitionWithStep(LastProcessStepDefinition, step);
 			}
 			catch (StepMissingException ex)
 			{
-				missingSteps.Add(featureStepToProcess);
+				missingSteps.Add(step);
 				LastProcessStepException = ex;
 				LastProcessStepResultCode = StepRunResultCode.Missing;
 			}
 			catch (StepPendingException ex)
 			{
-				failedSteps.Add(featureStepToProcess);
+				failedSteps.Add(step);
 				LastProcessStepException = ex;
 				LastProcessStepResultCode = StepRunResultCode.Pending;
 			}
@@ -156,22 +156,22 @@ namespace nStep.Framework
 				}
 				else
 				{
-					failedSteps.Add(featureStepToProcess);
+					failedSteps.Add(step);
 					LastProcessStepException = ex;
 					LastProcessStepResultCode = StepRunResultCode.Failed;
 				}
 			}
             
-			passedSteps.Add(featureStepToProcess);
+			passedSteps.Add(step);
 
-			CheckForMissingStep(featureStepToProcess);
+			CheckForMissingStep(step);
 			var result = new StepRunResult { ResultCode = LastProcessStepResultCode, MatchedStepDefinition = LastProcessStepDefinition, Exception = LastProcessStepException };
 			return result;
 		}
 
 		private void ExecuteStepDefinitionWithStep(StepDefinition stepDefinition, Step step)
 		{
-			stepDefinition.StepSet.StepFromStringRunner = this;
+			stepDefinition.StepSet.StepRunner = this;
 
 			stepDefinition.StepSet.BeforeStep();
 			try

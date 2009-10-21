@@ -53,9 +53,9 @@ namespace nStep.Framework
             get { return typeof (TWorldView); }
         }
 
-        public IRunSteps StepFromStringRunner
+        public new IRunSteps StepRunner
         {
-            set { StepRunner = value; }
+            set { base.StepRunner = value; }
         }
 
         protected override void AddNewStepDefinition(StepKinds kind, string stepText, Delegate action)
