@@ -10,7 +10,7 @@ namespace nStep.Framework.Features
 	{
 		#region Properties
 
-		public FeatureItem FeatureItem { get; internal set; }
+		public StepSequence StepSequence { get; internal set; }
 
 		private string _kindWord;
 		public string KindWord {

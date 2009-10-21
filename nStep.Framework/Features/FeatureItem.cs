@@ -17,8 +17,6 @@ namespace nStep.Framework.Features
 		protected FeatureItem(IList<Step> steps)
 			: base(steps)
 		{
-			foreach (var step in steps)
-				step.FeatureItem = this;
 		}
 	}
 }

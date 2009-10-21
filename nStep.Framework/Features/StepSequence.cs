@@ -12,6 +12,8 @@ namespace nStep.Framework.Features
 		protected StepSequence(IList<Step> steps)
 		{
 			Steps = steps;
+			foreach (var step in steps)
+				step.StepSequence = this;
 		}
 
 		public abstract void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter);
