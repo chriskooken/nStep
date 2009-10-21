@@ -6,6 +6,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
+using System.Threading;
 using nStep.App.CommandLineUtilities;
 using nStep.Core.Parsers;
 using nStep.Core;
@@ -33,8 +34,11 @@ namespace nStep.App
             Options = new nStepOptions().Parse<nStepOptions>(args);
             if (Options.Debug)
             {
-                Console.WriteLine("Please attach the .Net debugger and press any key to continue...");
-                Console.ReadLine();
+                Console.WriteLine("Please attach the .Net debugger to continue...");
+                while (!System.Diagnostics.Debugger.IsAttached)
+                {
+                    Thread.Sleep(200);
+                }
             }
 
             if (Options.Rerun)
@@ -73,17 +77,17 @@ namespace nStep.App
 
         private void InitializeThenRun(List<FileInfo> assemblyFiles, Action action)
         {
-            var worldViews = GetWorldViews(assemblyFiles);
             var env = AssemblyLoader.GetEnvironment(assemblyFiles);
+            var worldViews = GetWorldViews(assemblyFiles);
+            if (env != null)
+                env.GlobalBegin(worldViews);
+
             var stepSets = AssemblyLoader.GetStepSets(assemblyFiles);
             var scenarioHooks = new ScenarioHooksRepository(stepSets);
 
             StepMother = new StepMother(worldViews, scenarioHooks);
             StepMother.AdoptSteps(stepSets);
-
-            if (env != null)
-                env.GlobalBegin(worldViews);
-
+            
             action.Invoke();
 
             if (env != null)

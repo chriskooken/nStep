@@ -55,7 +55,7 @@ namespace nStep.Core
             {
                 var message = "Unable to convert: \"" + valueBeingCast + "\" into a " + typeBeingCastTo.Name;
                 var newException = new InvalidCastException(message);
-                throw new InvalidCastException(message, newException);
+                throw new NStepInvocationException(ex.InnerException.Message,ex.InnerException);
             }
                 throw new InvalidCastException("Don't know how to convert: \"" + valueBeingCast + "\" into a " + typeBeingCastTo.Name);
         }
