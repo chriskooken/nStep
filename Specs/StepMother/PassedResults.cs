@@ -62,5 +62,17 @@ namespace Specs.StepMother
         {
             mother.LastProcessStepException.Should().Be.Null();
         }
+
+        [Test]
+        public void It_Should_set_The_Last_run_result_correctly_if_the_previous_step_failed_in_any_way()
+        {
+            var featureStep = new Step { FeatureLine = "Given \"Chris\" is cool"};
+            mother.ProcessStep(featureStep);
+            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Missing);
+            var featureStep2 = new Step { FeatureLine = "Given My Name is \"Chris\"" };
+            mother.ProcessStep(featureStep2);
+            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Passed);
+
+        }
     }
 }

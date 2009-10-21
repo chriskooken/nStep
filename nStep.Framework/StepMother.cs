@@ -103,6 +103,7 @@ namespace nStep.Framework
 			{
 				LastProcessStepDefinition = GetStepDefinition(step);
 				ExecuteStepDefinitionWithStep(LastProcessStepDefinition, step);
+			    LastProcessStepResultCode = StepRunResultCode.Passed;
 			}
 			catch (StepMissingException ex)
 			{
