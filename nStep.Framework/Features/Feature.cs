@@ -31,7 +31,8 @@ namespace nStep.Framework.Features
 			Background = background;
 			Items = items;
 			Tags = tags;
-            
+
+			Background.Feature = this;
 			foreach (var item in items)
 				item.Feature = this;
 		}

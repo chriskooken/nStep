@@ -5,6 +5,7 @@ namespace nStep.Framework.Features
 {
 	public abstract class StepSequence : IExecute
 	{
+		public Feature Feature { get; internal set; }
 		public string Title { get; set; }
 		public int LineNumber { get; set; }
 		public IList<Step> Steps { get; private set; }

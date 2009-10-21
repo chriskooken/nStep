@@ -9,7 +9,6 @@ namespace nStep.Framework.Features
 	{
 		#region Properties
 
-		public Feature Feature { get; internal set; }
 		public IEnumerable<string> Tags { get; set; }
 
 		#endregion
