@@ -363,6 +363,7 @@ namespace nStep.Core.Parsers
 				var step = new Step(table)
 				{
 					KindWord = kindWord,
+					Kind = CurrentStepKind,
 					Body = stepBody,
 					LineNumber = node.StartLine
 				};
