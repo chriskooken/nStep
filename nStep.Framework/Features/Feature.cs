@@ -53,7 +53,12 @@ namespace nStep.Framework.Features
 
 		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter, int lineNumber)
 		{
-			GetExecutableAt(lineNumber).Execute(stepProcessor, hookProcessor, outputFormatter);
+			var executor = GetExecutableAt(lineNumber);
+            
+            if (!(executor is Feature))
+                outputFormatter.WriteFeatureHeading(this);
+
+            executor.Execute(stepProcessor, hookProcessor, outputFormatter);
 		}
 
 		private IExecute GetExecutableAt(int lineNumber)

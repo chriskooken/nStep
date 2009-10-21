@@ -44,6 +44,7 @@ namespace nStep.App
                     if (seconds > 60)
                         return;
                 }
+                Console.Clear();
             }
 
             if (Options.Rerun)
