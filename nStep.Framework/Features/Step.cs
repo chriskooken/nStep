@@ -60,6 +60,7 @@ namespace nStep.Framework.Features
 			LineNumber = originalStep.LineNumber;
 			Kind = originalStep.Kind;
 			Table = originalStep.Table;
+			StepSequence = originalStep.StepSequence;
 		}
 
 		#endregion
