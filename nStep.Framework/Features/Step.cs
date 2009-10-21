@@ -112,7 +112,7 @@ namespace nStep.Framework.Features
 
 		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter, IDictionary<string, string> dictionary)
 		{
-			var newBody = FeatureLine;
+			var newBody = Body;
 
 			foreach (var key in dictionary.Keys)
 				newBody = newBody.Replace("<" + key + ">", dictionary[key]);

@@ -8,8 +8,13 @@ namespace nStep.Framework.Execution.Results
 		{
 			Exception = exception;
 			Passed = true;
-			if (Exception == null) return;
-			Passed = false;
+            if (Exception == null)
+            {
+                Passed = true;
+                Failed = false;
+                return;
+            }
+		    Passed = false;
 			Failed = true;
 		}
 		public bool Failed { get; private set; }
