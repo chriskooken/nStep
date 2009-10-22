@@ -10,6 +10,7 @@ namespace nStep.Framework.Features
 	{
 		public IEnumerable<string> ColumnHeadings { get; private set; }
 		public IList<Row> Rows { get; private set; }
+        private int maxColumnWidth;
 
 		public Table(IEnumerable<Row> rowsIncludingHeader)
 		{
@@ -18,14 +19,46 @@ namespace nStep.Framework.Features
 
 			ColumnHeadings = (from c in headerRow.Cells
 			                  select c.Value).ToArray();
-			Rows = dataRows.ToList(); ;
+			Rows = dataRows.ToList();
+
+            GetMaxColumnWidth(rowsIncludingHeader);
 		}
 
-		public IEnumerable<IDictionary<string, string>> GetDictionaries()
+	    void GetMaxColumnWidth(IEnumerable<Row> rowsIncludingHeader)
+	    {
+	        foreach (var row in rowsIncludingHeader)
+	        {
+	            foreach (var cell in row.Cells)
+	            {
+	                maxColumnWidth = Math.Max(maxColumnWidth, cell.Value.Length);
+	            }
+	        }
+	    }
+
+	    public IEnumerable<IDictionary<string, string>> GetDictionaries()
 		{
 			return from r in Rows
 			       select r.ToDictionary(ColumnHeadings);
 		}
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("|");
+            foreach (var heading in ColumnHeadings)
+            {
+                var padding = maxColumnWidth - heading.Length;
+                sb.Append(heading + string.Empty.PadRight(padding));
+                sb.Append("|");
+            }
+            sb.AppendLine("");
+            foreach (var row in Rows)
+            {
+                sb.AppendLine(row.ToString(maxColumnWidth));
+            }
+
+            return sb.ToString();
+        }
 	}
 
 	public class Row
@@ -52,6 +85,20 @@ namespace nStep.Framework.Features
 
 			return dictionary;
 		}
+
+        public string ToString(int maxColumnWidth)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("|");
+            foreach (var list in Cells)
+            {
+                var padding = maxColumnWidth - list.Value.Length;
+                sb.Append( list.Value + string.Empty.PadRight(padding));
+                sb.Append("|");
+            }
+            
+            return sb.ToString();
+        }
 	}
 
 	public class Cell

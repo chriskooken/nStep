@@ -10,5 +10,6 @@ namespace nStep.Framework.Execution
 	public interface IProcessSteps
 	{
 		StepRunResult ProcessStep(Step step);
+	    void CheckForMissingStep(Step featureStep);
 	}
 }

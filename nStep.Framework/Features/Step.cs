@@ -82,6 +82,7 @@ namespace nStep.Framework.Features
 			if (outputFormatter.SkippingSteps)
 			{
 				outputFormatter.WriteSkippedFeatureLine(this);
+                stepProcessor.CheckForMissingStep(this);
 				return;
 			}
 			outputFormatter.SkippingSteps = true;

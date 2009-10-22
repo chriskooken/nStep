@@ -75,6 +75,7 @@ namespace nStep.App.CommandLineUtilities
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             WriteStepAtLevel(3, step.FeatureLine, step.StepSequence.Feature.FileName + ":" + step.LineNumber);
+            WriteTable(step);
             WriteLineLevel3(exceptionTypeName + ": " + ex.Message);
             
             WriteLineLevel4(stackTrace);
@@ -101,7 +102,7 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             WriteStepAtLevel(3, featureStep.FeatureLine,
                              featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
-            
+            WriteTable(featureStep);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
         public void WritePendingFeatureLine(Step featureStep, Exception ex)
@@ -109,7 +110,8 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteStepAtLevel(3, featureStep.FeatureLine,
                              featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
-			// ex is null if the step follows a pending step (rendering itself pending)
+            WriteTable(featureStep);
+            // ex is null if the step follows a pending step (rendering itself pending)
 			if (ex != null)
 			{
 				WriteLineLevel3(ex.Message);
@@ -124,7 +126,7 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.Cyan;
             WriteStepAtLevel(3, featureStep.FeatureLine,
                              featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
-            
+            WriteTable(featureStep);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
@@ -133,9 +135,19 @@ namespace nStep.App.CommandLineUtilities
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             WriteStepAtLevel(3, featureStep.FeatureLine,
                              featureStep.StepSequence.Feature.FileName + ":" + featureStep.LineNumber);
-            
+
+            WriteTable(featureStep);
+
             Console.ForegroundColor = ConsoleColor.Gray;
             
+        }
+
+        void WriteTable(Step step)
+        {
+            if(step.Table == null)
+            {return;}
+
+            WriteLineLevel4(step.Table.ToString());
         }
 
         public void WriteMissingFeatureSnippets(IEnumerable<Step> pendingFeatureSteps)
