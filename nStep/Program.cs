@@ -38,8 +38,7 @@ namespace nStep.App
                 int seconds = 0;
                 while (!System.Diagnostics.Debugger.IsAttached)
                 {
-                    Thread.Sleep(200);
-                    System.Threading.Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     seconds += 1;
                     if (seconds > 60)
                         return;
