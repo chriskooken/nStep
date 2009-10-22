@@ -1,4 +1,5 @@
-﻿using nStep.Framework.WorldViews;
+﻿using nStep.Framework.Execution.Results;
+using nStep.Framework.WorldViews;
 
 namespace nStep.Framework
 {
@@ -6,6 +7,6 @@ namespace nStep.Framework
     {
         public abstract void GlobalBegin();
 
-        public abstract void GlobalExit(IWorldViewDictionary worldViewDictionary);
+        public abstract void GlobalExit(IWorldViewDictionary worldViewDictionary, RunResult result);
     }
 }

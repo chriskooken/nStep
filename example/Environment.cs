@@ -1,5 +1,6 @@
 ﻿using System;
 using nStep.Framework;
+using nStep.Framework.Execution.Results;
 using nStep.Framework.WorldViews;
 using Selenium;
 
@@ -11,7 +12,7 @@ namespace nStep
 	    {
 	    }
 
-	    public override void GlobalExit(IWorldViewDictionary worldViewDictionary)
+	    public override void GlobalExit(IWorldViewDictionary worldViewDictionary, RunResult result)
 	    {
             var world = worldViewDictionary.GetWorldViewOfType<SeleniumWorldView>();
 
