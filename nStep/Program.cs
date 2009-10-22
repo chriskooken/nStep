@@ -94,7 +94,7 @@ namespace nStep.App
             action.Invoke();
 
             if (env != null)
-                env.GlobalExit(worldViews);
+                env.GlobalExit(worldViews, StepMother.RunResult);
         }
 
         private EnvironmentBase InitializeEnvironment(List<FileInfo> assemblyFiles)

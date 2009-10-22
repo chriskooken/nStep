@@ -31,7 +31,18 @@ namespace nStep.Framework
 		public IList<Step> MissingSteps { get; private set; }
 		public IList<Step> FailedSteps { get; private set; }
 
-		public StepMother(IWorldViewDictionary worldViews, IScenarioHooksRepository hooksRepository)
+	    public RunResult RunResult
+	    {
+	        get
+	        {
+                if (FailedSteps.Any() || PendingSteps.Any() || MissingSteps.Any())
+                    return RunResult.FAIL;
+	            return RunResult.PASS;
+	        }
+	        
+	    }
+
+	    public StepMother(IWorldViewDictionary worldViews, IScenarioHooksRepository hooksRepository)
 		{
 			if(worldViews == null)
 				throw new ArgumentNullException("world views dictionary cannot be null");

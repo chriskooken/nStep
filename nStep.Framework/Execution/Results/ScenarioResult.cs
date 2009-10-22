@@ -2,6 +2,11 @@ using System;
 
 namespace nStep.Framework.Execution.Results
 {
+    public enum RunResult
+    {
+        PASS, FAIL
+    }
+
 	public class ScenarioResult
 	{
 		public ScenarioResult(Exception exception)
