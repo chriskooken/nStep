@@ -81,7 +81,7 @@ namespace nStep.Framework.Features
 
 			var i = 0;
 			foreach (var columnHeading in columnHeadings)
-				dictionary[columnHeading] = Cells[i].Value;
+				dictionary[columnHeading] = Cells[i++].Value;
 
 			return dictionary;
 		}
