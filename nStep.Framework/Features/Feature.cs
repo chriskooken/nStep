@@ -44,6 +44,7 @@ namespace nStep.Framework.Features
 		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
 			outputFormatter.WriteFeatureHeading(this);
+		    outputFormatter.SkipWritingBackground = false;
 
 			foreach (var item in Items)
 			{
