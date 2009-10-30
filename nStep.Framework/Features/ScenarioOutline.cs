@@ -19,19 +19,20 @@ namespace nStep.Framework.Features
 
 		public override void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
 		{
-			hookProcessor.ProcessBeforeScenarioHooks(Tags);
 			outputFormatter.SkippingSteps = false;
 			outputFormatter.WriteScenarioOutlineTitle(this);
 			foreach (var dictionary in Examples.GetDictionaries())
 			{
-				if (Feature.Background != null)
+                hookProcessor.ProcessBeforeScenarioHooks(Tags);
+                if (Feature.Background != null)
 					Feature.Background.Execute(stepProcessor, hookProcessor, outputFormatter);
 
 				foreach (var step in Steps)
 					step.Execute(stepProcessor, hookProcessor, outputFormatter, dictionary);
-			}
-			var result = new ScenarioResult(null); //TODO: Load an appropriate scenarioResult here...
-			hookProcessor.ProcessAfterScenarioHooks(Tags, result);
+                var result = new ScenarioResult(null); //TODO: Load an appropriate scenarioResult here...
+                hookProcessor.ProcessAfterScenarioHooks(Tags, result);
+            }
+			
 			outputFormatter.WriteLineBreak();
 		}
 	}

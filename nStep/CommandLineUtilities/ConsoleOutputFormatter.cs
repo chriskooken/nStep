@@ -91,10 +91,11 @@ namespace nStep.App.CommandLineUtilities
 
         private void WriteStepAtLevel(int level, string step, string file)
         {
-            Console.CursorLeft = level *3;
-            Console.Write(step);
-            Console.CursorLeft = max;
-            Console.WriteLine("# " + file);
+            WriteMultipleLines(level, step);
+            //Console.CursorLeft = level *3;
+            //Console.Write(step);
+            //Console.CursorLeft = max;
+            //Console.WriteLine("# " + file);
         }
 
         public void WritePassedFeatureLine(Step featureStep, StepDefinition stepDefinition)

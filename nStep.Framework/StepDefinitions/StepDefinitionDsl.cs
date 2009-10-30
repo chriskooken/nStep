@@ -190,6 +190,11 @@ namespace nStep.Framework.StepDefinitions
 			throw new StepPendingException();
 		}
 
+        protected void Pending(string message)
+        {
+            throw new StepPendingException(message);
+        }
+
 		protected void NotWorking()
 		{
 			throw new NotWorkingCorrectlyException();
