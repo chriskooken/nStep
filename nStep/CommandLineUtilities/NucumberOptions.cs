@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using nStep.App.CommandLineUtilities;
 
 namespace nStep.App.CommandLineUtilities
 {
     [Serializable]
     public class nStepOptions : ConsoleOptionsBase
     {
+        [Help("Run all features continuously")]
+        [Switch("l", "loop")]
+        public bool Loop { get; set; }
+
         [Default]
         [Required]
         [Help("Default option\nRequired\nPath to feature file or directory of files.")]

@@ -125,7 +125,10 @@ namespace nStep.App
 					filePath = new FileInfo(featureDescription.Groups[1].Value);
 					var lineNumber = int.Parse(featureDescription.Groups[2].Value);
 					var feature = GherkinParser.GetFeature(filePath);
-					feature.Execute(StepMother, StepMother, formatter, lineNumber);
+                    do
+                    {
+                        feature.Execute(StepMother, StepMother, formatter, lineNumber);
+                    } while (Options.Loop);
                 }
                 catch (FormatException e)
                 {
@@ -140,18 +143,24 @@ namespace nStep.App
             if (filePath.Exists)
             {
                 var feature = GherkinParser.GetFeature(filePath);
-				feature.Execute(StepMother, StepMother, formatter);
+                do
+                {
+                    feature.Execute(StepMother, StepMother, formatter);
+                } while (Options.Loop); 
                 return;
             }
+            do
+            {
+                var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
+                files.ForEach(x =>
+                                  {
+                                      var innerFilePath = new FileInfo(x);
+                                      var feature = GherkinParser.GetFeature(innerFilePath);
 
-            var files = new List<string>(Directory.GetFiles(filePath.FullName, "*.feature"));
-            files.ForEach(x =>
-                              {
-								  var innerFilePath = new FileInfo(x);
-								  var feature = GherkinParser.GetFeature(innerFilePath);
+                                      feature.Execute(StepMother, StepMother, formatter);
+                                  });
 
-								  feature.Execute(StepMother, StepMother, formatter);
-                              });
+            } while (Options.Loop);
 
         }
 
