@@ -30,11 +30,10 @@ Feature: Wire Protocol
 			"""
 		And a file named "features/step_definitions/some_remote_place.wire" with:
 			"""
-			host: localhost
-			port: 54321
+				host: localhost
+				port: 54321
 
 			"""
-
 
 	#
 	# step_matches

@@ -70,9 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="features\step_definitions\cucumber_steps.rb" />
+    <None Include="features\step_definitions\debugging_steps.rb" />
     <None Include="features\step_definitions\wire_steps.rb" />
     <None Include="features\support\env.rb" />
-    <None Include="features\support\env.rb.simplest" />
     <None Include="features\support\fake_wire_server.rb" />
     <None Include="features\wire_protocol.feature" />
     <None Include="Parsers\complex.feature" />
@@ -95,6 +95,9 @@
       <Project>{A3967229-2EF9-4BAA-9013-930B1FF8BE66}</Project>
       <Name>nStep.app</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="features\examples\self_test\tmp\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
