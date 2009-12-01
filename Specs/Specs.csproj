@@ -49,10 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
-    <Compile Include="Parsers\GherkinParserTest.cs" />
     <Compile Include="ScenarioHookLists\ImportHooksFromStepSetBase.cs" />
     <Compile Include="StepMother\BasicMatching.cs" />
-    <Compile Include="CommandLine\FeatureFiles.cs" />
     <Compile Include="EnvironmentSubclassing.cs" />
     <Compile Include="StepCaller.cs" />
     <Compile Include="StepMother\CallsTransforms.cs" />
@@ -75,25 +73,11 @@
     <None Include="features\support\env.rb" />
     <None Include="features\support\fake_wire_server.rb" />
     <None Include="features\wire_protocol.feature" />
-    <None Include="Parsers\complex.feature" />
-    <None Include="Parsers\i18n_no.feature" />
-    <None Include="Parsers\i18n_zh-CN.feature" />
-    <None Include="Parsers\simple.feature" />
-    <None Include="Parsers\simple_with_comments.feature" />
-    <None Include="Parsers\simple_with_tags.feature" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\nStep.Core\nStep.Core.csproj">
-      <Project>{4EA2E599-9419-44DB-AEF2-C1E8B49F4136}</Project>
-      <Name>nStep.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\nStep.Framework\nStep.Framework.csproj">
       <Project>{66CBD8CF-52C1-4221-B320-8A405520F810}</Project>
       <Name>nStep.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\nStep\nStep.app.csproj">
-      <Project>{A3967229-2EF9-4BAA-9013-930B1FF8BE66}</Project>
-      <Name>nStep.app</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

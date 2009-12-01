@@ -113,48 +113,5 @@ namespace Specs.StepMother
         {
             Set.After.Should().Be.Null();
         }
-
-        [Test]
-        public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_3_params()
-        {
-            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-            var featureStep = new Step { FeatureLine = "When I type \"dogs\" in the \"search\" field and \"bob\""};
-
-            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"^I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field and \\\"([^\\\"]*)\\\"$\", (string arg1, string arg2, string arg3) =>\n{\n\tPending();\n});");
-        }
-
-        [Test]
-        public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_2_params()
-        {
-            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-			var featureStep = new Step { FeatureLine = "When I type \"dogs\" in the \"search\" field" };
-
-
-            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"^I type \\\"([^\\\"]*)\\\" in the \\\"([^\\\"]*)\\\" field$\", (string arg1, string arg2) =>\n{\n\tPending();\n});");
-        }
-
-        [Test]
-        public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_1_param()
-        {
-            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-			var featureStep = new Step { FeatureLine = "When I type \"dogs\" in google" };
-
-
-            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"^I type \\\"([^\\\"]*)\\\" in google$\", (string arg1) =>\n{\n\tPending();\n});");
-        }
-
-        [Test]
-        public void it_should_turn_a_missing_feature_line_into_suggestable_syntax_no_params()
-        {
-            ISuggestSyntax syntaxSuggester = new CSharpSyntaxSuggester();
-			var featureStep = new Step { FeatureLine = "When I type in google" };
-
-
-            syntaxSuggester.TurnFeatureIntoSnippet(featureStep).Should().Be.
-                 EqualTo("When(\"^I type in google$\", () =>\n{\n\tPending();\n});");
-        }
     }
 }

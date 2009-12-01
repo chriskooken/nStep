@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ActionCaller.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="AssemblyLoader.cs" />
     <Compile Include="DefinitionBase.cs" />
     <Compile Include="Exceptions\InvalidExecutableLineNumberException.cs" />
     <Compile Include="Exceptions\OnlyOneEnvironmentMayBeDefinedException.cs" />
@@ -51,20 +52,13 @@
     <Compile Include="Exceptions\UnInitializedWorldViewException.cs" />
     <Compile Include="Execution\IProcessScenarioHooks.cs" />
     <Compile Include="Execution\IProcessSteps.cs" />
+    <Compile Include="Execution\Results\ScenarioResult.cs" />
     <Compile Include="Execution\Results\StepRunResult.cs" />
-    <Compile Include="Features\Background.cs" />
-    <Compile Include="Features\Feature.cs" />
-    <Compile Include="Features\FeatureItem.cs" />
-    <Compile Include="Features\ICanBeTagged.cs" />
     <Compile Include="Features\Step.cs" />
     <Compile Include="Execution\IExecute.cs" />
     <Compile Include="Exceptions\JaggedTableException.cs" />
-    <Compile Include="Features\Scenario.cs" />
-    <Compile Include="Features\ScenarioOutline.cs" />
-    <Compile Include="Features\StepSequence.cs" />
     <Compile Include="Features\Table.cs" />
     <Compile Include="Execution\IRunSteps.cs" />
-    <Compile Include="IFormatOutput.cs" />
     <Compile Include="IScenarioHooksRepository.cs" />
     <Compile Include="Execution\StepCaller.cs" />
     <Compile Include="StepMother.cs" />
@@ -83,7 +77,6 @@
     <Compile Include="ScenarioHooks\IHaveImportScenariosIntoList.cs" />
     <Compile Include="ScenarioHooks\IProvideScenarioHooks.cs" />
     <Compile Include="ScenarioHooks\ScenarioHook.cs" />
-    <Compile Include="Execution\Results\ScenarioResult.cs" />
     <Compile Include="StepDefinitions\StepDefinitionDsl.cs" />
     <Compile Include="CombinedStepDefinitions.cs" />
     <Compile Include="IProvideWorldView.cs" />

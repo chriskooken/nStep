@@ -10,8 +10,6 @@ namespace nStep.Framework.Features
 	{
 		#region Properties
 
-		public StepSequence StepSequence { get; internal set; }
-
 		private string _kindWord;
 		public string KindWord {
 			get
@@ -60,58 +58,18 @@ namespace nStep.Framework.Features
 			LineNumber = originalStep.LineNumber;
 			Kind = originalStep.Kind;
 			Table = originalStep.Table;
-			StepSequence = originalStep.StepSequence;
 		}
 
 		#endregion
 
 		#region Execution
 
-		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor)
 		{
-            //if step is in background, and background has ran once,then dont write it.
-            if (StepSequence is Background && outputFormatter.SkipWritingBackground)
-            {
-               stepProcessor.ProcessStep(this);
-                return;
-            }
-
-            if (!(StepSequence is Background))
-                outputFormatter.SkipWritingBackground = true;
-
-			if (outputFormatter.SkippingSteps)
-			{
-				outputFormatter.WriteSkippedFeatureLine(this);
-                stepProcessor.CheckForMissingStep(this);
-				return;
-			}
-			outputFormatter.SkippingSteps = true;
 			var result = stepProcessor.ProcessStep(this);
-
-            
-		    
-
-			switch (result.ResultCode)
-			{
-				case StepRunResultCode.Passed:
-					outputFormatter.SkippingSteps = false;
-					outputFormatter.WritePassedFeatureLine(this, result.MatchedStepDefinition);
-					break;
-				case StepRunResultCode.Failed:
-					outputFormatter.WriteException(this, result.Exception);
-					break;
-				case StepRunResultCode.Pending:
-					outputFormatter.WritePendingFeatureLine(this, result.Exception);
-					break;
-				case StepRunResultCode.Missing:
-					outputFormatter.WriteMissingFeatureLine(this);
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
 		}
 
-		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IFormatOutput outputFormatter, IDictionary<string, string> dictionary)
+		public void Execute(IProcessSteps stepProcessor, IProcessScenarioHooks hookProcessor, IDictionary<string, string> dictionary)
 		{
 			var newBody = Body;
 
@@ -119,7 +77,7 @@ namespace nStep.Framework.Features
 				newBody = newBody.Replace("<" + key + ">", dictionary[key]);
 
 			var newFeatureStep = new Step(this) { Body = newBody };
-			newFeatureStep.Execute(stepProcessor, hookProcessor, outputFormatter);
+			newFeatureStep.Execute(stepProcessor, hookProcessor);
 		}
 
 		#endregion
