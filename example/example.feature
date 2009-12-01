@@ -44,3 +44,18 @@ Scenario: I am doing good
 	Given My Name is "Billy Bob"
 	Given I live at "123 Roswell Rd"
 	Given My city is "Roswell" and my state is "Georgia"
+
+
+
+Scenario Outline: Required Insurance Info Data Missing
+   	And "<FIELD>" is blank
+	When I press "Check in Now"
+  	Then the page should display a validation message for "<FIELD>"
+
+Examples: Required Patient Info
+  		|FIELD				|
+  		|Name				|
+  		|Date of Birth		|
+  		|Gender				|
+
+

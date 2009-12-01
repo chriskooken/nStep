@@ -14,7 +14,7 @@ namespace Specs.Parsers
 		[Test]
 		public void It_Parses_Features_Without_Exceptions()
 		{
-			var filePath = @"..\..\..\example\example4.feature";
+			var filePath = @"..\..\..\example\example.feature";
 			var fileInfo = new FileInfo(filePath);
 
 			try
