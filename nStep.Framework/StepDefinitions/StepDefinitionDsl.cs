@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using nStep.Framework.Exceptions;
 using nStep.Framework.Execution;
 using nStep.Framework.Execution.Results;
-using nStep.Framework.Features;
 using nStep.Framework.ScenarioHooks;
+using nStep.Framework.Steps;
 
 namespace nStep.Framework.StepDefinitions
 {

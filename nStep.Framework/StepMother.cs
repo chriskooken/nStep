@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 using nStep.Framework.Exceptions;
 using nStep.Framework.Execution;
 using nStep.Framework.Execution.Results;
-using nStep.Framework.Features;
 using nStep.Framework.ScenarioHooks;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.Steps;
 using nStep.Framework.WorldViews;
 
 namespace nStep.Framework

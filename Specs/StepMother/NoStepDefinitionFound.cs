@@ -2,8 +2,8 @@
 using nStep.Core;
 using nStep.Framework.Exceptions;
 using nStep.Framework.Execution.Results;
-using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.Steps;
 using nStep.Framework.WorldViews;
 using NUnit.Framework;
 

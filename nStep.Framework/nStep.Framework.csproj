@@ -54,10 +54,10 @@
     <Compile Include="Execution\IProcessSteps.cs" />
     <Compile Include="Execution\Results\ScenarioResult.cs" />
     <Compile Include="Execution\Results\StepRunResult.cs" />
-    <Compile Include="Features\Step.cs" />
+    <Compile Include="Steps\Step.cs" />
     <Compile Include="Execution\IExecute.cs" />
     <Compile Include="Exceptions\JaggedTableException.cs" />
-    <Compile Include="Features\Table.cs" />
+    <Compile Include="Steps\Table.cs" />
     <Compile Include="Execution\IRunSteps.cs" />
     <Compile Include="IScenarioHooksRepository.cs" />
     <Compile Include="Execution\StepCaller.cs" />

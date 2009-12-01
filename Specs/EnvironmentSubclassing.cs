@@ -1,6 +1,5 @@
 ﻿using System;
 using nStep.Framework.Execution.Results;
-using nStep.Framework.Features;
 using NUnit.Framework;
 using Specs.WorldViewDictionary;
 

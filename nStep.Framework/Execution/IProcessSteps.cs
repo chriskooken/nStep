@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using nStep.Framework.Execution.Results;
-using nStep.Framework.Features;
+using nStep.Framework.Steps;
 
 namespace nStep.Framework.Execution
 {

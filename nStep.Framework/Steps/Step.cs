@@ -4,7 +4,7 @@ using nStep.Framework.Execution;
 using nStep.Framework.Execution.Results;
 using nStep.Framework.StepDefinitions;
 
-namespace nStep.Framework.Features
+namespace nStep.Framework.Steps
 {
 	public class Step : IExecute
 	{

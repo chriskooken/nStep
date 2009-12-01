@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
 using nStep.Framework;
 using nStep.Framework.Exceptions;
-using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.Steps;
 using nStep.Framework.WorldViews;
 using NUnit.Framework;
 

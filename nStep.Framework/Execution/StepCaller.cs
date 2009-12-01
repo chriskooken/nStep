@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using nStep.Core;
-using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.Steps;
 
 namespace nStep.Framework.Execution
 {

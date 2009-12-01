@@ -1,5 +1,5 @@
 ﻿using System;
-using nStep.Framework.Features;
+using nStep.Framework.Steps;
 using Selenium;
 using nStep.Framework;
 using NUnit.Framework;

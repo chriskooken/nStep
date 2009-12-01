@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using nStep.Framework;
-using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.Steps;
 using NUnit.Framework;
 
 namespace Specs

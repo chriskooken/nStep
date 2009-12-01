@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using nStep.Core;
 using nStep.Framework.Execution.Results;
-using nStep.Framework.Features;
 using nStep.Framework.StepDefinitions;
+using nStep.Framework.Steps;
 using NUnit.Framework;
 using Specs.WorldViewDictionary;
 

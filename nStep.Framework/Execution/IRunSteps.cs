@@ -1,5 +1,5 @@
-﻿using nStep.Framework.Features;
-using nStep.Framework.StepDefinitions;
+﻿using nStep.Framework.StepDefinitions;
+using nStep.Framework.Steps;
 
 namespace nStep.Framework.Execution
 {
