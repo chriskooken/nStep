@@ -5,9 +5,9 @@ using System.Text;
 
 namespace nStep.Server
 {
-	class Program
+	internal class Program
 	{
-		static void Main(string[] args)
+		internal static void Main(string[] args)
 		{
 		}
 	}
