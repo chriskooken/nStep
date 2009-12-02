@@ -6,7 +6,7 @@ using nStep.Core;
 using nStep.Framework;
 using NUnit.Framework;
 
-namespace Specs
+namespace nStep.Framework.Test
 {
     [TestFixture]
 	public class ActionCaller
@@ -16,7 +16,7 @@ namespace Specs
         {
             string enclosed = "hello";
             Action action = () => { enclosed = "goodbye"; };
-            var caller = new nStep.Core.ActionCaller(action);
+            var caller = new nStep.Core.ExecutableAction(action);
             caller.Call();
             enclosed.Should().Be.EqualTo("goodbye");
         }
@@ -26,7 +26,7 @@ namespace Specs
         {
             string enclosed = "hello";
             Action<string> action = (foo) => { enclosed = foo; }; 
-            var caller = new nStep.Core.ActionCaller(action,"bob");
+            var caller = new nStep.Core.ExecutableAction(action,"bob");
             caller.Call();
             enclosed.Should().Be.EqualTo("bob");
         }
@@ -37,7 +37,7 @@ namespace Specs
         {
             string enclosed = "hello";
             Action<string,string> action = (foo, bar) => { enclosed = foo + bar; };
-            var caller = new nStep.Core.ActionCaller(action, "bob", "o");
+            var caller = new nStep.Core.ExecutableAction(action, "bob", "o");
             caller.Call();
             enclosed.Should().Be.EqualTo("bobo");
         }
@@ -46,7 +46,7 @@ namespace Specs
         public void it_should_throw_an_NStepInvocationException()
         {
             Action action = () => { throw new InvalidTimeZoneException(); };
-            var caller = new nStep.Core.ActionCaller(action);
+            var caller = new nStep.Core.ExecutableAction(action);
             new Action(() => caller.Call()).Should().Throw<NStepInvocationException>();
         }
 	}

@@ -4,7 +4,7 @@ using nStep.Framework.Exceptions;
 using nStep.Framework.WorldViews;
 using NUnit.Framework;
 
-namespace Specs.WorldViewDictionary
+namespace nStep.Framework.Test.WorldViewDictionary
 {
     public class TestWorldView : IAmWorldView
     {

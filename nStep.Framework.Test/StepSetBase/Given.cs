@@ -3,7 +3,7 @@ using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 using System.Linq;
 
-namespace Specs.StepSetBase
+namespace nStep.Framework.Test.StepSetBase
 {
 	[TestFixture]
 	public class GivenHandling : StepSetBase<string>

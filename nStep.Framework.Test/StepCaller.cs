@@ -4,7 +4,7 @@ using nStep.Framework.StepDefinitions;
 using nStep.Framework.Steps;
 using NUnit.Framework;
 
-namespace Specs
+namespace nStep.Framework.Test
 {
     [TestFixture]
 	public class StepCaller

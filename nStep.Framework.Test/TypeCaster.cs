@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using nStep.Framework;
 using NUnit.Framework;
 
-namespace Specs
+namespace nStep.Framework.Test
 {
     [TestFixture]
     public class TypeCaster

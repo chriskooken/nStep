@@ -13,7 +13,7 @@ namespace nStep.Framework.Execution
 
 		public void Call(Step step)
 		{
-			new ActionCaller(DelegateToInvoke, GetParams(step)).Call();
+			new ExecutableAction(DelegateToInvoke, GetParams(step)).Call();
 		}
 
 		private object[] GetParams(Step step)

@@ -2,7 +2,7 @@
 using nStep.Framework.ScenarioHooks;
 using NUnit.Framework;
 
-namespace Specs.ScenarioHookLists
+namespace nStep.Framework.Test.ScenarioHookLists
 {
     [TestFixture]
     public class ImportHooksFromStepSetBase

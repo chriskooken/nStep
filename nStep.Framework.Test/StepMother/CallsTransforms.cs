@@ -7,7 +7,7 @@ using nStep.Framework.Steps;
 using nStep.Framework.WorldViews;
 using NUnit.Framework;
 
-namespace Specs.StepMother
+namespace nStep.Framework.Test.StepMother
 {
     [TestFixture]
     public class CallsTransforms

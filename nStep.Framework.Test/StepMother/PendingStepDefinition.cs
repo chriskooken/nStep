@@ -5,11 +5,11 @@ using nStep.Framework.Exceptions;
 using nStep.Framework.Execution.Results;
 using nStep.Framework.StepDefinitions;
 using nStep.Framework.Steps;
+using nStep.Framework.Test.WorldViewDictionary;
 using NUnit.Framework;
 using System.Collections.Generic;
-using Specs.WorldViewDictionary;
 
-namespace Specs.StepMother
+namespace nStep.Framework.Test.StepMother
 {
     [TestFixture]
     public class PendingStepDefinition

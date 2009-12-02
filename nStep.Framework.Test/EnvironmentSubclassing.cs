@@ -1,9 +1,9 @@
 ﻿using System;
 using nStep.Framework.Execution.Results;
 using NUnit.Framework;
-using Specs.WorldViewDictionary;
+using nStep.Framework.Test.WorldViewDictionary;
 
-namespace Specs
+namespace nStep.Framework.Test
 {
     [TestFixture]
 	public class EnvironmentSubclassing

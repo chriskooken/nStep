@@ -9,7 +9,7 @@ namespace nStep.Framework.Execution
 
 		public object Call(string matchValue)
 		{
-			return new ActionCaller(DelegateToInvoke, GetParams(matchValue)).Call();
+			return new ExecutableAction(DelegateToInvoke, GetParams(matchValue)).Call();
 		}
 
 	}

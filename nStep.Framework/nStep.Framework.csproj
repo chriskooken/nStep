@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionCaller.cs" />
+    <Compile Include="ExecutableAction.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AssemblyLoader.cs" />
     <Compile Include="DefinitionBase.cs" />

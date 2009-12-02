@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specs", "Specs\Specs.csproj", "{4166DA81-2844-497E-AE6C-A3AD3E6FE9DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nStep.Framework.Test", "nStep.Framework.Test\nStep.Framework.Test.csproj", "{4166DA81-2844-497E-AE6C-A3AD3E6FE9DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example", "example", "{D58EB219-F279-46FA-B54D-BD958484FB2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "example", "example\example.csproj", "{02209C8F-6FF5-4275-841B-E686A8053C32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nStep.Framework", "nStep.Framework\nStep.Framework.csproj", "{66CBD8CF-52C1-4221-B320-8A405520F810}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nStep.Server", "nStep.Server\nStep.Server.csproj", "{FA0287DB-D5D4-4E08-8D4B-ABF257F46982}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nStep.Server.Test", "nStep.Server.Test\nStep.Server.Test.csproj", "{9106FF01-077E-4C75-A11A-E78F3E107AB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{66CBD8CF-52C1-4221-B320-8A405520F810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66CBD8CF-52C1-4221-B320-8A405520F810}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66CBD8CF-52C1-4221-B320-8A405520F810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA0287DB-D5D4-4E08-8D4B-ABF257F46982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA0287DB-D5D4-4E08-8D4B-ABF257F46982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA0287DB-D5D4-4E08-8D4B-ABF257F46982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA0287DB-D5D4-4E08-8D4B-ABF257F46982}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9106FF01-077E-4C75-A11A-E78F3E107AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9106FF01-077E-4C75-A11A-E78F3E107AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9106FF01-077E-4C75-A11A-E78F3E107AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9106FF01-077E-4C75-A11A-E78F3E107AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

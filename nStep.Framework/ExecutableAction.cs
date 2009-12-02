@@ -3,17 +3,17 @@ using System.Reflection;
 
 namespace nStep.Core
 {
-    public class ActionCaller
+    public class ExecutableAction
     {
         private readonly Delegate action;
         private readonly object[] parms;
 
-        public ActionCaller(Delegate action)
+        public ExecutableAction(Delegate action)
         {
             this.action = action;
         }
 
-        public ActionCaller(Delegate action, params Object[] parms) : this(action)
+        public ExecutableAction(Delegate action, params Object[] parms) : this(action)
         {
             this.parms = parms;
         }

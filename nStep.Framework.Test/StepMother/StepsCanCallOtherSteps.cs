@@ -4,7 +4,7 @@ using nStep.Framework.WorldViews;
 using NUnit.Framework;
 using nStep.Framework;
 
-namespace Specs.StepMother
+namespace nStep.Framework.Test.StepMother
 {
     [TestFixture]
     public class StepsCanCallOtherSteps

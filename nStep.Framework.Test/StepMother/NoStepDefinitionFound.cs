@@ -1,5 +1,5 @@
-﻿using nStep.Core;
-using nStep.Framework;
+﻿using System;
+using nStep.Core;
 using nStep.Framework.Exceptions;
 using nStep.Framework.Execution.Results;
 using nStep.Framework.StepDefinitions;
@@ -7,12 +7,11 @@ using nStep.Framework.Steps;
 using nStep.Framework.WorldViews;
 using NUnit.Framework;
 
-namespace Specs.StepMother
+namespace nStep.Framework.Test.StepMother
 {
     [TestFixture]
-    public class MoreThanOneMatchingStepDefinition
+    public class NoStepDefinitionFound
     {
-
         private class StringWorldView : IAmWorldView
         {
 
@@ -20,7 +19,10 @@ namespace Specs.StepMother
 
         private nStep.Framework.WorldViews.WorldViewDictionary worldViews;
 
-        private class StepSet : StepSetBase<StringWorldView>
+
+
+
+        private class StepSet : nStep.Framework.StepSetBase<StringWorldView>
         {
 
             public override void BeforeStep()
@@ -39,16 +41,7 @@ namespace Specs.StepMother
 
             public StepSet()
             {
-
-                Given("^My Name is \"([^\"]*)\"$", name =>
-                    {
-                        
-                    });
-
-                Given("^My Name is \"([^\"]*)\"$", name =>
-                    {
-                        
-                    });
+                
             }
         }
         private nStep.Framework.StepMother mother;
@@ -57,7 +50,7 @@ namespace Specs.StepMother
 
         [SetUp]
         public void Setup()
-        {            
+        {
             worldViews = new nStep.Framework.WorldViews.WorldViewDictionary();
             worldViews.Add(typeof(StringWorldView), new StringWorldView());
             Set = new StepSet();
@@ -68,16 +61,16 @@ namespace Specs.StepMother
         }
 
         [Test]
-        public void it_should_return_Failed()
+        public void it_should_return_Missing()
         {
-            resultCode.Should().Be.EqualTo(StepRunResultCode.Failed);
-            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Failed);
+            resultCode.Should().Be.EqualTo(StepRunResultCode.Missing);
+            mother.LastProcessStepResultCode.Should().Be.EqualTo(StepRunResultCode.Missing);
         }
 
         [Test]
-        public void it_should_Set_LastProcessStepException_to_AmbigousStepException()
+        public void it_should_Set_LastProcessStepException_to_MissingStepException()
         {
-            mother.LastProcessStepException.Should().Be.OfType<StepAmbiguousException>();            
+            mother.LastProcessStepException.Should().Be.OfType<StepMissingException>();
         }
 
         [Test]
@@ -85,8 +78,7 @@ namespace Specs.StepMother
         {
             mother.LastProcessStepDefinition.Should().Be.Null();
         }
-
-
+       
         [Test]
         public void it_should_not_execute_BeforeStep()
         {

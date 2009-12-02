@@ -3,10 +3,10 @@ using nStep.Core;
 using nStep.Framework.Execution.Results;
 using nStep.Framework.StepDefinitions;
 using nStep.Framework.Steps;
+using nStep.Framework.Test.WorldViewDictionary;
 using NUnit.Framework;
-using Specs.WorldViewDictionary;
 
-namespace Specs.StepMother
+namespace nStep.Framework.Test.StepMother
 {
     [TestFixture]
     public class PassedResults

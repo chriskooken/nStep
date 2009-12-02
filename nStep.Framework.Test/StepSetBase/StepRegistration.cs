@@ -6,7 +6,7 @@ using nStep.Framework;
 using nStep.Framework.StepDefinitions;
 using NUnit.Framework;
 
-namespace Specs.StepSetBase
+namespace nStep.Framework.Test.StepSetBase
 {
 	[TestFixture]
 	public class StepRegistrationForStrings : StepSetBase<string>
