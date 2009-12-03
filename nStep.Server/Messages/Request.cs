@@ -33,6 +33,16 @@ namespace nStep.Server.Messages
 					throw new NotImplementedException();
 			}
 		}
+
+		public override bool Equals(object obj)
+		{
+			return GetType() == obj.GetType();
+		}
+
+		public override int GetHashCode()
+		{
+			return GetType().GetHashCode();
+		}
 	}
 
 	public class BeginScenarioRequest : Request
@@ -49,6 +59,16 @@ namespace nStep.Server.Messages
 		{
 			NameToMatch = nameToMatch;
 		}
+
+		public override bool Equals(object obj)
+		{
+			return base.Equals(obj) && NameToMatch == (obj as StepMatchesRequest).NameToMatch;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode() ^ NameToMatch.GetHashCode();
+		}
 	}
 
 	public class InvokeRequest : Request
@@ -60,6 +80,17 @@ namespace nStep.Server.Messages
 		{
 			StepId = stepId;
 			Arguments = arguments;
+		}
+
+		public override bool Equals(object obj)
+		{
+			var invokeRequest = obj as InvokeRequest;
+			return base.Equals(obj) && StepId == invokeRequest.StepId && Arguments == invokeRequest.Arguments;
+		}
+
+		public override int GetHashCode()
+		{
+			return base.GetHashCode() ^ StepId.GetHashCode() ^ Arguments.GetHashCode();
 		}
 	}
 }

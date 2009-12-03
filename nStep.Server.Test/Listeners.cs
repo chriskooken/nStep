@@ -2,6 +2,7 @@
 using System.Threading;
 using Moq;
 using nStep.Server.IO;
+using nStep.Server.Messages;
 using NUnit.Framework;
 using nStep.Server.Sockets;
 
@@ -10,13 +11,14 @@ namespace nStep.Server.Test
 	[TestFixture]
 	public class Listeners
 	{
-		private const string textMessage = "Hello, World";
+		private const string strBeginScenario = "[\"begin_scenario\",null]";
+		private readonly Request beginScenario = Request.ParseFromJson(strBeginScenario);
 
 		[Test]
 		public void It_Should_Handle_A_Request_Sent_To_The_Designated_Port()
 		{
 			var mockProcessor = new Mock<IProcessor>();
-			var tcpListener = new SingleMessageTcpListener(textMessage);
+			var tcpListener = new SingleMessageTcpListener(strBeginScenario);
 			var listener = new Listener(tcpListener);
 			listener.MessageHandler += mockProcessor.Object.Process;
 
@@ -24,7 +26,7 @@ namespace nStep.Server.Test
 			Thread.Sleep(500);
 			listener.Stop();
 
-			mockProcessor.Verify(p => p.Process(textMessage));
+			mockProcessor.Verify(p => p.Process(beginScenario));
 		}
 	}
 

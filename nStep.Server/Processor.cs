@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using nStep.Server.Messages;
 
 namespace nStep.Server
 {
 	public interface IProcessor
 	{
-		string Process(string request);
+		Response Process(Request request);
 	}
 
 	public class Processor : IProcessor
 	{
-		public string Process(string request)
+		public Response Process(Request request)
 		{
 			throw new NotImplementedException();
 		}

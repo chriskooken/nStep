@@ -6,11 +6,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using nStep.Server.Messages;
 using nStep.Server.Sockets;
 
 namespace nStep.Server
 {
-	public delegate string MessageHandler(string message);
+	public delegate Response MessageHandler(Request request);
 
 	public class Listener
 	{
@@ -86,9 +87,10 @@ namespace nStep.Server
 
 			while (!stopping)
 			{
-				var request = reader.ReadLine();
-				if (request == null)
+				var strRequest = reader.ReadLine();
+				if (strRequest == null)
 					break;
+				var request = Request.ParseFromJson(strRequest);
 
 				var response = MessageHandler(request);
 				writer.WriteLine(response);
