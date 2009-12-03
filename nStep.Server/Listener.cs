@@ -10,20 +10,21 @@ using nStep.Server.Sockets;
 
 namespace nStep.Server
 {
+	public delegate string MessageHandler(string message);
+
 	public class Listener
 	{
-		private readonly IProcessor processor;
 		private readonly ITcpListener tcpListener;
 
 		private bool stopping;
 		private readonly Thread thread;
 		private AutoResetEvent started = new AutoResetEvent(false);
 		private AutoResetEvent stopped = new AutoResetEvent(false);
-		
 
-		public Listener(IProcessor processor, ITcpListener tcpListener)
+		public event MessageHandler MessageHandler;
+		
+		public Listener(ITcpListener tcpListener)
 		{
-			this.processor = processor;
 			this.tcpListener = tcpListener;
 
 			thread = new Thread(Run) { Name = "AsynchListener" };
@@ -89,7 +90,7 @@ namespace nStep.Server
 				if (request == null)
 					break;
 
-				var response = processor.Process(request);
+				var response = MessageHandler(request);
 				writer.WriteLine(response);
 			}
 		}

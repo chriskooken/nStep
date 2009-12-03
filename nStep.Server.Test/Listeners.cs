@@ -13,11 +13,12 @@ namespace nStep.Server.Test
 		private const string textMessage = "Hello, World";
 
 		[Test]
-		public void It_Should_Process_A_Request_Sent_To_The_Designated_Port()
+		public void It_Should_Handle_A_Request_Sent_To_The_Designated_Port()
 		{
 			var mockProcessor = new Mock<IProcessor>();
 			var tcpListener = new SingleMessageTcpListener(textMessage);
-			var listener = new Listener(mockProcessor.Object, tcpListener);
+			var listener = new Listener(tcpListener);
+			listener.MessageHandler += mockProcessor.Object.Process;
 
 			listener.Start();
 			Thread.Sleep(500);
