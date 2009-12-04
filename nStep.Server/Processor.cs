@@ -13,9 +13,49 @@ namespace nStep.Server
 
 	public class Processor : IProcessor
 	{
+		private bool scenarioInProgress;
+
 		public Response Process(Request request)
 		{
-			throw new NotImplementedException();
+			var beginScenarioRequest = request as BeginScenarioRequest;
+			var endScenarioRequest = request as EndScenarioRequest;
+			var stepMatchesRequest = request as StepMatchesRequest;
+			var invokeRequest = request as InvokeRequest;
+
+			if (beginScenarioRequest != null)
+				return ProcessBeginScenario();
+			if (endScenarioRequest != null)
+				return ProcessEndScenario();
+			else
+				throw new NotImplementedException();
+		}
+
+		private Response ProcessEndScenario()
+		{
+			if (scenarioInProgress)
+			{
+				scenarioInProgress = false;
+				return new SuccessResponse();
+			}
+			else
+			{
+				scenarioInProgress = true;
+				return new YikesResponse();
+			}
+		}
+
+		private Response ProcessBeginScenario()
+		{
+			if (scenarioInProgress)
+			{
+				scenarioInProgress = false;
+				return new YikesResponse();
+			}
+			else
+			{
+				scenarioInProgress = true;
+				return new SuccessResponse();
+			}
 		}
 	}
 }
