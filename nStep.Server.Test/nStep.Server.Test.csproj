@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CucumberClients.cs" />
     <Compile Include="Listeners.cs" />
     <Compile Include="Processors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 
 namespace nStep.Server.Sockets
@@ -8,9 +9,11 @@ namespace nStep.Server.Sockets
 	public interface ITcpListener
 	{
 		bool Pending();
-		ITcpClient AcceptTcpClient();
 		void Start();
 		void Stop();
+
+		IAsyncResult BeginAcceptSocket(AsyncCallback callback, object state);
+		Socket EndAcceptSocket(IAsyncResult asyncResult);
 	}
 
 	public class TcpListener : ITcpListener
@@ -22,24 +25,18 @@ namespace nStep.Server.Sockets
 			this.listener = listener;
 		}
 
-		public bool Pending()
+		public bool Pending() { return listener.Pending(); }
+		public void Start() { listener.Start(); }
+		public void Stop() { listener.Stop(); }
+
+		public IAsyncResult BeginAcceptSocket(AsyncCallback callback, object state)
 		{
-			return listener.Pending();
+			return listener.BeginAcceptSocket(callback, state);
 		}
 
-		public ITcpClient AcceptTcpClient()
+		public Socket EndAcceptSocket(IAsyncResult asyncResult)
 		{
-			return new TcpClient(listener.AcceptTcpClient());
-		}
-
-		public void Start()
-		{
-			listener.Start();
-		}
-
-		public void Stop()
-		{
-			listener.Stop();
+			return new Socket(listener.EndAcceptSocket(asyncResult));
 		}
 	}
 }

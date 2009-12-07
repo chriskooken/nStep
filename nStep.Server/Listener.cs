@@ -46,55 +46,55 @@ namespace nStep.Server
 
 		public void Run()
 		{
-			tcpListener.Start();
+			//tcpListener.Start();
 
-			started.Set();
+			//started.Set();
 
-			while (!stopping)
-			{
-				var client = WaitForClientToConnect();
-				if (!stopping)
-				{
-					Process(client);
-					client.Close();
-				}
-			}
+			//while (!stopping)
+			//{
+			//    var client = WaitForClientToConnect();
+			//    if (!stopping)
+			//    {
+			//        Process(client);
+			//        client.Close();
+			//    }
+			//}
 
-			tcpListener.Stop();
+			//tcpListener.Stop();
 
-			stopped.Set();
+			//stopped.Set();
 		}
 
-		private ITcpClient WaitForClientToConnect()
-		{
-			while (!stopping)
-				if (tcpListener.Pending())
-					return tcpListener.AcceptTcpClient();
-				else
-					Thread.Sleep(100);
+		//private ITcpClient WaitForClientToConnect()
+		//{
+		//    while (!stopping)
+		//        if (tcpListener.Pending())
+		//            return tcpListener.AcceptTcpClient();
+		//        else
+		//            Thread.Sleep(100);
 
-			return null;
-		}
+		//    return null;
+		//}
 
-		private void Process(ITcpClient client)
-		{
-			if (client == null)
-				return;
+		//private void Process(ITcpClient client)
+		//{
+		//    if (client == null)
+		//        return;
 
-			var stream = client.GetStream();
-			var reader = new StreamReader(stream, Encoding.Unicode);
-			var writer = new StreamWriter(stream, Encoding.Unicode);
+		//    var stream = client.GetStream();
+		//    var reader = new StreamReader(stream, Encoding.Unicode);
+		//    var writer = new StreamWriter(stream, Encoding.Unicode);
 
-			while (!stopping)
-			{
-				var strRequest = reader.ReadLine();
-				if (strRequest == null)
-					break;
-				var request = Request.ParseFromJson(strRequest);
+		//    while (!stopping)
+		//    {
+		//        var strRequest = reader.ReadLine();
+		//        if (strRequest == null)
+		//            break;
+		//        var request = Request.ParseFromJson(strRequest);
 
-				var response = MessageHandler(request);
-				writer.WriteLine(response);
-			}
-		}
+		//        var response = MessageHandler(request);
+		//        writer.WriteLine(response);
+		//    }
+		//}
 	}
 }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Net.Sockets;
 using System.Threading;
 using Moq;
 using nStep.Server.IO;
 using nStep.Server.Messages;
 using NUnit.Framework;
 using nStep.Server.Sockets;
+using Socket=nStep.Server.Sockets.Socket;
 
 namespace nStep.Server.Test
 {
@@ -45,20 +47,31 @@ namespace nStep.Server.Test
 			return !alreadySentMessage;
 		}
 
-		public ITcpClient AcceptTcpClient()
-		{
-			if (alreadySentMessage)
-				return null;
+		//public ITcpClient AcceptTcpClient()
+		//{
+		//    if (alreadySentMessage)
+		//        return null;
 
-			var stream = new StringStream(message, true);
-			var mockTcpClient = new Mock<ITcpClient>();
-			mockTcpClient.Setup(tc => tc.GetStream()).Returns(stream);
+		//    var stream = new StringStream(message, true);
+		//    var mockTcpClient = new Mock<ITcpClient>();
+		//    mockTcpClient.Setup(tc => tc.GetStream()).Returns(stream);
 
-			alreadySentMessage = true;
-			return mockTcpClient.Object;
-		}
+		//    alreadySentMessage = true;
+		//    return mockTcpClient.Object;
+		//}
 
 		public void Start() { }
 		public void Stop() { }
+
+		public IAsyncResult BeginAcceptSocket(AsyncCallback callback, object state)
+		{
+			// Create state and immediately call callback?
+			throw new NotImplementedException();
+		}
+
+		public Socket EndAcceptSocket(IAsyncResult asyncResult)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
