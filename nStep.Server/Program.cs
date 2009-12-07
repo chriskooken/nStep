@@ -9,6 +9,7 @@ namespace nStep.Server
 	{
 		internal static void Main(string[] args)
 		{
+			(new StepServer(9898)).Start();
 		}
 	}
 }
